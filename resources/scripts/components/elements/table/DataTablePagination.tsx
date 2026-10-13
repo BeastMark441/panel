@@ -30,7 +30,7 @@ export default function DataTablePagination<TData extends RowData>({
     table,
     total,
     count,
-    itemLabel = 'items',
+    itemLabel = 'записи',
     className,
 }: Props<TData>) {
     const { pageIndex, pageSize } = table.getState().pagination;
@@ -46,42 +46,46 @@ export default function DataTablePagination<TData extends RowData>({
     return (
         <div className={cn('mt-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between', className)}>
             <p
-                aria-label={`Showing ${start} to ${end} of ${total} ${itemLabel}`}
+                aria-label={`${itemLabel}: показано ${start}–${end} из ${total}`}
                 className='text-xs text-muted-foreground'
             >
-                Showing <span className='font-medium text-foreground'>{start}</span>–
-                <span className='font-medium text-foreground'>{end}</span> of{' '}
-                <span className='font-medium text-foreground'>{total}</span> {itemLabel}
+                {itemLabel}: показано <span className='font-medium text-foreground'>{start}</span>–
+                <span className='font-medium text-foreground'>{end}</span> из{' '}
+                <span className='font-medium text-foreground'>{total}</span>
             </p>
             {showPager ? (
                 <div className='flex items-center gap-1'>
                     <PageButton
-                        label='First page'
+                        label='Первая страница'
                         disabled={!table.getCanPreviousPage()}
                         onClick={() => table.setPageIndex(0)}
                     >
                         <ChevronsLeft aria-hidden='true' className='h-3.5 w-3.5' />
                     </PageButton>
                     <PageButton
-                        label='Previous page'
+                        label='Предыдущая страница'
                         disabled={!table.getCanPreviousPage()}
                         onClick={() => table.previousPage()}
                     >
                         <ChevronLeft aria-hidden='true' className='h-3.5 w-3.5' />
                     </PageButton>
                     <span
-                        aria-label={`Page ${pageIndex + 1} of ${Math.max(pageCount, 1)}`}
+                        aria-label={`Страница ${pageIndex + 1} из ${Math.max(pageCount, 1)}`}
                         aria-live='polite'
                         className='min-w-24 px-2 text-center text-xs text-muted-foreground'
                     >
-                        Page <span className='font-medium text-foreground'>{pageIndex + 1}</span> of{' '}
+                        Страница <span className='font-medium text-foreground'>{pageIndex + 1}</span> из{' '}
                         <span className='font-medium text-foreground'>{Math.max(pageCount, 1)}</span>
                     </span>
-                    <PageButton label='Next page' disabled={!table.getCanNextPage()} onClick={() => table.nextPage()}>
+                    <PageButton
+                        label='Следующая страница'
+                        disabled={!table.getCanNextPage()}
+                        onClick={() => table.nextPage()}
+                    >
                         <ChevronRight aria-hidden='true' className='h-3.5 w-3.5' />
                     </PageButton>
                     <PageButton
-                        label='Last page'
+                        label='Последняя страница'
                         disabled={!table.getCanNextPage()}
                         onClick={() => table.setPageIndex(Math.max(pageCount - 1, 0))}
                     >

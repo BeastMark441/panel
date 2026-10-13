@@ -101,9 +101,9 @@ export default function TagsContainer() {
 
     return (
         <AdminContentBlock
-            title='Admin · Tags'
-            heading='Tags'
-            description='Organize eggs and control which nodes can run them.'
+            title='Админ · Теги'
+            heading='Теги'
+            description='Упорядочивайте шаблоны Egg и управляйте тем, на каких нодах они могут запускаться.'
         >
             <form
                 className='mb-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between'
@@ -123,9 +123,9 @@ export default function TagsContainer() {
                     <TextInput
                         key={filter}
                         name='filter'
-                        aria-label='Search tags'
+                        aria-label='Поиск тегов'
                         className='h-9 border-border bg-card pl-10'
-                        placeholder='Search tags…'
+                        placeholder='Поиск тегов…'
                         defaultValue={filter}
                     />
                 </div>
@@ -140,10 +140,10 @@ export default function TagsContainer() {
                         emptyState={
                             <AdminListEmpty
                                 icon={Tags}
-                                noun='tags'
+                                noun='теги'
                                 filter={filter}
                                 onClearFilter={() => navigateToSearch({ page: 1, filter: '' })}
-                                description='Create a tag to organize eggs and match them with nodes.'
+                                description='Создайте тег, чтобы упорядочить шаблоны Egg и сопоставить их с нодами.'
                                 action={<CreateTagButton />}
                             />
                         }
@@ -152,7 +152,7 @@ export default function TagsContainer() {
                         table={table}
                         total={tags.meta.pagination.total}
                         count={tags.meta.pagination.count}
-                        itemLabel='tags'
+                        itemLabel='Тегов'
                     />
                 </>
             ) : (

@@ -28,7 +28,7 @@ const DeleteAllocationButton = ({ allocation }: Props) => {
             confirm='Delete'
             pending={deleteAllocationMutation.isPending}
             onConfirmed={(_event, close) => deleteAllocation(close)}
-            trigger={({ onClick }) => <DeleteAction aria-label={`Delete allocation ${address}`} onClick={onClick} />}
+            trigger={({ onClick }) => <DeleteAction aria-label={`Удалить allocation ${address}`} onClick={onClick} />}
         >
             This allocation will be immediately removed from your server.
         </Dialog.ConfirmTrigger>

@@ -72,7 +72,7 @@ const TaskActionsCell = ({ schedule, task }: { schedule: Schedule; task: Task })
                     title='Confirm task deletion'
                     confirm='Delete Task'
                     onConfirmed={(_event, close) => onConfirmDeletion(close)}
-                    trigger={({ onClick }) => <DeleteAction aria-label={`Delete ${name}`} onClick={onClick} />}
+                    trigger={({ onClick }) => <DeleteAction aria-label={`Удалить ${name}`} onClick={onClick} />}
                 >
                     Are you sure you want to delete this task? This action cannot be undone.
                 </Dialog.ConfirmTrigger>

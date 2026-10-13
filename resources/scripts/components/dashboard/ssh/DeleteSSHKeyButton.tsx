@@ -16,7 +16,7 @@ export default function DeleteSSHKeyButton({ name, fingerprint }: { name: string
             confirm='Delete Key'
             pending={deleteSshKey.isPending}
             onConfirmed={(_event, close) => onClick(close)}
-            trigger={({ onClick }) => <DeleteAction aria-label={`Delete ${name}`} onClick={onClick} />}
+            trigger={({ onClick }) => <DeleteAction aria-label={`Удалить ${name}`} onClick={onClick} />}
         >
             Removing the <Code>{name}</Code> SSH key will invalidate its usage across the Panel.
         </Dialog.ConfirmTrigger>

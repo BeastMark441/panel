@@ -9,7 +9,7 @@ use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 use Pterodactyl\Services\Helpers\SoftwareVersionService;
 
-#[Description('Displays the application, database, and email configurations along with the panel version.')]
+#[Description('Отображает настройки приложения, базы данных и электронной почты, а также версию панели.')]
 #[Signature('p:info')]
 class InfoCommand extends Command
 {
@@ -19,58 +19,65 @@ class InfoCommand extends Command
     }
 
     /**
-     * Handle execution of command.
+     * Выполняет команду.
      */
     public function handle(): void
     {
-        $this->output->title('Version Information');
+        $this->output->title('Информация о версии');
         $this->table([], [
-            ['Panel Version', config('app.version')],
-            ['Latest Version', $this->versionService->getPanel()],
-            ['Up-to-Date', $this->versionService->isLatestPanel() ? 'Yes' : $this->formatText('No', 'bg=red')],
-            ['Unique Identifier', config('pterodactyl.service.author')],
+            ['Версия панели', config('app.version')],
+            ['Последняя версия', $this->versionService->getPanel()],
+            ['Версия актуальна', $this->versionService->isLatestPanel() ? 'Да' : $this->formatText('Нет', 'bg=red')],
+            ['Уникальный идентификатор', config('pterodactyl.service.author')],
         ], 'compact');
 
-        $this->output->title('Application Configuration');
+        $this->output->title('Настройки приложения');
         $this->table([], [
-            ['Environment', $this->formatText(config()->string('app.env'), config('app.env') === 'production' ? '' : 'bg=red')],
-            ['Debug Mode', $this->formatText(config('app.debug') ? 'Yes' : 'No', config('app.debug') ? 'bg=red' : '')],
-            ['Installation URL', config('app.url')],
-            ['Installation Directory', base_path()],
-            ['Timezone', config('app.timezone')],
-            ['Cache Driver', config('cache.default')],
-            ['Queue Driver', config('queue.default')],
-            ['Session Driver', config('session.driver')],
-            ['Filesystem Driver', config('filesystems.default')],
-            ['Default Theme', config('themes.active')],
-            ['Proxies', config('trustedproxies.proxies')],
+            ['Окружение', $this->formatText(config()->string('app.env'), config('app.env') === 'production' ? '' : 'bg=red')],
+            ['Режим отладки', $this->formatText(config('app.debug') ? 'Да' : 'Нет', config('app.debug') ? 'bg=red' : '')],
+            ['URL панели', config('app.url')],
+            ['Каталог установки', base_path()],
+            ['Часовой пояс', config('app.timezone')],
+            ['Драйвер кеша', config('cache.default')],
+            ['Драйвер очереди', config('queue.default')],
+            ['Драйвер сессий', config('session.driver')],
+            ['Драйвер файловой системы', config('filesystems.default')],
+            ['Тема по умолчанию', config('themes.active')],
+            ['Прокси-серверы', config('trustedproxies.proxies')],
         ], 'compact');
 
-        $this->output->title('Database Configuration');
+        $this->output->title('Настройки базы данных');
         $driver = config()->string('database.default');
         $this->table([], [
-            ['Driver', $driver],
-            ['Host', config("database.connections.$driver.host")],
-            ['Port', config("database.connections.$driver.port")],
-            ['Database', config("database.connections.$driver.database")],
-            ['Username', config("database.connections.$driver.username")],
+            ['Драйвер', $driver],
+            ['Хост', config("database.connections.$driver.host")],
+            ['Порт', config("database.connections.$driver.port")],
+            ['База данных', config("database.connections.$driver.database")],
+            ['Имя пользователя', config("database.connections.$driver.username")],
         ], 'compact');
 
-        // TODO: Update this to handle other mail drivers
-        $this->output->title('Email Configuration');
+        // TODO: Добавить поддержку других драйверов электронной почты.
+        $this->output->title('Настройки электронной почты');
         $this->table([], [
-            ['Driver', config('mail.default')],
-            ['Host', config('mail.mailers.smtp.host')],
-            ['Port', config('mail.mailers.smtp.port')],
-            ['Username', config('mail.mailers.smtp.username')],
-            ['From Address', config('mail.from.address')],
-            ['From Name', config('mail.from.name')],
-            ['Encryption', config('mail.mailers.smtp.encryption')],
+            ['Драйвер', config('mail.default')],
+            ['Хост', config('mail.mailers.smtp.host')],
+            ['Порт', config('mail.mailers.smtp.port')],
+            ['Имя пользователя', config('mail.mailers.smtp.username')],
+            ['Адрес отправителя', config('mail.from.address')],
+            ['Имя отправителя', config('mail.from.name')],
+            ['Шифрование', config('mail.mailers.smtp.encryption')],
         ], 'compact');
+        $this->newLine();
+        $this->output->title('О модификации панели');
+        $this->line('Используется русскоязычная модификация Pterodactyl Panel.');
+        $this->line('Из-за изменений в коде оригинальные разработчики могут не иметь возможности помочь с возникшими проблемами.');
+        $this->line('По вопросам перевода и работы модифицированной панели обращайтесь в репозиторий проекта:');
+        $this->line('https://github.com/BeastMark441/panel');
+        $this->line('This panel has been modified.', 'bg=red');
     }
 
     /**
-     * Format output in a Name: Value manner.
+     * Форматирует текст с заданными параметрами оформления.
      */
     private function formatText(string $value, string $opts = ''): string
     {

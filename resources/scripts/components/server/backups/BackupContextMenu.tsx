@@ -118,7 +118,7 @@ const BackupContextMenu = ({ backup, page }: Props) => {
             <RowActions>
                 <Can action='backup.delete'>
                     <DeleteAction
-                        aria-label={`Delete ${attributes.name}`}
+                        aria-label={`Удалить ${attributes.name}`}
                         disabled={attributes.is_locked}
                         disabledReason='Unlock this backup before deleting it.'
                         onClick={() => setModal('delete')}

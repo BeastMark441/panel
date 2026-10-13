@@ -106,7 +106,9 @@ const MountActionsCell = ({ mount }: { mount: AdminMount }) => (
             params={{ id: mount.attributes.id }}
         />
         <Dialog.Trigger
-            trigger={({ onClick }) => <DeleteAction aria-label={`Delete ${mount.attributes.name}`} onClick={onClick} />}
+            trigger={({ onClick }) => (
+                <DeleteAction aria-label={`Удалить ${mount.attributes.name}`} onClick={onClick} />
+            )}
         >
             {({ open, onClose }) => <DeleteMountDialog mount={mount} open={open} onClose={onClose} />}
         </Dialog.Trigger>

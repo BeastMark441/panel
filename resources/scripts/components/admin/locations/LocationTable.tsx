@@ -83,7 +83,7 @@ const LocationActionsCell = ({ location }: { location: AdminLocation }) => (
         />
         <Dialog.Trigger
             trigger={({ onClick }) => (
-                <DeleteAction aria-label={`Delete ${location.attributes.short}`} onClick={onClick} />
+                <DeleteAction aria-label={`Удалить ${location.attributes.short}`} onClick={onClick} />
             )}
         >
             {({ open, onClose }) => <DeleteLocationDialog location={location} open={open} onClose={onClose} />}

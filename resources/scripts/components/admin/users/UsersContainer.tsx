@@ -105,9 +105,9 @@ export default function UsersContainer() {
 
     return (
         <AdminContentBlock
-            title='Admin · Users'
-            heading='Users'
-            description='Manage panel accounts, permissions, and account access.'
+            title='Админ · Пользователи'
+            heading='Пользователи'
+            description='Управляйте учетными записями, правами доступа и доступом к учетным записям в панели.'
         >
             <form
                 className='mb-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between'
@@ -127,9 +127,9 @@ export default function UsersContainer() {
                     <TextInput
                         key={filter}
                         name='filter'
-                        aria-label='Search users'
+                        aria-label='Поиск пользователей'
                         className='h-9 border-border bg-card pl-10'
-                        placeholder='Search users…'
+                        placeholder='Поиск пользователей…'
                         defaultValue={filter}
                     />
                 </div>
@@ -143,10 +143,10 @@ export default function UsersContainer() {
                         emptyState={
                             <AdminListEmpty
                                 icon={Users}
-                                noun='users'
+                                noun='пользователи'
                                 filter={filter}
                                 onClearFilter={() => navigateToSearch({ page: 1, filter: '' })}
-                                description='Create an account for each person who should sign in to the panel.'
+                                description='Создайте учетную запись для каждого пользователя, которому необходимо входить в панель.'
                                 action={<CreateUserButton />}
                             />
                         }
@@ -155,7 +155,7 @@ export default function UsersContainer() {
                         table={table}
                         total={users.meta.pagination.total}
                         count={users.meta.pagination.count}
-                        itemLabel='users'
+                        itemLabel='Пользователей'
                     />
                 </>
             ) : (

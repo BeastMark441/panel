@@ -122,9 +122,9 @@ export default function ServersContainer() {
 
     return (
         <AdminContentBlock
-            title='Admin · Servers'
-            heading='Servers'
-            description='Create and manage game servers across your nodes.'
+            title='Админ · Сервера'
+            heading='Сервера'
+            description='Создавайте игровые серверы на своих узлах и управляйте ими.'
         >
             <form
                 className='mb-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between'
@@ -146,9 +146,9 @@ export default function ServersContainer() {
                     <TextInput
                         key={filter}
                         name='filter'
-                        aria-label='Search servers'
+                        aria-label='Поиск серверов'
                         className='h-9 border-border bg-card pl-10'
-                        placeholder='Search servers…'
+                        placeholder='Поиск серверов…'
                         defaultValue={filter}
                     />
                 </div>
@@ -162,10 +162,10 @@ export default function ServersContainer() {
                         emptyState={
                             <AdminListEmpty
                                 icon={Server}
-                                noun='servers'
+                                noun='сервера'
                                 filter={filter}
                                 onClearFilter={() => navigateToSearch({ page: 1, filter: '' })}
-                                description='Create a server to deploy it on one of your nodes.'
+                                description='Создайте сервер, чтобы развернуть его на одном из ваших узлов.'
                                 action={<CreateServerButton />}
                             />
                         }
@@ -174,7 +174,7 @@ export default function ServersContainer() {
                         table={table}
                         total={servers.meta.pagination.total}
                         count={servers.meta.pagination.count}
-                        itemLabel='servers'
+                        itemLabel='Серверов'
                     />
                 </>
             ) : (

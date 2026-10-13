@@ -72,7 +72,7 @@ function CreateApiKeyDialog({ open, onClose, onCreatedSecret }: CreateApiKeyDial
     return (
         <Dialog
             open={open}
-            title='Create application API key'
+            title='Создать ключ API приложения'
             preventExternalClose={isSubmitting}
             hideCloseIcon={isSubmitting}
             onClose={onClose}
@@ -89,13 +89,13 @@ function CreateApiKeyDialog({ open, onClose, onCreatedSecret }: CreateApiKeyDial
                         <field.TextField
                             type='text'
                             id='memo'
-                            label='Description'
-                            description='A short note describing what this key is used for. You cannot edit a key after creating it.'
+                            label='Описание'
+                            description='Краткое описание назначения этого ключа. После создания ключ нельзя изменить.'
                         />
                     )}
                 </form.AppField>
                 <div className='mt-6'>
-                    <Label>Permissions</Label>
+                    <Label>Разрешения</Label>
                     <div className='mt-2 space-y-3'>
                         {API_KEY_RESOURCES.map((resource) => (
                             <div key={resource} className='flex items-center'>
@@ -106,9 +106,9 @@ function CreateApiKeyDialog({ open, onClose, onCreatedSecret }: CreateApiKeyDial
                                             <field.SelectField
                                                 id={`r_${resource}`}
                                                 options={[
-                                                    { value: PERMISSION_NONE, label: 'None' },
-                                                    { value: PERMISSION_READ, label: 'Read' },
-                                                    { value: PERMISSION_READ_WRITE, label: 'Read & Write' },
+                                                    { value: PERMISSION_NONE, label: 'Нет' },
+                                                    { value: PERMISSION_READ, label: 'Читать' },
+                                                    { value: PERMISSION_READ_WRITE, label: 'Читать & Писать' },
                                                 ]}
                                             />
                                         )}
@@ -120,10 +120,10 @@ function CreateApiKeyDialog({ open, onClose, onCreatedSecret }: CreateApiKeyDial
                 </div>
                 <div className='flex flex-wrap justify-end mt-6'>
                     <Button type='button' isSecondary className='w-full sm:w-auto sm:mr-2' onClick={onClose}>
-                        Cancel
+                        Отмена
                     </Button>
                     <form.AppForm>
-                        <form.SubmitButton className='w-full mt-4 sm:w-auto sm:mt-0'>Create Key</form.SubmitButton>
+                        <form.SubmitButton className='w-full mt-4 sm:w-auto sm:mt-0'>Создать Ключ</form.SubmitButton>
                     </form.AppForm>
                 </div>
             </Form>
@@ -136,10 +136,10 @@ export default function CreateApiKeyButton() {
 
     return (
         <>
-            <Dialog open={secret.length > 0} title='Your new API key' onClose={() => setSecret('')}>
+            <Dialog open={secret.length > 0} title='Ваш новый API-ключ' onClose={() => setSecret('')}>
                 <p className='text-sm mb-6'>
-                    The application API key shown below will not be displayed again. Store it somewhere safe before
-                    closing this dialog.
+                    Показанный ниже API-ключ приложения больше не будет отображаться. Сохраните его в надежном месте
+                    перед закрытием этого диалогового окна.
                 </p>
                 <pre className='text-sm bg-muted rounded-sm py-2 px-4 font-mono'>
                     <CopyOnClick text={secret}>
@@ -148,11 +148,11 @@ export default function CreateApiKeyButton() {
                 </pre>
                 <div className='flex justify-end mt-6'>
                     <Button type='button' onClick={() => setSecret('')}>
-                        Close
+                        Закрыть
                     </Button>
                 </div>
             </Dialog>
-            <Dialog.Trigger trigger={({ onClick }) => <NewButton onClick={onClick}>New API key</NewButton>}>
+            <Dialog.Trigger trigger={({ onClick }) => <NewButton onClick={onClick}>Новый ключ API</NewButton>}>
                 {({ open, onClose }) => (
                     <CreateApiKeyDialog open={open} onClose={onClose} onCreatedSecret={setSecret} />
                 )}

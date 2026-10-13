@@ -175,7 +175,7 @@ const DatabaseActions = ({ database }: { database: ServerDatabase }) => (
         <Can action='database.delete'>
             <Dialog.Trigger
                 trigger={({ onClick }) => (
-                    <DeleteAction aria-label={`Delete ${database.attributes.name}`} onClick={onClick} />
+                    <DeleteAction aria-label={`Удалить ${database.attributes.name}`} onClick={onClick} />
                 )}
             >
                 {({ open, onClose }) => <DeleteDatabaseDialog database={database} open={open} onClose={onClose} />}

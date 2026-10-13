@@ -43,7 +43,7 @@ export const accountApiColumns = (onDelete: (identifier: string) => void): Colum
     actionsColumn<ApiKey>(1, (key) => (
         <RowActions>
             <DeleteAction
-                aria-label={`Delete ${key.attributes.description} API key`}
+                aria-label={`Удалить ${key.attributes.description} API key`}
                 onClick={() => onDelete(key.attributes.identifier)}
             />
         </RowActions>

@@ -77,6 +77,6 @@ describe('admin sidebar', () => {
     it('does not confuse entries with a shared path prefix', async () => {
         await renderSidebar('/panel/users-extra');
 
-        expect(screen.getByRole('button', { name: 'Administration' })).toBeInTheDocument();
+        expect(screen.getByRole('button', { name: 'Администрирование' })).toBeInTheDocument();
     });
 });

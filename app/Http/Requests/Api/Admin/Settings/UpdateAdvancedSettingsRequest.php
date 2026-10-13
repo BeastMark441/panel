@@ -48,14 +48,14 @@ class UpdateAdvancedSettingsRequest extends AdminApiRequest
     public function attributes(): array
     {
         return [
-            'recaptcha:enabled' => 'reCAPTCHA Enabled',
-            'recaptcha:secret_key' => 'reCAPTCHA Secret Key',
-            'recaptcha:website_key' => 'reCAPTCHA Website Key',
-            'pterodactyl:guzzle:timeout' => 'HTTP Request Timeout',
-            'pterodactyl:guzzle:connect_timeout' => 'HTTP Connection Timeout',
-            'pterodactyl:client_features:allocations:enabled' => 'Auto Create Allocations Enabled',
-            'pterodactyl:client_features:allocations:range_start' => 'Starting Port',
-            'pterodactyl:client_features:allocations:range_end' => 'Ending Port',
+            'recaptcha:enabled' => 'reCAPTCHA включена',
+            'recaptcha:secret_key' => 'Секретный ключ reCAPTCHA',
+            'recaptcha:website_key' => 'Ключ сайта reCAPTCHA',
+            'pterodactyl:guzzle:timeout' => 'Тайм-аут HTTP-запроса',
+            'pterodactyl:guzzle:connect_timeout' => 'Тайм-аут HTTP-соединения',
+            'pterodactyl:client_features:allocations:enabled' => 'Автоматическое создание аллокаций включено',
+            'pterodactyl:client_features:allocations:range_start' => 'Начальный порт',
+            'pterodactyl:client_features:allocations:range_end' => 'Конечный порт',
         ];
     }
 

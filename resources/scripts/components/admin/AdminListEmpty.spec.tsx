@@ -9,41 +9,41 @@ import AdminListEmpty from './AdminListEmpty';
 afterEach(cleanup);
 
 describe('AdminListEmpty', () => {
-    it('offers the create action when nothing exists yet', () => {
+    it('предлагает действие «создать», когда еще ничего не создано', () => {
         render(
             <AdminListEmpty
                 icon={Server}
-                noun='servers'
+                noun='сервера'
                 onClearFilter={vi.fn()}
-                description='Create a server to get started.'
-                action={<button type='button'>New server</button>}
+                description='Создайте сервер, чтобы начать.'
+                action={<button type='button'>Новый сервер</button>}
             />
         );
 
-        expect(screen.getByText('No servers yet')).toBeInTheDocument();
-        expect(screen.getByText('Create a server to get started.')).toBeInTheDocument();
-        expect(screen.getByRole('button', { name: 'New server' })).toBeInTheDocument();
+        expect(screen.getByText('Список пуст: сервера')).toBeInTheDocument();
+        expect(screen.getByText('Создайте сервер, чтобы начать.')).toBeInTheDocument();
+        expect(screen.getByRole('button', { name: 'Новый сервер' })).toBeInTheDocument();
     });
 
-    it('explains a search miss and clears the search instead of offering creation', async () => {
+    it('объясняет отсутствие результатов поиска и очищает поле поиска вместо того, чтобы предложить создание', async () => {
         const onClearFilter = vi.fn();
 
         render(
             <AdminListEmpty
                 icon={Server}
-                noun='servers'
+                noun='сервера'
                 filter='minecraft'
                 onClearFilter={onClearFilter}
-                description='Create a server to get started.'
-                action={<button type='button'>New server</button>}
+                description='Создайте сервер, чтобы начать.'
+                action={<button type='button'>Новый сервер</button>}
             />
         );
 
-        expect(screen.getByText('No matching servers')).toBeInTheDocument();
+        expect(screen.getByText('Ничего не найдено: сервера')).toBeInTheDocument();
         expect(screen.getByText('minecraft')).toBeInTheDocument();
-        expect(screen.queryByRole('button', { name: 'New server' })).not.toBeInTheDocument();
+        expect(screen.queryByRole('button', { name: 'Новый сервер' })).not.toBeInTheDocument();
 
-        await userEvent.setup().click(screen.getByRole('button', { name: 'Clear search' }));
+        await userEvent.setup().click(screen.getByRole('button', { name: 'Очистить поиск' }));
 
         expect(onClearFilter).toHaveBeenCalledOnce();
     });

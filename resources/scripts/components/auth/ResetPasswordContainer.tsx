@@ -49,7 +49,7 @@ export default function ResetPasswordContainer() {
     });
 
     return (
-        <LoginFormContainer form={form} title='Reset Password' className='w-full flex'>
+        <LoginFormContainer form={form} title='Сбросить пароль' className='w-full flex'>
             <div>
                 <label htmlFor='password-reset-email'>Email</label>
                 <TextInput id='password-reset-email' value={email} $isLight disabled />
@@ -61,15 +61,15 @@ export default function ResetPasswordContainer() {
                         onChange: ({ value }) =>
                             value.length >= 8
                                 ? undefined
-                                : 'Your new password should be at least 8 characters in length.',
+                                : 'Ваш новый пароль должен состоять как минимум из 8 символов.',
                     }}
                 >
                     {(field) => (
                         <field.TextField
                             light
-                            label='New Password'
+                            label='Новый пароль'
                             type='password'
-                            description='Passwords must be at least 8 characters in length.'
+                            description='Пароли должны состоять как минимум из 8 символов.'
                         />
                     )}
                 </form.AppField>
@@ -82,15 +82,15 @@ export default function ResetPasswordContainer() {
                         onChange: ({ value, fieldApi }) =>
                             value === fieldApi.form.getFieldValue('password')
                                 ? undefined
-                                : 'Your new password does not match.',
+                                : 'Ваш новый пароль не совпадает.',
                     }}
                 >
-                    {(field) => <field.TextField light label='Confirm New Password' type='password' />}
+                    {(field) => <field.TextField light label='Подтвердите новый пароль' type='password' />}
                 </form.AppField>
             </div>
             <div className='mt-6'>
                 <form.AppForm>
-                    <form.SubmitButton size='xlarge'>Reset Password</form.SubmitButton>
+                    <form.SubmitButton size='xlarge'>Сбросить пароль</form.SubmitButton>
                 </form.AppForm>
             </div>
             {recaptchaEnabled && <InvisibleRecaptcha ref={recaptchaRef} siteKey={siteKey || ''} />}
@@ -99,7 +99,7 @@ export default function ResetPasswordContainer() {
                     to='/auth/login'
                     className='text-xs text-muted-foreground tracking-wide no-underline uppercase hover:text-foreground'
                 >
-                    Return to Login
+                    Вернуться к входу
                 </Link>
             </div>
         </LoginFormContainer>

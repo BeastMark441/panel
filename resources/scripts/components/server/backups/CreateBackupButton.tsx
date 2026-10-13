@@ -29,7 +29,7 @@ const CreateBackupDialogContent = ({ onClose }: { onClose: () => void }) => {
     return (
         <Dialog
             open
-            title='Create server backup'
+            title='Создать резервную копию сервера'
             onClose={onClose}
             preventExternalClose={isSubmitting}
             hideCloseIcon={isSubmitting}
@@ -40,13 +40,13 @@ const CreateBackupDialogContent = ({ onClose }: { onClose: () => void }) => {
                     name='name'
                     validators={{
                         onChange: ({ value }) =>
-                            value.length <= 191 ? undefined : 'The backup name must not exceed 191 characters.',
+                            value.length <= 191 ? undefined : 'Имя резервной копии не должно превышать 191 символа.',
                     }}
                 >
                     {(field) => (
                         <field.TextField
-                            label='Backup name'
-                            description='If provided, the name that should be used to reference this backup.'
+                            label='Имя копии'
+                            description='Если указано, то имя, которое следует использовать для ссылки на эту резервную копию.'
                         />
                     )}
                 </form.AppField>
@@ -54,13 +54,12 @@ const CreateBackupDialogContent = ({ onClose }: { onClose: () => void }) => {
                     <form.AppField name='ignored'>
                         {(field) => (
                             <field.TextAreaField
-                                label='Ignored Files & Directories'
+                                label='Игнорируемые файлы и каталоги'
                                 rows={6}
                                 description={`
-                                            Enter the files or folders to ignore while generating this backup. Leave blank to use
-                                            the contents of the .pteroignore file in the root of the server directory if present.
-                                            Wildcard matching of files and folders is supported in addition to negating a rule by
-                                            prefixing the path with an exclamation point.
+                                            Введите файлы или папки, которые нужно игнорировать при создании резервной копии.  Оставьте поле пустым, чтобы использовать
+                                            содержимое файла .pteroignore в корневом каталоге сервера, если он существует.
+                                            Поддерживается сопоставление файлов и папок с помощью подстановочных знаков, а также отрицание правила путем добавления восклицательного знака в начало пути.
                                         `}
                             />
                         )}
@@ -71,8 +70,8 @@ const CreateBackupDialogContent = ({ onClose }: { onClose: () => void }) => {
                         <form.AppField name='isLocked'>
                             {(field) => (
                                 <field.SwitchField
-                                    label='Locked'
-                                    description='Prevents this backup from being deleted until explicitly unlocked.'
+                                    label='Закрыта'
+                                    description='Предотвращает удаление этой резервной копии до тех пор, пока она не будет разблокирована.'
                                 />
                             )}
                         </form.AppField>
@@ -80,7 +79,7 @@ const CreateBackupDialogContent = ({ onClose }: { onClose: () => void }) => {
                 </Can>
                 <div className='flex justify-end mt-6'>
                     <form.AppForm>
-                        <form.SubmitButton>Start backup</form.SubmitButton>
+                        <form.SubmitButton>Начать копирование</form.SubmitButton>
                     </form.AppForm>
                 </div>
             </Form>
@@ -92,7 +91,7 @@ const CreateBackupButton = ({ className }: WithClassname) => (
     <Dialog.Trigger
         trigger={({ onClick }) => (
             <NewButton className={className} onClick={onClick}>
-                New backup
+                Новая Копия
             </NewButton>
         )}
     >

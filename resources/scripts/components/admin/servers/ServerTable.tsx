@@ -52,7 +52,7 @@ function DeleteServerDialog({ server, open, onClose }: DeleteServerDialogProps) 
     return (
         <Dialog
             open={open}
-            title='Confirm server deletion'
+            title='Подтвердить удаление сервера'
             preventExternalClose={isSubmitting}
             hideCloseIcon={isSubmitting}
             onClose={() => {
@@ -62,32 +62,32 @@ function DeleteServerDialog({ server, open, onClose }: DeleteServerDialogProps) 
         >
             <SpinnerOverlay visible={isSubmitting} />
             <p className='text-sm'>
-                Deleting a server is permanent. This will remove <strong>{attributes.name}</strong> and all associated
-                data.
+                Удаление сервера является необратимым. Это приведет к удалению <strong>{attributes.name}</strong> и
+                всего связанного с ним данные.
             </p>
             <Form form={form} className='m-0 mt-6'>
                 <form.AppField
                     name='confirm'
                     validators={{
                         onChange: ({ value }) =>
-                            value === attributes.name ? undefined : 'The server name must be provided.',
+                            value === attributes.name ? undefined : 'Необходимо указать имя сервера.',
                     }}
                 >
                     {(field) => (
                         <field.TextField
                             type='text'
                             id={`confirm_${attributes.uuid}`}
-                            label='Confirm Server Name'
-                            description='Enter the name of this server to confirm deletion.'
+                            label='Подтвердить имя сервера'
+                            description='Введите имя этого сервера, чтобы подтвердить удаление.'
                         />
                     )}
                 </form.AppField>
                 <div className='mt-6 flex justify-end gap-2'>
                     <Button.Text type='button' isSecondary onClick={onClose}>
-                        Cancel
+                        Закрыть
                     </Button.Text>
                     <form.AppForm>
-                        <form.SubmitButton color='red'>Delete server</form.SubmitButton>
+                        <form.SubmitButton color='red'>Удалить сервер</form.SubmitButton>
                     </form.AppForm>
                 </div>
             </Form>
@@ -119,7 +119,7 @@ const OwnerCell = ({ server }: { server: AdminServer }) => {
     const owner = relationshipAttributes(server.attributes.relationships?.user);
 
     if (!owner) {
-        return <span className='text-muted-foreground'>Unavailable</span>;
+        return <span className='text-muted-foreground'>Недоступнен</span>;
     }
 
     const name = [owner.first_name, owner.last_name].filter(Boolean).join(' ') || owner.username;
@@ -158,7 +158,7 @@ const NodeCell = ({ server }: { server: AdminServer }) => {
                     {node.name}
                 </Link>
             ) : (
-                <span className='block text-muted-foreground'>Unavailable</span>
+                <span className='block text-muted-foreground'>Недоступен</span>
             )}
             {address ? (
                 <p className='mt-0.5 truncate font-mono text-xs text-muted-foreground' title={address}>
@@ -176,15 +176,17 @@ const ServerActionsCell = ({ server }: { server: AdminServer }) => {
     return (
         <RowActions>
             <ServerEditAction server={server} />
-            <Dialog.Trigger trigger={({ onClick }) => <DeleteAction aria-label={`Delete ${name}`} onClick={onClick} />}>
+            <Dialog.Trigger
+                trigger={({ onClick }) => <DeleteAction aria-label={`Удалить ${name}`} onClick={onClick} />}
+            >
                 {({ open, onClose }) => <DeleteServerDialog server={server} open={open} onClose={onClose} />}
             </Dialog.Trigger>
-            <RowActionsMenu label={`More actions for ${name}`}>
+            <RowActionsMenu label={`Больше действий для ${name}`}>
                 <DropdownMenu.Item
                     icon={ExternalLink}
                     onClick={() => navigate({ to: '/server/$id', params: { id: identifier } })}
                 >
-                    Open in client area
+                    Открыть в клиентской зоне
                 </DropdownMenu.Item>
             </RowActionsMenu>
         </RowActions>

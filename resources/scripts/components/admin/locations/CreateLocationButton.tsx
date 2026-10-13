@@ -35,7 +35,7 @@ function CreateLocationDialog({ open, onClose }: CreateLocationDialogProps) {
     return (
         <Dialog
             open={open}
-            title='Create new location'
+            title='Создать новуй локацию'
             preventExternalClose={isSubmitting}
             hideCloseIcon={isSubmitting}
             onClose={onClose}
@@ -52,8 +52,8 @@ function CreateLocationDialog({ open, onClose }: CreateLocationDialogProps) {
                         <field.TextField
                             type='text'
                             id='short'
-                            label='Short Code'
-                            description='A short identifier used to distinguish this location from others.'
+                            label='Короткий Код'
+                            description='Короткий идентификатор, используемый для отличия этого местоположения от других.'
                         />
                     )}
                 </form.AppField>
@@ -62,15 +62,15 @@ function CreateLocationDialog({ open, onClose }: CreateLocationDialogProps) {
                         name='long'
                         validators={{
                             onChange: ({ value }) =>
-                                value.length <= 191 ? undefined : 'The description must not exceed 191 characters.',
+                                value.length <= 191 ? undefined : 'Описание не должно превышать 191 символ.',
                         }}
                     >
                         {(field) => (
                             <field.TextField
                                 type='text'
                                 id='long'
-                                label='Description'
-                                description='A longer description of this location.'
+                                label='Описание'
+                                description='Более подробное описание этой локации.'
                             />
                         )}
                     </form.AppField>
@@ -90,7 +90,7 @@ function CreateLocationDialog({ open, onClose }: CreateLocationDialogProps) {
                         Cancel
                     </Button>
                     <form.AppForm>
-                        <form.SubmitButton className='w-full mt-4 sm:w-auto sm:mt-0'>Create Location</form.SubmitButton>
+                        <form.SubmitButton className='w-full mt-4 sm:w-auto sm:mt-0'>Создать локацию</form.SubmitButton>
                     </form.AppForm>
                 </div>
             </Form>
@@ -100,7 +100,7 @@ function CreateLocationDialog({ open, onClose }: CreateLocationDialogProps) {
 
 export default function CreateLocationButton() {
     return (
-        <Dialog.Trigger trigger={({ onClick }) => <NewButton onClick={onClick}>New location</NewButton>}>
+        <Dialog.Trigger trigger={({ onClick }) => <NewButton onClick={onClick}>Новая локация</NewButton>}>
             {({ open, onClose }) => <CreateLocationDialog open={open} onClose={onClose} />}
         </Dialog.Trigger>
     );

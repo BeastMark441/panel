@@ -120,15 +120,15 @@ function ActivityLogResults({ data, isFetching, hasFilters, emptyMessage, onClea
         <Empty className='border bg-card'>
             <EmptyHeader>
                 <EmptyMedia variant='icon'>{hasFilters ? <ListFilter /> : <History />}</EmptyMedia>
-                <EmptyTitle>{hasFilters ? 'No matching activity' : 'No activity yet'}</EmptyTitle>
+                <EmptyTitle>{hasFilters ? 'Нет подходящих действий' : 'Пока нет активности'}</EmptyTitle>
                 <EmptyDescription>
-                    {hasFilters ? 'No activity matches the selected filters.' : emptyMessage}
+                    {hasFilters ? 'Нет действий, соответствующих выбранным фильтрам.' : emptyMessage}
                 </EmptyDescription>
             </EmptyHeader>
             {hasFilters && (
                 <EmptyContent>
                     <NewButton isSecondary icon={XCircle} onClick={onClearFilters}>
-                        Clear filters
+                        Очистить фильтры
                     </NewButton>
                 </EmptyContent>
             )}
@@ -181,7 +181,7 @@ export default function ActivityLogView({
                 <div className='mb-4 space-y-3'>
                     <Alert type='danger'>{httpErrorToHuman(error)}</Alert>
                     <ButtonStyle type='button' color='grey' onClick={() => refetch()}>
-                        Retry
+                        Повторить
                     </ButtonStyle>
                 </div>
             )}
@@ -191,9 +191,9 @@ export default function ActivityLogView({
                         <Select
                             options={userOptions}
                             value={user ?? ''}
-                            placeholder='All users'
-                            searchPlaceholder='Search users…'
-                            emptyMessage='No users have acted here yet.'
+                            placeholder='Все пользователи'
+                            searchPlaceholder='Поиск пользователей…'
+                            emptyMessage='Здесь пока не было действий пользователя.'
                             onChange={(value) => withFilter('user', String(value) || null)}
                         />
                     </div>
@@ -202,9 +202,9 @@ export default function ActivityLogView({
                     <Select
                         groups={eventOptions}
                         value={event ?? ''}
-                        placeholder='All events'
-                        searchPlaceholder='Search events…'
-                        emptyMessage='Nothing has been recorded here yet.'
+                        placeholder='Все действия'
+                        searchPlaceholder='Поиск действия…'
+                        emptyMessage='Здесь пока ничего не записано.'
                         onChange={(value) => withFilter('event', String(value) || null)}
                     />
                 </div>
@@ -215,7 +215,7 @@ export default function ActivityLogView({
                         className='inline-flex items-center justify-center w-full sm:w-auto sm:shrink-0 h-auto'
                         onClick={() => onNavigate({})}
                     >
-                        Clear Filters <XCircle className='w-4 h-4 ml-2' />
+                        Очистить фильтры <XCircle className='w-4 h-4 ml-2' />
                     </ButtonStyle>
                 )}
             </div>

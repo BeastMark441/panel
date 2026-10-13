@@ -133,7 +133,7 @@ const UserActionsCell = ({ user }: { user: AdminUser }) => {
             <Dialog.Trigger
                 trigger={({ onClick }) => (
                     <DeleteAction
-                        aria-label={`Delete ${email}`}
+                        aria-label={`Удалить ${email}`}
                         disabled={user.attributes.servers_count > 0}
                         disabledReason='Users who own servers cannot be deleted.'
                         onClick={onClick}

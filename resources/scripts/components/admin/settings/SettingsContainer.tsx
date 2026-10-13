@@ -16,9 +16,9 @@ type SettingsSearch = {
 };
 
 const tabs: { key: Tab; label: string }[] = [
-    { key: 'general', label: 'General' },
-    { key: 'mail', label: 'Mail' },
-    { key: 'advanced', label: 'Advanced' },
+    { key: 'general', label: 'Общие' },
+    { key: 'mail', label: 'Почта' },
+    { key: 'advanced', label: 'Расширенные' },
 ];
 
 const tabPaths = {
@@ -56,15 +56,16 @@ export default function SettingsContainer() {
 
     return (
         <AdminContentBlock
-            title='Admin · Settings'
-            heading='Settings'
-            description="Manage your panel's general, mail, and advanced settings."
+            title='Админ · Настройки'
+            heading='Настройки'
+            description='Управляйте общими настройками, настройками почты и дополнительными параметрами панели.'
         >
             {settings?.meta.load_environment_only && (
                 <Alert type='danger' className='mb-6 text-sm'>
                     <span>
-                        This Panel reads settings from the environment only. Set <code>APP_ENVIRONMENT_ONLY=false</code>{' '}
-                        in your environment file to load settings dynamically.
+                        Эта панель считывает настройки только из окружения. Установите{' '}
+                        <code>APP_ENVIRONMENT_ONLY=false</code> в файле конфигурации окружения, чтобы загружать
+                        настройки динамически.
                     </span>
                 </Alert>
             )}

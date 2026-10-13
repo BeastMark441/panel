@@ -198,7 +198,7 @@ const AllocationDeleteCell = ({ allocation }: { allocation: AdminAllocation }) =
                 title='Delete this allocation?'
                 confirm='Delete'
                 trigger={({ onClick }) => (
-                    <DeleteAction aria-label={`Delete allocation ${address}`} onClick={onClick} />
+                    <DeleteAction aria-label={`Удалить allocation ${address}`} onClick={onClick} />
                 )}
                 onConfirmed={(_event, close) => {
                     close();
@@ -272,7 +272,7 @@ const AllocationGroupTable = ({ ip, allocations, isFetching, onDeleteBlock }: Al
                     trigger={({ onClick }) => (
                         <button
                             type='button'
-                            aria-label={`Delete IP block ${ip}`}
+                            aria-label={`Удалить IP block ${ip}`}
                             className={cn(
                                 'inline-flex shrink-0 items-center gap-1.5 px-2 py-1 text-xs font-medium',
                                 ghostDangerClass

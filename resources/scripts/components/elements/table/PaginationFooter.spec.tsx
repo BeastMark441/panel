@@ -17,7 +17,7 @@ describe('PaginationFooter', () => {
             />
         );
 
-        expect(summary(container)).toBe('Showing 26 to 50 of 60 results.');
+        expect(summary(container)).toBe('Показано: 26–50 из 60.');
     });
 
     it('reports the first and partial last pages', () => {
@@ -28,7 +28,7 @@ describe('PaginationFooter', () => {
             />
         );
 
-        expect(summary(first.container)).toBe('Showing 1 to 25 of 60 results.');
+        expect(summary(first.container)).toBe('Показано: 1–25 из 60.');
         first.unmount();
 
         const last = render(
@@ -38,7 +38,7 @@ describe('PaginationFooter', () => {
             />
         );
 
-        expect(summary(last.container)).toBe('Showing 51 to 60 of 60 results.');
+        expect(summary(last.container)).toBe('Показано: 51–60 из 60.');
     });
 
     it('reports an empty range for a page past the end', () => {
@@ -49,7 +49,7 @@ describe('PaginationFooter', () => {
             />
         );
 
-        expect(summary(container)).toBe('Showing 0 to 0 of 60 results.');
+        expect(summary(container)).toBe('Показано: 0–0 из 60.');
     });
 
     it('only shows the summary when there is a single page', () => {
@@ -60,7 +60,7 @@ describe('PaginationFooter', () => {
             />
         );
 
-        expect(summary(container)).toBe('Showing 1 to 4 of 4 results.');
+        expect(summary(container)).toBe('Показано: 1–4 из 4.');
         expect(queryAllByRole('button')).toHaveLength(0);
     });
 

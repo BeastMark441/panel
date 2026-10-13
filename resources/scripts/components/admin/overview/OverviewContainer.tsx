@@ -11,24 +11,34 @@ import { ServerError } from '@/components/elements/ScreenBlock';
 import Slot from '@/extensions/Slot';
 import { interactiveSurfaceClass } from '@/components/ui/styles';
 import { cn } from '@/lib/cn';
+import { Languages } from 'lucide-react';
 
 const sections: { to: LinkProps['to']; label: string; description: string }[] = [
-    { to: '/panel/users', label: 'Users', description: 'Create, edit, and remove user accounts.' },
-    { to: '/panel/locations', label: 'Locations', description: 'Group nodes into physical locations.' },
-    { to: '/panel/nodes', label: 'Nodes', description: 'Manage Wings daemons and allocations.' },
-    { to: '/panel/servers', label: 'Servers', description: 'Provision and manage game servers.' },
-    { to: '/panel/databases', label: 'Database Hosts', description: 'Configure MySQL hosts for server databases.' },
-    { to: '/panel/mounts', label: 'Mounts', description: 'Define host → container mount points.' },
-    { to: '/panel/eggs', label: 'Eggs', description: 'Manage server templates and variables.' },
-    { to: '/panel/settings', label: 'Settings', description: 'General, mail, and advanced configuration.' },
-    { to: '/panel/api', label: 'API Keys', description: 'Issue application API credentials.' },
+    {
+        to: '/panel/users',
+        label: 'Пользователи',
+        description: 'Создавайте, редактируйте и удаляйте учетные записи пользователей.',
+    },
+    { to: '/panel/locations', label: 'Локации', description: 'Группируйте узлы по физическим местоположениям.' },
+    { to: '/panel/nodes', label: 'Узлы', description: 'Управление демонами и выделенными ресурсами Wings.' },
+    { to: '/panel/servers', label: 'Сервера', description: 'Развертывание игровых серверов и управление ими.' },
+    { to: '/panel/databases', label: 'Хосты Баз Данных', description: 'Настройте хосты MySQL для баз данных сервера.' },
+    {
+        to: '/panel/mounts',
+        label: 'Крепления',
+        description: 'Определите точки монтирования между хостом и контейнером.',
+    },
+    { to: '/panel/eggs', label: 'Шаблоны(Eggs)', description: 'Управление шаблонами и переменными серверов.' },
+    { to: '/panel/settings', label: 'Настройки', description: 'Общие, почтовые и расширенные настройки.' },
+    { to: '/panel/api', label: 'API Ключи', description: 'Выпустить учетные данные API приложения.' },
 ];
 
 const externalLinks = (version: AdminVersion) => [
-    { href: version.discord, label: 'Get Help', icon: LifeBuoy },
-    { href: 'https://pterodactyl.io', label: 'Documentation', icon: BookOpen },
+    { href: version.discord, label: 'Получить помощь', icon: LifeBuoy },
+    { href: 'https://pterodactyl.io', label: 'Документация', icon: BookOpen },
     { href: 'https://github.com/pterodactyl/panel', label: 'GitHub', icon: Code2 },
-    { href: version.donations, label: 'Support Project', icon: HeartHandshake },
+    { href: version.donations, label: 'Поддержать проект', icon: HeartHandshake },
+    { href: 'https://github.com/BeastMark441/panel', label: 'GitHub Перевода', icon: Languages },
 ];
 
 export default function OverviewContainer() {
@@ -40,9 +50,9 @@ export default function OverviewContainer() {
 
     return (
         <AdminContentBlock
-            title='Admin Overview'
-            heading='Administration'
-            description='Manage your users, infrastructure, servers, and panel settings.'
+            title='Обзор администрирования'
+            heading='Администрирование'
+            description='Управляйте пользователями, инфраструктурой, серверами и настройками панели.'
         >
             <Slot name='panel.overview.before' />
             {version ? (

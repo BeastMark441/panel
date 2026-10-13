@@ -138,7 +138,7 @@ export default function NodesContainer() {
 
     return (
         <AdminContentBlock
-            title='Admin · Nodes'
+            title='Админ · Узлы'
             heading='Nodes'
             description='Manage Wings nodes, connectivity, allocations, and server capacity.'
         >
@@ -160,9 +160,9 @@ export default function NodesContainer() {
                     <TextInput
                         key={filter}
                         name='filter'
-                        aria-label='Search nodes'
+                        aria-label='Поиск узлов'
                         className='h-9 border-border bg-card pl-10'
-                        placeholder='Search nodes…'
+                        placeholder='Поиск узлов…'
                         defaultValue={filter}
                     />
                 </div>
@@ -176,10 +176,10 @@ export default function NodesContainer() {
                         emptyState={
                             <AdminListEmpty
                                 icon={HardDrive}
-                                noun='nodes'
+                                noun='узлы'
                                 filter={filter}
                                 onClearFilter={() => navigateToSearch({ page: 1, filter: '' })}
-                                description='Add a node running Wings to start hosting servers.'
+                                description='Добавьте узел с запущенным Wings, чтобы начать хостинг серверов.'
                                 action={<CreateNodeButton />}
                             />
                         }
@@ -188,7 +188,7 @@ export default function NodesContainer() {
                         table={table}
                         total={nodes.meta.pagination.total}
                         count={nodes.meta.pagination.count}
-                        itemLabel='nodes'
+                        itemLabel='Узлов'
                     />
                 </>
             ) : (

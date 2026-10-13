@@ -105,9 +105,9 @@ export default function ApiKeysContainer() {
 
     return (
         <AdminContentBlock
-            title='Admin · Application API'
-            heading='Application API'
-            description='Manage application API keys used to automate panel administration.'
+            title='Админ · API приложения'
+            heading='API приложения'
+            description='Управляйте ключами API приложения, используемыми для автоматизации администрирования панели.'
         >
             <form
                 className='mb-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between'
@@ -129,7 +129,7 @@ export default function ApiKeysContainer() {
                         name='filter'
                         aria-label='Search application API keys'
                         className='h-9 border-border bg-card pl-10'
-                        placeholder='Search API keys…'
+                        placeholder='Поиск ключей API…'
                         defaultValue={filter}
                     />
                 </div>
@@ -143,10 +143,10 @@ export default function ApiKeysContainer() {
                         emptyState={
                             <AdminListEmpty
                                 icon={KeyRound}
-                                noun='API keys'
+                                noun='API-ключи'
                                 filter={filter}
                                 onClearFilter={() => navigateToSearch({ page: 1, filter: '' })}
-                                description='Create an application API key to automate panel administration.'
+                                description='Создайте ключ API приложения для автоматизации администрирования панели.'
                             />
                         }
                     />
@@ -154,7 +154,7 @@ export default function ApiKeysContainer() {
                         table={table}
                         total={apiKeys.meta.pagination.total}
                         count={apiKeys.meta.pagination.count}
-                        itemLabel='API keys'
+                        itemLabel='API-ключией'
                     />
                 </>
             ) : (

@@ -25,11 +25,11 @@ import { emptyCompactClass } from '@/components/ui/styles';
 
 const backupUsage = (limit: number, count: number, hasBackups: boolean, canCreate: boolean): string | null => {
     if (limit === 0 && hasBackups) {
-        return 'Backups cannot be created for this server because the backup limit is set to 0.';
+        return 'Резервные копии для этого сервера создать невозможно, так как ограничение на создание резервных копий установлено на уровне 0.';
     }
 
     if (canCreate && limit > 0 && count > 0) {
-        return `${count} of ${limit} backups have been created for this server.`;
+        return `Для этого сервера создано ${count} из ${limit} резервных копий`;
     }
 
     return null;
@@ -42,12 +42,12 @@ function PastEndEmptyState({ onFirstPage }: { onFirstPage: () => void }) {
                 <EmptyMedia variant='icon'>
                     <Archive />
                 </EmptyMedia>
-                <EmptyTitle>No backups on this page</EmptyTitle>
-                <EmptyDescription>This page is past the end of the backup list.</EmptyDescription>
+                <EmptyTitle>На этой странице нет резервных копий</EmptyTitle>
+                <EmptyDescription>Эта страница находится за пределами списка резервных копий.</EmptyDescription>
             </EmptyHeader>
             <EmptyContent>
                 <NewButton isSecondary icon={ArrowLeft} onClick={onFirstPage}>
-                    First page
+                    Первая страница
                 </NewButton>
             </EmptyContent>
         </Empty>
@@ -72,11 +72,11 @@ function BackupsEmptyState({ page, backupLimit, canAddBackup, onFirstPage }: Bac
                 <EmptyMedia variant='icon'>
                     <Archive />
                 </EmptyMedia>
-                <EmptyTitle>No backups</EmptyTitle>
+                <EmptyTitle>Нет резервных копий</EmptyTitle>
                 <EmptyDescription>
                     {backupLimit > 0
-                        ? "This server doesn't have any backups yet."
-                        : "Backups can't be created because this server's backup limit is 0."}
+                        ? 'У этого сервера пока нет резервных копий.'
+                        : 'Резервные копии не могут быть созданы, так как ограничение на их количество для этого сервера равно 0.'}
                 </EmptyDescription>
             </EmptyHeader>
             {canAddBackup && (
@@ -160,7 +160,7 @@ export default function BackupContainer() {
     const usage = backupUsage(backupLimit, backupCount, backups.data.length > 0, canCreate);
 
     return (
-        <ServerContentBlock title='Backups'>
+        <ServerContentBlock title='Резервные копии'>
             {(usage || canAddBackup) && (
                 <ListToolbar summary={usage}>{canAddBackup && <CreateBackupButton />}</ListToolbar>
             )}
@@ -179,7 +179,7 @@ export default function BackupContainer() {
                 table={table}
                 total={backups.meta.pagination.total}
                 count={backups.meta.pagination.count}
-                itemLabel='backups'
+                itemLabel='Резервных копий'
             />
         </ServerContentBlock>
     );

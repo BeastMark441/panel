@@ -121,7 +121,7 @@ describe('NodeAllocationTab', () => {
         const { rerender } = render(<NodeAllocationTab />);
 
         expect(screen.getByText('2 allocations')).toBeInTheDocument();
-        expect(screen.queryByRole('button', { name: 'Next page' })).not.toBeInTheDocument();
+        expect(screen.queryByRole('button', { name: 'Следующая страница' })).not.toBeInTheDocument();
 
         page = {
             ...page,
@@ -129,6 +129,6 @@ describe('NodeAllocationTab', () => {
         };
         rerender(<NodeAllocationTab />);
 
-        expect(screen.getByRole('button', { name: 'Next page' })).toBeEnabled();
+        expect(screen.getByRole('button', { name: 'Следующая страница' })).toBeEnabled();
     });
 });

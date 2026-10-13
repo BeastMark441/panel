@@ -191,13 +191,13 @@ const accountChildren = [
     createRoute({
         getParentRoute: () => accountRoute,
         path: '/',
-        staticData: { nav: { label: 'Account', exact: true } },
+        staticData: { nav: { label: 'Аккаунт', exact: true } },
         component: lazyRouteComponent(() => import('@/components/dashboard/AccountOverviewContainer')),
     }),
     createRoute({
         getParentRoute: () => accountRoute,
         path: 'api',
-        staticData: { nav: { label: 'API Credentials' } },
+        staticData: { nav: { label: 'Учетные данные API' } },
         loader: async ({ context }) => {
             await context.queryClient.ensureQueryData({ ...accountApiKeysQueryOptions(), revalidateIfStale: true });
         },
@@ -209,7 +209,7 @@ const accountChildren = [
     createRoute({
         getParentRoute: () => accountRoute,
         path: 'ssh',
-        staticData: { nav: { label: 'SSH Keys' } },
+        staticData: { nav: { label: 'SSH Ключи' } },
         loader: async ({ context }) => {
             await context.queryClient.ensureQueryData({ ...accountSshKeysQueryOptions(), revalidateIfStale: true });
         },
@@ -221,7 +221,7 @@ const accountChildren = [
     createRoute({
         getParentRoute: () => accountRoute,
         path: 'activity',
-        staticData: { nav: { label: 'Activity' } },
+        staticData: { nav: { label: 'Активность' } },
         validateSearch: parseActivitySearch,
         loaderDeps: ({ search }) => ({ page: search.page ?? 1, event: search.event, user: search.user }),
         loader: async ({ context, deps }) => {
@@ -265,13 +265,13 @@ const serverChildren = [
     createRoute({
         getParentRoute: () => serverRoute,
         path: '/',
-        staticData: { nav: { label: 'Console', exact: true } },
+        staticData: { nav: { label: 'Консоль', exact: true } },
         component: () => null,
     }),
     createRoute({
         getParentRoute: () => serverRoute,
         path: 'files',
-        staticData: { nav: { label: 'Files', permission: 'file.*' } },
+        staticData: { nav: { label: 'Файлы', permission: 'file.*' } },
         beforeLoad: requireServerPermission('file.*'),
         component: serverScreen(() => import('@/components/server/files/FileManagerContainer'), 'file.*'),
     }),
@@ -287,7 +287,7 @@ const serverChildren = [
     createRoute({
         getParentRoute: () => serverRoute,
         path: 'databases',
-        staticData: { nav: { label: 'Databases', permission: 'database.*' } },
+        staticData: { nav: { label: 'Базы Данных', permission: 'database.*' } },
         beforeLoad: requireServerPermission('database.*'),
         loader: async ({ context }) => {
             await context.queryClient.ensureQueryData({
@@ -303,7 +303,7 @@ const serverChildren = [
     createRoute({
         getParentRoute: () => serverRoute,
         path: 'schedules',
-        staticData: { nav: { label: 'Schedules', permission: 'schedule.*' } },
+        staticData: { nav: { label: 'Расписания', permission: 'schedule.*' } },
         beforeLoad: requireServerPermission('schedule.*'),
         loader: async ({ context }) => {
             await context.queryClient.ensureQueryData({
@@ -347,7 +347,7 @@ const serverChildren = [
     createRoute({
         getParentRoute: () => serverRoute,
         path: 'users',
-        staticData: { nav: { label: 'Users', permission: 'user.*' } },
+        staticData: { nav: { label: 'Пользователи', permission: 'user.*' } },
         beforeLoad: requireServerPermission('user.*'),
         loader: async ({ context }) => {
             await Promise.all([
@@ -366,7 +366,7 @@ const serverChildren = [
     createRoute({
         getParentRoute: () => serverRoute,
         path: 'backups',
-        staticData: { nav: { label: 'Backups', permission: 'backup.*' } },
+        staticData: { nav: { label: 'Резервные Копии', permission: 'backup.*' } },
         validateSearch: parsePageSearch,
         beforeLoad: requireServerPermission('backup.*'),
         loaderDeps: ({ search }) => ({ page: search.page ?? 1 }),
@@ -384,7 +384,7 @@ const serverChildren = [
     createRoute({
         getParentRoute: () => serverRoute,
         path: 'network',
-        staticData: { nav: { label: 'Network', permission: 'allocation.*' } },
+        staticData: { nav: { label: 'Сеть', permission: 'allocation.*' } },
         beforeLoad: requireServerPermission('allocation.*'),
         loader: async ({ context }) => {
             await context.queryClient.ensureQueryData({
@@ -400,7 +400,7 @@ const serverChildren = [
     createRoute({
         getParentRoute: () => serverRoute,
         path: 'startup',
-        staticData: { nav: { label: 'Startup', permission: 'startup.*' } },
+        staticData: { nav: { label: 'Запуск', permission: 'startup.*' } },
         beforeLoad: requireServerPermission('startup.*'),
         loader: async ({ context }) => {
             await context.queryClient.ensureQueryData({
@@ -416,7 +416,7 @@ const serverChildren = [
     createRoute({
         getParentRoute: () => serverRoute,
         path: 'settings',
-        staticData: { nav: { label: 'Settings', permission: ['settings.*', 'file.sftp'] } },
+        staticData: { nav: { label: 'Настройки', permission: ['settings.*', 'file.sftp'] } },
         beforeLoad: requireServerPermission(['settings.*', 'file.sftp']),
         component: serverScreen(
             () => import('@/components/server/settings/SettingsContainer'),
@@ -427,7 +427,7 @@ const serverChildren = [
     createRoute({
         getParentRoute: () => serverRoute,
         path: 'activity',
-        staticData: { nav: { label: 'Activity', permission: 'activity.*' } },
+        staticData: { nav: { label: 'Активность', permission: 'activity.*' } },
         validateSearch: parseActivitySearch,
         beforeLoad: requireServerPermission('activity.*'),
         loaderDeps: ({ search }) => ({ page: search.page ?? 1, event: search.event, user: search.user }),
@@ -832,7 +832,7 @@ const panelChildren = [
     createRoute({
         getParentRoute: () => panelRoute,
         path: '/',
-        staticData: { nav: { label: 'Overview', exact: true } },
+        staticData: { nav: { label: 'Обзор', exact: true } },
         loader: async ({ context }) => {
             await context.queryClient.ensureQueryData({ ...adminVersionQueryOptions(), revalidateIfStale: true });
         },
@@ -841,7 +841,7 @@ const panelChildren = [
     createRoute({
         getParentRoute: () => panelRoute,
         path: 'activity',
-        staticData: { nav: { label: 'Activity' } },
+        staticData: { nav: { label: 'Активность' } },
         validateSearch: parseActivitySearch,
         loaderDeps: ({ search }) => ({ page: search.page ?? 1, event: search.event, user: search.user }),
         loader: async ({ context, deps }) => {
@@ -865,7 +865,7 @@ const panelChildren = [
     createRoute({
         getParentRoute: () => panelRoute,
         path: 'settings',
-        staticData: { nav: { label: 'Settings' } },
+        staticData: { nav: { label: 'Настройки' } },
         loader: async ({ context }) => {
             await context.queryClient.ensureQueryData({ ...adminSettingsQueryOptions(), revalidateIfStale: true });
         },
@@ -899,7 +899,7 @@ const panelChildren = [
     createRoute({
         getParentRoute: () => panelRoute,
         path: 'users',
-        staticData: { nav: { label: 'Users' } },
+        staticData: { nav: { label: 'Пользователи' } },
         validateSearch: parseUserListSearch,
         loaderDeps: ({ search }) => ({ page: search.page ?? 1, filter: search.filter ?? '', sort: search.sort }),
         loader: async ({ context, deps }) => {
@@ -924,7 +924,7 @@ const panelChildren = [
     createRoute({
         getParentRoute: () => panelRoute,
         path: 'locations',
-        staticData: { nav: { label: 'Locations' } },
+        staticData: { nav: { label: 'Локации' } },
         validateSearch: parseLocationListSearch,
         loaderDeps: ({ search }) => ({ page: search.page ?? 1, filter: search.filter ?? '', sort: search.sort }),
         loader: async ({ context, deps }) => {
@@ -942,7 +942,7 @@ const panelChildren = [
     createRoute({
         getParentRoute: () => panelRoute,
         path: 'nodes',
-        staticData: { nav: { label: 'Nodes' } },
+        staticData: { nav: { label: 'Узлы' } },
         validateSearch: parseNodeListSearch,
         loaderDeps: ({ search }) => ({ page: search.page ?? 1, filter: search.filter ?? '', sort: search.sort }),
         loader: async ({ context, deps }) => {
@@ -967,7 +967,7 @@ const panelChildren = [
     createRoute({
         getParentRoute: () => panelRoute,
         path: 'servers',
-        staticData: { nav: { label: 'Servers' } },
+        staticData: { nav: { label: 'Сервера' } },
         validateSearch: parseServerListSearch,
         loaderDeps: ({ search }) => ({ page: search.page ?? 1, filter: search.filter ?? '', sort: search.sort }),
         loader: async ({ context, deps }) => {
@@ -1009,7 +1009,7 @@ const panelChildren = [
     createRoute({
         getParentRoute: () => panelRoute,
         path: 'databases',
-        staticData: { nav: { label: 'Database Hosts' } },
+        staticData: { nav: { label: 'Хосты Баз Данных' } },
         validateSearch: parseDatabaseHostListSearch,
         loaderDeps: ({ search }) => ({ page: search.page ?? 1, filter: search.filter ?? '', sort: search.sort }),
         loader: async ({ context, deps }) => {
@@ -1035,7 +1035,7 @@ const panelChildren = [
     createRoute({
         getParentRoute: () => panelRoute,
         path: 'mounts',
-        staticData: { nav: { label: 'Mounts' } },
+        staticData: { nav: { label: 'Крепления' } },
         validateSearch: parseMountListSearch,
         loaderDeps: ({ search }) => ({ page: search.page ?? 1, filter: search.filter ?? '', sort: search.sort }),
         loader: async ({ context, deps }) => {
@@ -1061,7 +1061,7 @@ const panelChildren = [
     createRoute({
         getParentRoute: () => panelRoute,
         path: 'eggs',
-        staticData: { nav: { label: 'Eggs' } },
+        staticData: { nav: { label: 'Шаблоны' } },
         loader: async ({ context }) => {
             await context.queryClient.ensureQueryData({ ...adminEggsQueryOptions(), revalidateIfStale: true });
         },
@@ -1089,7 +1089,7 @@ const panelChildren = [
     createRoute({
         getParentRoute: () => panelRoute,
         path: 'tags',
-        staticData: { nav: { label: 'Tags' } },
+        staticData: { nav: { label: 'Теги' } },
         validateSearch: parseTagListSearch,
         loaderDeps: ({ search }) => ({ page: search.page ?? 1, filter: search.filter ?? '', sort: search.sort }),
         loader: async ({ context, deps }) => {
@@ -1106,7 +1106,7 @@ const panelChildren = [
     createRoute({
         getParentRoute: () => panelRoute,
         path: 'extensions',
-        staticData: { nav: { label: 'Extensions' } },
+        staticData: { nav: { label: 'Расширения' } },
         loader: async ({ context }) => {
             await context.queryClient.ensureQueryData({ ...adminExtensionsQueryOptions(), revalidateIfStale: true });
         },
@@ -1118,7 +1118,7 @@ const panelChildren = [
     createRoute({
         getParentRoute: () => panelRoute,
         path: 'api',
-        staticData: { nav: { label: 'API Keys' } },
+        staticData: { nav: { label: 'API Ключи' } },
         validateSearch: parseApiKeyListSearch,
         loaderDeps: ({ search }) => ({ page: search.page ?? 1, filter: search.filter ?? '', sort: search.sort }),
         loader: async ({ context, deps }) => {

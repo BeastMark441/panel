@@ -6,7 +6,7 @@ import { emptyCompactClass } from '@/components/ui/styles';
 
 interface Props {
     icon: LucideIcon;
-    /** Plural, lower-case resource name, e.g. "servers". */
+    /** Название ресурсов во множественном числе: например, «серверы» или «API-ключи». */
     noun: string;
     filter?: string;
     onClearFilter: () => void;
@@ -14,7 +14,7 @@ interface Props {
     action?: React.ReactNode;
 }
 
-/** Empty state for a searchable admin list: "No servers yet", or "No matching servers" with a way back. */
+/** Пустое состояние списка с поиском и возможностью сбросить поисковый запрос. */
 export default function AdminListEmpty({
     icon: ResourceIcon,
     noun,
@@ -25,7 +25,7 @@ export default function AdminListEmpty({
 }: Props) {
     const content = filter ? (
         <NewButton isSecondary icon={X} onClick={onClearFilter}>
-            Clear search
+            Очистить поиск
         </NewButton>
     ) : (
         action
@@ -37,11 +37,12 @@ export default function AdminListEmpty({
                 <EmptyMedia variant='icon'>
                     <ResourceIcon />
                 </EmptyMedia>
-                <EmptyTitle>{filter ? `No matching ${noun}` : `No ${noun} yet`}</EmptyTitle>
+                <EmptyTitle>{filter ? `Ничего не найдено: ${noun}` : `Список пуст: ${noun}`}</EmptyTitle>
                 <EmptyDescription>
                     {filter ? (
                         <>
-                            No {noun} match <span className='font-medium text-foreground'>{filter}</span>.
+                            Нет результатов по запросу «<span className='font-medium text-foreground'>{filter}</span>
+                            ».
                         </>
                     ) : (
                         description

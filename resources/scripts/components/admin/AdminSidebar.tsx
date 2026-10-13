@@ -91,7 +91,7 @@ export default function AdminSidebar() {
                 )}
             >
                 <Icon icon={Menu} className='w-4 h-4 shrink-0' />
-                <span className='flex-1 min-w-0 truncate text-left'>{current?.label ?? 'Administration'}</span>
+                <span className='flex-1 min-w-0 truncate text-left'>{current?.label ?? 'Администрирование'}</span>
                 <Icon
                     icon={ChevronDown}
                     className={cn('w-4 h-4 shrink-0 transition-transform', open && 'rotate-180')}
@@ -99,7 +99,7 @@ export default function AdminSidebar() {
             </button>
             <nav
                 id='admin-sidebar-nav'
-                aria-label='Administration'
+                aria-label='Администрирование'
                 className={cn(
                     'mt-2 flex-col gap-0.5',
                     'lg:sticky lg:top-0 lg:mt-0 lg:flex lg:max-h-dvh lg:overflow-y-auto lg:px-4 lg:py-6',

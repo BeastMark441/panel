@@ -23,21 +23,21 @@ const ApiKeyActionsCell = ({ apiKey }: { apiKey: AdminApiKey }) => {
     return (
         <RowActions>
             <Dialog.ConfirmTrigger
-                title='Confirm key deletion'
-                confirm='Delete key'
+                title='Подтвердите удаление ключа'
+                confirm='Удалить Ключ'
                 preventExternalClose={isSubmitting}
                 hideCloseIcon={isSubmitting}
                 pending={isSubmitting}
                 trigger={({ onClick }) => (
-                    <DeleteAction aria-label={`Delete ${apiKey.attributes.identifier}`} onClick={onClick} />
+                    <DeleteAction aria-label={`Удалить ${apiKey.attributes.identifier}`} onClick={onClick} />
                 )}
                 onConfirmed={(_event, close) =>
                     deleteApiKey.mutate(deleteAdminApiKeyInput(apiKey.attributes.identifier), { onSuccess: close })
                 }
             >
                 <SpinnerOverlay visible={isSubmitting} />
-                Deleting this application API key is permanent. Integrations using{' '}
-                <strong>{apiKey.attributes.identifier}</strong> will immediately stop working.
+                Удаление этого ключа API приложения необратимо. Интеграции, использующие{' '}
+                <strong>{apiKey.attributes.identifier}</strong>, немедленно перестанут работать.
             </Dialog.ConfirmTrigger>
         </RowActions>
     );
@@ -47,7 +47,7 @@ export const apiKeyColumns = [
     {
         id: 'memo',
         accessorFn: (apiKey) => apiKey.attributes.memo,
-        header: ({ column }) => <DataTableColumnHeader column={column} title='Description' />,
+        header: ({ column }) => <DataTableColumnHeader column={column} title='Описание' />,
         cell: ({ row }) => (
             <div className='w-0 min-w-full'>
                 <p className='truncate font-medium' title={row.original.attributes.memo || undefined}>
@@ -63,14 +63,14 @@ export const apiKeyColumns = [
     },
     {
         id: 'permissions',
-        header: 'Permissions',
-        cell: ({ row }) => <span className='whitespace-nowrap text-xs'>{grantedCount(row.original)} granted</span>,
+        header: 'Разрешения',
+        cell: ({ row }) => <span className='whitespace-nowrap text-xs'>{grantedCount(row.original)} разрешено</span>,
         enableSorting: false,
         meta: { headerClassName: 'hidden w-28 @md:table-cell', cellClassName: 'hidden w-28 @md:table-cell' },
     },
     {
         id: 'created_by',
-        header: 'Created by',
+        header: 'Создал',
         cell: ({ row }) => {
             const createdBy = row.original.attributes.created_by;
 
@@ -92,13 +92,13 @@ export const apiKeyColumns = [
     },
     {
         id: 'last_used_at',
-        header: 'Last used',
+        header: 'Последнее использование',
         cell: ({ row }) => {
             const lastUsedAt = row.original.attributes.last_used_at;
 
             return (
                 <span className='whitespace-nowrap text-xs text-muted-foreground'>
-                    {lastUsedAt ? dayjs(lastUsedAt).format('MMM D, YYYY') : 'Never'}
+                    {lastUsedAt ? dayjs(lastUsedAt).format('D MMMM YYYY') : 'Никогда'}
                 </span>
             );
         },
@@ -108,7 +108,7 @@ export const apiKeyColumns = [
     {
         id: 'created_at',
         accessorFn: (apiKey) => apiKey.attributes.created_at,
-        header: ({ column }) => <DataTableColumnHeader column={column} title='Created' />,
+        header: ({ column }) => <DataTableColumnHeader column={column} title='Создано' />,
         cell: ({ row }) => (
             <time
                 className='whitespace-nowrap text-xs text-muted-foreground'

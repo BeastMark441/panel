@@ -214,7 +214,9 @@ const NodeActionsCell = ({ node }: { node: AdminNode }) => {
     return (
         <RowActions>
             <EditLinkAction aria-label={`Edit ${name}`} to='/panel/nodes/$id/settings' params={{ id }} />
-            <Dialog.Trigger trigger={({ onClick }) => <DeleteAction aria-label={`Delete ${name}`} onClick={onClick} />}>
+            <Dialog.Trigger
+                trigger={({ onClick }) => <DeleteAction aria-label={`Удалить ${name}`} onClick={onClick} />}
+            >
                 {({ open, onClose }) => <DeleteNodeDialog node={node} open={open} onClose={onClose} />}
             </Dialog.Trigger>
         </RowActions>

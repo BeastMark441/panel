@@ -32,14 +32,14 @@ export default function GeneralSettingsForm({ settings }: { settings: AdminSetti
 
     return (
         <Form form={form}>
-            <TitledGreyBox title='General'>
+            <TitledGreyBox title='Общие'>
                 <form.AppField name='name'>
                     {(field) => (
                         <field.TextField
                             type='text'
                             id='app_name'
-                            label='Company Name'
-                            description='The name of your company, used throughout the Panel.'
+                            label='Название компании'
+                            description='Название вашей компании, используемое во всей Панели.'
                             disabled={readOnly}
                         />
                     )}
@@ -49,11 +49,11 @@ export default function GeneralSettingsForm({ settings }: { settings: AdminSetti
                         {(field) => (
                             <field.SelectField
                                 id='twoFactorRequired'
-                                label='Require 2-Factor Authentication'
+                                label='Требовать двухфакторную аутентификацию'
                                 options={[
-                                    { value: 0, label: 'Not Required' },
-                                    { value: 1, label: 'Required for Admins' },
-                                    { value: 2, label: 'Required for All Users' },
+                                    { value: 0, label: 'Не обязательно' },
+                                    { value: 1, label: 'Обязательно для Администраторов' },
+                                    { value: 2, label: 'Обязательно для всех пользователей' },
                                 ]}
                                 disabled={readOnly}
                             />
@@ -65,18 +65,18 @@ export default function GeneralSettingsForm({ settings }: { settings: AdminSetti
                         {(field) => (
                             <field.SelectField
                                 id='app_locale'
-                                label='Default Language'
+                                label='Язык по умолчанию'
                                 options={languagesList}
                                 disabled={readOnly || (languagesLoading && !languages)}
-                                placeholder='Select a language'
-                                description='The default language used for the Panel.'
+                                placeholder='Выберите язык'
+                                description='Язык, используемый для панели по умолчанию.'
                             />
                         )}
                     </form.AppField>
                 </div>
                 <div className='flex justify-end mt-4'>
                     <form.AppForm>
-                        <form.SubmitButton disabled={readOnly}>Save Changes</form.SubmitButton>
+                        <form.SubmitButton disabled={readOnly}>Сохранить Изменения</form.SubmitButton>
                     </form.AppForm>
                 </div>
             </TitledGreyBox>

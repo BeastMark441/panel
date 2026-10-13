@@ -30,7 +30,7 @@ const TagActionsCell = ({ tag }: { tag: AdminTag }) => {
                         // Error toast is handled by the mutation.
                     }
                 }}
-                trigger={({ onClick }) => <DeleteAction aria-label={`Delete ${name}`} onClick={onClick} />}
+                trigger={({ onClick }) => <DeleteAction aria-label={`Удалить ${name}`} onClick={onClick} />}
             >
                 <p className='text-sm leading-relaxed text-muted-foreground'>
                     This permanently deletes <strong className='text-foreground'>{name}</strong> and removes it from{' '}

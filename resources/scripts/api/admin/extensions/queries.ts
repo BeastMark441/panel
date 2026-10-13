@@ -40,10 +40,10 @@ type AdminExtensionsQueryOptions = { enabled?: boolean };
 
 export const adminExtensionsQueryOptions = () => adminListExtensionsOptions();
 
-/** The extensions whose fields each admin form shows, keyed by form. */
+/** Расширения, поля которых отображаются в каждой форме администрирования, сгруппированные по форме. */
 export type AdminExtensionForms = AdminExtensionFormsResponse['data'];
 
-/** Changes only when extensions are enabled or disabled, which asks for a reload. */
+/** Изменяется только при включении или отключении расширений, после чего требуется перезагрузка страницы. */
 export const adminExtensionFormsQueryOptions = (): ReturnType<typeof adminListExtensionFormsOptions> => ({
     ...adminListExtensionFormsOptions(),
     staleTime: Infinity,
@@ -57,7 +57,7 @@ export const installAdminExtensionInput = (
     body: { package: file, enable, replace },
 });
 
-/** The installed extension an uploaded package would replace, which the admin has to confirm. */
+/** Установленное расширение, которое будет заменено загруженным пакетом после подтверждения администратора. */
 export type AdminExtensionReplacement = {
     id: string;
     version: string;
@@ -65,7 +65,7 @@ export type AdminExtensionReplacement = {
     enabled: boolean;
 };
 
-/** The `meta` object of the first JSON:API error in a response body. */
+/** Объект `meta` первой ошибки JSON:API в теле ответа. */
 const firstErrorMeta = (response: AxiosResponse): unknown => {
     const data: unknown = response.data;
     const first: unknown = isObject(data) && 'errors' in data && Array.isArray(data.errors) ? data.errors[0] : null;
@@ -73,7 +73,7 @@ const firstErrorMeta = (response: AxiosResponse): unknown => {
     return isObject(first) && 'meta' in first ? first.meta : null;
 };
 
-/** Reads the 409 the install endpoint answers with when the package's id is already installed. */
+/** Обрабатывает ответ 409, возвращаемый при установке пакета с уже установленным ID. */
 export const extensionReplacement = (cause: unknown): AdminExtensionReplacement | null => {
     if (!isAxiosError(cause) || cause.response?.status !== 409) {
         return null;
@@ -162,11 +162,13 @@ export const useUpdateAdminExtensionSettings = () => {
                     path: { extension: variables.path.extension },
                 }),
             });
-            const name = variables.meta?.name ?? 'the extension';
+            const name = variables.meta?.name;
 
-            toast.success('Settings saved', { description: `Settings for ${name} have been updated.` });
+            toast.success('Настройки сохранены', {
+                description: name ? `Настройки расширения «${name}» обновлены.` : 'Настройки расширения обновлены.',
+            });
         },
-        onError: (error) => notifyHttpError(error, 'Unable to update extension settings'),
+        onError: (error) => notifyHttpError(error, 'Не удалось обновить настройки расширения'),
     });
 };
 
@@ -180,9 +182,9 @@ export const useUploadAdminExtensionSettingFile = () => {
                 adminGetExtensionSettingsQueryKey({ path: { extension: variables.path.extension } }),
                 data
             );
-            toast.success('File uploaded');
+            toast.success('Файл загружен');
         },
-        onError: (error) => notifyHttpError(error, 'Unable to upload the file'),
+        onError: (error) => notifyHttpError(error, 'Не удалось загрузить файл'),
     });
 };
 
@@ -196,16 +198,16 @@ export const useClearAdminExtensionSettingFile = () => {
                 adminGetExtensionSettingsQueryKey({ path: { extension: variables.path.extension } }),
                 data
             );
-            toast.success('File removed');
+            toast.success('Файл удалён');
         },
-        onError: (error) => notifyHttpError(error, 'Unable to remove the file'),
+        onError: (error) => notifyHttpError(error, 'Не удалось удалить файл'),
     });
 };
 
 const notifyReloadToApply = (title: string, description: string) =>
     toast.success(title, {
-        description: `${description} Reload the page to apply it.`,
-        action: { label: 'Reload', onClick: () => window.location.reload() },
+        description: `${description} Перезагрузите страницу, чтобы применить изменения.`,
+        action: { label: 'Перезагрузить', onClick: () => window.location.reload() },
     });
 
 export const useInstallAdminExtension = () => {
@@ -215,18 +217,19 @@ export const useInstallAdminExtension = () => {
         ...adminInstallExtensionMutation(),
         onSuccess: async (data) => {
             await queryClient.invalidateQueries({ queryKey: adminListExtensionsQueryKey() });
-            const description = `${data.data?.name ?? 'The extension'} has been installed.`;
+            const name = data.data?.name;
+            const description = name ? `Расширение «${name}» установлено.` : 'Расширение установлено.';
 
             if (data.data?.enabled) {
-                notifyReloadToApply('Extension installed', description);
+                notifyReloadToApply('Расширение установлено', description);
             } else {
-                toast.success('Extension installed', { description });
+                toast.success('Расширение установлено', { description });
             }
         },
         onError: (error) => {
-            // The install dialog asks the admin to confirm a replacement instead.
+            // Подтверждение замены запрашивается в диалоге установки.
             if (!extensionReplacement(error)) {
-                notifyHttpError(error, 'Unable to install extension');
+                notifyHttpError(error, 'Не удалось установить расширение');
             }
         },
     });
@@ -239,11 +242,14 @@ export const useEnableAdminExtension = () => {
         ...adminEnableExtensionMutation(),
         onSuccess: async (data, variables) => {
             await queryClient.invalidateQueries({ queryKey: adminListExtensionsQueryKey() });
-            const fallback = variables.meta?.name ?? 'The extension';
+            const name = data.data?.name ?? variables.meta?.name;
 
-            notifyReloadToApply('Extension enabled', `${data.data?.name ?? fallback} has been enabled.`);
+            notifyReloadToApply(
+                'Расширение включено',
+                name ? `Расширение «${name}» включено.` : 'Расширение включено.'
+            );
         },
-        onError: (error) => notifyHttpError(error, 'Unable to enable extension'),
+        onError: (error) => notifyHttpError(error, 'Не удалось включить расширение'),
     });
 };
 
@@ -254,11 +260,14 @@ export const useDisableAdminExtension = () => {
         ...adminDisableExtensionMutation(),
         onSuccess: async (data, variables) => {
             await queryClient.invalidateQueries({ queryKey: adminListExtensionsQueryKey() });
-            const fallback = variables.meta?.name ?? 'The extension';
+            const name = data.data?.name ?? variables.meta?.name;
 
-            notifyReloadToApply('Extension disabled', `${data.data?.name ?? fallback} has been disabled.`);
+            notifyReloadToApply(
+                'Расширение отключено',
+                name ? `Расширение «${name}» отключено.` : 'Расширение отключено.'
+            );
         },
-        onError: (error) => notifyHttpError(error, 'Unable to disable extension'),
+        onError: (error) => notifyHttpError(error, 'Не удалось отключить расширение'),
     });
 };
 
@@ -269,10 +278,10 @@ export const useRemoveAdminExtension = () => {
         ...adminRemoveExtensionMutation(),
         onSuccess: async (_data, variables) => {
             await queryClient.invalidateQueries({ queryKey: adminListExtensionsQueryKey() });
-            const name = variables.meta?.name ?? 'The extension';
+            const name = variables.meta?.name;
 
-            notifyReloadToApply('Extension removed', `${name} has been removed.`);
+            notifyReloadToApply('Расширение удалено', name ? `Расширение «${name}» удалено.` : 'Расширение удалено.');
         },
-        onError: (error) => notifyHttpError(error, 'Unable to remove extension'),
+        onError: (error) => notifyHttpError(error, 'Не удалось удалить расширение'),
     });
 };

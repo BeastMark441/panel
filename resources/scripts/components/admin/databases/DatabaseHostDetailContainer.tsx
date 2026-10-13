@@ -73,7 +73,7 @@ function DatabaseHostDetailForm({ host }: { host: AdminDatabaseHost }) {
     return (
         <Form form={form} className='m-0'>
             <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
-                <TitledGreyBox title='Host Details'>
+                <TitledGreyBox title='Данные хоста'>
                     <form.AppField name='name' validators={databaseHostValidators.name}>
                         {(field) => <field.TextField type='text' id='name' label='Name' />}
                     </form.AppField>
@@ -83,8 +83,8 @@ function DatabaseHostDetailForm({ host }: { host: AdminDatabaseHost }) {
                                 <field.TextField
                                     type='text'
                                     id='host'
-                                    label='Host'
-                                    description='The IP address or FQDN used when the Panel connects to this MySQL host.'
+                                    label='Хост'
+                                    description='IP-адрес или FQDN, используемый при подключении Панели к этому хосту MySQL.'
                                 />
                             )}
                         </form.AppField>
@@ -113,14 +113,14 @@ function DatabaseHostDetailForm({ host }: { host: AdminDatabaseHost }) {
                     </div>
                 </TitledGreyBox>
 
-                <TitledGreyBox title='User Details'>
+                <TitledGreyBox title='Данные пользователя'>
                     <form.AppField name='username' validators={databaseHostValidators.username}>
                         {(field) => (
                             <field.TextField
                                 type='text'
                                 id='username'
-                                label='Username'
-                                description='A database server user with permission to create users and databases.'
+                                label='Имя пользователя'
+                                description='Пользователь сервера баз данных, имеющий право создавать пользователей и базы данных.'
                             />
                         )}
                     </form.AppField>
@@ -130,34 +130,34 @@ function DatabaseHostDetailForm({ host }: { host: AdminDatabaseHost }) {
                                 <field.TextField
                                     type='password'
                                     id='password'
-                                    label='Password'
-                                    description='Leave blank to keep existing password.'
+                                    label='Пароль'
+                                    description='Оставьте поле пустым, чтобы сохранить текущий пароль.'
                                 />
                             )}
                         </form.AppField>
                     </div>
                     <p className='text-sm text-destructive mt-6'>
-                        The configured account must have WITH GRANT OPTION permission and should not reuse Panel
-                        database credentials.
+                        Настроенная учетная запись должна обладать правом WITH GRANT OPTION; также не следует
+                        использовать для нее те же учетные данные, что и для базы данных панели.
                     </p>
                     <div className='flex justify-end mt-6'>
                         <Dialog.ConfirmTrigger
-                            title='Delete database host'
-                            confirm='Delete Host'
+                            title='Удалить хост базы данных'
+                            confirm='Удалить хост'
                             pending={deleteDatabaseHost.isPending}
                             trigger={({ onClick }) => (
                                 <Button type='button' color='red' isSecondary className='mr-2' onClick={onClick}>
                                     <Icon icon={Trash2} className='mr-2' />
-                                    Delete Host
+                                    Удалить хост
                                 </Button>
                             )}
                             onConfirmed={(_event, close) => onDelete(close)}
                         >
-                            Deleting <strong>{host.attributes.name}</strong> is permanent and cannot be undone. Hosts
-                            with associated databases cannot be deleted.
+                            Удаление <strong>{host.attributes.name}</strong> необратимо. Хосты, с которыми связаны базы
+                            данных, удалить нельзя.
                         </Dialog.ConfirmTrigger>
                         <form.AppForm>
-                            <form.SubmitButton>Save Changes</form.SubmitButton>
+                            <form.SubmitButton>Сохранить Изменения</form.SubmitButton>
                         </form.AppForm>
                     </div>
                 </TitledGreyBox>
@@ -170,7 +170,7 @@ function DatabaseHostDetailForm({ host }: { host: AdminDatabaseHost }) {
                         resource={host}
                         error={updateDatabaseHost.error}
                         boxed
-                        submitLabel='Save Changes'
+                        submitLabel='Сохранить Изменения'
                         className='mt-4'
                     />
                 )}
@@ -194,7 +194,7 @@ function DatabaseHostDatabases({ hostId }: { hostId: number }) {
             [
                 {
                     id: 'server',
-                    header: 'Server',
+                    header: 'Сервер',
                     cell: ({ row }) => (
                         <Link
                             to='/panel/servers/$id/database'
@@ -207,7 +207,7 @@ function DatabaseHostDatabases({ hostId }: { hostId: number }) {
                 },
                 {
                     id: 'database',
-                    header: 'Database',
+                    header: 'База данных',
                     cell: ({ row }) => (
                         <span className='block truncate font-mono text-xs'>{row.original.attributes.name}</span>
                     ),
@@ -256,7 +256,7 @@ function DatabaseHostDatabases({ hostId }: { hostId: number }) {
     });
 
     return (
-        <TitledGreyBox title='Databases' className='mt-4'>
+        <TitledGreyBox title='База данных' className='mt-4'>
             {databases ? (
                 <>
                     <DataTable
@@ -268,9 +268,9 @@ function DatabaseHostDatabases({ hostId }: { hostId: number }) {
                                     <EmptyMedia variant='icon'>
                                         <Database />
                                     </EmptyMedia>
-                                    <EmptyTitle>No databases</EmptyTitle>
+                                    <EmptyTitle>Нет баз данных</EmptyTitle>
                                     <EmptyDescription>
-                                        Databases created for servers on this host will appear here.
+                                        Здесь будут отображаться базы данных, созданные для серверов на этом хосте.
                                     </EmptyDescription>
                                 </EmptyHeader>
                             </Empty>
@@ -280,7 +280,7 @@ function DatabaseHostDatabases({ hostId }: { hostId: number }) {
                         table={table}
                         total={databases.meta.pagination.total}
                         count={databases.meta.pagination.count}
-                        itemLabel='databases'
+                        itemLabel='Баз данных'
                     />
                 </>
             ) : (

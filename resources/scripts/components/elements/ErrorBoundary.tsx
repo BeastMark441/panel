@@ -50,10 +50,10 @@ class ErrorBoundary extends React.Component<Props, State> {
                 <div role='alert' className='flex items-center bg-muted rounded-sm p-3 text-destructive'>
                     <Icon icon={TriangleAlert} className='h-4 w-auto mr-2' />
                     <p className='text-sm text-foreground'>
-                        An error was encountered by the application while rendering this view. Try refreshing the page.
+                        При отрисовке этого представления в приложении произошла ошибка. Попробуйте обновить страницу.
                     </p>
                     <button type='button' className={retryButtonClass} onClick={this.reset}>
-                        Retry
+                        Перезагрузить
                     </button>
                 </div>
             </div>

@@ -65,16 +65,16 @@ export default function AdvancedSettingsForm({ settings }: { settings: AdminSett
                 {settings.meta.show_recaptcha_warning && (
                     <Alert type='warning' className='mb-6 text-sm'>
                         <span>
-                            You are using reCAPTCHA keys that shipped with this Panel. Generate new invisible reCAPTCHA
-                            keys for this website to improve security.
+                            Вы используете ключи reCAPTCHA, которые поставлялись вместе с этой панелью. Сгенерируйте
+                            новые ключи для невидимой reCAPTCHA для этого сайта, чтобы повысить безопасность.
                         </span>
                     </Alert>
                 )}
                 <form.AppField name='recaptchaEnabled'>
                     {(field) => (
                         <field.SwitchField
-                            label='reCAPTCHA Enabled'
-                            description='Protect login and registration forms with reCAPTCHA.'
+                            label='reCAPTCHA Включена'
+                            description='Защитите формы входа и регистрации с помощью reCAPTCHA.'
                             disabled={readOnly}
                         />
                     )}
@@ -85,7 +85,7 @@ export default function AdvancedSettingsForm({ settings }: { settings: AdminSett
                             <field.TextField
                                 type='text'
                                 id='recaptcha_website_key'
-                                label='reCAPTCHA Website Key'
+                                label='Ключ сайта reCAPTCHA'
                                 disabled={readOnly}
                             />
                         )}
@@ -97,8 +97,8 @@ export default function AdvancedSettingsForm({ settings }: { settings: AdminSett
                             <field.TextField
                                 type='password'
                                 id='recaptcha_secret_key'
-                                label='reCAPTCHA Secret Key'
-                                description='Leave blank to keep the existing secret key.'
+                                label='Секретный ключ reCAPTCHA'
+                                description='Оставьте поле пустым, чтобы сохранить текущий секретный ключ.'
                                 disabled={readOnly}
                             />
                         )}
@@ -109,32 +109,32 @@ export default function AdvancedSettingsForm({ settings }: { settings: AdminSett
                 <div className='grid grid-cols-2 gap-4'>
                     <form.AppField
                         name='guzzleTimeout'
-                        validators={{ onChange: requiredNumber('An HTTP request timeout must be provided.') }}
+                        validators={{ onChange: requiredNumber('Необходимо задать тайм-аут HTTP-запроса.') }}
                     >
                         {(field) => (
-                            <field.NumberField id='guzzle_timeout' label='HTTP Request Timeout' disabled={readOnly} />
+                            <field.NumberField id='guzzle_timeout' label='Тайм-аут HTTP-запроса' disabled={readOnly} />
                         )}
                     </form.AppField>
                     <form.AppField
                         name='guzzleConnectTimeout'
-                        validators={{ onChange: requiredNumber('An HTTP connection timeout must be provided.') }}
+                        validators={{ onChange: requiredNumber('Необходимо задать тайм-аут HTTP-соединения.') }}
                     >
                         {(field) => (
                             <field.NumberField
                                 id='guzzle_connect_timeout'
-                                label='HTTP Connection Timeout'
+                                label='Тайм-аут HTTP-соединения'
                                 disabled={readOnly}
                             />
                         )}
                     </form.AppField>
                 </div>
             </TitledGreyBox>
-            <TitledGreyBox title='Automatic Allocation Creation' className='mt-6'>
+            <TitledGreyBox title='Автоматическое создание распределений' className='mt-6'>
                 <form.AppField name='allocationsEnabled'>
                     {(field) => (
                         <field.SwitchField
-                            label='Auto Create Allocations Enabled'
-                            description='Allow users to automatically create new allocations for their server.'
+                            label='Включено автоматическое создание распределений'
+                            description='Позвольте пользователям автоматически создавать новые выделения ресурсов для своих серверов.'
                             disabled={readOnly}
                         />
                     )}
@@ -145,7 +145,7 @@ export default function AdvancedSettingsForm({ settings }: { settings: AdminSett
                             <field.TextField
                                 type='number'
                                 id='allocations_range_start'
-                                label='Starting Port'
+                                label='Начальный Порт'
                                 disabled={readOnly}
                             />
                         )}
@@ -155,7 +155,7 @@ export default function AdvancedSettingsForm({ settings }: { settings: AdminSett
                             <field.TextField
                                 type='number'
                                 id='allocations_range_end'
-                                label='Ending Port'
+                                label='Конечный Порт'
                                 disabled={readOnly}
                             />
                         )}
@@ -164,7 +164,7 @@ export default function AdvancedSettingsForm({ settings }: { settings: AdminSett
             </TitledGreyBox>
             <div className='flex justify-end mt-6'>
                 <form.AppForm>
-                    <form.SubmitButton disabled={readOnly}>Save Changes</form.SubmitButton>
+                    <form.SubmitButton disabled={readOnly}>Сохранить Изменения</form.SubmitButton>
                 </form.AppForm>
             </div>
         </Form>

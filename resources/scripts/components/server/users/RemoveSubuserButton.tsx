@@ -30,7 +30,7 @@ const RemoveSubuserButton = ({ subuser }: Props) => {
             pending={loading}
             onConfirmed={(_event, close) => doDeletion(close)}
             trigger={({ onClick }) => (
-                <DeleteAction aria-label={`Delete ${subuser.attributes.email}`} onClick={onClick} />
+                <DeleteAction aria-label={`Удалить ${subuser.attributes.email}`} onClick={onClick} />
             )}
         >
             <SpinnerOverlay visible={loading} />

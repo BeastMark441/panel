@@ -28,7 +28,7 @@ const LoginContainer = () => {
             if (recaptchaEnabled) {
                 token = (await recaptchaRef.current?.execute()) ?? '';
                 if (!token) {
-                    toast.error('Captcha verification failed, please try again.');
+                    toast.error('Проверка капчи не удалась, пожалуйста, попробуйте еще раз.');
 
                     return;
                 }
@@ -64,29 +64,39 @@ const LoginContainer = () => {
     const isSubmitting = useStore(form.store, (state) => state.isSubmitting) || loginMutation.isPending;
 
     return (
-        <LoginFormContainer form={form} title='Login to Continue' className='w-full flex'>
+        <LoginFormContainer form={form} title='Войдите, чтобы Продолжить' className='w-full flex'>
             <form.AppField
                 name='username'
                 validators={{
-                    onChange: ({ value }) => (value.length >= 1 ? undefined : 'A username or email must be provided.'),
+                    onChange: ({ value }) =>
+                        value.length >= 1
+                            ? undefined
+                            : 'Необходимо указать имя пользователя или адрес электронной почты.',
                 }}
             >
-                {(field) => <field.TextField light type='text' label='Username or Email' disabled={isSubmitting} />}
+                {(field) => (
+                    <field.TextField
+                        light
+                        type='text'
+                        label='Имя пользователя или Электронная почта'
+                        disabled={isSubmitting}
+                    />
+                )}
             </form.AppField>
             <div className='mt-6'>
                 <form.AppField
                     name='password'
                     validators={{
                         onChange: ({ value }) =>
-                            value.length >= 1 ? undefined : 'Please enter your account password.',
+                            value.length >= 1 ? undefined : 'Пожалуйста, введите пароль от вашей учетной записи.',
                     }}
                 >
-                    {(field) => <field.TextField light type='password' label='Password' disabled={isSubmitting} />}
+                    {(field) => <field.TextField light type='password' label='Пароль' disabled={isSubmitting} />}
                 </form.AppField>
             </div>
             <div className='mt-6'>
                 <form.AppForm>
-                    <form.SubmitButton size='xlarge'>Login</form.SubmitButton>
+                    <form.SubmitButton size='xlarge'>Войти</form.SubmitButton>
                 </form.AppForm>
             </div>
             <Slot name='auth.login.form.after' data={slotData} />
@@ -96,7 +106,7 @@ const LoginContainer = () => {
                     to='/auth/password'
                     className='text-xs text-muted-foreground tracking-wide no-underline uppercase hover:text-foreground'
                 >
-                    Forgot password?
+                    Забыли пароль?
                 </Link>
             </div>
         </LoginFormContainer>

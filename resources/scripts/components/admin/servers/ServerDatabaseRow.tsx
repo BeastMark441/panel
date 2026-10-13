@@ -199,7 +199,9 @@ export function ServerDatabaseActions({ serverId, database }: ServerDatabaseRowP
                     />
                 )}
             </Dialog.Trigger>
-            <Dialog.Trigger trigger={({ onClick }) => <DeleteAction aria-label={`Delete ${name}`} onClick={onClick} />}>
+            <Dialog.Trigger
+                trigger={({ onClick }) => <DeleteAction aria-label={`Удалить ${name}`} onClick={onClick} />}
+            >
                 {({ open, onClose }) => (
                     <DeleteServerDatabaseDialog serverId={serverId} database={database} open={open} onClose={onClose} />
                 )}

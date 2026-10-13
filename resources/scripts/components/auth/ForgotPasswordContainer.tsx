@@ -45,26 +45,28 @@ export default function ForgotPasswordContainer() {
     });
 
     return (
-        <LoginFormContainer form={form} title='Request Password Reset' className='w-full flex'>
+        <LoginFormContainer form={form} title='Запрос на сброс пароля' className='w-full flex'>
             <form.AppField
                 name='email'
                 validators={{
                     onChange: ({ value }) =>
-                        isEmail(value) ? undefined : 'A valid email address must be provided to continue.',
+                        isEmail(value)
+                            ? undefined
+                            : 'Для продолжения необходимо указать действительный адрес электронной почты.',
                 }}
             >
                 {(field) => (
                     <field.TextField
                         light
                         type='email'
-                        label='Email'
-                        description='Enter your account email address to receive instructions on resetting your password.'
+                        label='Электронная почта'
+                        description='Введите адрес электронной почты, привязанный к вашей учетной записи, чтобы получить инструкции по сбросу пароля.'
                     />
                 )}
             </form.AppField>
             <div className='mt-6'>
                 <form.AppForm>
-                    <form.SubmitButton size='xlarge'>Send Email</form.SubmitButton>
+                    <form.SubmitButton size='xlarge'>Отправить Письмо</form.SubmitButton>
                 </form.AppForm>
             </div>
             {recaptchaEnabled && <InvisibleRecaptcha ref={recaptchaRef} siteKey={siteKey || ''} />}
@@ -73,7 +75,7 @@ export default function ForgotPasswordContainer() {
                     to='/auth/login'
                     className='text-xs text-muted-foreground tracking-wide uppercase no-underline hover:text-foreground'
                 >
-                    Return to Login
+                    Вернуться к Входу
                 </Link>
             </div>
         </LoginFormContainer>

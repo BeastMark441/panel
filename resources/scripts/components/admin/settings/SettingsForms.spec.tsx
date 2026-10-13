@@ -64,10 +64,10 @@ describe('mail settings', () => {
             <MailSettingsForm settings={{ ...settings, meta: { ...settings.meta, load_environment_only: false } }} />
         );
 
-        const password = screen.getByLabelText('Password');
+        const password = screen.getByLabelText('Пароль');
 
         await user.type(password, 'smtp-secret');
-        await user.click(screen.getByRole('button', { name: 'Save Changes' }));
+        await user.click(screen.getByRole('button', { name: 'Сохранить Изменения' }));
 
         expect(mutations.mail).toHaveBeenCalledWith({
             body: { smtp: expect.objectContaining({ port: 587, password: 'smtp-secret' }) },
@@ -96,7 +96,7 @@ describe.each(forms)('$name settings', ({ Component, mutation }) => {
     it('allows saving when settings are loaded dynamically', async () => {
         render(<Component settings={{ ...settings, meta: { ...settings.meta, load_environment_only: false } }} />);
 
-        const save = screen.getByRole('button', { name: 'Save Changes' });
+        const save = screen.getByRole('button', { name: 'Сохранить Изменения' });
 
         expect(save).toBeEnabled();
         await act(async () => fireEvent.click(save));

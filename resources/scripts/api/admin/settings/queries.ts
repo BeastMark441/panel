@@ -26,7 +26,7 @@ type AdminMailSettingsBody = NonNullable<AdminUpdateMailSettingsData['body']>;
 type AdminMailSmtpSettingsBody = NonNullable<AdminMailSettingsBody['smtp']>;
 type AdminAdvancedSettingsBody = AdminUpdateAdvancedSettingsData['body'];
 type UpdateAdminMailSettingsOptions = { successNotification?: boolean };
-type AdminSettingsSection = 'Advanced' | 'General' | 'Mail';
+type AdminSettingsSection = 'Расширенные' | 'Общие' | 'Почта';
 
 export interface GeneralSettingsValues {
     name: string;
@@ -109,8 +109,8 @@ export const adminSettingsQueryOptions = () => adminGetSettingsOptions();
 
 type AdminSettingsQueryOptions = { enabled?: boolean };
 const adminSettingsUpdateToast = (section: AdminSettingsSection) => ({
-    title: `${section} settings updated`,
-    description: `${section} settings have been updated.`,
+    title: `Настройки ${section} обновлены`,
+    description: `Настройки раздела ${section} обновлены.`,
 });
 
 export const useAdminSettings = (options?: AdminSettingsQueryOptions) =>
@@ -128,11 +128,11 @@ export const useUpdateAdminGeneralSettings = () => {
                 locale: body.default_locale,
             }));
             await queryClient.invalidateQueries({ queryKey: adminGetSettingsQueryKey() });
-            const notification = adminSettingsUpdateToast('General');
+            const notification = adminSettingsUpdateToast('Общие');
 
             toast.success(notification.title, { description: notification.description });
         },
-        onError: (error) => notifyHttpError(error, 'Unable to update general settings'),
+        onError: (error) => notifyHttpError(error, 'Не удалось обновить общие настройки'),
     });
 };
 
@@ -144,12 +144,12 @@ export const useUpdateAdminMailSettings = ({ successNotification = true }: Updat
         onSuccess: async () => {
             await queryClient.invalidateQueries({ queryKey: adminGetSettingsQueryKey() });
             if (successNotification) {
-                const notification = adminSettingsUpdateToast('Mail');
+                const notification = adminSettingsUpdateToast('Почта');
 
                 toast.success(notification.title, { description: notification.description });
             }
         },
-        onError: (error) => notifyHttpError(error, 'Unable to update mail settings'),
+        onError: (error) => notifyHttpError(error, 'Не удалось обновить настройки почты'),
     });
 };
 
@@ -157,10 +157,10 @@ export const useSendTestAdminMail = () =>
     useMutation({
         ...adminSendTestMailMutation(),
         onSuccess: () =>
-            toast.success('Mail settings tested', {
-                description: 'Mail settings have been saved and a test email has been sent to your account.',
+            toast.success('Настройки почты проверены', {
+                description: 'Настройки почты сохранены, и на ваш аккаунт отправлено тестовое письмо.',
             }),
-        onError: (error) => notifyHttpError(error, 'Unable to test mail settings'),
+        onError: (error) => notifyHttpError(error, 'Не удалось проверить настройки почты'),
     });
 
 export const useUpdateAdminAdvancedSettings = () => {
@@ -177,10 +177,10 @@ export const useUpdateAdminAdvancedSettings = () => {
                 },
             }));
             await queryClient.invalidateQueries({ queryKey: adminGetSettingsQueryKey() });
-            const notification = adminSettingsUpdateToast('Advanced');
+            const notification = adminSettingsUpdateToast('Расширенные');
 
             toast.success(notification.title, { description: notification.description });
         },
-        onError: (error) => notifyHttpError(error, 'Unable to update advanced settings'),
+        onError: (error) => notifyHttpError(error, 'Не удалось обновить расширенные настройки'),
     });
 };

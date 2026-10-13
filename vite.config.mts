@@ -75,6 +75,9 @@ export default defineConfig(({ mode }) => {
             manifestIntegrity(),
         ],
         build: {
+            // watch: {
+            //     buildDelay: 3000,
+            // }, //после перевода удалить!
             outDir: 'public/assets',
             manifest: 'manifest.json',
             // Don't wipe the directory — it holds tracked legacy webpack output + fonts/images.

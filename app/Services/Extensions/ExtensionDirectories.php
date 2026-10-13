@@ -37,7 +37,7 @@ final class ExtensionDirectories
         }
 
         throw new InvalidExtensionException(sprintf(
-            'The panel cannot write to %s. Give %s write access to %s, then try again.',
+            'Панель не может записать данные в %s. Предоставьте %s права на запись в %s, а затем повторите попытку.',
             implode(', ', $blocked),
             $this->processUser(),
             count($blocked) === 1 ? 'it' : 'them',
@@ -57,6 +57,6 @@ final class ExtensionDirectories
     {
         $user = function_exists('posix_geteuid') ? posix_getpwuid(posix_geteuid()) : false;
 
-        return $user === false ? 'the user the panel runs as' : "the {$user['name']} user";
+        return $user === false ? 'пользователь, от имени которого работает панель' : " {$user['name']} user";
     }
 }

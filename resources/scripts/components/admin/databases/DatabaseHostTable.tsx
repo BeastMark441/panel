@@ -133,7 +133,7 @@ const HostActionsCell = ({ host }: { host: AdminDatabaseHost }) => (
             params={{ id: host.attributes.id }}
         />
         <Dialog.Trigger
-            trigger={({ onClick }) => <DeleteAction aria-label={`Delete ${host.attributes.name}`} onClick={onClick} />}
+            trigger={({ onClick }) => <DeleteAction aria-label={`Удалить ${host.attributes.name}`} onClick={onClick} />}
         >
             {({ open, onClose }) => <DeleteDatabaseHostDialog host={host} open={open} onClose={onClose} />}
         </Dialog.Trigger>

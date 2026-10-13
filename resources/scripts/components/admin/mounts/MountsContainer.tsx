@@ -99,9 +99,9 @@ export default function MountsContainer() {
 
     return (
         <AdminContentBlock
-            title='Admin · Mounts'
-            heading='Mounts'
-            description='Manage additional directories that can be mounted into server containers.'
+            title='Админ · Крепления'
+            heading='Крепления'
+            description='Управляйте дополнительными каталогами, которые можно монтировать в серверные контейнеры.'
         >
             <form
                 className='mb-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between'
@@ -121,9 +121,9 @@ export default function MountsContainer() {
                     <TextInput
                         key={filter}
                         name='filter'
-                        aria-label='Search mounts'
+                        aria-label='Поиск креплений'
                         className='h-9 border-border bg-card pl-10'
-                        placeholder='Search mounts…'
+                        placeholder='Поиск креплений…'
                         defaultValue={filter}
                     />
                 </div>
@@ -137,10 +137,10 @@ export default function MountsContainer() {
                         emptyState={
                             <AdminListEmpty
                                 icon={FolderInput}
-                                noun='mounts'
+                                noun='крепления'
                                 filter={filter}
                                 onClearFilter={() => navigateToSearch({ page: 1, filter: '' })}
-                                description='Create a mount to share a host directory with server containers.'
+                                description='Создайте точку монтирования, чтобы предоставить серверным контейнерам доступ к каталогу на хост-машине.'
                                 action={<CreateMountButton />}
                             />
                         }
@@ -149,7 +149,7 @@ export default function MountsContainer() {
                         table={table}
                         total={mounts.meta.pagination.total}
                         count={mounts.meta.pagination.count}
-                        itemLabel='mounts'
+                        itemLabel='Креплений'
                     />
                 </>
             ) : (

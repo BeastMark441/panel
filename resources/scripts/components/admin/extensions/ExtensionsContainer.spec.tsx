@@ -101,25 +101,27 @@ describe('extension install dialog', () => {
                 config,
             }));
 
-        await user.click(screen.getAllByRole('button', { name: 'Install' })[0]!);
-        const dialog = await screen.findByRole('dialog', { name: 'Install extension' });
+        await user.click(screen.getAllByRole('button', { name: 'Установить' })[0]!);
+        const dialog = await screen.findByRole('dialog', { name: 'Установить расширение' });
 
-        await user.upload(within(dialog).getByLabelText('Extension package'), new File(['zip'], 'votes.pteroext'));
-        await user.click(within(dialog).getByRole('button', { name: 'Install' }));
+        await user.upload(within(dialog).getByLabelText('Пакет расширения'), new File(['zip'], 'votes.pteroext'));
+        await user.click(within(dialog).getByRole('button', { name: 'Установить' }));
 
         const notice = await within(dialog).findByRole('alert');
 
-        expect(notice).toHaveTextContent('This package is votes v2.0.0, and v1.0.0 of votes is already installed.');
-        expect(notice).toHaveTextContent('stays enabled');
+        expect(notice).toHaveTextContent(
+            'Этот пакет содержит расширение votes версии v2.0.0. Расширение votes версии v1.0.0 уже установлено.'
+        );
+        expect(notice).toHaveTextContent('останется включённым');
         expect(mocks.notifyError).not.toHaveBeenCalled();
         expect((upload.mock.calls[0]![0].data as FormData).get('replace')).toBe('false');
 
-        await user.click(within(dialog).getByRole('button', { name: 'Replace votes' }));
+        await user.click(within(dialog).getByRole('button', { name: 'Заменить votes' }));
 
         await waitFor(() => expect(upload).toHaveBeenCalledTimes(2));
         expect((upload.mock.calls[1]![0].data as FormData).get('replace')).toBe('true');
         await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
-        expect(mocks.toastSuccess).toHaveBeenCalledWith('Extension installed', expect.anything());
+        expect(mocks.toastSuccess).toHaveBeenCalledWith('Расширение установлено', expect.anything());
     });
 
     it('asks again when a different package is chosen', async () => {
@@ -129,18 +131,18 @@ describe('extension install dialog', () => {
             throw conflict(config);
         });
 
-        await user.click(screen.getAllByRole('button', { name: 'Install' })[0]!);
-        const dialog = await screen.findByRole('dialog', { name: 'Install extension' });
-        const input = within(dialog).getByLabelText('Extension package');
+        await user.click(screen.getAllByRole('button', { name: 'Установить' })[0]!);
+        const dialog = await screen.findByRole('dialog', { name: 'Установить расширение' });
+        const input = within(dialog).getByLabelText('Пакет расширения');
 
         await user.upload(input, new File(['zip'], 'votes.pteroext'));
-        await user.click(within(dialog).getByRole('button', { name: 'Install' }));
-        await within(dialog).findByRole('button', { name: 'Replace votes' });
+        await user.click(within(dialog).getByRole('button', { name: 'Установить' }));
+        await within(dialog).findByRole('button', { name: 'Заменить votes' });
 
         await user.upload(input, new File(['zip'], 'other.pteroext'));
 
         expect(within(dialog).queryByRole('alert')).not.toBeInTheDocument();
-        expect(within(dialog).getByRole('button', { name: 'Install' })).toBeEnabled();
+        expect(within(dialog).getByRole('button', { name: 'Установить' })).toBeEnabled();
     });
 });
 
@@ -151,8 +153,8 @@ describe('extension failures', () => {
     afterEach(cleanup);
 
     it.each([
-        ['boot', 'Failed to load'],
-        ['event', 'Runtime error'],
+        ['boot', 'Ошибка загрузки'],
+        ['event', 'Ошибка выполнения'],
     ])('labels a %s failure "%s" and says when it happened', async (phase, label) => {
         const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false, staleTime: Infinity } } });
 
@@ -176,7 +178,7 @@ describe('extension failures', () => {
         );
 
         expect(await screen.findByText(label)).toBeInTheDocument();
-        expect(screen.getByText(new RegExp(`^In ${phase},`))).toBeInTheDocument();
+        expect(screen.getByText(new RegExp(`^На этапе ${phase},`))).toBeInTheDocument();
     });
 });
 

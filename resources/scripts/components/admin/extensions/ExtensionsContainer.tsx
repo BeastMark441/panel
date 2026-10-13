@@ -58,26 +58,26 @@ type ActionButtonProps = {
     onClick: () => void;
 };
 
-// A failure in any other phase happened while the extension was running, not while it loaded.
+// Ошибка на любом другом этапе возникла во время работы расширения, а не его загрузки.
 const LOAD_PHASES = new Set(['register', 'boot', 'compatibility']);
 
 const stateBadge = (state: ExtensionState = '', errorPhase?: string | null) => {
     switch (state) {
         case 'not_registered':
-            return { label: 'Not set up', className: 'bg-accent/10 text-accent' };
+            return { label: 'Не настроено', className: 'bg-accent/10 text-accent' };
         case 'error':
             return {
-                label: !errorPhase || LOAD_PHASES.has(errorPhase) ? 'Failed to load' : 'Runtime error',
+                label: !errorPhase || LOAD_PHASES.has(errorPhase) ? 'Ошибка загрузки' : 'Ошибка выполнения',
                 className: 'bg-destructive/15 text-destructive',
             };
         case 'invalid':
-            return { label: 'Invalid package', className: 'bg-destructive/15 text-destructive' };
+            return { label: 'Некорректный пакет', className: 'bg-destructive/15 text-destructive' };
         default:
             return null;
     }
 };
 
-const extensionName = (extension: AdminExtension): string => extension.name || extension.id || 'Unknown extension';
+const extensionName = (extension: AdminExtension): string => extension.name || extension.id || 'Неизвестное расширение';
 
 const extensionId = (extension: AdminExtension): string => extension.id || extensionName(extension);
 
@@ -148,15 +148,15 @@ function ActionButton({ label, icon, disabled, color = 'grey', isLoading, onClic
 }
 
 function ReplacementNotice({ replacement }: { replacement: AdminExtensionReplacement }) {
-    const installed = replacement.installedVersion ? `v${replacement.installedVersion}` : 'a copy';
+    const installed = replacement.installedVersion ? `версии v${replacement.installedVersion}` : 'без указанной версии';
 
     return (
-        <Alert type='warning' title='Replace an installed extension?'>
-            This package is <code className='font-mono'>{replacement.id}</code> v{replacement.version}, and {installed}{' '}
-            of <code className='font-mono'>{replacement.id}</code> is already installed. Installing it replaces the
-            installed files.
+        <Alert type='warning' title='Заменить установленное расширение?'>
+            Этот пакет содержит расширение <code className='font-mono'>{replacement.id}</code> версии v
+            {replacement.version}. Расширение <code className='font-mono'>{replacement.id}</code> {installed} уже
+            установлено. При установке файлы существующего расширения будут заменены.
             {replacement.enabled &&
-                ' The extension is enabled and stays enabled, so the new version runs its migrations and code right away.'}
+                ' Расширение включено и останется включённым, поэтому миграции и код новой версии будут выполнены сразу.'}
         </Alert>
     );
 }
@@ -177,7 +177,8 @@ function InstallExtensionDialog({ open, onClose }: { open: boolean; onClose: () 
             await installExtension.mutateAsync(installAdminExtensionInput(file, enable, replacement !== null));
             onClose();
         } catch (error) {
-            // A package with an installed id waits for the admin to confirm; other errors are toasted by the mutation.
+            // Замена пакета с уже установленным ID требует подтверждения администратора.
+            // Уведомления об остальных ошибках выводятся обработчиком мутации.
             const conflict = extensionReplacement(error);
 
             if (conflict) {
@@ -189,7 +190,7 @@ function InstallExtensionDialog({ open, onClose }: { open: boolean; onClose: () 
     return (
         <Dialog
             open={open}
-            title='Install extension'
+            title='Установить расширение'
             preventExternalClose={submitting}
             hideCloseIcon={submitting}
             onClose={onClose}
@@ -197,11 +198,11 @@ function InstallExtensionDialog({ open, onClose }: { open: boolean; onClose: () 
             <SpinnerOverlay visible={submitting} />
             <div className='space-y-5'>
                 <div>
-                    <Label htmlFor='extension_package'>Package</Label>
+                    <Label htmlFor='extension_package'>Пакет расширения</Label>
                     <FileInput
                         id='extension_package'
                         accept='.pteroext,.zip,application/zip'
-                        aria-label='Extension package'
+                        aria-label='Пакет расширения'
                         disabled={submitting}
                         onChange={(event) => {
                             setFile(event.currentTarget.files?.[0] ?? null);
@@ -211,7 +212,7 @@ function InstallExtensionDialog({ open, onClose }: { open: boolean; onClose: () 
                 </div>
                 <label className='flex items-center gap-3 text-sm text-foreground'>
                     <Checkbox checked={enable} onChange={setEnable} disabled={submitting} />
-                    Enable after install
+                    Включить после установки
                 </label>
                 {replacement && <ReplacementNotice replacement={replacement} />}
             </div>
@@ -223,7 +224,7 @@ function InstallExtensionDialog({ open, onClose }: { open: boolean; onClose: () 
                     disabled={submitting}
                     onClick={onClose}
                 >
-                    Cancel
+                    Закрыть
                 </Button>
                 <Button
                     type='button'
@@ -233,7 +234,7 @@ function InstallExtensionDialog({ open, onClose }: { open: boolean; onClose: () 
                     isLoading={submitting}
                     onClick={() => void submit()}
                 >
-                    {replacement ? `Replace ${replacement.id}` : 'Install'}
+                    {replacement ? `Заменить ${replacement.id}` : 'Установить'}
                 </Button>
             </div>
         </Dialog>
@@ -245,7 +246,7 @@ function InstallExtensionButton() {
         <Dialog.Trigger
             trigger={({ onClick }) => (
                 <NewButton icon={UploadCloud} onClick={onClick}>
-                    Install
+                    Установить
                 </NewButton>
             )}
         >
@@ -269,19 +270,19 @@ function ExtensionToolbar({
                 failedCount > 0 && (
                     <span className='inline-flex items-center gap-1.5 text-warning'>
                         <Icon icon={AlertCircle} />
-                        {failedCount === 1 ? '1 extension needs attention' : `${failedCount} extensions need attention`}
+                        {`Требуют внимания: ${failedCount}`}
                     </span>
                 )
             }
         >
             <div className='flex items-center gap-2'>
-                <Tooltip content='Refresh'>
+                <Tooltip content='Обновить'>
                     <span className='inline-flex'>
                         <Button
                             type='button'
                             color='grey'
                             isSecondary
-                            aria-label='Refresh extensions'
+                            aria-label='Обновить список расширений'
                             disabled={isFetching}
                             isLoading={isFetching}
                             className='inline-flex h-9 w-9 items-center justify-center p-0'
@@ -305,7 +306,7 @@ const resolveSettingValue = (
         return values[field.input];
     }
 
-    // Secrets arrive masked; blank means "keep the stored value".
+    // Секретные значения приходят скрытыми; пустая строка означает сохранение текущего значения.
     return field.field === 'password' ? '' : field.value;
 };
 
@@ -313,7 +314,7 @@ const shouldIncludeSettingValue = (
     field: AdminExtensionSettingField,
     value: AdminExtensionSettingValue | undefined
 ): value is AdminExtensionSettingValue => {
-    // Files are saved through their own upload endpoint.
+    // Файлы сохраняются через отдельный обработчик загрузки.
     if (value === undefined || field.field === 'file') {
         return false;
     }
@@ -345,11 +346,11 @@ function SettingsEmptyState({ extensionEnabled }: { extensionEnabled: boolean | 
                 <EmptyMedia variant='icon'>
                     <Settings2 />
                 </EmptyMedia>
-                <EmptyTitle>{extensionEnabled ? 'No settings' : 'Settings unavailable'}</EmptyTitle>
+                <EmptyTitle>{extensionEnabled ? 'Нет настроек' : 'Настройки недоступны'}</EmptyTitle>
                 <EmptyDescription>
                     {extensionEnabled
-                        ? "This extension doesn't register any settings."
-                        : 'Enable the extension to load its settings.'}
+                        ? 'Это расширение не предоставляет настроек.'
+                        : 'Включите расширение, чтобы загрузить его настройки.'}
                 </EmptyDescription>
             </EmptyHeader>
         </Empty>
@@ -437,7 +438,7 @@ function SettingsDialogActions({
                 disabled={submitting}
                 onClick={onCancel}
             >
-                Cancel
+                Отмена
             </Button>
             <Button
                 type='button'
@@ -446,7 +447,7 @@ function SettingsDialogActions({
                 isLoading={submitting}
                 onClick={onSubmit}
             >
-                Save Settings
+                Сохранить настройки
             </Button>
         </div>
     );
@@ -492,14 +493,14 @@ function SettingsDialog({
             await updateSettings.mutateAsync(updateAdminExtensionSettingsInput(id, settings));
             onClose();
         } catch {
-            // Error toast is handled by the mutation.
+            // Уведомление об ошибке выводится обработчиком мутации.
         }
     };
 
     return (
         <Dialog
             open={open}
-            title={`${extensionName(extension)} settings`}
+            title={`Настройки расширения «${extensionName(extension)}»`}
             preventExternalClose={submitting}
             hideCloseIcon={submitting}
             onClose={onClose}
@@ -534,7 +535,7 @@ const isPendingFor = (mutation: ExtensionMutationState, extension: AdminExtensio
     mutation.isPending && mutation.variables?.path.extension === extension.id;
 
 const extensionSubtitle = (extension: AdminExtension): string =>
-    [extension.version ? `v${extension.version}` : null, extension.author && `by ${extension.author}`]
+    [extension.version ? `v${extension.version}` : null, extension.author && `Автор: ${extension.author}`]
         .filter(Boolean)
         .join(' · ');
 
@@ -572,12 +573,12 @@ function ExtensionCardDetails({ extension }: { extension: AdminExtension }) {
                 className='mt-3 line-clamp-3 text-sm leading-relaxed text-card-foreground/80'
                 title={extension.description || undefined}
             >
-                {extension.description || 'No description provided.'}
+                {extension.description || 'Описание не указано.'}
             </p>
 
             {extension.state === 'not_registered' && (
                 <p className='mt-3 text-sm text-muted-foreground'>
-                    Found in the extensions folder. Turn it on to finish setting it up.
+                    Расширение найдено в папке расширений. Включите его, чтобы завершить настройку.
                 </p>
             )}
 
@@ -586,7 +587,7 @@ function ExtensionCardDetails({ extension }: { extension: AdminExtension }) {
                     <p className='break-words text-sm text-destructive'>{extension.error}</p>
                     {extension.errored_at && (
                         <p className='mt-1 text-xs text-destructive/80'>
-                            {extension.error_phase && <>In {extension.error_phase}, </>}
+                            {extension.error_phase && <>На этапе {extension.error_phase}, </>}
                             {new Date(extension.errored_at).toLocaleString()}
                         </p>
                     )}
@@ -616,7 +617,7 @@ function ExtensionToggle({ extension, name }: { extension: AdminExtension; name:
 
     return (
         <Switch
-            aria-label={`Enable ${name}`}
+            aria-label={`Включить расширение «${name}»`}
             className='mr-auto'
             checked={extension.enabled === true}
             disabled={pending || !allowed}
@@ -641,14 +642,14 @@ function RemoveExtensionButton({ extension, name }: { extension: AdminExtension;
 
     return (
         <Dialog.ConfirmTrigger
-            title='Remove extension'
-            confirm='Remove'
+            title='Удалить расширение'
+            confirm='Удалить'
             preventExternalClose={removePending}
             hideCloseIcon={removePending}
             pending={removePending}
             trigger={({ onClick }) => (
                 <ActionButton
-                    label='Remove'
+                    label='Удалить'
                     icon={Trash2}
                     color='red'
                     disabled={!canRemove(extension) || removePending}
@@ -659,8 +660,8 @@ function RemoveExtensionButton({ extension, name }: { extension: AdminExtension;
             onConfirmed={(_event, close) => submitRemove(close)}
         >
             <SpinnerOverlay visible={removePending} />
-            Removing <strong>{name}</strong> deletes the extension files, published assets, settings, subuser
-            permissions it added, and install record.
+            При удалении расширения <strong>{name}</strong> будут удалены его файлы, опубликованные ресурсы, настройки,
+            добавленные им разрешения дополнительных пользователей и запись об установке.
         </Dialog.ConfirmTrigger>
     );
 }
@@ -680,7 +681,7 @@ function ExtensionCard({ extension }: { extension: AdminExtension }) {
                     {extension.enabled && (
                         <Dialog.Trigger
                             trigger={({ onClick }) => (
-                                <ActionButton label='Settings' icon={Settings2} onClick={onClick} />
+                                <ActionButton label='Настройки' icon={Settings2} onClick={onClick} />
                             )}
                         >
                             {({ open, onClose }) => (
@@ -702,9 +703,9 @@ function EmptyExtensionsState() {
                 <EmptyMedia variant='icon'>
                     <FileArchive />
                 </EmptyMedia>
-                <EmptyTitle>No extensions installed</EmptyTitle>
+                <EmptyTitle>Расширения не установлены</EmptyTitle>
                 <EmptyDescription>
-                    Install an extension package to add features and integrations to this panel.
+                    Установите пакет расширения, чтобы добавить в эту панель дополнительные функции и интеграции.
                 </EmptyDescription>
             </EmptyHeader>
             <EmptyContent>
@@ -741,9 +742,9 @@ export default function ExtensionsContainer() {
 
     return (
         <AdminContentBlock
-            title='Admin · Extensions'
-            heading='Extensions'
-            description='Manage extensions that add features and integrations to your panel.'
+            title='Админ · Расширения'
+            heading='Расширения'
+            description='Управляйте расширениями, которые добавляют функции и интеграции в вашу панель.'
         >
             {runtimeFailures.length > 0 && (
                 <Alert type='danger' className='mb-4'>
@@ -756,9 +757,9 @@ export default function ExtensionsContainer() {
             )}
             {data?.meta?.enabled === false && (
                 <Alert type='warning' className='mb-4'>
-                    Extensions are turned off on this panel, so installed extensions won&apos;t load. Set{' '}
-                    <code className='font-mono'>PTERODACTYL_EXTENSIONS_ENABLED=true</code> in your{' '}
-                    <code className='font-mono'>.env</code> to turn them on.
+                    На этой панели расширения отключены, поэтому установленные расширения не загрузятся. Установите{' '}
+                    <code className='font-mono'>PTERODACTYL_EXTENSIONS_ENABLED=true</code> в файле{' '}
+                    <code className='font-mono'>.env</code>, чтобы включить их.
                 </Alert>
             )}
             {data && <ExtensionToolbar failedCount={failedCount} isFetching={isFetching} onRefresh={() => refetch()} />}

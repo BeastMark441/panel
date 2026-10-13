@@ -110,9 +110,9 @@ export default function DatabaseHostsContainer() {
 
     return (
         <AdminContentBlock
-            title='Admin · Database Hosts'
-            heading='Database Hosts'
-            description='Manage the database hosts available to your servers.'
+            title='Админ · Хосты баз данных'
+            heading='Хосты баз данных'
+            description='Управляйте хостами баз данных, доступными для ваших серверов.'
         >
             <form
                 className='mb-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between'
@@ -132,9 +132,9 @@ export default function DatabaseHostsContainer() {
                     <TextInput
                         key={filter}
                         name='filter'
-                        aria-label='Search database hosts'
+                        aria-label='Поиск хостов базы данных'
                         className='h-9 border-border bg-card pl-10'
-                        placeholder='Search database hosts…'
+                        placeholder='Поиск хостов баз данных…'
                         defaultValue={filter}
                     />
                 </div>
@@ -148,10 +148,10 @@ export default function DatabaseHostsContainer() {
                         emptyState={
                             <AdminListEmpty
                                 icon={Database}
-                                noun='database hosts'
+                                noun='хосты баз данных'
                                 filter={filter}
                                 onClearFilter={() => navigateToSearch({ page: 1, filter: '' })}
-                                description='Add a MySQL or MariaDB host so servers can create databases.'
+                                description='Добавьте хост MySQL или MariaDB, чтобы серверы могли создавать базы данных.'
                                 action={<CreateDatabaseHostButton />}
                             />
                         }
@@ -160,7 +160,7 @@ export default function DatabaseHostsContainer() {
                         table={table}
                         total={hosts.meta.pagination.total}
                         count={hosts.meta.pagination.count}
-                        itemLabel='database hosts'
+                        itemLabel='Хостов баз данных'
                     />
                 </>
             ) : (

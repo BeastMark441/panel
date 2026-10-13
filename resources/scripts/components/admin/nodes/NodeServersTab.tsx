@@ -23,7 +23,7 @@ import { relationshipAttributes } from '@/api/relationships';
 const nodeServerColumns = [
     {
         id: 'name',
-        header: 'Server',
+        header: 'Сервер',
         cell: ({ row }) => (
             <div className='w-0 min-w-full'>
                 <Link
@@ -38,7 +38,7 @@ const nodeServerColumns = [
                     className='mt-1 truncate text-xs text-muted-foreground'
                     title={row.original.attributes.description || undefined}
                 >
-                    {row.original.attributes.description || 'No description'}
+                    {row.original.attributes.description || 'Нет описания'}
                 </p>
             </div>
         ),
@@ -46,7 +46,7 @@ const nodeServerColumns = [
     },
     {
         id: 'owner',
-        header: 'Owner',
+        header: 'Владелец',
         cell: ({ row }) => {
             const owner = relationshipAttributes(row.original.attributes.relationships?.user);
 
@@ -65,7 +65,7 @@ const nodeServerColumns = [
                     </p>
                 </div>
             ) : (
-                <span className='text-sm text-muted-foreground'>User #{row.original.attributes.user}</span>
+                <span className='text-sm text-muted-foreground'>Пользователь #{row.original.attributes.user}</span>
             );
         },
         meta: { headerClassName: 'hidden w-44 @xl:table-cell', cellClassName: 'hidden w-44 @xl:table-cell' },
@@ -122,7 +122,7 @@ const NodeServerList = ({ query, table }: NodeServerListProps) => {
             <div className='space-y-4'>
                 <Alert type='danger'>{httpErrorToHuman(error)}</Alert>
                 <Button.Text type='button' onClick={() => refetch()}>
-                    Retry
+                    Повторить
                 </Button.Text>
             </div>
         );
@@ -143,8 +143,8 @@ const NodeServerList = ({ query, table }: NodeServerListProps) => {
                             <EmptyMedia variant='icon'>
                                 <Server />
                             </EmptyMedia>
-                            <EmptyTitle>No servers</EmptyTitle>
-                            <EmptyDescription>No servers are running on this node yet.</EmptyDescription>
+                            <EmptyTitle>Нет серверов</EmptyTitle>
+                            <EmptyDescription>На этом узле пока не запущено ни одного сервера.</EmptyDescription>
                         </EmptyHeader>
                     </Empty>
                 }
@@ -153,7 +153,7 @@ const NodeServerList = ({ query, table }: NodeServerListProps) => {
                 table={table}
                 total={servers.meta.pagination.total}
                 count={servers.meta.pagination.count}
-                itemLabel='servers'
+                itemLabel='Серверов'
             />
         </>
     );
@@ -194,7 +194,7 @@ export default function NodeServersTab() {
 
     return (
         <div>
-            <TitledGreyBox title='Server List'>
+            <TitledGreyBox title='Список серверов'>
                 <NodeServerList query={query} table={table} />
             </TitledGreyBox>
         </div>

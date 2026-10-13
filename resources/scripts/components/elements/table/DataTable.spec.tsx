@@ -26,7 +26,7 @@ const rows: TestRow[] = [
 
 const noRows: TestRow[] = [];
 
-const columns = [{ accessorKey: 'name', header: 'Name' }] satisfies ColumnDef<TestRow>[];
+const columns = [{ accessorKey: 'name', header: 'Название' }] satisfies ColumnDef<TestRow>[];
 
 const TestTable = ({ total = 3 }: { total?: number }) => {
     const [pagination, setPagination] = useState<PaginationState>({ pageIndex: 0, pageSize: 2 });
@@ -43,15 +43,15 @@ const TestTable = ({ total = 3 }: { total?: number }) => {
 
     return (
         <>
-            <DataTable table={table} emptyState='No rows' />
-            <DataTablePagination table={table} total={total} count={2} itemLabel='servers' />
+            <DataTable table={table} emptyState='Нет записей' />
+            <DataTablePagination table={table} total={total} count={2} itemLabel='Серверы' />
         </>
     );
 };
 
 const mergedColumns = [
-    { accessorKey: 'name', header: 'Name' },
-    { id: 'size', header: 'Size', cell: () => null, meta: { sortColumnIds: ['id'] } },
+    { accessorKey: 'name', header: 'Название' },
+    { id: 'size', header: 'Размер', cell: () => null, meta: { sortColumnIds: ['id'] } },
     { accessorKey: 'id', header: 'ID', enableSorting: true },
 ] satisfies ColumnDef<TestRow>[];
 
@@ -64,57 +64,57 @@ const MergedSortTable = ({ sorting }: { sorting: SortingState }) => {
         state: { sorting, columnVisibility: { id: false } },
     });
 
-    return <DataTable table={table} emptyState='No rows' />;
+    return <DataTable table={table} emptyState='Нет записей' />;
 };
 
 afterEach(cleanup);
 
 describe('DataTable', () => {
-    it('renders semantic headers and rows through the TanStack row model', () => {
+    it('отображает семантические заголовки и строки через модель строк TanStack', () => {
         render(<TestTable />);
 
-        expect(screen.getByRole('columnheader', { name: 'Name' })).toBeInTheDocument();
+        expect(screen.getByRole('columnheader', { name: 'Название' })).toBeInTheDocument();
         expect(screen.getByRole('cell', { name: 'Alpha' })).toBeInTheDocument();
         expect(screen.getByRole('cell', { name: 'Bravo' })).toBeInTheDocument();
     });
 
-    it('drives controlled manual pagination through the table instance', async () => {
+    it('управляет контролируемой ручной пагинацией через экземпляр таблицы', async () => {
         const user = userEvent.setup();
 
         render(<TestTable />);
 
-        await user.click(screen.getByRole('button', { name: 'Next page' }));
+        await user.click(screen.getByRole('button', { name: 'Следующая страница' }));
 
-        expect(screen.getByLabelText('Page 2 of 2')).toBeInTheDocument();
-        expect(screen.getByLabelText('Showing 3 to 3 of 3 servers')).toBeInTheDocument();
+        expect(screen.getByLabelText('Страница 2 из 2')).toBeInTheDocument();
+        expect(screen.getByLabelText('Серверы: показано 3–3 из 3')).toBeInTheDocument();
     });
 
-    it('only shows the range summary when every row fits on one page', () => {
+    it('показывает только диапазон записей, если все строки помещаются на одной странице', () => {
         render(<TestTable total={2} />);
 
-        expect(screen.getByLabelText('Showing 1 to 2 of 2 servers')).toBeInTheDocument();
-        expect(screen.queryByLabelText('Page 1 of 1')).not.toBeInTheDocument();
+        expect(screen.getByLabelText('Серверы: показано 1–2 из 2')).toBeInTheDocument();
+        expect(screen.queryByLabelText('Страница 1 из 1')).not.toBeInTheDocument();
         expect(screen.queryByRole('button')).not.toBeInTheDocument();
     });
 
-    it('replaces the table with the empty state when there are no rows', () => {
+    it('заменяет таблицу пустым состоянием, если строк нет', () => {
         const EmptyTable = ({ isFetching }: { isFetching?: boolean }) => {
             const table = useReactTable({ data: noRows, columns, getCoreRowModel: getCoreRowModel() });
 
             return (
                 <>
-                    <DataTable table={table} isFetching={isFetching} emptyState={<p>No servers yet</p>} />
-                    <DataTablePagination table={table} total={0} count={0} itemLabel='servers' />
+                    <DataTable table={table} isFetching={isFetching} emptyState={<p>Серверов пока нет</p>} />
+                    <DataTablePagination table={table} total={0} count={0} itemLabel='Серверы' />
                 </>
             );
         };
 
         const { container, rerender } = render(<EmptyTable />);
 
-        expect(screen.getByText('No servers yet')).toBeInTheDocument();
+        expect(screen.getByText('Серверов пока нет')).toBeInTheDocument();
         expect(screen.queryByRole('table')).not.toBeInTheDocument();
         expect(screen.queryByRole('columnheader')).not.toBeInTheDocument();
-        expect(screen.queryByLabelText(/^Showing/)).not.toBeInTheDocument();
+        expect(screen.queryByLabelText(/^Серверы: показано/)).not.toBeInTheDocument();
         expect(container.firstElementChild).toHaveAttribute('aria-busy', 'false');
 
         rerender(<EmptyTable isFetching />);
@@ -122,26 +122,26 @@ describe('DataTable', () => {
         expect(container.firstElementChild).toHaveAttribute('aria-busy', 'true');
     });
 
-    it('renders a plain string empty state as an empty-state description', () => {
+    it('отображает строковое пустое состояние как описание отсутствия записей', () => {
         const StringTable = () => {
             const table = useReactTable({ data: noRows, columns, getCoreRowModel: getCoreRowModel() });
 
-            return <DataTable table={table} emptyState='No rows' />;
+            return <DataTable table={table} emptyState='Нет записей' />;
         };
 
         render(<StringTable />);
 
-        expect(screen.getByText('No rows')).toHaveAttribute('data-slot', 'empty-description');
+        expect(screen.getByText('Нет записей')).toHaveAttribute('data-slot', 'empty-description');
     });
 
-    it('reports the sort state of hidden sort columns on the header that controls them', () => {
+    it('отражает состояние сортировки скрытых столбцов в управляющем ими заголовке', () => {
         const { rerender } = render(<MergedSortTable sorting={[{ id: 'id', desc: true }]} />);
 
-        expect(screen.getByRole('columnheader', { name: 'Size' })).toHaveAttribute('aria-sort', 'descending');
+        expect(screen.getByRole('columnheader', { name: 'Размер' })).toHaveAttribute('aria-sort', 'descending');
         expect(screen.queryByRole('columnheader', { name: 'ID' })).not.toBeInTheDocument();
 
         rerender(<MergedSortTable sorting={[]} />);
 
-        expect(screen.getByRole('columnheader', { name: 'Size' })).not.toHaveAttribute('aria-sort');
+        expect(screen.getByRole('columnheader', { name: 'Размер' })).not.toHaveAttribute('aria-sort');
     });
 });

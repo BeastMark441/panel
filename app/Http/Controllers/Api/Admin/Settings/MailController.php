@@ -18,8 +18,8 @@ use Pterodactyl\Http\Requests\Api\Admin\Settings\UpdateMailSettingsRequest;
 use Pterodactyl\Models\Setting;
 use Pterodactyl\Providers\SettingsServiceProvider;
 
-#[Group('Admin API', 'Root administrator endpoints for managing panel configuration and resources.')]
-#[Subgroup('Settings', 'View and update global panel settings.')]
+#[Group('Админ API', 'Конечные точки для root-администратора, предназначенные для управления конфигурацией панели и ресурсами.')]
+#[Subgroup('Настройки', 'Просмотр и обновление глобальных настроек панели.')]
 class MailController extends AdminApiController
 {
     private const array SMTP_DRIVER_ERROR = [
@@ -27,7 +27,7 @@ class MailController extends AdminApiController
             [
                 'code' => 'DisplayException',
                 'status' => '400',
-                'detail' => 'This feature is only available if SMTP is the selected email driver for the Panel.',
+                'detail' => 'Эта функция доступна только в том случае, если для панели в качестве драйвера электронной почты выбран SMTP.',
             ],
         ],
     ];
@@ -35,12 +35,12 @@ class MailController extends AdminApiController
     /**
      * Update mail settings.
      */
-    #[Endpoint('Update mail settings', 'Updates SMTP mail settings and restarts queued workers so they reload configuration.')]
-    #[ScribeResponse(status: 204, description: 'Mail settings updated.')]
-    #[ScribeResponse(self::SMTP_DRIVER_ERROR, status: 400, description: 'The panel is not configured to use SMTP mail.')]
+    #[Endpoint('Обновить настройки почты', 'Обновляет настройки SMTP-почты и перезапускает воркеров, обрабатывающих очередь, чтобы они перезагрузили конфигурацию.')]
+    #[ScribeResponse(status: 204, description: 'Настройки почты обновлены.')]
+    #[ScribeResponse(self::SMTP_DRIVER_ERROR, status: 400, description: 'Панель не настроена на использование SMTP-почты.')]
     public function __invoke(UpdateMailSettingsRequest $request, Kernel $kernel): Response
     {
-        throw_if(config('mail.default') !== 'smtp', DisplayException::class, 'This feature is only available if SMTP is the selected email driver for the Panel.');
+        throw_if(config('mail.default') !== 'smtp', DisplayException::class, 'Эта функция доступна только в том случае, если для панели в качестве драйвера электронной почты выбран SMTP.');
 
         $values = $request->normalize();
         if (Arr::get($values, 'mail:mailers:smtp:password') === '!e') {
