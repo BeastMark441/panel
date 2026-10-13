@@ -31,7 +31,7 @@ export default function PowerButtons({ className }: PowerButtonProps) {
                     disabled={!connected || status !== 'offline'}
                     onClick={onButtonClick.bind(null, 'start')}
                 >
-                    Start
+                    Запустить
                 </Button>
             </Can>
             <Can action='control.restart'>
@@ -40,7 +40,7 @@ export default function PowerButtons({ className }: PowerButtonProps) {
                     disabled={!connected || !status}
                     onClick={onButtonClick.bind(null, 'restart')}
                 >
-                    Restart
+                    Перезапустить
                 </Button.Text>
             </Can>
             <Can action='control.stop'>
@@ -48,11 +48,11 @@ export default function PowerButtons({ className }: PowerButtonProps) {
                     <Dialog.ConfirmTrigger
                         key='killable'
                         hideCloseIcon
-                        title='Forcibly Stop Process'
-                        confirm='Continue'
+                        title='Принудительная остановка процесса'
+                        confirm='Продолжить'
                         trigger={({ onClick }) => (
                             <Button.Danger className='flex-1' disabled={!connected} onClick={onClick}>
-                                Kill
+                                Прервать
                             </Button.Danger>
                         )}
                         onConfirmed={(event, close) => {
@@ -60,7 +60,7 @@ export default function PowerButtons({ className }: PowerButtonProps) {
                             onButtonClick('kill', event);
                         }}
                     >
-                        Forcibly stopping a server can lead to data corruption.
+                        Принудительная остановка сервера может привести к повреждению данных.
                     </Dialog.ConfirmTrigger>
                 ) : (
                     <Button.Danger
@@ -69,7 +69,7 @@ export default function PowerButtons({ className }: PowerButtonProps) {
                         disabled={!connected || status === 'offline'}
                         onClick={onButtonClick.bind(null, 'stop')}
                     >
-                        Stop
+                        Остановить
                     </Button.Danger>
                 )}
             </Can>

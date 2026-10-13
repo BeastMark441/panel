@@ -24,8 +24,8 @@ const RemoveSubuserButton = ({ subuser }: Props) => {
 
     return (
         <Dialog.ConfirmTrigger
-            title='Delete this subuser?'
-            confirm='Yes, remove subuser'
+            title='Удалить этого субпользователя?'
+            confirm='Да, удалить субпользователя'
             preventExternalClose={loading}
             pending={loading}
             onConfirmed={(_event, close) => doDeletion(close)}
@@ -34,7 +34,7 @@ const RemoveSubuserButton = ({ subuser }: Props) => {
             )}
         >
             <SpinnerOverlay visible={loading} />
-            Are you sure you wish to remove this subuser? They will have all access to this server revoked immediately.
+            Вы действительно хотите удалить этого субпользователя? Он немедленно потеряет весь доступ к этому серверу.
         </Dialog.ConfirmTrigger>
     );
 };

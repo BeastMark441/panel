@@ -16,7 +16,7 @@ export default function ServerActivityLogContainer() {
     );
 
     return (
-        <ServerContentBlock title='Activity Log'>
+        <ServerContentBlock title='Журнал активности'>
             <ActivityLogView
                 data={data}
                 error={error}
@@ -25,7 +25,7 @@ export default function ServerActivityLogContainer() {
                 event={event}
                 user={user}
                 facets={facets}
-                emptyMessage='Actions taken on this server will appear here.'
+                emptyMessage='Действия с этим сервером будут отображаться здесь.'
                 onNavigate={(search: ActivityLogSearch) =>
                     navigate({
                         to: '/server/$id/activity',

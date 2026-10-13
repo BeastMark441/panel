@@ -20,40 +20,40 @@ function resolveConflictState(
 ): ConflictState {
     if (isInstallingStatus(status)) {
         return {
-            title: 'Running Installer',
+            title: 'Идёт установка',
             image: ServerInstallSvg,
-            message: 'Your server should be ready soon, please try again in a few minutes.',
+            message: 'Ваш сервер скоро будет готов. Попробуйте снова через несколько минут.',
         };
     }
 
     if (status === 'suspended') {
         return {
-            title: 'Server Suspended',
+            title: 'Сервер приостановлен',
             image: ServerErrorSvg,
-            message: 'This server is suspended and cannot be accessed.',
+            message: 'Этот сервер приостановлен и недоступен.',
         };
     }
 
     if (isNodeUnderMaintenance) {
         return {
-            title: 'Node under Maintenance',
+            title: 'Узел на технических работах',
             image: ServerErrorSvg,
-            message: 'The node of this server is currently under maintenance.',
+            message: 'Узел этого сервера находится на технических работах.',
         };
     }
 
     if (isTransferring) {
         return {
-            title: 'Transferring',
+            title: 'Перенос',
             image: ServerRestoreSvg,
-            message: 'Your server is being transferred to a new node, please check back later.',
+            message: 'Ваш сервер переносится на новый узел. Загляните позже.',
         };
     }
 
     return {
-        title: 'Restoring from Backup',
+        title: 'Восстановление из резервной копии',
         image: ServerRestoreSvg,
-        message: 'Your server is currently being restored from a backup, please check back in a few minutes.',
+        message: 'Ваш сервер восстанавливается из резервной копии. Загляните через несколько минут.',
     };
 }
 

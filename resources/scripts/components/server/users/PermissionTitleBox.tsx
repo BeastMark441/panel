@@ -31,7 +31,7 @@ const PermissionTitleBox = ({ form, isEditable, title, editablePermissions, clas
                     <p className='text-sm uppercase flex-1'>{title}</p>
                     {canToggleGroup && (
                         <Checkbox
-                            aria-label={`Select all ${title} permissions`}
+                            aria-label={`Выбрать все права группы ${title}`}
                             checked={allChecked}
                             indeterminate={!allChecked && editablePermissions.some((p) => valueSet.has(p))}
                             onChange={onCheckedChange}

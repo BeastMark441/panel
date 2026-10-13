@@ -27,14 +27,16 @@ function ConfigureTwoFactorForm() {
             <DisableTOTPDialog open={visible === 'disable'} onClose={() => setVisible(null)} />
             <p className='text-sm'>
                 {isEnabled
-                    ? 'Two-step verification is currently enabled on your account.'
-                    : 'You do not currently have two-step verification enabled on your account. Click the button below to begin configuring it.'}
+                    ? 'Двухфакторная аутентификация на вашей учётной записи включена.'
+                    : 'Двухфакторная аутентификация на вашей учётной записи не включена. Нажмите кнопку ниже, чтобы настроить её.'}
             </p>
             <div className='mt-6'>
                 {isEnabled ? (
-                    <Button.Danger onClick={() => setVisible('disable')}>Disable Two-Step</Button.Danger>
+                    <Button.Danger onClick={() => setVisible('disable')}>
+                        Отключить двухфакторную аутентификацию
+                    </Button.Danger>
                 ) : (
-                    <Button onClick={() => setVisible('enable')}>Enable Two-Step</Button>
+                    <Button onClick={() => setVisible('enable')}>Включить двухфакторную аутентификацию</Button>
                 )}
             </div>
         </div>

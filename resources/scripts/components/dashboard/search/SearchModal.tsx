@@ -38,7 +38,7 @@ export default function SearchModal({ ...props }: Props) {
     const serverList = servers?.data.slice(0, 5) ?? [];
 
     return (
-        <Dialog title='Search servers' {...props}>
+        <Dialog title='Поиск серверов' {...props}>
             <Form form={form}>
                 <InputSpinner visible={isFetching}>
                     <form.AppField
@@ -47,13 +47,13 @@ export default function SearchModal({ ...props }: Props) {
                             onChange: ({ value }) =>
                                 value.length >= 3 || value.length === 0
                                     ? undefined
-                                    : 'Please enter at least three characters to begin searching.',
+                                    : 'Введите минимум три символа, чтобы начать поиск.',
                         }}
                     >
                         {(field) => (
                             <field.TextField
-                                label='Search term'
-                                description='Enter a server name, uuid, or allocation to begin searching.'
+                                label='Поисковый запрос'
+                                description='Введите название сервера, UUID или выделение, чтобы начать поиск.'
                                 autoFocus
                             />
                         )}
@@ -71,9 +71,9 @@ export default function SearchModal({ ...props }: Props) {
                         <EmptyMedia variant='icon'>
                             <SearchX />
                         </EmptyMedia>
-                        <EmptyTitle>No servers found</EmptyTitle>
+                        <EmptyTitle>Серверы не найдены</EmptyTitle>
                         <EmptyDescription>
-                            No servers match your search. Try a different name or address.
+                            Ни один сервер не соответствует запросу. Попробуйте другое название или адрес.
                         </EmptyDescription>
                     </EmptyHeader>
                 </Empty>

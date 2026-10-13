@@ -257,8 +257,8 @@ it('names a new file in the core dialog before creating it', async () => {
     fireEvent.change(screen.getByLabelText('Buffer'), { target: { value: 'fresh' } });
     fireEvent.click(screen.getByRole('button', { name: 'Custom save' }));
 
-    fireEvent.change(await screen.findByLabelText('File Name'), { target: { value: 'new.txt' } });
-    fireEvent.click(screen.getByRole('button', { name: 'Create File' }));
+    fireEvent.change(await screen.findByLabelText('Название файла'), { target: { value: 'new.txt' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Создать файл' }));
 
     await waitFor(() =>
         expect(screen.getByLabelText('Location')).toHaveTextContent('/server/test-server/files/edit#/config/new.txt')
@@ -287,7 +287,7 @@ it('saves a replaced editor part with the native action', async () => {
     open('/server/test-server/files/edit#/config/app.yml');
 
     fireEvent.change(await screen.findByLabelText('Part buffer'), { target: { value: 'from part' } });
-    fireEvent.click(screen.getByRole('button', { name: 'Save Content' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Сохранить содержимое' }));
 
     await waitFor(() => expect(writes()).toEqual([expect.objectContaining({ body: 'from part' })]));
 });
@@ -306,7 +306,7 @@ it('keeps the page and the buffer when the replacement fails to render', async (
 
     fireEvent.change(await screen.findByLabelText('Buffer'), { target: { value: 'kept' } });
     expect(await screen.findByLabelText('Native buffer')).toHaveValue('kept');
-    fireEvent.click(screen.getByRole('button', { name: 'Save Content' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Сохранить содержимое' }));
 
     await waitFor(() => expect(writes()).toEqual([expect.objectContaining({ body: 'kept' })]));
     expect(loaded.registry.getExtensionStates()[0].error).toContain('editor crashed');

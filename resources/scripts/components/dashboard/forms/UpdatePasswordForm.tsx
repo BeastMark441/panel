@@ -33,28 +33,25 @@ function UpdatePasswordForm() {
                 <form.AppField
                     name='current'
                     validators={{
-                        onChange: ({ value }) =>
-                            value.length >= 1 ? undefined : 'You must provide your current password.',
+                        onChange: ({ value }) => (value.length >= 1 ? undefined : 'Укажите текущий пароль.'),
                     }}
                 >
-                    {(field) => <field.TextField id='current_password' type='password' label='Current Password' />}
+                    {(field) => <field.TextField id='current_password' type='password' label='Текущий пароль' />}
                 </form.AppField>
                 <div className='mt-6'>
                     <form.AppField
                         name='password'
                         validators={{
                             onChange: ({ value }) =>
-                                value.length >= 8
-                                    ? undefined
-                                    : 'Your new password should be at least 8 characters in length.',
+                                value.length >= 8 ? undefined : 'Новый пароль должен быть не короче 8 символов.',
                         }}
                     >
                         {(field) => (
                             <field.TextField
                                 id='new_password'
                                 type='password'
-                                label='New Password'
-                                description='Your new password should be at least 8 characters in length and unique to this website.'
+                                label='Новый пароль'
+                                description='Новый пароль должен быть не короче 8 символов и уникальным для этого сайта.'
                             />
                         )}
                     </form.AppField>
@@ -67,17 +64,21 @@ function UpdatePasswordForm() {
                             onChange: ({ value, fieldApi }) =>
                                 value === fieldApi.form.getFieldValue('password')
                                     ? undefined
-                                    : 'Password confirmation does not match the password you entered.',
+                                    : 'Подтверждение пароля не совпадает с введённым паролем.',
                         }}
                     >
                         {(field) => (
-                            <field.TextField id='confirm_new_password' type='password' label='Confirm New Password' />
+                            <field.TextField
+                                id='confirm_new_password'
+                                type='password'
+                                label='Подтверждение нового пароля'
+                            />
                         )}
                     </form.AppField>
                 </div>
                 <div className='mt-6'>
                     <form.AppForm>
-                        <form.SubmitButton disabled={updatePassword.isPending}>Update Password</form.SubmitButton>
+                        <form.SubmitButton disabled={updatePassword.isPending}>Сменить пароль</form.SubmitButton>
                     </form.AppForm>
                 </div>
             </Form>

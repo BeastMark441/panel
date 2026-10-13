@@ -153,7 +153,7 @@ const NodeServerList = ({ query, table }: NodeServerListProps) => {
                 table={table}
                 total={servers.meta.pagination.total}
                 count={servers.meta.pagination.count}
-                itemLabel='Серверов'
+                itemLabel='Серверы'
             />
         </>
     );

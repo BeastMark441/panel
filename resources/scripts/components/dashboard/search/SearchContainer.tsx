@@ -24,10 +24,10 @@ export default function SearchContainer({ className }: Props) {
     return (
         <>
             {searchDialog.open && <SearchModal open={searchDialog.open} onClose={searchDialog.hide} />}
-            <Tooltip placement='bottom' content='Search'>
+            <Tooltip placement='bottom' content='Поиск'>
                 <button
                     type='button'
-                    aria-label='Search'
+                    aria-label='Поиск'
                     className={cn('navigation-link', className)}
                     onClick={searchDialog.show}
                 >

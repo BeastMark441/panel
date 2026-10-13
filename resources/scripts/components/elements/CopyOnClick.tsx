@@ -36,10 +36,10 @@ const interactiveTypes = new Set<React.ReactElement['type']>([
 
 const copyStatusMessage = (status: CopyStatus, text: CopyOnClickProps['text'], showInNotification: boolean): string => {
     if (status === 'failed') {
-        return 'Unable to copy text to clipboard.';
+        return 'Не удалось скопировать текст в буфер обмена.';
     }
 
-    return showInNotification ? `Copied "${String(text)}" to clipboard.` : 'Copied text to clipboard.';
+    return showInNotification ? `Скопировано в буфер обмена: «${String(text)}»` : 'Скопировано в буфер обмена.';
 };
 
 /** Copies `text` when its single child is clicked; a non-interactive child becomes a focusable button. */

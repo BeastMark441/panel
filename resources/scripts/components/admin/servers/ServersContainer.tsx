@@ -174,7 +174,7 @@ export default function ServersContainer() {
                         table={table}
                         total={servers.meta.pagination.total}
                         count={servers.meta.pagination.count}
-                        itemLabel='Серверов'
+                        itemLabel='Серверы'
                     />
                 </>
             ) : (

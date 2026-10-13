@@ -40,28 +40,24 @@ function CreateApiKeyForm() {
                         name='description'
                         validators={{
                             onChange: ({ value }) =>
-                                value.length >= 4
-                                    ? undefined
-                                    : 'A description of at least 4 characters must be provided.',
+                                value.length >= 4 ? undefined : 'Укажите описание длиной не менее 4 символов.',
                         }}
                     >
-                        {(field) => (
-                            <field.TextField label='Description' description='A description of this API key.' />
-                        )}
+                        {(field) => <field.TextField label='Описание' description='Описание этого API-ключа.' />}
                     </form.AppField>
                 </div>
                 <form.AppField name='allowedIps'>
                     {(field) => (
                         <field.TextAreaField
-                            label='Allowed IPs'
+                            label='Разрешённые IP-адреса'
                             rows={6}
-                            description='Leave blank to allow any IP address to use this API key, otherwise provide each IP address on a new line.'
+                            description='Оставьте поле пустым, чтобы разрешить использование этого API-ключа с любого IP-адреса, либо укажите каждый IP-адрес с новой строки.'
                         />
                     )}
                 </form.AppField>
                 <div className='flex justify-end mt-6'>
                     <form.AppForm>
-                        <form.SubmitButton>Create</form.SubmitButton>
+                        <form.SubmitButton>Создать</form.SubmitButton>
                     </form.AppForm>
                 </div>
             </Form>

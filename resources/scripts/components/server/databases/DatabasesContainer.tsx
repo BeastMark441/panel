@@ -17,7 +17,7 @@ import { usePermissions } from '@/plugins/usePermissions';
 
 const databaseUsage = (canCreate: boolean, limit: number, count: number): string | null => {
     if (canCreate && limit > 0 && count > 0) {
-        return `${count} of ${limit} databases have been allocated to this server.`;
+        return `Для этого сервера выделено ${count} из ${limit} баз данных.`;
     }
 
     return null;
@@ -29,11 +29,11 @@ const DatabasesEmptyState = ({ databaseLimit, canAddDatabase }: { databaseLimit:
             <EmptyMedia variant='icon'>
                 <Database />
             </EmptyMedia>
-            <EmptyTitle>No databases</EmptyTitle>
+            <EmptyTitle>Нет баз данных</EmptyTitle>
             <EmptyDescription>
                 {databaseLimit > 0
-                    ? "This server doesn't have any databases yet."
-                    : "Databases can't be created because this server's database limit is 0."}
+                    ? 'У этого сервера пока нет баз данных.'
+                    : 'Создать базы данных нельзя, так как лимит для этого сервера равен 0.'}
             </EmptyDescription>
         </EmptyHeader>
         {canAddDatabase && (
@@ -66,7 +66,7 @@ const DatabasesContainer = () => {
     const usage = databaseUsage(canCreate, databaseLimit, databases.length);
 
     return (
-        <ServerContentBlock title='Databases'>
+        <ServerContentBlock title='Базы данных'>
             {!databases.length && isLoading ? (
                 <Spinner size='large' centered />
             ) : (

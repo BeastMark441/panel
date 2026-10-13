@@ -29,9 +29,9 @@ const AllocationNotesCell = ({ allocation }: { allocation: ServerAllocation }) =
     return (
         <InputSpinner visible={updateAllocationNotes.isPending}>
             <TextArea
-                aria-label={`Notes for ${allocation.attributes.ip}:${allocation.attributes.port}`}
+                aria-label={`Заметка к ${allocation.attributes.ip}:${allocation.attributes.port}`}
                 className='min-h-9 resize-y bg-input hover:border-input border-transparent'
-                placeholder='Notes'
+                placeholder='Заметки'
                 defaultValue={allocation.attributes.notes || undefined}
                 onChange={(event) => setAllocationNotes(event.currentTarget.value)}
                 onBlur={setAllocationNotes.flush}
@@ -48,7 +48,7 @@ const AllocationActionsCell = ({ allocation }: { allocation: ServerAllocation })
     if (attributes.is_default) {
         return (
             <span className='inline-flex rounded-full bg-primary px-2 py-1 text-xs font-medium text-primary-foreground'>
-                Primary
+                Основной
             </span>
         );
     }
@@ -61,7 +61,7 @@ const AllocationActionsCell = ({ allocation }: { allocation: ServerAllocation })
                     disabled={setPrimaryAllocation.isPending}
                     onClick={() => setPrimaryAllocation.mutate(setPrimaryAllocationInput(uuid, attributes.id))}
                 >
-                    Make Primary
+                    Сделать основным
                 </Button.Text>
             </Can>
             <Can action='allocation.delete'>
@@ -75,7 +75,7 @@ export const allocationColumns: ColumnDef<ServerAllocation>[] = [
     {
         id: 'address',
         accessorFn: (allocation) => allocation.attributes.ip_alias || ip(allocation.attributes.ip),
-        header: ({ column }) => <DataTableColumnHeader column={column} title='Address' />,
+        header: ({ column }) => <DataTableColumnHeader column={column} title='Адрес' />,
         cell: ({ row }) => {
             const address = row.original.attributes.ip_alias || ip(row.original.attributes.ip);
 
@@ -91,14 +91,14 @@ export const allocationColumns: ColumnDef<ServerAllocation>[] = [
     {
         id: 'port',
         accessorFn: (allocation) => allocation.attributes.port,
-        header: ({ column }) => <DataTableColumnHeader column={column} title='Port' />,
+        header: ({ column }) => <DataTableColumnHeader column={column} title='Порт' />,
         cell: ({ getValue }) => <Code dark>{getValue<number>()}</Code>,
         meta: { headerClassName: 'w-24', cellClassName: 'w-24' },
     },
     {
         id: 'notes',
         accessorFn: (allocation) => allocation.attributes.notes ?? '',
-        header: 'Notes',
+        header: 'Заметки',
         cell: ({ row }) => <AllocationNotesCell allocation={row.original} />,
         enableSorting: false,
         meta: { headerClassName: 'hidden md:table-cell', cellClassName: 'hidden md:table-cell min-w-56' },

@@ -50,7 +50,7 @@ describe('RowActions', () => {
 
         await user.hover(screen.getByRole('button', { name: 'Edit Alpha' }));
         await waitFor(() =>
-            expect(screen.getAllByRole('tooltip').map((tooltip) => tooltip.textContent)).toContain('Edit')
+            expect(screen.getAllByRole('tooltip').map((tooltip) => tooltip.textContent)).toContain('Изменить')
         );
     });
 
@@ -119,7 +119,7 @@ describe('actionsColumn', () => {
         render(<Table />);
 
         expect(columns[1]!.enableSorting).toBe(false);
-        expect(screen.getByRole('columnheader', { name: 'Actions' })).toBeInTheDocument();
+        expect(screen.getByRole('columnheader', { name: 'Действия' })).toBeInTheDocument();
         expect(screen.getByRole('button', { name: 'Edit Alpha' })).toBeInTheDocument();
     });
 });

@@ -64,7 +64,7 @@ const LoginContainer = () => {
     const isSubmitting = useStore(form.store, (state) => state.isSubmitting) || loginMutation.isPending;
 
     return (
-        <LoginFormContainer form={form} title='Войдите, чтобы Продолжить' className='w-full flex'>
+        <LoginFormContainer form={form} title='Войдите, чтобы продолжить' className='w-full flex'>
             <form.AppField
                 name='username'
                 validators={{
@@ -78,7 +78,7 @@ const LoginContainer = () => {
                     <field.TextField
                         light
                         type='text'
-                        label='Имя пользователя или Электронная почта'
+                        label='Имя пользователя или электронная почта'
                         disabled={isSubmitting}
                     />
                 )}

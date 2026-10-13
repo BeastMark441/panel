@@ -47,16 +47,16 @@ const NetworkContainer = () => {
 
     const canManage = canCreate && allocationLimit > 0;
     const canAddAllocation = canManage && allocationLimit > allocations.length;
-    const newAllocationButton = <NewButton onClick={onCreateAllocation}>New allocation</NewButton>;
+    const newAllocationButton = <NewButton onClick={onCreateAllocation}>Новое выделение</NewButton>;
 
     return (
-        <ServerContentBlock title='Network'>
+        <ServerContentBlock title='Сеть'>
             {data ? (
                 <>
                     <SpinnerOverlay visible={createAllocation.isPending} />
                     {canManage && (
                         <ListToolbar
-                            summary={`You are currently using ${allocations.length} of ${allocationLimit} allowed allocations for this server.`}
+                            summary={`Для этого сервера использовано ${allocations.length} из ${allocationLimit} разрешённых выделений.`}
                         >
                             {canAddAllocation && newAllocationButton}
                         </ListToolbar>
@@ -69,9 +69,9 @@ const NetworkContainer = () => {
                                     <EmptyMedia variant='icon'>
                                         <Network />
                                     </EmptyMedia>
-                                    <EmptyTitle>No allocations</EmptyTitle>
+                                    <EmptyTitle>Нет выделений</EmptyTitle>
                                     <EmptyDescription>
-                                        This server doesn&apos;t have any network allocations assigned.
+                                        Этому серверу не назначено ни одного сетевого выделения.
                                     </EmptyDescription>
                                 </EmptyHeader>
                                 {canAddAllocation && <EmptyContent>{newAllocationButton}</EmptyContent>}

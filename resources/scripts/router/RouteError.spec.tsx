@@ -72,7 +72,7 @@ it('shows the access screen for forbidden responses and route guards', async () 
     mount(() => {
         throw httpError(403);
     });
-    expect(await screen.findByText('Access Denied')).toBeVisible();
+    expect(await screen.findByText('Доступ запрещён')).toBeVisible();
     cleanup();
 
     mount(() => {
@@ -86,7 +86,7 @@ it('shows the not found screen for missing resources', async () => {
         throw httpError(404);
     });
 
-    expect(await screen.findByText('The requested resource was not found.')).toBeVisible();
+    expect(await screen.findByText('Запрошенный ресурс не найден.')).toBeVisible();
 });
 
 it('retries other failures by reloading the route', async () => {

@@ -207,5 +207,5 @@ it('reports unsaved changes above the native file editor', () => {
 
     render(<FileEditor {...host.props} />, { wrapper: host.Wrapper });
     expect(screen.getByRole('status').textContent).toBe('server.properties has unsaved changes.');
-    expect(screen.getByRole('button', { name: 'Save Content' })).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Сохранить содержимое' })).toBeTruthy();
 });

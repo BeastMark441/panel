@@ -17,7 +17,7 @@ interface Props {
 
 const TotpQrCode = ({ failed, imageUrlData }: { failed: boolean; imageUrlData: string | undefined }) => {
     if (failed) {
-        return <span className='text-sm text-muted-foreground text-center'>Unable to load QR code.</span>;
+        return <span className='text-sm text-muted-foreground text-center'>Не удалось загрузить QR-код.</span>;
     }
 
     if (imageUrlData === undefined) {
@@ -66,20 +66,20 @@ const ConfigureTwoFactorForm = ({
             </div>
             <CopyOnClick text={token?.secret}>
                 <p className='font-mono text-sm text-foreground text-center mt-2'>
-                    {secretGroups?.join(' ') || 'Loading...'}
+                    {secretGroups?.join(' ') || 'Загрузка...'}
                 </p>
             </CopyOnClick>
             {error && !isFetching && (
                 <div className='mt-4 space-y-3'>
                     <Alert type='danger'>{httpErrorToHuman(error)}</Alert>
                     <Button.Text type='button' onClick={() => refetch()}>
-                        Retry
+                        Повторить
                     </Button.Text>
                 </div>
             )}
             <p id='totp-code-description' className='mt-6'>
-                Scan the QR code above using the two-step authentication app of your choice. Then, enter the 6-digit
-                code generated into the field below.
+                Отсканируйте QR-код с помощью приложения для двухфакторной аутентификации. Затем введите 6-значный код в
+                поле ниже.
             </p>
             <TextInput
                 aria-labelledby='totp-code-description'
@@ -93,7 +93,7 @@ const ConfigureTwoFactorForm = ({
                 pattern='[0-9]{6}'
             />
             <label htmlFor='totp-password' className='block mt-3'>
-                Account Password
+                Пароль учётной записи
             </label>
             <TextInput
                 className='mt-1'
@@ -102,14 +102,10 @@ const ConfigureTwoFactorForm = ({
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.currentTarget.value)}
             />
             <Dialog.Footer>
-                <Button.Text onClick={onClose}>Cancel</Button.Text>
+                <Button.Text onClick={onClose}>Отмена</Button.Text>
                 <Tooltip
                     disabled={password.length > 0 && value.length === 6}
-                    content={
-                        token
-                            ? 'You must enter the 6-digit code and your password to continue.'
-                            : 'Waiting for QR code to load...'
-                    }
+                    content={token ? 'Для продолжения введите 6-значный код и пароль.' : 'Ожидание загрузки QR-кода...'}
                     delay={100}
                 >
                     <Button
@@ -118,7 +114,7 @@ const ConfigureTwoFactorForm = ({
                         type='submit'
                         form='enable-totp-form'
                     >
-                        Enable
+                        Включить
                     </Button>
                 </Tooltip>
             </Dialog.Footer>
@@ -135,8 +131,8 @@ export default function SetupTOTPDialog({ enabled, onClose, onTokens, open }: Pr
             onClose={onClose}
             preventExternalClose={enableTwoFactor.isPending}
             hideCloseIcon={enableTwoFactor.isPending}
-            title='Enable Two-Step Verification'
-            description="Help protect your account from unauthorized access. You'll be prompted for a verification code each time you sign in."
+            title='Включение двухфакторной аутентификации'
+            description='Защитите учётную запись от несанкционированного доступа. При каждом входе будет запрашиваться код подтверждения.'
         >
             <ConfigureTwoFactorForm
                 enabled={enabled}

@@ -1,7 +1,7 @@
 const INSTALLING_STATUSES: ReadonlySet<string> = new Set(['installing', 'install_failed', 'reinstall_failed']);
 
 export const SKIPPED_INSTALL_SCRIPT_MESSAGE =
-    "This server is configured to skip its egg's install script. Reinstalling is not available until that setting is disabled.";
+    'Этот сервер настроен так, чтобы пропускать скрипт установки шаблона (Egg). Переустановка недоступна, пока эта настройка не будет отключена.';
 
 export const isInstallingStatus = (status: string | null): boolean =>
     status !== null && INSTALLING_STATUSES.has(status);

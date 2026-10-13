@@ -12,7 +12,7 @@ const NewTaskButton = ({ schedule, className }: Props) => (
     <Dialog.Trigger
         trigger={({ onClick }) => (
             <NewButton onClick={onClick} className={className}>
-                New task
+                Новая задача
             </NewButton>
         )}
     >

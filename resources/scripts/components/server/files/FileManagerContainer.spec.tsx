@@ -202,12 +202,12 @@ it('composes native parts and keeps the native browser when the replacement fail
         'href',
         '/server/test-server/files/edit#/config/b.txt'
     );
-    expect(screen.getByRole('button', { name: 'New file' })).toBeVisible();
+    expect(screen.getByRole('button', { name: 'Новый файл' })).toBeVisible();
     expect(screen.getByText('Custom selection')).toBeVisible();
 
     fireEvent.click(screen.getAllByRole('checkbox')[0]);
 
-    expect(await screen.findByRole('button', { name: 'Archive' })).toBeVisible();
+    expect(await screen.findByRole('button', { name: 'Архивировать' })).toBeVisible();
     expect(screen.queryByText('Custom selection')).not.toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'plugins' })).toBeVisible();
     expect(registry.getExtensionStates()[0].error).toContain('browser crashed');
@@ -252,7 +252,7 @@ it('re-renders no file row when the selection changes', async () => {
 
     fireEvent.click(within(row).getByRole('checkbox'));
 
-    expect(await screen.findByRole('button', { name: 'Archive' })).toBeVisible();
+    expect(await screen.findByRole('button', { name: 'Архивировать' })).toBeVisible();
     expect(within(row).getByRole('checkbox')).toHaveAttribute('aria-checked', 'true');
     expect(rowRenders).toEqual(before);
 });
@@ -262,16 +262,16 @@ it('removes a file deleted from its row menu from the selection', async () => {
     const row = (await screen.findByRole('link', { name: 'b.txt' })).parentElement!;
 
     fireEvent.click(within(row).getByRole('checkbox'));
-    expect(await screen.findByRole('button', { name: 'Archive' })).toBeVisible();
+    expect(await screen.findByRole('button', { name: 'Архивировать' })).toBeVisible();
 
-    fireEvent.click(within(row).getByRole('button', { name: 'Open file options' }));
-    fireEvent.click(await screen.findByRole('menuitem', { name: /Delete/ }));
+    fireEvent.click(within(row).getByRole('button', { name: 'Действия с файлом' }));
+    fireEvent.click(await screen.findByRole('menuitem', { name: /Удалить/ }));
     const dialog = await screen.findByRole('dialog');
 
-    fireEvent.click(within(dialog).getByRole('button', { name: 'Delete' }));
+    fireEvent.click(within(dialog).getByRole('button', { name: 'Удалить' }));
 
     await waitFor(() => expect(deletes()).toHaveLength(1));
     expect(JSON.parse(String(deletes()[0].body))).toEqual({ root: '/config', files: ['b.txt'] });
-    await waitFor(() => expect(screen.queryByRole('button', { name: 'Archive' })).not.toBeInTheDocument());
+    await waitFor(() => expect(screen.queryByRole('button', { name: 'Архивировать' })).not.toBeInTheDocument());
     expect(screen.queryByRole('link', { name: 'b.txt' })).not.toBeInTheDocument();
 });

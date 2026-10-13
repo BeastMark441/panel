@@ -8,14 +8,14 @@ export default function UptimeDuration({ uptime }: { uptime: number }) {
     if (days > 0) {
         return (
             <>
-                {days}d {hours}h {minutes}m
+                {days}д {hours}ч {minutes}м
             </>
         );
     }
 
     return (
         <>
-            {hours}h {minutes}m {seconds}s
+            {hours}ч {minutes}м {seconds}с
         </>
     );
 }

@@ -100,8 +100,8 @@ const EditScheduleForm = ({ schedule, onClose }: Props & { onClose: () => void }
             <form.AppField name='name'>
                 {(field) => (
                     <field.TextField
-                        label='Schedule name'
-                        description='A human readable identifier for this schedule.'
+                        label='Название расписания'
+                        description='Понятное для человека название этого расписания.'
                     />
                 )}
             </form.AppField>
@@ -112,20 +112,20 @@ const EditScheduleForm = ({ schedule, onClose }: Props & { onClose: () => void }
                     '[&_input]:text-center [&_input]:font-mono'
                 }
             >
-                <form.AppField name='minute'>{(field) => <field.TextField label='Minute' />}</form.AppField>
-                <form.AppField name='hour'>{(field) => <field.TextField label='Hour' />}</form.AppField>
-                <form.AppField name='dayOfMonth'>{(field) => <field.TextField label='Day of month' />}</form.AppField>
-                <form.AppField name='month'>{(field) => <field.TextField label='Month' />}</form.AppField>
-                <form.AppField name='dayOfWeek'>{(field) => <field.TextField label='Day of week' />}</form.AppField>
+                <form.AppField name='minute'>{(field) => <field.TextField label='Минута' />}</form.AppField>
+                <form.AppField name='hour'>{(field) => <field.TextField label='Час' />}</form.AppField>
+                <form.AppField name='dayOfMonth'>{(field) => <field.TextField label='День месяца' />}</form.AppField>
+                <form.AppField name='month'>{(field) => <field.TextField label='Месяц' />}</form.AppField>
+                <form.AppField name='dayOfWeek'>{(field) => <field.TextField label='День недели' />}</form.AppField>
             </div>
             <p className='text-muted-foreground text-xs mt-2'>
-                The schedule system supports the use of Cronjob syntax when defining when tasks should begin running.
-                Use the fields above to specify when these tasks should begin running.
+                Система расписаний поддерживает синтаксис cron для определения момента запуска задач. Используйте поля
+                выше, чтобы указать, когда задачи должны начать выполняться.
             </p>
             <div className='mt-6 bg-card border border-border shadow-inner p-4 rounded-sm'>
                 <Switch
-                    label='Show Cheatsheet'
-                    description='Show the cron cheatsheet for some examples.'
+                    label='Показать шпаргалку'
+                    description='Показать шпаргалку по cron с примерами.'
                     checked={showCheatsheet}
                     onChange={() => setShowCheetsheet((s) => !s)}
                 />
@@ -135,8 +135,8 @@ const EditScheduleForm = ({ schedule, onClose }: Props & { onClose: () => void }
                 <form.AppField name='onlyWhenOnline'>
                     {(field) => (
                         <field.SwitchField
-                            description='Only execute this schedule when the server is in a running state.'
-                            label='Only When Server Is Online'
+                            description='Выполнять это расписание только тогда, когда сервер работает.'
+                            label='Только когда сервер в сети'
                         />
                     )}
                 </form.AppField>
@@ -145,8 +145,8 @@ const EditScheduleForm = ({ schedule, onClose }: Props & { onClose: () => void }
                 <form.AppField name='enabled'>
                     {(field) => (
                         <field.SwitchField
-                            description='This schedule will be executed automatically if enabled.'
-                            label='Schedule Enabled'
+                            description='Это расписание будет автоматически выполняться, если оно включено.'
+                            label='Расписание активно'
                         />
                     )}
                 </form.AppField>
@@ -154,7 +154,7 @@ const EditScheduleForm = ({ schedule, onClose }: Props & { onClose: () => void }
             <div className='mt-6 text-right'>
                 <form.AppForm>
                     <form.SubmitButton className='w-full sm:w-auto'>
-                        {schedule ? 'Save changes' : 'Create schedule'}
+                        {schedule ? 'Сохранить изменения' : 'Создать расписание'}
                     </form.SubmitButton>
                 </form.AppForm>
             </div>
@@ -164,7 +164,11 @@ const EditScheduleForm = ({ schedule, onClose }: Props & { onClose: () => void }
 
 export default function EditScheduleModal({ open, onClose, ...props }: Props & DialogProps) {
     return (
-        <Dialog open={open} title={props.schedule ? 'Edit schedule' : 'Create schedule'} onClose={onClose}>
+        <Dialog
+            open={open}
+            title={props.schedule ? 'Редактирование расписания' : 'Создание расписания'}
+            onClose={onClose}
+        >
             <EditScheduleForm {...props} onClose={onClose} />
         </Dialog>
     );

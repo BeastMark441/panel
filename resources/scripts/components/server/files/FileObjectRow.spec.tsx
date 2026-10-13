@@ -81,7 +81,7 @@ it('preserves the core file link checkbox and menu when details are replaced', a
     );
     fireEvent.click(screen.getByRole('checkbox'));
     expect(screen.getByRole('checkbox')).toHaveAttribute('aria-checked', 'true');
-    expect(screen.getByRole('button', { name: 'Open file options' })).toBeVisible();
+    expect(screen.getByRole('button', { name: 'Действия с файлом' })).toBeVisible();
 });
 it('does not expose a core edit link without file-content permission', async () => {
     registry.prepareExtensions([{ id: 'details', entry: '/details.js', components: ['server.files.details'] }]);
@@ -114,6 +114,6 @@ it('restores native details after a renderer failure with core controls intact',
     renderRow();
     expect(await screen.findByText('config.json')).toBeVisible();
     expect(screen.getByRole('link', { name: 'config.json' })).toBeVisible();
-    expect(screen.getByRole('button', { name: 'Open file options' })).toBeVisible();
+    expect(screen.getByRole('button', { name: 'Действия с файлом' })).toBeVisible();
     expect(registry.getExtensionStates().find((state) => state.id === 'details')?.error).toContain('bad details');
 });

@@ -21,8 +21,8 @@ function RecoveryTokensDialog({ tokens, open, onClose }: RecoveryTokenDialogProp
         <Dialog
             open={open}
             onClose={onClose}
-            title='Two-Step Authentication Enabled'
-            description='Store the codes below somewhere safe. If you lose access to your phone you can use these backup codes to sign in.'
+            title='Двухфакторная аутентификация включена'
+            description='Сохраните коды ниже в надёжном месте. Если вы потеряете доступ к телефону, сможете войти с помощью этих кодов восстановления.'
             hideCloseIcon
             preventExternalClose
         >
@@ -40,10 +40,10 @@ function RecoveryTokensDialog({ tokens, open, onClose }: RecoveryTokenDialogProp
                 </pre>
             </CopyOnClick>
             <Alert type='danger' className='mt-3'>
-                These codes will not be shown again.
+                Эти коды не будут показаны повторно.
             </Alert>
             <Dialog.Footer>
-                <Button.Text onClick={onClose}>Done</Button.Text>
+                <Button.Text onClick={onClose}>Готово</Button.Text>
             </Dialog.Footer>
         </Dialog>
     );

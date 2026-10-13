@@ -28,7 +28,7 @@ const AllPermissionsButton = ({ form, editablePermissions, disabled = false }: P
     return (
         <div className='flex items-center gap-2 text-sm'>
             <Checkbox
-                aria-label='Select all permissions'
+                aria-label='Выбрать все права'
                 checked={allSelected}
                 indeterminate={!allSelected && someSelected}
                 disabled={disabled}

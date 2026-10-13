@@ -74,7 +74,7 @@ afterEach(() => {
 
 it('saves the notes as soon as the field loses focus', async () => {
     renderNotes();
-    const field = screen.getByRole('textbox', { name: 'Notes for 10.0.0.1:25565' });
+    const field = screen.getByRole('textbox', { name: 'Заметка к 10.0.0.1:25565' });
 
     fireEvent.change(field, { target: { value: 'Game port' } });
     fireEvent.blur(field);

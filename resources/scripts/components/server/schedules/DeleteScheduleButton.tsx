@@ -26,17 +26,17 @@ const DeleteScheduleButton = ({ scheduleId, onDeleted }: Props) => {
 
     return (
         <Dialog.ConfirmTrigger
-            title='Delete Schedule'
-            confirm='Delete'
+            title='Удаление расписания'
+            confirm='Удалить'
             onConfirmed={(_event, close) => onDelete(close)}
             trigger={({ onClick }) => (
                 <Button.Danger isSecondary className='flex-1 sm:flex-none mr-4 border-transparent' onClick={onClick}>
-                    Delete
+                    Удалить
                 </Button.Danger>
             )}
         >
             <SpinnerOverlay visible={deleteSchedule.isPending} />
-            All tasks will be removed and any running processes will be terminated.
+            Все задачи будут удалены, а запускающиеся процессы будут остановлены.
         </Dialog.ConfirmTrigger>
     );
 };

@@ -149,7 +149,7 @@ export default function MountsContainer() {
                         table={table}
                         total={mounts.meta.pagination.total}
                         count={mounts.meta.pagination.count}
-                        itemLabel='Креплений'
+                        itemLabel='Крепления'
                     />
                 </>
             ) : (

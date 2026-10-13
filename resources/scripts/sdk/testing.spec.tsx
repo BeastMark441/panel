@@ -44,9 +44,9 @@ it('renders an editor replacement around native parts with a fixture model', () 
     render(<Editor {...mounted.props} />, { wrapper: mounted.Wrapper });
 
     expect(screen.getByLabelText('.pteroignore')).toHaveValue('logs/*');
-    expect(screen.getByText(/excluded from backups/)).toBeVisible();
+    expect(screen.getByText(/исключены из резервных копий/)).toBeVisible();
     fireEvent.change(screen.getByLabelText('.pteroignore'), { target: { value: 'cache/*' } });
-    fireEvent.click(screen.getByRole('button', { name: 'Save Content' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Сохранить содержимое' }));
 
     expect(change).toHaveBeenCalledWith('cache/*');
     expect(save).toHaveBeenCalledTimes(1);
@@ -94,8 +94,8 @@ it('renders the native file browser from a fixture model without issuing core qu
         'href',
         '/server/test-server/files#/config/plugins'
     );
-    expect(screen.getByRole('button', { name: 'New file' })).toBeVisible();
-    expect(await screen.findByRole('button', { name: 'Archive' })).toBeVisible();
+    expect(screen.getByRole('button', { name: 'Новый файл' })).toBeVisible();
+    expect(await screen.findByRole('button', { name: 'Архивировать' })).toBeVisible();
 
     fireEvent.click(screen.getAllByRole('checkbox')[0]);
     expect(select).toHaveBeenCalledWith(['plugins', 'app.yml']);

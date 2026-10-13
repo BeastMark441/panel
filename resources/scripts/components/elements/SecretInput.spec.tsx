@@ -23,33 +23,33 @@ beforeEach(() => {
 
 describe('SecretInput', () => {
     it('masks the value until revealed', () => {
-        const { container } = render(<SecretInput value='hunter2' label='Password' />);
+        const { container } = render(<SecretInput value='hunter2' label='Пароль' />);
         const input = container.querySelector('input')!;
 
         expect(input).toHaveAttribute('type', 'password');
 
-        fireEvent.click(screen.getByRole('button', { name: 'Show password' }));
+        fireEvent.click(screen.getByRole('button', { name: 'Показать пароль' }));
         expect(input).toHaveAttribute('type', 'text');
 
-        fireEvent.click(screen.getByRole('button', { name: 'Hide password' }));
+        fireEvent.click(screen.getByRole('button', { name: 'Скрыть пароль' }));
         expect(input).toHaveAttribute('type', 'password');
     });
 
     it('copies the value without revealing it', async () => {
-        const { container } = render(<SecretInput value='hunter2' label='Password' />);
+        const { container } = render(<SecretInput value='hunter2' label='Пароль' />);
 
-        await act(async () => fireEvent.click(screen.getByRole('button', { name: 'Copy password' })));
+        await act(async () => fireEvent.click(screen.getByRole('button', { name: 'Скопировать пароль' })));
 
         expect(clipboard.copy).toHaveBeenCalledTimes(1);
         expect(clipboard.copy).toHaveBeenCalledWith('hunter2');
         expect(container.querySelector('input')).toHaveAttribute('type', 'password');
-        expect(screen.getByRole('status')).toHaveTextContent('Copied text to clipboard.');
+        expect(screen.getByRole('status')).toHaveTextContent('Скопировано в буфер обмена.');
     });
 
     it('disables both actions when there is no value', () => {
-        render(<SecretInput value={undefined} label='Password' />);
+        render(<SecretInput value={undefined} label='Пароль' />);
 
-        expect(screen.getByRole('button', { name: 'Show password' })).toBeDisabled();
-        expect(screen.getByRole('button', { name: 'Copy password' })).toBeDisabled();
+        expect(screen.getByRole('button', { name: 'Показать пароль' })).toBeDisabled();
+        expect(screen.getByRole('button', { name: 'Скопировать пароль' })).toBeDisabled();
     });
 });

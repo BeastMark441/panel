@@ -47,9 +47,9 @@ export default function Console() {
                     role='alert'
                     className='absolute inset-0 z-10 flex flex-col items-center justify-center gap-3 rounded-sm bg-terminal p-4 text-center text-sm text-foreground'
                 >
-                    <p>The console could not be loaded.</p>
+                    <p>Не удалось загрузить консоль.</p>
                     <Button.Text size='small' onClick={retry}>
-                        Try again
+                        Повторить
                     </Button.Text>
                 </div>
             )}
@@ -66,7 +66,7 @@ export default function Console() {
                     <button
                         type='button'
                         onClick={() => terminal.current?.scrollToBottom()}
-                        aria-label='Scroll to bottom'
+                        aria-label='Прокрутить вниз'
                         className={
                             // right-5 clears the scrollbar in the terminal's right gutter.
                             'absolute bottom-3 right-5 z-10 rounded-full bg-popover/90 p-2 text-foreground shadow-lg transition-colors hover:bg-popover'
@@ -81,8 +81,8 @@ export default function Console() {
                     <input
                         className={commandInputClass}
                         type='text'
-                        placeholder='Type a command...'
-                        aria-label='Console command input.'
+                        placeholder='Введите команду...'
+                        aria-label='Ввод команды в консоли.'
                         disabled={!instance || !connected}
                         onKeyDown={handleCommandKeyDown}
                         autoCorrect='off'

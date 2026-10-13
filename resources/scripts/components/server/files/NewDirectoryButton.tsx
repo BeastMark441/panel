@@ -37,14 +37,13 @@ const NewDirectoryDialogContent = ({ onClose }: { onClose: () => void }) => {
                 <form.AppField
                     name='directoryName'
                     validators={{
-                        onChange: ({ value }) =>
-                            value.length >= 1 ? undefined : 'A valid directory name must be provided.',
+                        onChange: ({ value }) => (value.length >= 1 ? undefined : 'Укажите корректное название папки.'),
                     }}
                 >
-                    {(field) => <field.TextField autoFocus id='directoryName' label='Name' />}
+                    {(field) => <field.TextField autoFocus id='directoryName' label='Название' />}
                 </form.AppField>
                 <p className='mt-2 text-sm md:text-base break-all'>
-                    <span className='text-foreground'>This directory will be created as&nbsp;</span>
+                    <span className='text-foreground'>Папка будет создана как&nbsp;</span>
                     <Code>
                         /home/container/
                         <span className='text-accent'>{normalizeServerPath(join(directory, directoryName))}</span>
@@ -53,10 +52,10 @@ const NewDirectoryDialogContent = ({ onClose }: { onClose: () => void }) => {
             </Form>
             <Dialog.Footer>
                 <Button.Text className='w-full sm:w-auto' onClick={onClose}>
-                    Cancel
+                    Отмена
                 </Button.Text>
                 <Button className='w-full sm:w-auto' onClick={() => form.handleSubmit()}>
-                    Create
+                    Создать
                 </Button>
             </Dialog.Footer>
         </>
@@ -68,12 +67,12 @@ export default function NewDirectoryButton({ className }: WithClassname) {
         <Dialog.Trigger
             trigger={({ onClick }) => (
                 <NewButton onClick={onClick} className={className}>
-                    New folder
+                    Новая папка
                 </NewButton>
             )}
         >
             {({ open, onClose }) => (
-                <Dialog open={open} onClose={onClose} title='Create folder'>
+                <Dialog open={open} onClose={onClose} title='Создание папки'>
                     <NewDirectoryDialogContent onClose={onClose} />
                 </Dialog>
             )}

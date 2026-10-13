@@ -8,7 +8,7 @@ import ScheduleCronRow from '@/components/server/schedules/ScheduleCronRow';
 import dayjs from '@/lib/dayjs';
 import { cn } from '@/lib/cn';
 
-const scheduleStatus = (schedule: Schedule): string => {
+const scheduleStatus = (schedule: Schedule): 'processing' | 'active' | 'inactive' => {
     if (schedule.attributes.is_processing) {
         return 'processing';
     }
@@ -16,11 +16,17 @@ const scheduleStatus = (schedule: Schedule): string => {
     return schedule.attributes.is_active ? 'active' : 'inactive';
 };
 
+const scheduleStatusLabel = {
+    processing: 'Выполняется',
+    active: 'Активно',
+    inactive: 'Неактивно',
+} satisfies Record<string, string>;
+
 export const scheduleColumns = (serverId: string): ColumnDef<Schedule>[] => [
     {
         id: 'name',
         accessorFn: (schedule) => schedule.attributes.name,
-        header: ({ column }) => <DataTableColumnHeader column={column} title='Schedule' />,
+        header: ({ column }) => <DataTableColumnHeader column={column} title='Расписание' />,
         cell: ({ row }) => (
             <div className='min-w-40'>
                 <Link
@@ -31,10 +37,10 @@ export const scheduleColumns = (serverId: string): ColumnDef<Schedule>[] => [
                     {row.original.attributes.name}
                 </Link>
                 <p className='mt-0.5 text-xs text-muted-foreground md:hidden'>
-                    Last run{' '}
+                    Последнее выполнение:{' '}
                     {row.original.attributes.last_run_at
                         ? dayjs(row.original.attributes.last_run_at).fromNow()
-                        : 'never'}
+                        : 'никогда'}
                 </p>
             </div>
         ),
@@ -50,12 +56,12 @@ export const scheduleColumns = (serverId: string): ColumnDef<Schedule>[] => [
     {
         id: 'last_run_at',
         accessorFn: (schedule) => schedule.attributes.last_run_at ?? '',
-        header: ({ column }) => <DataTableColumnHeader column={column} title='Last run' />,
+        header: ({ column }) => <DataTableColumnHeader column={column} title='Последнее выполнение' />,
         cell: ({ row }) => (
             <span className='whitespace-nowrap text-xs text-muted-foreground'>
                 {row.original.attributes.last_run_at
                     ? dayjs(row.original.attributes.last_run_at).format('MMM D, YYYY HH:mm')
-                    : 'Never'}
+                    : 'Никогда'}
             </span>
         ),
         meta: { headerClassName: 'hidden md:table-cell w-40', cellClassName: 'hidden md:table-cell w-40' },
@@ -63,18 +69,18 @@ export const scheduleColumns = (serverId: string): ColumnDef<Schedule>[] => [
     {
         id: 'status',
         accessorFn: scheduleStatus,
-        header: ({ column }) => <DataTableColumnHeader column={column} title='Status' />,
+        header: ({ column }) => <DataTableColumnHeader column={column} title='Статус' />,
         cell: ({ getValue }) => {
-            const status = getValue<string>();
+            const status = getValue<'processing' | 'active' | 'inactive'>();
 
             return (
                 <span
                     className={cn(
-                        'inline-flex rounded-full px-2 py-1 text-xs font-medium capitalize',
+                        'inline-flex rounded-full px-2 py-1 text-xs font-medium',
                         status === 'active' ? 'bg-success/90 text-success-foreground' : 'bg-popover text-foreground'
                     )}
                 >
-                    {status}
+                    {scheduleStatusLabel[status] ?? status}
                 </span>
             );
         },
@@ -84,7 +90,7 @@ export const scheduleColumns = (serverId: string): ColumnDef<Schedule>[] => [
         <Can action='schedule.update'>
             <RowActions>
                 <EditLinkAction
-                    aria-label={`Edit ${schedule.attributes.name}`}
+                    aria-label={`Изменить ${schedule.attributes.name}`}
                     to='/server/$id/schedules/$scheduleId'
                     params={{ id: serverId, scheduleId: schedule.attributes.id }}
                 />

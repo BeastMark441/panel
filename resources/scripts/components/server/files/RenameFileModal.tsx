@@ -50,10 +50,10 @@ const RenameFileModal = ({ files, useMoveTerminology, ...props }: OwnProps) => {
                                 <field.TextField
                                     type='string'
                                     id='file_name'
-                                    label='File Name'
+                                    label='Название файла'
                                     description={
                                         useMoveTerminology
-                                            ? 'Enter the new name and directory of this file or folder, relative to the current directory.'
+                                            ? 'Введите новое название и каталог для этого файла или папки относительно текущего каталога.'
                                             : undefined
                                     }
                                     autoFocus
@@ -64,14 +64,14 @@ const RenameFileModal = ({ files, useMoveTerminology, ...props }: OwnProps) => {
                     <div className='w-full sm:w-auto mt-4 sm:mt-0'>
                         <form.AppForm>
                             <form.SubmitButton className='w-full'>
-                                {useMoveTerminology ? 'Move' : 'Rename'}
+                                {useMoveTerminology ? 'Переместить' : 'Переименовать'}
                             </form.SubmitButton>
                         </form.AppForm>
                     </div>
                 </div>
                 {useMoveTerminology && (
                     <p className='text-xs mt-2 text-muted-foreground'>
-                        <strong className='text-foreground'>New location:</strong>
+                        <strong className='text-foreground'>Новое расположение:</strong>
                         &nbsp;/home/container/{join(directory, name).replace(/^(\.\.\/|\/)+/, '')}
                     </p>
                 )}

@@ -154,7 +154,7 @@ export default function ApiKeysContainer() {
                         table={table}
                         total={apiKeys.meta.pagination.total}
                         count={apiKeys.meta.pagination.count}
-                        itemLabel='API-ключией'
+                        itemLabel='API-ключи'
                     />
                 </>
             ) : (

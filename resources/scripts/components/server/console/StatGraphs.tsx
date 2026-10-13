@@ -68,7 +68,7 @@ export default function StatGraphs() {
 
     return (
         <>
-            <ChartBlock title='CPU Load'>
+            <ChartBlock title='Нагрузка CPU'>
                 <AreaChart
                     data={cpuData}
                     series={CPU_SERIES}
@@ -78,7 +78,7 @@ export default function StatGraphs() {
                     tickFormatter={(value) => `${value.toFixed(2)}%`}
                 />
             </ChartBlock>
-            <ChartBlock title='Memory'>
+            <ChartBlock title='Память'>
                 <AreaChart
                     data={memoryData}
                     series={MEMORY_SERIES}
@@ -89,13 +89,13 @@ export default function StatGraphs() {
                 />
             </ChartBlock>
             <ChartBlock
-                title='Network'
+                title='Сеть'
                 legend={
                     <>
-                        <Tooltip arrow content='Inbound'>
+                        <Tooltip arrow content='Входящий трафик'>
                             <CloudDownload className='mr-2 w-4 h-4 text-chart-2' />
                         </Tooltip>
-                        <Tooltip arrow content='Outbound'>
+                        <Tooltip arrow content='Исходящий трафик'>
                             <CloudUpload className='w-4 h-4 text-chart-1' />
                         </Tooltip>
                     </>

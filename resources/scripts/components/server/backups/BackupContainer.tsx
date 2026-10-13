@@ -179,7 +179,7 @@ export default function BackupContainer() {
                 table={table}
                 total={backups.meta.pagination.total}
                 count={backups.meta.pagination.count}
-                itemLabel='Резервных копий'
+                itemLabel='Резервные копии'
             />
         </ServerContentBlock>
     );

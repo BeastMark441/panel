@@ -280,7 +280,7 @@ function DatabaseHostDatabases({ hostId }: { hostId: number }) {
                         table={table}
                         total={databases.meta.pagination.total}
                         count={databases.meta.pagination.count}
-                        itemLabel='Баз данных'
+                        itemLabel='Базы данных'
                     />
                 </>
             ) : (

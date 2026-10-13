@@ -10,8 +10,7 @@ export default function ApiKeyModalContent({ apiKey, onClose }: Props) {
     return (
         <>
             <p className='text-sm mb-6'>
-                The API key you have requested is shown below. Please store this in a safe location, it will not be
-                shown again.
+                Запрошенный вами API-ключ показан ниже. Сохраните его в надёжном месте — он не будет показан повторно.
             </p>
             <pre className='overflow-x-scroll text-sm bg-muted rounded-sm py-2 px-4 font-mono'>
                 <CopyOnClick text={apiKey}>
@@ -20,7 +19,7 @@ export default function ApiKeyModalContent({ apiKey, onClose }: Props) {
             </pre>
             <div className='flex justify-end mt-6'>
                 <Button type='button' onClick={onClose}>
-                    Close
+                    Закрыть
                 </Button>
             </div>
         </>

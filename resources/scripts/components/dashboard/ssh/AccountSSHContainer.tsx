@@ -29,12 +29,12 @@ export default function AccountSSHContainer() {
     }
 
     return (
-        <PageContentBlock title='SSH Keys'>
+        <PageContentBlock title='SSH-ключи'>
             <div className='md:flex flex-nowrap my-10'>
-                <ContentBox title='Add SSH Key' className='flex-none w-full md:w-1/2'>
+                <ContentBox title='Добавление SSH-ключа' className='flex-none w-full md:w-1/2'>
                     <CreateSSHKeyForm />
                 </ContentBox>
-                <ContentBox title='SSH Keys' className='flex-1 overflow-hidden mt-8 md:mt-0 md:ml-8'>
+                <ContentBox title='SSH-ключи' className='flex-1 overflow-hidden mt-8 md:mt-0 md:ml-8'>
                     {data ? (
                         <DataTable
                             table={table}
@@ -44,9 +44,9 @@ export default function AccountSSHContainer() {
                                         <EmptyMedia variant='icon'>
                                             <KeySquare />
                                         </EmptyMedia>
-                                        <EmptyTitle>No SSH keys</EmptyTitle>
+                                        <EmptyTitle>Нет SSH-ключей</EmptyTitle>
                                         <EmptyDescription>
-                                            Add a public key to sign in to SFTP without a password.
+                                            Добавьте публичный ключ, чтобы входить по SFTP без пароля.
                                         </EmptyDescription>
                                     </EmptyHeader>
                                 </Empty>

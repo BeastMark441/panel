@@ -49,7 +49,7 @@ function Toolbar({ model }: PartProps) {
                 <FileManagerBreadcrumbs>
                     <Checkbox
                         className='mx-4'
-                        aria-label='Select all files'
+                        aria-label='Выбрать все файлы'
                         checked={model.entries.length > 0 && model.selection.length === model.entries.length}
                         indeterminate={model.selection.length > 0 && model.selection.length < model.entries.length}
                         onChange={(checked) =>
@@ -67,7 +67,7 @@ function Toolbar({ model }: PartProps) {
                             params={{ id, action: 'new' }}
                             hash={encodePathSegments(model.directory)}
                         >
-                            <NewButton>New file</NewButton>
+                            <NewButton>Новый файл</NewButton>
                         </Link>
                     </div>
                 )}
@@ -91,11 +91,11 @@ function List({ model }: PartProps) {
                     <EmptyMedia variant='icon'>
                         <FolderOpen />
                     </EmptyMedia>
-                    <EmptyTitle>This folder is empty</EmptyTitle>
+                    <EmptyTitle>Эта папка пуста</EmptyTitle>
                     <EmptyDescription>
                         {model.permissions.create
-                            ? 'Upload files or create a new file or folder to get started.'
-                            : 'There are no files in this folder.'}
+                            ? 'Загрузите файлы или создайте новый файл или папку.'
+                            : 'В этой папке нет файлов.'}
                     </EmptyDescription>
                 </EmptyHeader>
             </Empty>
@@ -107,7 +107,7 @@ function List({ model }: PartProps) {
             {model.truncated && (
                 <div className='rounded-sm bg-warning mb-px p-3'>
                     <p className='text-warning-foreground text-sm text-center'>
-                        This directory is too large to display in the browser, limiting output to first 250 files.
+                        Эта директория слишком велика для отображения в браузере, вывод ограничен первыми 250 файлами.
                     </p>
                 </div>
             )}

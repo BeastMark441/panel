@@ -45,12 +45,12 @@ const ChmodFileModal = ({ files, ...props }: OwnProps) => {
                 <div className='flex flex-wrap items-end'>
                     <div className='w-full sm:flex-1 sm:mr-4'>
                         <form.AppField name='mode'>
-                            {(field) => <field.TextField type='string' id='file_mode' label='File Mode' autoFocus />}
+                            {(field) => <field.TextField type='string' id='file_mode' label='Режим файла' autoFocus />}
                         </form.AppField>
                     </div>
                     <div className='w-full sm:w-auto mt-4 sm:mt-0'>
                         <form.AppForm>
-                            <form.SubmitButton className='w-full'>Update</form.SubmitButton>
+                            <form.SubmitButton className='w-full'>Применить</form.SubmitButton>
                         </form.AppForm>
                     </div>
                 </div>

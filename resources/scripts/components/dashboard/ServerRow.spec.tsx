@@ -53,14 +53,14 @@ describe('ServerRow', () => {
     it('shows a maintenance badge instead of loading stats when the node is under maintenance', async () => {
         await renderRow(server({ is_node_under_maintenance: true }));
 
-        expect(screen.getByText('Under Maintenance')).toBeInTheDocument();
+        expect(screen.getByText('Технические работы')).toBeInTheDocument();
         expect(useServerResourceUsage).toHaveBeenCalledWith('d3aac109-e5a0-4331-b03e-3454f7e136dc', false);
     });
 
     it('loads stats for a server on an available node', async () => {
         await renderRow(server({}));
 
-        expect(screen.queryByText('Under Maintenance')).not.toBeInTheDocument();
+        expect(screen.queryByText('Технические работы')).not.toBeInTheDocument();
         expect(useServerResourceUsage).toHaveBeenCalledWith('d3aac109-e5a0-4331-b03e-3454f7e136dc', true);
     });
 });

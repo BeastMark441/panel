@@ -7,7 +7,6 @@ import UptimeDuration from '@/components/server/UptimeDuration';
 import StatBlock, { type StatBlockTone } from '@/components/server/console/StatBlock';
 import useWebsocketEvent from '@/plugins/useWebsocketEvent';
 import { cn } from '@/lib/cn';
-import { capitalize } from '@/lib/strings';
 import { useCurrentServer } from '@/api/server/queries';
 import { relationshipData } from '@/api/relationships';
 import { parseServerStatsPayload } from '@/components/server/console/stats';
@@ -38,14 +37,21 @@ const getUptimeTone = (status: ServerStatus): StatBlockTone | undefined => {
 
 const Uptime = ({ status, uptime }: { status: ServerStatus; uptime: number }) => {
     if (status === null) {
-        return 'Offline';
+        return 'Оффлайн';
     }
 
     if (uptime > 0) {
         return <UptimeDuration uptime={uptime / 1000} />;
     }
 
-    return capitalize(status);
+    const statusLabels = {
+        offline: 'Оффлайн',
+        starting: 'Запуск',
+        stopping: 'Остановка',
+        running: 'Запущен',
+    } satisfies Record<Exclude<ServerStatus, null>, string>;
+
+    return statusLabels[status];
 };
 
 const Limit = ({ limit, children }: { limit: string | null; children: React.ReactNode }) => (
@@ -74,7 +80,7 @@ const ServerDetailsBlock = ({ className }: { className?: string }) => {
     );
     const allocation = defaultAllocation
         ? `${defaultAllocation.attributes.ip_alias || ip(defaultAllocation.attributes.ip)}:${defaultAllocation.attributes.port}`
-        : 'n/a';
+        : '—';
 
     useEffect(() => {
         if (!connected || !instance) {
@@ -103,39 +109,39 @@ const ServerDetailsBlock = ({ className }: { className?: string }) => {
 
     return (
         <div className={cn('grid grid-cols-6 gap-2 md:gap-4', className)}>
-            <StatBlock icon={Wifi} title='Address' copyOnClick={allocation}>
+            <StatBlock icon={Wifi} title='Адрес' copyOnClick={allocation}>
                 {allocation}
             </StatBlock>
-            <StatBlock icon={Clock} title='Uptime' tone={getUptimeTone(status)}>
+            <StatBlock icon={Clock} title='Аптайм' tone={getUptimeTone(status)}>
                 <Uptime status={status} uptime={stats.uptime} />
             </StatBlock>
-            <StatBlock icon={Cpu} title='CPU Load' tone={getTone(stats.cpu, limits.cpu)}>
+            <StatBlock icon={Cpu} title='Нагрузка CPU' tone={getTone(stats.cpu, limits.cpu)}>
                 {status === 'offline' ? (
-                    <span className='text-muted-foreground'>Offline</span>
+                    <span className='text-muted-foreground'>Оффлайн</span>
                 ) : (
                     <Limit limit={textLimits.cpu}>{stats.cpu.toFixed(2)}%</Limit>
                 )}
             </StatBlock>
-            <StatBlock icon={MemoryStick} title='Memory' tone={getTone(stats.memory / 1024, limits.memory * 1024)}>
+            <StatBlock icon={MemoryStick} title='Память' tone={getTone(stats.memory / 1024, limits.memory * 1024)}>
                 {status === 'offline' ? (
-                    <span className='text-muted-foreground'>Offline</span>
+                    <span className='text-muted-foreground'>Оффлайн</span>
                 ) : (
                     <Limit limit={textLimits.memory}>{bytesToString(stats.memory)}</Limit>
                 )}
             </StatBlock>
-            <StatBlock icon={HardDrive} title='Disk' tone={getTone(stats.disk / 1024, limits.disk * 1024)}>
+            <StatBlock icon={HardDrive} title='Диск' tone={getTone(stats.disk / 1024, limits.disk * 1024)}>
                 <Limit limit={textLimits.disk}>{bytesToString(stats.disk)}</Limit>
             </StatBlock>
-            <StatBlock icon={CloudDownload} title='Network (Inbound)'>
+            <StatBlock icon={CloudDownload} title='Сеть (входящая)'>
                 {status === 'offline' ? (
-                    <span className='text-muted-foreground'>Offline</span>
+                    <span className='text-muted-foreground'>Оффлайн</span>
                 ) : (
                     bytesToString(stats.rx)
                 )}
             </StatBlock>
-            <StatBlock icon={CloudUpload} title='Network (Outbound)'>
+            <StatBlock icon={CloudUpload} title='Сеть (исходящая)'>
                 {status === 'offline' ? (
-                    <span className='text-muted-foreground'>Offline</span>
+                    <span className='text-muted-foreground'>Оффлайн</span>
                 ) : (
                     bytesToString(stats.tx)
                 )}

@@ -94,15 +94,15 @@ export function FileRowActionsProvider({ children }: { children: ReactNode }) {
             <Dialog.Confirm
                 open={modal === 'delete'}
                 onClose={close}
-                title={`Delete ${target?.attributes.is_file === false ? 'Directory' : 'File'}`}
-                confirm='Delete'
+                title={target?.attributes.is_file === false ? 'Удаление папки' : 'Удаление файла'}
+                confirm='Удалить'
                 onConfirmed={() => {
                     close();
                     doDeletion();
                 }}
             >
-                You will not be able to recover the contents of&nbsp;
-                <span className='font-semibold text-foreground'>{name}</span> once deleted.
+                После удаления содержимое&nbsp;
+                <span className='font-semibold text-foreground'>{name}</span> будет невозможно восстановить.
             </Dialog.Confirm>
             {target && modal === 'chmod' && (
                 <ChmodFileModal

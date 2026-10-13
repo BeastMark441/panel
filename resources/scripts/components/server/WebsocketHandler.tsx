@@ -18,7 +18,7 @@ const serverErrorToasts = {
 };
 
 const daemonErrorMessage = (message: string) =>
-    message.trim() ? message : 'Wings reported an error without additional details.';
+    message.trim() ? message : 'Wings сообщил об ошибке без дополнительных деталей.';
 
 const serverStatuses = new Set<ServerStatus>(['offline', 'starting', 'stopping', 'running', null]);
 const isServerStatus = (value: string): value is NonNullable<ServerStatus> => serverStatuses.has(value as ServerStatus);
@@ -52,7 +52,9 @@ export default function WebsocketHandler() {
             })
             .catch((error) => {
                 if (activeSocket.current === socket && activeUuid.current === uuid) {
-                    notifyHttpError(error, 'Failed to refresh server connection', { id: serverErrorToasts.token });
+                    notifyHttpError(error, 'Не удалось обновить соединение с сервером', {
+                        id: serverErrorToasts.token,
+                    });
                 }
             })
             .finally(() => {
@@ -75,10 +77,10 @@ export default function WebsocketHandler() {
             socket.on('SOCKET_CLOSE', () => setConnectionState(false));
             socket.on('SOCKET_CONNECT_ERROR', () => {
                 setReconnecting(false);
-                notifyServerError('Server connection failed', {
+                notifyServerError('Соединение с сервером не установлено', {
                     id: serverErrorToasts.connection,
                     description:
-                        'Failed to connect to the websocket after multiple attempts. Reconnecting resumes once your network or this tab is active again.',
+                        'Не удалось подключиться к websocket после нескольких попыток. Повторное подключение начнётся, когда сеть или эта вкладка снова станут активны.',
                 });
             });
             socket.on('SOCKET_RECONNECT', () => {
@@ -97,7 +99,7 @@ export default function WebsocketHandler() {
 
             socket.on('daemon error', (message) => {
                 console.warn('Got error message from daemon socket:', message);
-                notifyServerError('Server reported an error', {
+                notifyServerError('Сервер сообщил об ошибке', {
                     id: serverErrorToasts.daemon,
                     description: daemonErrorMessage(message),
                 });
@@ -113,10 +115,9 @@ export default function WebsocketHandler() {
                     updateToken(uuid, socket);
                 } else {
                     setReconnecting(false);
-                    notifyServerError('Server connection rejected', {
+                    notifyServerError('Соединение с сервером отклонено', {
                         id: serverErrorToasts.jwt,
-                        description:
-                            'There was an error validating the credentials provided for the websocket. Please refresh the page.',
+                        description: 'Ошибка проверки учётных данных для websocket. Обновите страницу.',
                     });
                 }
             });
@@ -157,7 +158,7 @@ export default function WebsocketHandler() {
                 }
 
                 setReconnecting(false);
-                notifyHttpError(error, 'Failed to start server connection', { id: serverErrorToasts.token });
+                notifyHttpError(error, 'Не удалось установить соединение с сервером', { id: serverErrorToasts.token });
             });
 
         return () => {
@@ -181,7 +182,7 @@ export default function WebsocketHandler() {
             <ContentContainer className='flex items-center justify-center'>
                 <Spinner size='small' />
                 <p className='ml-2 text-sm text-destructive-foreground'>
-                    We&apos;re having some trouble connecting to your server, please wait...
+                    Не удаётся подключиться к вашему серверу. Подождите...
                 </p>
             </ContentContainer>
         </div>

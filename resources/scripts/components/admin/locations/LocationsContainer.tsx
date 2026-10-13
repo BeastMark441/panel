@@ -155,7 +155,7 @@ export default function LocationsContainer() {
                         table={table}
                         total={locations.meta.pagination.total}
                         count={locations.meta.pagination.count}
-                        itemLabel='Локаций'
+                        itemLabel='Локации'
                     />
                 </>
             ) : (

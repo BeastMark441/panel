@@ -38,8 +38,8 @@ const ScreenBlock = ({ title, image, message, onBack, onRetry }: ScreenBlockProp
                 {(onBack ?? onRetry) && (
                     <div className='absolute left-0 top-0 ml-4 mt-4'>
                         <ActionButton
-                            aria-label={onRetry ? 'Retry' : 'Go back'}
-                            title={onRetry ? 'Retry' : 'Go back'}
+                            aria-label={onRetry ? 'Повторить' : 'Назад'}
+                            title={onRetry ? 'Повторить' : 'Назад'}
                             onClick={() => (onRetry ?? onBack)?.()}
                             className={onRetry ? 'hover:animate-[spin_2s_linear_infinite]' : undefined}
                         >
@@ -59,7 +59,7 @@ type ServerErrorProps = (Omit<PropsWithBack, 'image' | 'title'> | Omit<PropsWith
     title?: string;
 };
 
-const ServerError = ({ title = 'Something went wrong', message, onBack, onRetry }: ServerErrorProps) =>
+const ServerError = ({ title = 'Что-то пошло не так', message, onBack, onRetry }: ServerErrorProps) =>
     onRetry ? (
         <ScreenBlock title={title} image={ServerErrorSvg} message={message} onRetry={onRetry} />
     ) : (
@@ -67,14 +67,14 @@ const ServerError = ({ title = 'Something went wrong', message, onBack, onRetry 
     );
 
 const AccessDenied = ({ message }: Pick<BaseProps, 'message'>) => (
-    <ScreenBlock title='Access Denied' image={ServerErrorSvg} message={message} />
+    <ScreenBlock title='Доступ запрещён' image={ServerErrorSvg} message={message} />
 );
 
 const NotFound = ({ title, message, onBack }: Partial<Pick<ScreenBlockProps, 'title' | 'message' | 'onBack'>>) => (
     <ScreenBlock
         title={title || '404'}
         image={NotFoundSvg}
-        message={message || 'The requested resource was not found.'}
+        message={message || 'Запрошенный ресурс не найден.'}
         onBack={onBack}
     />
 );

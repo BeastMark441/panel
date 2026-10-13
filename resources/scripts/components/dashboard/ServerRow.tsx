@@ -131,7 +131,10 @@ export default function ServerRow({ server, className }: { server: AccountServer
                         resetKey={attributes.uuid}
                         props={{ model, Default: DefaultServerCard, parts: serverCardParts }}
                         loading={
-                            <div className='h-12 animate-pulse rounded-sm bg-muted' aria-label='Loading server card' />
+                            <div
+                                className='h-12 animate-pulse rounded-sm bg-muted'
+                                aria-label='Загрузка карточки сервера'
+                            />
                         }
                     />
                 </ServerCardContext.Provider>

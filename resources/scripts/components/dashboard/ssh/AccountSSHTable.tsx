@@ -9,7 +9,7 @@ export const accountSshColumns: ColumnDef<SSHKey>[] = [
     {
         id: 'name',
         accessorFn: (key) => key.attributes.name,
-        header: ({ column }) => <DataTableColumnHeader column={column} title='Name' />,
+        header: ({ column }) => <DataTableColumnHeader column={column} title='Название' />,
         cell: ({ row }) => (
             <div className='min-w-40'>
                 <p className='truncate font-medium'>{row.original.attributes.name}</p>
@@ -22,7 +22,7 @@ export const accountSshColumns: ColumnDef<SSHKey>[] = [
     {
         id: 'fingerprint',
         accessorFn: (key) => key.attributes.fingerprint,
-        header: ({ column }) => <DataTableColumnHeader column={column} title='Fingerprint' />,
+        header: ({ column }) => <DataTableColumnHeader column={column} title='Отпечаток' />,
         cell: ({ row }) => (
             <code className='font-mono text-xs text-muted-foreground'>
                 SHA256:{row.original.attributes.fingerprint}
@@ -33,7 +33,7 @@ export const accountSshColumns: ColumnDef<SSHKey>[] = [
     {
         id: 'created_at',
         accessorFn: (key) => key.attributes.created_at,
-        header: ({ column }) => <DataTableColumnHeader column={column} title='Added' />,
+        header: ({ column }) => <DataTableColumnHeader column={column} title='Добавлен' />,
         cell: ({ row }) => (
             <time
                 dateTime={row.original.attributes.created_at}

@@ -48,7 +48,7 @@ const MassActionsBar = ({ selectedFiles }: { selectedFiles: readonly string[] })
                     {selectedFiles.length > 0 && (
                         <div className='flex items-center space-x-4 pointer-events-auto rounded-sm p-4 bg-background/50'>
                             {extensionData && <Slot name='server.files.selectionActions' data={extensionData} />}
-                            <Dialog.Trigger trigger={({ onClick }) => <Button onClick={onClick}>Move</Button>}>
+                            <Dialog.Trigger trigger={({ onClick }) => <Button onClick={onClick}>Переместить</Button>}>
                                 {({ open, onClose }) =>
                                     open && (
                                         <RenameFileModal
@@ -60,27 +60,27 @@ const MassActionsBar = ({ selectedFiles }: { selectedFiles: readonly string[] })
                                     )
                                 }
                             </Dialog.Trigger>
-                            <Button onClick={onClickCompress}>Archive</Button>
+                            <Button onClick={onClickCompress}>Архивировать</Button>
                             <Dialog.ConfirmTrigger
-                                title='Delete Files'
-                                confirm='Delete'
+                                title='Удаление файлов'
+                                confirm='Удалить'
                                 trigger={({ onClick }) => (
                                     <Button.Danger isSecondary onClick={onClick}>
-                                        Delete
+                                        Удалить
                                     </Button.Danger>
                                 )}
                                 onConfirmed={(_event, close) => onClickConfirmDeletion(close)}
                             >
                                 <p className='mb-2'>
-                                    Are you sure you want to delete&nbsp;
-                                    <span className='font-semibold text-foreground'>{selectedFiles.length} files</span>?
-                                    This is a permanent action and the files cannot be recovered.
+                                    Вы уверены, что хотите удалить выбранные файлы (всего:&nbsp;
+                                    <span className='font-semibold text-foreground'>{selectedFiles.length}</span>)? Это
+                                    действие необратимо, восстановить файлы будет невозможно.
                                 </p>
                                 <ul className='mt-2 mb-0 pl-6 list-disc list-outside'>
                                     {selectedFiles.slice(0, 15).map((file) => (
                                         <li key={file}>{file}</li>
                                     ))}
-                                    {selectedFiles.length > 15 && <li>and {selectedFiles.length - 15} others</li>}
+                                    {selectedFiles.length > 15 && <li>и ещё {selectedFiles.length - 15}</li>}
                                 </ul>
                             </Dialog.ConfirmTrigger>
                         </div>

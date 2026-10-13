@@ -72,7 +72,7 @@ describe('NodeTable', () => {
         expect(screen.queryByRole('columnheader', { name: 'Memory' })).not.toBeInTheDocument();
         expect(screen.getByRole('columnheader', { name: /Memory.*Disk/ })).toHaveAttribute('aria-sort', 'descending');
 
-        await user.click(screen.getByRole('button', { name: 'Sort Disk descending' }));
+        await user.click(screen.getByRole('button', { name: 'Сортировать «Disk» по убыванию' }));
 
         expect(onSortingChange).toHaveBeenCalledWith([{ id: 'disk', desc: true }]);
     });

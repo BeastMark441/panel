@@ -14,22 +14,22 @@ export default function CreateSubuserContainer() {
     const permissions = permissionsResponse?.attributes.permissions;
 
     return (
-        <ServerContentBlock title='Create Subuser'>
+        <ServerContentBlock title='Создание субпользователя'>
             <Link
                 to='/server/$id/users'
                 params={{ id }}
                 className='inline-flex items-center text-sm text-muted-foreground hover:text-foreground mb-4'
             >
                 <Icon icon={ArrowLeft} className='mr-2' />
-                Back to Users
+                К списку пользователей
             </Link>
             {!permissions || !Object.keys(permissions).length ? (
                 <Spinner size='large' centered />
             ) : (
                 <SubuserForm
                     onSaved={(subuser) => {
-                        toast.success('Subuser invited', {
-                            description: `${subuser.attributes.email} has been invited.`,
+                        toast.success('Субпользователь приглашён', {
+                            description: `${subuser.attributes.email} приглашён.`,
                         });
                         void navigate({ to: '/server/$id/users', params: { id } });
                     }}

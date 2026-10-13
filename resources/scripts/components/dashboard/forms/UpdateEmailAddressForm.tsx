@@ -34,25 +34,29 @@ function UpdateEmailAddressForm() {
                     name='email'
                     validators={{
                         onChange: ({ value }) =>
-                            isEmail(value) ? undefined : 'A valid email address must be provided.',
+                            isEmail(value) ? undefined : 'Укажите действительный адрес электронной почты.',
                     }}
                 >
-                    {(field) => <field.TextField id='current_email' type='email' label='Email' />}
+                    {(field) => <field.TextField id='current_email' type='email' label='Электронная почта' />}
                 </form.AppField>
                 <div className='mt-6'>
                     <form.AppField
                         name='password'
                         validators={{
                             onChange: ({ value }) =>
-                                value.length >= 1 ? undefined : 'You must provide your current account password.',
+                                value.length >= 1 ? undefined : 'Укажите пароль от вашей учётной записи.',
                         }}
                     >
-                        {(field) => <field.TextField id='confirm_password' type='password' label='Confirm Password' />}
+                        {(field) => (
+                            <field.TextField id='confirm_password' type='password' label='Подтверждение пароля' />
+                        )}
                     </form.AppField>
                 </div>
                 <div className='mt-6'>
                     <form.AppForm>
-                        <form.SubmitButton disabled={updateEmail.isPending}>Update Email</form.SubmitButton>
+                        <form.SubmitButton disabled={updateEmail.isPending}>
+                            Сменить электронную почту
+                        </form.SubmitButton>
                     </form.AppForm>
                 </div>
             </Form>

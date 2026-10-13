@@ -34,11 +34,11 @@ function Notice({ model }: PartProps) {
     return model.name.endsWith('.pteroignore') ? (
         <div className='mb-4 p-4 border-l-4 bg-muted rounded-sm border-accent'>
             <p className='text-muted-foreground text-sm'>
-                You&apos;re editing a <code className='font-mono bg-muted rounded-sm py-px px-1'>.pteroignore</code>{' '}
-                file. Any files or directories listed in here will be excluded from backups. Wildcards are supported by
-                using an asterisk (<code className='font-mono bg-muted rounded-sm py-px px-1'>*</code>
-                ). You can negate a prior rule by prepending an exclamation point (
-                <code className='font-mono bg-muted rounded-sm py-px px-1'>!</code>).
+                Вы редактируете файл <code className='font-mono bg-muted rounded-sm py-px px-1'>.pteroignore</code>{' '}
+                Файлы и директории, перечисленные здесь, будут исключены из резервных копий. Поддерживаются
+                подстановочные знаки с помощью звёздочки (
+                <code className='font-mono bg-muted rounded-sm py-px px-1'>*</code>). Правило можно отменить, добавив в
+                начало восклицательный знак (<code className='font-mono bg-muted rounded-sm py-px px-1'>!</code>).
             </p>
         </div>
     ) : null;
@@ -86,7 +86,7 @@ function Actions({ model }: PartProps) {
             isLoading={model.saving}
             onClick={() => void model.save()}
         >
-            {model.isNew ? 'Create File' : 'Save Content'}
+            {model.isNew ? 'Создать файл' : 'Сохранить содержимое'}
         </Button>
     );
 }

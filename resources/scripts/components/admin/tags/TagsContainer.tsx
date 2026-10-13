@@ -152,7 +152,7 @@ export default function TagsContainer() {
                         table={table}
                         total={tags.meta.pagination.total}
                         count={tags.meta.pagination.count}
-                        itemLabel='Тегов'
+                        itemLabel='Теги'
                     />
                 </>
             ) : (

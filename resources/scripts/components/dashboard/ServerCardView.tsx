@@ -48,13 +48,13 @@ function Address({ model }: PartProps) {
 }
 
 const unavailableLabels = {
-    suspended: 'Suspended',
-    'connection-error': 'Connection Error',
-    maintenance: 'Under Maintenance',
-    transferring: 'Transferring',
-    installing: 'Installing',
-    'restoring-backup': 'Restoring Backup',
-    unavailable: 'Unavailable',
+    suspended: 'Приостановлен',
+    'connection-error': 'Ошибка подключения',
+    maintenance: 'Технические работы',
+    transferring: 'Перенос',
+    installing: 'Установка',
+    'restoring-backup': 'Восстановление из резервной копии',
+    unavailable: 'Недоступен',
 } as const;
 
 const unavailableBadgeColors = {
@@ -96,21 +96,21 @@ function MetricsContent({ state }: { state: ServerCardState }) {
                     icon: Cpu,
                     metric: state.cpu,
                     value: `${state.cpu.value.toFixed(2)} %`,
-                    limit: state.cpu.limit === 0 ? 'Unlimited' : `${state.cpu.limit} %`,
+                    limit: state.cpu.limit === 0 ? 'Без ограничений' : `${state.cpu.limit} %`,
                 },
                 {
                     id: 'memory',
                     icon: MemoryStick,
                     metric: state.memory,
                     value: bytesToString(state.memory.value),
-                    limit: state.memory.limit === 0 ? 'Unlimited' : bytesToString(state.memory.limit),
+                    limit: state.memory.limit === 0 ? 'Без ограничений' : bytesToString(state.memory.limit),
                 },
                 {
                     id: 'disk',
                     icon: HardDrive,
                     metric: state.disk,
                     value: bytesToString(state.disk.value),
-                    limit: state.disk.limit === 0 ? 'Unlimited' : bytesToString(state.disk.limit),
+                    limit: state.disk.limit === 0 ? 'Без ограничений' : bytesToString(state.disk.limit),
                 },
             ].map(({ id, icon, metric, value, limit }) => (
                 <div className='flex-1 ml-4 sm:block hidden' key={id}>
@@ -118,7 +118,7 @@ function MetricsContent({ state }: { state: ServerCardState }) {
                         <ServerRowMetricIcon icon={icon} $alarm={metric.alarm} />
                         <ServerRowMetricDescription $alarm={metric.alarm}>{value}</ServerRowMetricDescription>
                     </div>
-                    <p className='text-xs text-muted-foreground text-center mt-1'>of {limit}</p>
+                    <p className='text-xs text-muted-foreground text-center mt-1'>из {limit}</p>
                 </div>
             ))}
         </>

@@ -54,7 +54,7 @@ const FileUploadList = ({ onClose }: { onClose: () => void }) => {
                     <Code className='flex-1 truncate'>{file.name}</Code>
                     <button
                         type='button'
-                        aria-label={`Cancel upload of ${file.name}`}
+                        aria-label={`Отменить загрузку ${file.name}`}
                         onClick={() => cancelFileUpload(id)}
                         className='text-muted-foreground hover:text-foreground transition-colors duration-75'
                     >
@@ -64,9 +64,9 @@ const FileUploadList = ({ onClose }: { onClose: () => void }) => {
             ))}
             <Dialog.Footer>
                 <Button.Danger isSecondary onClick={() => clearFileUploads()}>
-                    Cancel Uploads
+                    Отменить загрузку
                 </Button.Danger>
-                <Button.Text onClick={onClose}>Close</Button.Text>
+                <Button.Text onClick={onClose}>Закрыть</Button.Text>
             </Dialog.Footer>
         </div>
     );
@@ -88,7 +88,7 @@ export default function FileManagerStatus() {
     return (
         <Dialog.Trigger
             trigger={({ onClick }) => (
-                <Tooltip content={`${count} files are uploading, click to view`}>
+                <Tooltip content={`Загрузка файлов: ${count}. Нажмите, чтобы посмотреть.`}>
                     <button type='button' className='flex items-center justify-center w-10 h-10' onClick={onClick}>
                         <Spinner progress={percent(uploaded, total)} className='w-8 h-8' />
                         <CloudUpload className='h-3 absolute mx-auto animate-pulse' />
@@ -100,8 +100,8 @@ export default function FileManagerStatus() {
                 <Dialog
                     open={open}
                     onClose={onClose}
-                    title='File Uploads'
-                    description='The following files are being uploaded to your server.'
+                    title='Загрузка файлов'
+                    description='Следующие файлы загружаются на ваш сервер.'
                 >
                     <FileUploadList onClose={onClose} />
                 </Dialog>

@@ -65,16 +65,16 @@ function DashboardContainerContent() {
     }
 
     return (
-        <PageContentBlock title='Dashboard'>
+        <PageContentBlock title='Дашборд'>
             <PageHeading
-                title='Servers'
+                title='Серверы'
                 className='mb-4'
                 actions={
                     rootAdmin && (
                         <Switch
                             checked={showOnlyAdmin}
                             onChange={toggleShowOnlyAdmin}
-                            label={showOnlyAdmin ? "Showing others' servers" : 'Showing your servers'}
+                            label={showOnlyAdmin ? 'Показаны серверы других пользователей' : 'Показаны ваши серверы'}
                             controlPosition='end'
                             className='gap-2'
                         />
@@ -99,16 +99,18 @@ function DashboardContainerContent() {
                                     <EmptyMedia variant='icon'>
                                         <Server />
                                     </EmptyMedia>
-                                    <EmptyTitle>{showOnlyAdmin ? 'No other servers' : 'No servers yet'}</EmptyTitle>
+                                    <EmptyTitle>
+                                        {showOnlyAdmin ? 'Нет серверов других пользователей' : 'Пока нет серверов'}
+                                    </EmptyTitle>
                                     <EmptyDescription>
                                         {showOnlyAdmin
-                                            ? 'There are no servers owned by other users.'
-                                            : 'Servers you own or are invited to will appear here.'}
+                                            ? 'Серверы, принадлежащие другим пользователям, будут отображаться здесь.'
+                                            : 'Здесь появятся серверы, которыми вы владеете или к которым вас пригласили.'}
                                     </EmptyDescription>
                                 </EmptyHeader>
                                 {rootAdmin && (
                                     <EmptyContent>
-                                        <NewLinkButton to='/panel/servers/new'>New server</NewLinkButton>
+                                        <NewLinkButton to='/panel/servers/new'>Новый сервер</NewLinkButton>
                                     </EmptyContent>
                                 )}
                             </Empty>

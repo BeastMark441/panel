@@ -31,39 +31,39 @@ export default function FileActionItems({
     return (
         <>
             <Can action='file.update'>
-                <DropdownMenuItem onClick={onRename} icon={Pencil} description='Change item name'>
-                    Rename
+                <DropdownMenuItem onClick={onRename} icon={Pencil} description='Изменить название'>
+                    Переименовать
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={onMove} icon={CornerLeftUp} description='Move to a path'>
-                    Move
+                <DropdownMenuItem onClick={onMove} icon={CornerLeftUp} description='Переместить в путь'>
+                    Переместить
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={onChmod} icon={FileCode} description='Edit mode bits'>
-                    Permissions
+                <DropdownMenuItem onClick={onChmod} icon={FileCode} description='Изменить права доступа'>
+                    Права доступа
                 </DropdownMenuItem>
             </Can>
             {attributes.is_file && (
                 <Can action='file.create'>
-                    <DropdownMenuItem onClick={onCopy} icon={Copy} description='Duplicate in place'>
-                        Copy
+                    <DropdownMenuItem onClick={onCopy} icon={Copy} description='Дублировать на месте'>
+                        Копировать
                     </DropdownMenuItem>
                 </Can>
             )}
             {isFileObjectArchiveType(file) ? (
                 <Can action={['file.create', 'file.update']}>
-                    <DropdownMenuItem onClick={onUnarchive} icon={PackageOpen} description='Extract contents'>
-                        Unarchive
+                    <DropdownMenuItem onClick={onUnarchive} icon={PackageOpen} description='Извлечь содержимое'>
+                        Распаковать
                     </DropdownMenuItem>
                 </Can>
             ) : (
                 <Can action='file.archive'>
-                    <DropdownMenuItem onClick={onArchive} icon={FileArchive} description='Compress item'>
-                        Archive
+                    <DropdownMenuItem onClick={onArchive} icon={FileArchive} description='Сжать в архив'>
+                        Архивировать
                     </DropdownMenuItem>
                 </Can>
             )}
             {attributes.is_file && (
-                <DropdownMenuItem onClick={onDownload} icon={FileDown} description='Save locally'>
-                    Download
+                <DropdownMenuItem onClick={onDownload} icon={FileDown} description='Сохранить локально'>
+                    Скачать
                 </DropdownMenuItem>
             )}
             <Can action='file.delete'>
@@ -71,10 +71,10 @@ export default function FileActionItems({
                     onClick={onDelete}
                     icon={Trash2}
                     danger
-                    description='Permanently remove'
+                    description='Удалить безвозвратно'
                     className='mt-1 border-t border-border/70 pt-3'
                 >
-                    Delete
+                    Удалить
                 </DropdownMenuItem>
             </Can>
         </>

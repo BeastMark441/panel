@@ -65,7 +65,7 @@ export default function UploadButton({ className }: WithClassname) {
                             <div className='flex items-center space-x-4 bg-muted w-full ring-4 ring-ring/50 rounded-sm p-6 mx-10 max-w-sm'>
                                 <CloudUpload className='w-10 h-10 shrink-0' />
                                 <p className='font-header flex-1 text-lg text-foreground text-center'>
-                                    Drag and drop files to upload.
+                                    Перетащите файлы для загрузки.
                                 </p>
                             </div>
                         </div>
@@ -76,7 +76,7 @@ export default function UploadButton({ className }: WithClassname) {
                 type='file'
                 ref={fileUploadInput}
                 className='hidden'
-                aria-label='Upload files'
+                aria-label='Загрузить файлы'
                 onChange={(e) => {
                     if (!e.currentTarget.files) {
                         return;
@@ -92,7 +92,7 @@ export default function UploadButton({ className }: WithClassname) {
                 className={className}
                 onClick={() => fileUploadInput.current && fileUploadInput.current.click()}
             >
-                Upload
+                Загрузить
             </NewButton>
         </>
     );

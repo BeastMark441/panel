@@ -13,7 +13,7 @@ type ConfirmationProps = Omit<RenderDialogProps, 'children'> & {
 };
 
 export default function ConfirmationDialog({
-    confirm = 'Okay',
+    confirm = 'OK',
     pending = false,
     children,
     onConfirmed,
@@ -39,7 +39,7 @@ export default function ConfirmationDialog({
             {children}
             <DialogFooter>
                 <Button.Text type='button' disabled={pending} onClick={props.onClose}>
-                    Cancel
+                    Отмена
                 </Button.Text>
                 <Button.Danger
                     type='button'

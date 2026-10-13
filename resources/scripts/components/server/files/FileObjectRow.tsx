@@ -103,7 +103,7 @@ const FileObjectRow = ({ file }: { file: FileObject }) => {
                         loading={
                             <div
                                 className='h-5 w-full animate-pulse rounded-sm bg-muted'
-                                aria-label='Loading file details'
+                                aria-label='Загрузка сведений о файле'
                             />
                         }
                     />
@@ -115,7 +115,7 @@ const FileObjectRow = ({ file }: { file: FileObject }) => {
                 triggerContent={
                     <>
                         <Icon icon={MoreHorizontal} className='h-4 w-4' />
-                        <span className='sr-only'>Open file options</span>
+                        <span className='sr-only'>Действия с файлом</span>
                     </>
                 }
             >

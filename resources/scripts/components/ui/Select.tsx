@@ -113,7 +113,7 @@ const createOption = (text: string, options: SelectOption[]): SelectOption | nul
         return null;
     }
 
-    return { value: createValue, label: `Create "${query}"`, textLabel: query };
+    return { value: createValue, label: `Создать «${query}»`, textLabel: query };
 };
 
 const sameValue = (left: SelectValue, right: SelectValue): boolean => Object.is(left, right);
@@ -407,7 +407,7 @@ function MultiSelectCombobox({
                     {(value: SelectOption[]) => (
                         <>
                             {value.length > 0 && (
-                                <ComboboxSelectionSummary>{`${value.length} selected`}</ComboboxSelectionSummary>
+                                <ComboboxSelectionSummary>{`Выбрано: ${value.length}`}</ComboboxSelectionSummary>
                             )}
                             <ComboboxInput
                                 {...inputAria}
@@ -420,7 +420,7 @@ function MultiSelectCombobox({
                         </>
                     )}
                 </Combobox.Value>
-                <ComboboxTrigger aria-label='Open popup'>
+                <ComboboxTrigger aria-label='Открыть список'>
                     <ChevronIcon />
                 </ComboboxTrigger>
             </ComboboxInputGroup>
@@ -501,7 +501,7 @@ function SingleSelectCombobox({
                     onFocus={search.handleFocus}
                     onBlur={search.handleBlur}
                 />
-                <ComboboxTrigger aria-label='Open popup'>
+                <ComboboxTrigger aria-label='Открыть список'>
                     <ChevronIcon />
                 </ComboboxTrigger>
             </ComboboxInputGroup>
@@ -517,8 +517,8 @@ export default function Select(props: SelectProps) {
         groups,
         disabled,
         placeholder,
-        searchPlaceholder = 'Search...',
-        emptyMessage = 'No results found.',
+        searchPlaceholder = 'Поиск...',
+        emptyMessage = 'Ничего не найдено.',
         hasError,
         onBlur,
         onSearchChange,

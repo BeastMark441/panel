@@ -4,7 +4,7 @@ import { NewLinkButton } from '@/components/elements/NewButton';
 const AddSubuserButton = () => {
     const { id } = useParams({ strict: false });
 
-    return <NewLinkButton to={`/server/${id}/users/new`}>New user</NewLinkButton>;
+    return <NewLinkButton to={`/server/${id}/users/new`}>Новый пользователь</NewLinkButton>;
 };
 
 export default AddSubuserButton;

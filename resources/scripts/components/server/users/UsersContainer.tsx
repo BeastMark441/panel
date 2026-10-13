@@ -30,9 +30,9 @@ const UsersEmptyState = ({ canCreate }: { canCreate: boolean }) => (
             <EmptyMedia variant='icon'>
                 <Users />
             </EmptyMedia>
-            <EmptyTitle>No subusers</EmptyTitle>
+            <EmptyTitle>Нет субпользователей</EmptyTitle>
             <EmptyDescription>
-                Add users to give them access to this server with the permissions you choose.
+                Добавьте пользователей, чтобы выдать им доступ к этому серверу с выбранными правами.
             </EmptyDescription>
         </EmptyHeader>
         {canCreate && (
@@ -78,7 +78,7 @@ const UsersContainer = () => {
     }
 
     return (
-        <ServerContentBlock title='Users'>
+        <ServerContentBlock title='Пользователи'>
             {canCreate && (
                 <ListToolbar>
                     <AddSubuserButton />

@@ -401,7 +401,7 @@ const AllocationList = ({ query, paginationTable, showPagination, onBlockDelete 
                     table={paginationTable}
                     total={allocations.meta.pagination.total}
                     count={allocations.meta.pagination.count}
-                    itemLabel='allocations'
+                    itemLabel='Выделения'
                     className='mt-0 border-t border-border px-3 py-2'
                 />
             )}

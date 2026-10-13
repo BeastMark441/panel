@@ -30,7 +30,7 @@ export default function DataTablePagination<TData extends RowData>({
     table,
     total,
     count,
-    itemLabel = 'записи',
+    itemLabel = 'Записи',
     className,
 }: Props<TData>) {
     const { pageIndex, pageSize } = table.getState().pagination;

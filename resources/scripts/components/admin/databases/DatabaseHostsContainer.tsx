@@ -160,7 +160,7 @@ export default function DatabaseHostsContainer() {
                         table={table}
                         total={hosts.meta.pagination.total}
                         count={hosts.meta.pagination.count}
-                        itemLabel='Хостов баз данных'
+                        itemLabel='Хосты баз данных'
                     />
                 </>
             ) : (

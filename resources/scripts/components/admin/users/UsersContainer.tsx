@@ -155,7 +155,7 @@ export default function UsersContainer() {
                         table={table}
                         total={users.meta.pagination.total}
                         count={users.meta.pagination.count}
-                        itemLabel='Пользователей'
+                        itemLabel='Пользователи'
                     />
                 </>
             ) : (

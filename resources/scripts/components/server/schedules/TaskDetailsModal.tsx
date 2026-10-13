@@ -27,15 +27,15 @@ interface TaskFormValues {
 
 const validateTimeOffset = (value: number | null): string | undefined => {
     if (value === null) {
-        return 'A time offset must be provided.';
+        return 'Укажите временной сдвиг.';
     }
 
     if (value < 0) {
-        return 'The time offset must be at least 0 seconds.';
+        return 'Временной сдвиг должен составлять не менее 0 секунд.';
     }
 
     if (value > 900) {
-        return 'The time offset must be less than 900 seconds.';
+        return 'Временной сдвиг должен быть меньше 900 секунд.';
     }
 
     return undefined;
@@ -65,7 +65,9 @@ const TaskDetailsForm = ({ schedule, task, onClose }: Props & { onClose: () => v
         onSubmit: async ({ value }) => {
             setFormError(null);
             if (backupLimit === 0 && value.action === 'backup') {
-                setFormError("A backup task cannot be created when the server's backup limit is set to 0.");
+                setFormError(
+                    'Нельзя создать задачу резервного копирования, если лимит резервных копий сервера установлен в 0.'
+                );
 
                 return;
             }
@@ -96,9 +98,7 @@ const TaskDetailsForm = ({ schedule, task, onClose }: Props & { onClose: () => v
     const payloadValidators = {
         onChangeListenTo: ['action' as const],
         onChange: ({ value }: { value: string }) =>
-            form.getFieldValue('action') !== 'command' || value.length > 0
-                ? undefined
-                : 'A task payload must be provided.',
+            form.getFieldValue('action') !== 'command' || value.length > 0 ? undefined : 'Укажите данные задачи.',
     };
     const setPayloadForAction = (nextAction: Action) => {
         if (nextAction === initialAction) {
@@ -122,11 +122,11 @@ const TaskDetailsForm = ({ schedule, task, onClose }: Props & { onClose: () => v
                     <form.AppField name='action'>
                         {(field) => (
                             <field.SelectField
-                                label='Action'
+                                label='Действие'
                                 options={[
-                                    { value: 'command', label: 'Send command' },
-                                    { value: 'power', label: 'Send power action' },
-                                    { value: 'backup', label: 'Create backup' },
+                                    { value: 'command', label: 'Отправить команду' },
+                                    { value: 'power', label: 'Отправить действие питания' },
+                                    { value: 'backup', label: 'Создать резервную копию' },
                                 ]}
                                 onChange={(value) => setPayloadForAction(value as Action)}
                             />
@@ -142,10 +142,10 @@ const TaskDetailsForm = ({ schedule, task, onClose }: Props & { onClose: () => v
                     >
                         {(field) => (
                             <field.NumberField
-                                label='Time offset (in seconds)'
+                                label='Временной сдвиг (в секундах)'
                                 min={0}
                                 max={900}
-                                description='The amount of time to wait after the previous task executes before running this one. If this is the first task on a schedule this will not be applied.'
+                                description='Время ожидания после выполнения предыдущей задачи перед запуском этой. Если это первая задача в расписании, сдвиг не применяется.'
                             />
                         )}
                     </form.AppField>
@@ -154,19 +154,19 @@ const TaskDetailsForm = ({ schedule, task, onClose }: Props & { onClose: () => v
             <div className='mt-6'>
                 {action === 'command' && (
                     <form.AppField name='payload' validators={payloadValidators}>
-                        {(field) => <field.TextAreaField label='Payload' rows={6} />}
+                        {(field) => <field.TextAreaField label='Данные' rows={6} />}
                     </form.AppField>
                 )}
                 {action === 'power' && (
                     <form.AppField name='payload' validators={payloadValidators}>
                         {(field) => (
                             <field.SelectField
-                                label='Payload'
+                                label='Данные'
                                 options={[
-                                    { value: 'start', label: 'Start the server' },
-                                    { value: 'restart', label: 'Restart the server' },
-                                    { value: 'stop', label: 'Stop the server' },
-                                    { value: 'kill', label: 'Terminate the server' },
+                                    { value: 'start', label: 'Запустить сервер' },
+                                    { value: 'restart', label: 'Перезапустить сервер' },
+                                    { value: 'stop', label: 'Остановить сервер' },
+                                    { value: 'kill', label: 'Принудительно остановить сервер' },
                                 ]}
                             />
                         )}
@@ -176,9 +176,9 @@ const TaskDetailsForm = ({ schedule, task, onClose }: Props & { onClose: () => v
                     <form.AppField name='payload' validators={payloadValidators}>
                         {(field) => (
                             <field.TextAreaField
-                                label='Ignored Files'
+                                label='Игнорируемые файлы'
                                 rows={6}
-                                description='Optional. Include the files and folders to be excluded in this backup. By default, the contents of your .pteroignore file will be used. If you have reached your backup limit, the oldest backup will be rotated.'
+                                description='Необязательно. Перечислите файлы и папки, которые нужно исключить из этой резервной копии. По умолчанию используется содержимое файла .pteroignore. Если лимит резервных копий достигнут, самая старая копия будет удалена.'
                             />
                         )}
                     </form.AppField>
@@ -188,15 +188,15 @@ const TaskDetailsForm = ({ schedule, task, onClose }: Props & { onClose: () => v
                 <form.AppField name='continueOnFailure'>
                     {(field) => (
                         <field.SwitchField
-                            description='Future tasks will be run when this task fails.'
-                            label='Continue on Failure'
+                            description='Следующие задачи будут выполнены, даже если эта задача завершится с ошибкой.'
+                            label='Продолжать при ошибке'
                         />
                     )}
                 </form.AppField>
             </div>
             <div className='flex justify-end mt-6'>
                 <form.AppForm>
-                    <form.SubmitButton>{task ? 'Save Changes' : 'Create Task'}</form.SubmitButton>
+                    <form.SubmitButton>{task ? 'Сохранить изменения' : 'Создать задачу'}</form.SubmitButton>
                 </form.AppForm>
             </div>
         </Form>
@@ -207,7 +207,7 @@ export default function TaskDetailsModal({ open, onClose, ...props }: Props & Di
     const formKey = `${props.schedule.attributes.id}:${props.task?.attributes.id ?? 'new'}`;
 
     return (
-        <Dialog open={open} title={props.task ? 'Edit task' : 'Create task'} onClose={onClose}>
+        <Dialog open={open} title={props.task ? 'Редактирование задачи' : 'Создание задачи'} onClose={onClose}>
             <TaskDetailsForm key={formKey} {...props} onClose={onClose} />
         </Dialog>
     );

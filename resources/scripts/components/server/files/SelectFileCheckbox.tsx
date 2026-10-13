@@ -14,7 +14,7 @@ export default function SelectFileCheckbox({ name }: { name: string }) {
             <Checkbox
                 name='selectedFiles'
                 value={name}
-                aria-label={`Select ${name}`}
+                aria-label={`Выбрать ${name}`}
                 checked={isChecked}
                 onChange={(checked) =>
                     checked ? appendSelectedFile({ directory, name }) : removeSelectedFile({ directory, name })

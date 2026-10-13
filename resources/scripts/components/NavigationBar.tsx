@@ -41,32 +41,32 @@ export default function NavigationBar() {
                 <div className='flex h-full shrink-0 items-center justify-center'>
                     <Slot name='nav.items.before' />
                     <SearchContainer className={navItemClass} />
-                    <Tooltip placement='bottom' content='Dashboard'>
+                    <Tooltip placement='bottom' content='Дашборд'>
                         <Link
                             to='/'
                             activeOptions={{ exact: true, includeSearch: false }}
                             className={navItemClass}
-                            aria-label='Dashboard'
+                            aria-label='Дашборд'
                         >
                             <Icon icon={Layers} />
                         </Link>
                     </Tooltip>
                     {rootAdmin && (
-                        <Tooltip placement='bottom' content='Admin'>
-                            <Link to='/panel' className={navItemClass} aria-label='Admin'>
+                        <Tooltip placement='bottom' content='Администрирование'>
+                            <Link to='/panel' className={navItemClass} aria-label='Администрирование'>
                                 <Icon icon={UserCog} />
                             </Link>
                         </Tooltip>
                     )}
-                    <Tooltip placement='bottom' content='Account Settings'>
-                        <Link to='/account' className={navItemClass} aria-label='Account Settings'>
+                    <Tooltip placement='bottom' content='Настройки учётной записи'>
+                        <Link to='/account' className={navItemClass} aria-label='Настройки учётной записи'>
                             <span className='flex items-center w-5 h-5'>
                                 <Avatar.User />
                             </span>
                         </Link>
                     </Tooltip>
-                    <Tooltip placement='bottom' content='Sign Out'>
-                        <button type='button' aria-label='Sign Out' onClick={onTriggerLogout} className={navItemClass}>
+                    <Tooltip placement='bottom' content='Выйти'>
+                        <button type='button' aria-label='Выйти' onClick={onTriggerLogout} className={navItemClass}>
                             <Icon icon={LogOut} />
                         </button>
                     </Tooltip>

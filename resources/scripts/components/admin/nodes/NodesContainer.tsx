@@ -188,7 +188,7 @@ export default function NodesContainer() {
                         table={table}
                         total={nodes.meta.pagination.total}
                         count={nodes.meta.pagination.count}
-                        itemLabel='Узлов'
+                        itemLabel='Узлы'
                     />
                 </>
             ) : (

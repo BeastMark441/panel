@@ -25,7 +25,7 @@ export default function ResetPasswordContainer() {
             if (recaptchaEnabled) {
                 recaptchaToken = (await recaptchaRef.current?.execute()) ?? '';
                 if (!recaptchaToken) {
-                    toast.error('Captcha verification failed, please try again.');
+                    toast.error('Проверка капчи не удалась, пожалуйста, попробуйте еще раз.');
 
                     return;
                 }
@@ -51,7 +51,7 @@ export default function ResetPasswordContainer() {
     return (
         <LoginFormContainer form={form} title='Сбросить пароль' className='w-full flex'>
             <div>
-                <label htmlFor='password-reset-email'>Email</label>
+                <label htmlFor='password-reset-email'>Электронная почта</label>
                 <TextInput id='password-reset-email' value={email} $isLight disabled />
             </div>
             <div className='mt-6'>

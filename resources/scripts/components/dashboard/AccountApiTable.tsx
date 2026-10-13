@@ -8,7 +8,7 @@ export const accountApiColumns = (onDelete: (identifier: string) => void): Colum
     {
         id: 'description',
         accessorFn: (key) => key.attributes.description,
-        header: ({ column }) => <DataTableColumnHeader column={column} title='Description' />,
+        header: ({ column }) => <DataTableColumnHeader column={column} title='Описание' />,
         cell: ({ row }) => (
             <div className='min-w-40'>
                 <p className='truncate font-medium'>{row.original.attributes.description}</p>
@@ -21,7 +21,7 @@ export const accountApiColumns = (onDelete: (identifier: string) => void): Colum
     {
         id: 'identifier',
         accessorFn: (key) => key.attributes.identifier,
-        header: ({ column }) => <DataTableColumnHeader column={column} title='Identifier' />,
+        header: ({ column }) => <DataTableColumnHeader column={column} title='Идентификатор' />,
         cell: ({ row }) => (
             <code className='font-mono text-xs text-muted-foreground'>{row.original.attributes.identifier}</code>
         ),
@@ -30,12 +30,12 @@ export const accountApiColumns = (onDelete: (identifier: string) => void): Colum
     {
         id: 'last_used_at',
         accessorFn: (key) => key.attributes.last_used_at,
-        header: ({ column }) => <DataTableColumnHeader column={column} title='Last used' />,
+        header: ({ column }) => <DataTableColumnHeader column={column} title='Последнее использование' />,
         cell: ({ row }) => (
             <span className='whitespace-nowrap text-xs text-muted-foreground'>
                 {row.original.attributes.last_used_at
                     ? dayjs(row.original.attributes.last_used_at).format('MMM D, YYYY HH:mm')
-                    : 'Never'}
+                    : 'никогда'}
             </span>
         ),
         meta: { headerClassName: 'hidden lg:table-cell w-40', cellClassName: 'hidden lg:table-cell w-40' },
@@ -43,7 +43,7 @@ export const accountApiColumns = (onDelete: (identifier: string) => void): Colum
     actionsColumn<ApiKey>(1, (key) => (
         <RowActions>
             <DeleteAction
-                aria-label={`Удалить ${key.attributes.description} API key`}
+                aria-label={`Удалить API-ключ «${key.attributes.description}»`}
                 onClick={() => onDelete(key.attributes.identifier)}
             />
         </RowActions>

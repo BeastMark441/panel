@@ -23,7 +23,7 @@ const PIDLimitModalFeature = () => {
     return (
         <Dialog
             open={dialog.open}
-            title={isAdmin ? 'Memory or process limit reached' : 'Possible resource limit reached'}
+            title={isAdmin ? 'Достигнут предел памяти или процессов' : 'Возможно, достигнут предел ресурсов'}
             onClose={dialog.hide}
             preventExternalClose={loading}
             hideCloseIcon={loading}
@@ -34,18 +34,17 @@ const PIDLimitModalFeature = () => {
                     <div className='mt-4 sm:flex items-center'>
                         <Icon icon={TriangleAlert} className='pr-4 text-warning' size={64} />
                     </div>
-                    <p className='mt-4'>This server has reached the maximum process or memory limit.</p>
+                    <p className='mt-4'>Сервер достиг максимального предела процессов или памяти.</p>
                     <p className='mt-4'>
-                        Increasing <code className='font-mono bg-muted'>container_pid_limit</code> in the wings
-                        configuration, <code className='font-mono bg-muted'>config.yml</code>, might help resolve this
-                        issue.
+                        Возможно, поможет увеличить <code className='font-mono bg-muted'>container_pid_limit</code> в
+                        конфигурации wings, <code className='font-mono bg-muted'>config.yml</code>.
                     </p>
                     <p className='mt-4'>
-                        <b>Note: Wings must be restarted for the configuration file changes to take effect</b>
+                        <b>Внимание: для применения изменений конфигурационного файла Wings необходимо перезапустить</b>
                     </p>
                     <div className='mt-8 sm:flex items-center justify-end'>
                         <Button onClick={dialog.hide} className='w-full sm:w-auto border-transparent'>
-                            Close
+                            Закрыть
                         </Button>
                     </div>
                 </>
@@ -55,8 +54,8 @@ const PIDLimitModalFeature = () => {
                         <Icon icon={TriangleAlert} className='pr-4 text-warning' size={64} />
                     </div>
                     <p className='mt-4'>
-                        This server is attempting to use more resources than allocated. Please contact the administrator
-                        and give them the error below.
+                        Этот сервер пытается использовать больше ресурсов, чем выделено. Свяжитесь с администратором и
+                        передайте ему ошибку, приведённую ниже.
                     </p>
                     <p className='mt-4'>
                         <code className='font-mono bg-muted'>
@@ -65,7 +64,7 @@ const PIDLimitModalFeature = () => {
                     </p>
                     <div className='mt-8 sm:flex items-center justify-end'>
                         <Button onClick={dialog.hide} className='w-full sm:w-auto border-transparent'>
-                            Close
+                            Закрыть
                         </Button>
                     </div>
                 </>

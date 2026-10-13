@@ -10,19 +10,19 @@ import type { WithClassname } from '@/components/types';
 
 const validateDatabaseName = (value: string): string | undefined => {
     if (value.length < 1) {
-        return 'A database name must be provided.';
+        return 'Укажите название базы данных.';
     }
 
     if (value.length < 3) {
-        return 'Database name must be at least 3 characters.';
+        return 'Название базы данных должно быть не короче 3 символов.';
     }
 
     if (value.length > 48) {
-        return 'Database name must not exceed 48 characters.';
+        return 'Название базы данных не должно превышать 48 символов.';
     }
 
     if (!/^[\w\-.]{3,48}$/.test(value)) {
-        return 'Database name should only contain alphanumeric characters, underscores, dashes, and/or periods.';
+        return 'Название базы данных может содержать только буквы, цифры, подчёркивания, дефисы и (или) точки.';
     }
 
     return undefined;
@@ -54,7 +54,7 @@ const CreateDatabaseDialogContent = ({ onClose }: { onClose: () => void }) => {
     return (
         <Dialog
             open
-            title='Create new database'
+            title='Создание новой базы данных'
             preventExternalClose={isSubmitting}
             hideCloseIcon={isSubmitting}
             onClose={() => {
@@ -74,8 +74,8 @@ const CreateDatabaseDialogContent = ({ onClose }: { onClose: () => void }) => {
                         <field.TextField
                             type='string'
                             id='database_name'
-                            label='Database Name'
-                            description='A descriptive name for your database instance.'
+                            label='Название базы данных'
+                            description='Понятное название вашей базы данных.'
                         />
                     )}
                 </form.AppField>
@@ -84,25 +84,27 @@ const CreateDatabaseDialogContent = ({ onClose }: { onClose: () => void }) => {
                         name='connectionsFrom'
                         validators={{
                             onChange: ({ value }) =>
-                                /^[\w\-/.%:]*$/.test(value) ? undefined : 'A valid host address must be provided.',
+                                /^[\w\-/.%:]*$/.test(value) ? undefined : 'Укажите корректный адрес хоста.',
                         }}
                     >
                         {(field) => (
                             <field.TextField
                                 type='string'
                                 id='connections_from'
-                                label='Connections From'
-                                description='Where connections should be allowed from. Leave blank to allow connections from anywhere.'
+                                label='Соединения с'
+                                description='Откуда разрешать соединения. Оставьте поле пустым, чтобы разрешать соединения с любого адреса.'
                             />
                         )}
                     </form.AppField>
                 </div>
                 <div className='flex flex-wrap justify-end mt-6'>
                     <Button type='button' isSecondary className='w-full sm:w-auto sm:mr-2' onClick={onClose}>
-                        Cancel
+                        Отмена
                     </Button>
                     <form.AppForm>
-                        <form.SubmitButton className='w-full mt-4 sm:w-auto sm:mt-0'>Create Database</form.SubmitButton>
+                        <form.SubmitButton className='w-full mt-4 sm:w-auto sm:mt-0'>
+                            Создать базу данных
+                        </form.SubmitButton>
                     </form.AppForm>
                 </div>
             </Form>
@@ -114,7 +116,7 @@ const CreateDatabaseButton = ({ className }: WithClassname) => (
     <Dialog.Trigger
         trigger={({ onClick }) => (
             <NewButton className={className} onClick={onClick}>
-                New database
+                Новая база данных
             </NewButton>
         )}
     >

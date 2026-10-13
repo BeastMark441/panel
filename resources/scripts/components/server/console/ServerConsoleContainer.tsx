@@ -16,15 +16,15 @@ const getUnavailableMessage = (
     isTransferring: boolean
 ): string | null => {
     if (isNodeUnderMaintenance) {
-        return 'The node of this server is currently under maintenance and all actions are unavailable.';
+        return 'Узел этого сервера находится на технических работах, все действия недоступны.';
     }
 
     if (isInstalling) {
-        return 'This server is currently running its installation process and most actions are unavailable.';
+        return 'Сервер сейчас устанавливается, большинство действий недоступны.';
     }
 
     if (isTransferring) {
-        return 'This server is currently being transferred to another node and all actions are unavailable.';
+        return 'Сервер сейчас переносится на другой узел, все действия недоступны.';
     }
 
     return null;
@@ -41,7 +41,7 @@ const ServerConsoleContainer = ({ active = true }: { active?: boolean }) => {
     const unavailableMessage = getUnavailableMessage(isNodeUnderMaintenance, isInstalling, isTransferring);
 
     return (
-        <ServerContentBlock title={active ? 'Console' : undefined}>
+        <ServerContentBlock title={active ? 'Консоль' : undefined}>
             {unavailableMessage && (
                 <Alert type='warning' className='mb-4'>
                     {unavailableMessage}

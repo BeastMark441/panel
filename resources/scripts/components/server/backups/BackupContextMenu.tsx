@@ -73,23 +73,23 @@ const BackupContextMenu = ({ backup, page }: Props) => {
             <Dialog.Confirm
                 open={modal === 'unlock'}
                 onClose={() => setModal('')}
-                title={`Unlock "${attributes.name}"`}
+                title={`Разблокировать «${attributes.name}»`}
                 pending={toggleBackupLock.isPending}
                 onConfirmed={onLockToggle}
             >
-                This backup will no longer be protected from automated or accidental deletions.
+                Эта резервная копия больше не будет защищена от автоматического или случайного удаления.
             </Dialog.Confirm>
             <Dialog.Confirm
                 open={modal === 'restore'}
                 onClose={() => setModal('')}
-                confirm='Restore'
-                title={`Restore "${attributes.name}"`}
+                confirm='Восстановить'
+                title={`Восстановить «${attributes.name}»`}
                 pending={restoreBackup.isPending}
                 onConfirmed={() => doRestorationAction()}
             >
                 <p>
-                    Your server will be stopped. You will not be able to control the power state, access the file
-                    manager, or create additional backups until completed.
+                    Сервер будет остановлен. До завершения восстановления вы не сможете управлять состоянием питания,
+                    обращаться к файловому менеджеру или создавать дополнительные резервные копии.
                 </p>
                 <p className='mt-4 -mb-2 bg-card p-3 rounded-sm'>
                     <label htmlFor='restore_truncate' className='text-base flex items-center cursor-pointer'>
@@ -100,19 +100,19 @@ const BackupContextMenu = ({ backup, page }: Props) => {
                             checked={truncate}
                             onChange={() => setTruncate((s) => !s)}
                         />
-                        Delete all files before restoring backup.
+                        Удалить все файлы перед восстановлением резервной копии.
                     </label>
                 </p>
             </Dialog.Confirm>
             <Dialog.Confirm
-                title={`Delete "${attributes.name}"`}
-                confirm='Continue'
+                title={`Удалить «${attributes.name}»`}
+                confirm='Продолжить'
                 open={modal === 'delete'}
                 pending={deleteBackup.isPending}
                 onClose={() => setModal('')}
                 onConfirmed={doDeletion}
             >
-                This is a permanent operation. The backup cannot be recovered once deleted.
+                Это необратимая операция. Восстановить удалённую резервную копию невозможно.
             </Dialog.Confirm>
             <SpinnerOverlay visible={loading} fixed />
             <RowActions>
@@ -120,25 +120,25 @@ const BackupContextMenu = ({ backup, page }: Props) => {
                     <DeleteAction
                         aria-label={`Удалить ${attributes.name}`}
                         disabled={attributes.is_locked}
-                        disabledReason='Unlock this backup before deleting it.'
+                        disabledReason='Сначала разблокируйте эту резервную копию, чтобы удалить её.'
                         onClick={() => setModal('delete')}
                     />
                 </Can>
                 {attributes.is_successful && (
-                    <RowActionsMenu label={`More actions for ${attributes.name}`}>
+                    <RowActionsMenu label={`Дополнительные действия для ${attributes.name}`}>
                         <Can action='backup.download'>
                             <DropdownMenu.Item onClick={doDownload} icon={CloudDownload}>
-                                Download
+                                Скачать
                             </DropdownMenu.Item>
                         </Can>
                         <Can action='backup.restore'>
                             <DropdownMenu.Item onClick={() => setModal('restore')} icon={PackageOpen}>
-                                Restore
+                                Восстановить
                             </DropdownMenu.Item>
                         </Can>
                         <Can action='backup.delete'>
                             <DropdownMenu.Item onClick={onLockToggle} icon={attributes.is_locked ? Unlock : Lock}>
-                                {attributes.is_locked ? 'Unlock' : 'Lock'}
+                                {attributes.is_locked ? 'Разблокировать' : 'Заблокировать'}
                             </DropdownMenu.Item>
                         </Can>
                     </RowActionsMenu>

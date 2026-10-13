@@ -26,7 +26,7 @@ const BackupIdentityCell = ({ backup }: { backup: ServerBackup }) => {
                 <div className='flex items-center gap-2'>
                     {attributes.completed_at !== null && !attributes.is_successful ? (
                         <span className='rounded-sm bg-destructive px-1.5 py-0.5 text-xs text-destructive-foreground'>
-                            Failed
+                            Ошибка
                         </span>
                     ) : null}
                     <p className='truncate font-medium'>{attributes.name}</p>
@@ -47,14 +47,14 @@ export const backupColumns = (page: number): ColumnDef<ServerBackup>[] => [
     {
         id: 'name',
         accessorFn: (backup) => backup.attributes.name,
-        header: 'Backup',
+        header: 'Резервная копия',
         cell: ({ row }) => <BackupIdentityCell backup={row.original} />,
         enableSorting: false,
     },
     {
         id: 'bytes',
         accessorFn: (backup) => backup.attributes.bytes,
-        header: 'Size',
+        header: 'Размер',
         cell: ({ row }) => (
             <span className='whitespace-nowrap text-xs'>
                 {row.original.attributes.completed_at && row.original.attributes.is_successful
@@ -68,7 +68,7 @@ export const backupColumns = (page: number): ColumnDef<ServerBackup>[] => [
     {
         id: 'created_at',
         accessorFn: (backup) => backup.attributes.created_at,
-        header: 'Created',
+        header: 'Создана',
         cell: ({ row }) => (
             <time
                 dateTime={row.original.attributes.created_at}

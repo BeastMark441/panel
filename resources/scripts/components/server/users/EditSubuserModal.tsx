@@ -93,20 +93,20 @@ const useSubuserFormState = ({ subuser, onClose, onSaved }: Props) => {
 
 const validateEmail = (value: string): string | undefined => {
     if (value.length > 191) {
-        return 'Email addresses must not exceed 191 characters.';
+        return 'Адрес электронной почты не может превышать 191 символов.';
     }
 
-    return isEmail(value) ? undefined : 'A valid email address must be provided.';
+    return isEmail(value) ? undefined : 'Укажите корректный адрес электронной почты.';
 };
 
 type SubuserFormState = ReturnType<typeof useSubuserFormState>;
 
 const SubuserFormTitle = ({ subuser, canEditUser }: { subuser?: Subuser; canEditUser: boolean }) => {
     if (!subuser) {
-        return 'Create new subuser';
+        return 'Создание нового субпользователя';
     }
 
-    return `${canEditUser ? 'Modify' : 'View'} permissions for ${subuser.attributes.email}`;
+    return `${canEditUser ? 'Изменение' : 'Просмотр'} прав для ${subuser.attributes.email}`;
 };
 
 type PermissionGroupsProps = Pick<SubuserFormState, 'form' | 'permissions' | 'canEditUser' | 'editablePermissionSet'>;
@@ -194,7 +194,7 @@ const SubuserFormContent = ({ state }: { state: SubuserFormState }) => {
                 <div>
                     <form.AppForm>
                         <form.SubmitButton className='w-full sm:w-auto'>
-                            {subuser ? 'Save' : 'Invite User'}
+                            {subuser ? 'Сохранить' : 'Пригласить пользователя'}
                         </form.SubmitButton>
                     </form.AppForm>
                 </div>
@@ -202,8 +202,8 @@ const SubuserFormContent = ({ state }: { state: SubuserFormState }) => {
             {!isRootAdmin && loggedInPermissions[0] !== '*' && (
                 <div className='mt-4 pl-4 py-2 border-l-4 border-accent'>
                     <p className='text-sm text-muted-foreground'>
-                        Only permissions which your account is currently assigned may be selected when creating or
-                        modifying other users.
+                        Можно выбирать только те права, которые в настоящее время назначены вашему аккаунту при создании
+                        или изменении других пользователей.
                     </p>
                 </div>
             )}
@@ -217,8 +217,8 @@ const SubuserFormContent = ({ state }: { state: SubuserFormState }) => {
                     >
                         {(field) => (
                             <field.TextField
-                                label='User Email'
-                                description='Enter the email address of the user you wish to invite as a subuser for this server.'
+                                label='Email пользователя'
+                                description='Введите адрес электронной почты пользователя, которого вы хотите пригласить как субпользователя этого сервера.'
                             />
                         )}
                     </form.AppField>
@@ -229,7 +229,7 @@ const SubuserFormContent = ({ state }: { state: SubuserFormState }) => {
                 className='mt-6'
                 title={
                     <div className='flex items-center justify-between'>
-                        <span className='text-sm uppercase'>All Permissions</span>
+                        <span className='text-sm uppercase'>Все права</span>
                         <AllPermissionsButton
                             form={form}
                             editablePermissions={editablePermissions}
@@ -239,8 +239,8 @@ const SubuserFormContent = ({ state }: { state: SubuserFormState }) => {
                 }
             >
                 <p className='m-0 text-sm text-muted-foreground'>
-                    Only select this if <strong>you entirely trust the user you are inviting</strong> with all available
-                    permissions!
+                    Отметьте этот пункт только в том случае, если вы <strong>полностью доверяете пользователю</strong>,
+                    которого приглашаете, и готовы выдать ему все доступные права!
                 </p>
             </TitledGreyBox>
             <div className='my-6'>
@@ -255,7 +255,7 @@ const SubuserFormContent = ({ state }: { state: SubuserFormState }) => {
                 <div className='pb-6 flex justify-end'>
                     <form.AppForm>
                         <form.SubmitButton className='w-full sm:w-auto'>
-                            {subuser ? 'Save' : 'Invite User'}
+                            {subuser ? 'Сохранить' : 'Пригласить пользователя'}
                         </form.SubmitButton>
                     </form.AppForm>
                 </div>

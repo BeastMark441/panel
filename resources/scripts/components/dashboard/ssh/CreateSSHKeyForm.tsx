@@ -32,25 +32,29 @@ export default function CreateSSHKeyForm() {
                 <form.AppField
                     name='name'
                     validators={{
-                        onChange: ({ value }) => (value.length >= 1 ? undefined : 'A key name must be provided.'),
+                        onChange: ({ value }) => (value.length >= 1 ? undefined : 'Укажите название ключа.'),
                     }}
                 >
-                    {(field) => <field.TextField label='SSH Key Name' />}
+                    {(field) => <field.TextField label='Название SSH-ключа' />}
                 </form.AppField>
             </div>
             <form.AppField
                 name='publicKey'
                 validators={{
-                    onChange: ({ value }) => (value.length >= 1 ? undefined : 'A public key must be provided.'),
+                    onChange: ({ value }) => (value.length >= 1 ? undefined : 'Укажите публичный ключ.'),
                 }}
             >
                 {(field) => (
-                    <field.TextAreaField label='Public Key' rows={6} description='Enter your public SSH key.' />
+                    <field.TextAreaField
+                        label='Публичный ключ'
+                        rows={6}
+                        description='Введите ваш публичный SSH-ключ.'
+                    />
                 )}
             </form.AppField>
             <div className='flex justify-end mt-6'>
                 <form.AppForm>
-                    <form.SubmitButton>Save</form.SubmitButton>
+                    <form.SubmitButton>Сохранить</form.SubmitButton>
                 </form.AppForm>
             </div>
         </Form>

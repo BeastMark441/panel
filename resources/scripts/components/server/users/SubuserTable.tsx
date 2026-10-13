@@ -22,7 +22,7 @@ const SubuserActionsCell = ({ subuser }: { subuser: Subuser }) => {
             <Can action='user.update'>
                 <Dialog.Trigger
                     trigger={({ onClick }) => (
-                        <EditAction aria-label={`Edit ${subuser.attributes.email}`} onClick={onClick} />
+                        <EditAction aria-label={`Изменить права ${subuser.attributes.email}`} onClick={onClick} />
                     )}
                 >
                     {({ open, onClose }) => open && <EditSubuserModal subuser={subuser} open onClose={onClose} />}
@@ -39,7 +39,7 @@ export const subuserColumns: ColumnDef<Subuser>[] = [
     {
         id: 'email',
         accessorFn: (subuser) => subuser.attributes.email,
-        header: ({ column }) => <DataTableColumnHeader column={column} title='User' />,
+        header: ({ column }) => <DataTableColumnHeader column={column} title='Пользователь' />,
         cell: ({ row }) => (
             <div className='flex min-w-44 items-center gap-3'>
                 <img
@@ -61,7 +61,7 @@ export const subuserColumns: ColumnDef<Subuser>[] = [
                     icon={row.original.attributes['2fa_enabled'] ? UserLock : LockOpen}
                     className={row.original.attributes['2fa_enabled'] ? 'text-success' : 'text-destructive'}
                 />
-                {row.original.attributes['2fa_enabled'] ? 'Enabled' : 'Disabled'}
+                {row.original.attributes['2fa_enabled'] ? 'Включена' : 'Отключена'}
             </span>
         ),
         meta: { headerClassName: 'hidden sm:table-cell w-28', cellClassName: 'hidden sm:table-cell w-28' },
@@ -70,7 +70,7 @@ export const subuserColumns: ColumnDef<Subuser>[] = [
         id: 'permissions',
         accessorFn: (subuser) =>
             subuser.attributes.permissions.filter((permission) => permission !== 'websocket.connect').length,
-        header: ({ column }) => <DataTableColumnHeader column={column} title='Permissions' />,
+        header: ({ column }) => <DataTableColumnHeader column={column} title='Права' />,
         meta: { headerClassName: 'hidden md:table-cell w-32', cellClassName: 'hidden md:table-cell w-32' },
     },
     actionsColumn<Subuser>(2, (subuser) => <SubuserActionsCell subuser={subuser} />),

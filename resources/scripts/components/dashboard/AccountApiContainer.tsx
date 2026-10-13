@@ -36,16 +36,16 @@ export default function AccountApiContainer() {
     }
 
     return (
-        <PageContentBlock title='Account API'>
+        <PageContentBlock title='API учётной записи'>
             <div className='md:flex flex-nowrap my-10'>
-                <ContentBox title='Create API Key' className='flex-none w-full md:w-1/2'>
+                <ContentBox title='Создание API-ключа' className='flex-none w-full md:w-1/2'>
                     <CreateApiKeyForm />
                 </ContentBox>
-                <ContentBox title='API Keys' className='flex-1 overflow-hidden mt-8 md:mt-0 md:ml-8'>
+                <ContentBox title='API-ключи' className='flex-1 overflow-hidden mt-8 md:mt-0 md:ml-8'>
                     <SpinnerOverlay visible={isDeleting} />
                     <Dialog.Confirm
-                        title='Delete API Key'
-                        confirm='Delete Key'
+                        title='Удаление API-ключа'
+                        confirm='Удалить ключ'
                         open={!!deleteIdentifier}
                         pending={isDeleting}
                         onClose={() => setDeleteIdentifier('')}
@@ -56,7 +56,7 @@ export default function AccountApiContainer() {
                             );
                         }}
                     >
-                        All requests using the <Code>{deleteIdentifier}</Code> key will be invalidated.
+                        Все запросы, использующие ключ <Code>{deleteIdentifier}</Code>, перестанут действовать.
                     </Dialog.Confirm>
                     {keys ? (
                         <DataTable
@@ -67,9 +67,10 @@ export default function AccountApiContainer() {
                                         <EmptyMedia variant='icon'>
                                             <KeyRound />
                                         </EmptyMedia>
-                                        <EmptyTitle>No API keys</EmptyTitle>
+                                        <EmptyTitle>Нет API-ключей</EmptyTitle>
                                         <EmptyDescription>
-                                            Create a key to use the client API from your own scripts and tools.
+                                            Создайте ключ, чтобы использовать Client API из собственных скриптов и
+                                            инструментов.
                                         </EmptyDescription>
                                     </EmptyHeader>
                                 </Empty>

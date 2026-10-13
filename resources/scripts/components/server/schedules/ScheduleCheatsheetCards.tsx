@@ -10,35 +10,35 @@ interface Row {
 }
 
 const examples: Row[] = [
-    { token: '*/5 * * * *', meaning: 'every 5 minutes' },
-    { token: '0 */1 * * *', meaning: 'every hour' },
-    { token: '0 8-12 * * *', meaning: 'hour range' },
-    { token: '0,30 * * * *', meaning: 'on the hour and half past' },
-    { token: '0 0 * * *', meaning: 'once a day' },
-    { token: '0 0 * * MON', meaning: 'every Monday' },
-    { token: '0 0 * * MON,FRI', meaning: 'every Monday and Friday' },
+    { token: '*/5 * * * *', meaning: 'каждые 5 минут' },
+    { token: '0 */1 * * *', meaning: 'каждый час' },
+    { token: '0 8-12 * * *', meaning: 'диапазон часов' },
+    { token: '0,30 * * * *', meaning: 'в начале часа и в половине' },
+    { token: '0 0 * * *', meaning: 'один раз в день' },
+    { token: '0 0 * * MON', meaning: 'каждый понедельник' },
+    { token: '0 0 * * MON,FRI', meaning: 'каждый понедельник и пятницу' },
 ];
 
 const specialCharacters: Row[] = [
     {
         token: '*',
-        meaning: 'any value',
-        detail: 'Matches every value in that field. An hour of * runs the task every hour.',
+        meaning: 'любое значение',
+        detail: 'Совпадает с любым значением этого поля. Час * выполняет задачу каждый час.',
     },
     {
         token: ',',
-        meaning: 'value list separator',
-        detail: 'Picks several exact values. A minute of 0,30 runs on the hour and at half past.',
+        meaning: 'разделитель списка значений',
+        detail: 'Выбирает несколько точных значений. Минута 0,30 выполняется в начале часа и в половине.',
     },
     {
         token: '-',
-        meaning: 'range values',
-        detail: 'Covers everything between two values. An hour of 8-12 runs at 8, 9, 10, 11 and 12.',
+        meaning: 'диапазон значений',
+        detail: 'Покрывает всё между двумя значениями. Час 8-12 выполняется в 8, 9, 10, 11 и 12.',
     },
     {
         token: '/',
-        meaning: 'step values',
-        detail: 'Repeats every nth value. A minute of */15 runs four times an hour.',
+        meaning: 'шаг значений',
+        detail: 'Повторяет каждое n-е значение. Минута */15 выполняется четыре раза в час.',
     },
 ];
 
@@ -83,8 +83,8 @@ const CheatsheetCard = ({ title, rows, tokenClass }: { title: string; rows: Row[
 
 const ScheduleCheatsheetCards = () => (
     <div className='mt-4 grid items-start gap-4 sm:grid-cols-2'>
-        <CheatsheetCard title='Examples' rows={examples} tokenClass='w-32' />
-        <CheatsheetCard title='Special characters' rows={specialCharacters} tokenClass='w-6 text-center' />
+        <CheatsheetCard title='Примеры' rows={examples} tokenClass='w-32' />
+        <CheatsheetCard title='Спецсимволы' rows={specialCharacters} tokenClass='w-6 text-center' />
     </div>
 );
 

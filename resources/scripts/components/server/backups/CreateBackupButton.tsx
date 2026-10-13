@@ -91,7 +91,7 @@ const CreateBackupButton = ({ className }: WithClassname) => (
     <Dialog.Trigger
         trigger={({ onClick }) => (
             <NewButton className={className} onClick={onClick}>
-                Новая Копия
+                Новая копия
             </NewButton>
         )}
     >

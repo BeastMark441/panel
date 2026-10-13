@@ -19,30 +19,30 @@ const ReinstallServerBox = () => {
     };
 
     return (
-        <TitledGreyBox title='Reinstall Server' className='relative'>
+        <TitledGreyBox title='Переустановка сервера' className='relative'>
             <p className='text-sm'>
-                Reinstalling your server will stop it, and then re-run the installation script that initially set it
-                up.&nbsp;
+                При переустановке сервер будет остановлен, а затем повторно запущен скрипт установки, которым он был
+                настроен.&nbsp;
                 <strong className='font-medium'>
-                    Some files may be deleted or modified during this process, please back up your data before
-                    continuing.
+                    Некоторые файлы могут быть удалены или изменены в процессе, поэтому сохраните свои данные перед
+                    продолжением.
                 </strong>
             </p>
             {!canReinstall && <p className='mt-3 text-sm text-muted-foreground'>{SKIPPED_INSTALL_SCRIPT_MESSAGE}</p>}
             <Dialog.ConfirmTrigger
-                title='Confirm server reinstallation'
-                confirm='Yes, reinstall server'
+                title='Подтверждение переустановки сервера'
+                confirm='Да, переустановить сервер'
                 onConfirmed={(_event, close) => reinstall(close)}
                 trigger={({ onClick }) => (
                     <div className='mt-6 text-right'>
                         <Button.Danger isSecondary disabled={!canReinstall} onClick={onClick}>
-                            Reinstall Server
+                            Переустановить сервер
                         </Button.Danger>
                     </div>
                 )}
             >
-                Your server will be stopped and some files may be deleted or modified during this process, are you sure
-                you wish to continue?
+                Сервер будет остановлен, а некоторые файлы могут быть удалены или изменены. Вы уверены, что хотите
+                продолжить?
             </Dialog.ConfirmTrigger>
         </TitledGreyBox>
     );

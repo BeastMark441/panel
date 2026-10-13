@@ -18,7 +18,7 @@ import { emptyCompactClass } from '@/components/ui/styles';
 import { usePermissions } from '@/plugins/usePermissions';
 
 const CreateScheduleButton = () => (
-    <Dialog.Trigger trigger={({ onClick }) => <NewButton onClick={onClick}>New schedule</NewButton>}>
+    <Dialog.Trigger trigger={({ onClick }) => <NewButton onClick={onClick}>Новое расписание</NewButton>}>
         {(dialog) => <EditScheduleModal {...dialog} />}
     </Dialog.Trigger>
 );
@@ -45,7 +45,7 @@ const ScheduleContainer = () => {
     }
 
     return (
-        <ServerContentBlock title='Schedules'>
+        <ServerContentBlock title='Расписания'>
             {!schedules.length && isLoading ? (
                 <Spinner size='large' centered />
             ) : (
@@ -63,9 +63,10 @@ const ScheduleContainer = () => {
                                     <EmptyMedia variant='icon'>
                                         <CalendarClock />
                                     </EmptyMedia>
-                                    <EmptyTitle>No schedules</EmptyTitle>
+                                    <EmptyTitle>Нет расписаний</EmptyTitle>
                                     <EmptyDescription>
-                                        Schedules run commands, power actions and backups automatically.
+                                        Расписания автоматически выполняют команды, действия питания и резервное
+                                        копирование.
                                     </EmptyDescription>
                                 </EmptyHeader>
                                 {canCreate && (

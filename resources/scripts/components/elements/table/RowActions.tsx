@@ -24,7 +24,7 @@ export function actionsColumn<TData>(
 
     return {
         id: 'actions',
-        header: () => <span className='sr-only'>Actions</span>,
+        header: () => <span className='sr-only'>Действия</span>,
         cell: ({ row }) => cell(row.original),
         enableSorting: false,
         meta: { headerClassName: className, cellClassName: className },
@@ -70,9 +70,9 @@ export function RowActionButton({ icon, label, danger, disabled, disabledReason,
     );
 }
 
-export const EditAction = (props: PresetActionProps) => <RowActionButton icon={Pencil} label='Edit' {...props} />;
+export const EditAction = (props: PresetActionProps) => <RowActionButton icon={Pencil} label='Изменить' {...props} />;
 
-export const DeleteAction = ({ label = 'Delete', ...props }: PresetActionProps & { label?: string }) => (
+export const DeleteAction = ({ label = 'Удалить', ...props }: PresetActionProps & { label?: string }) => (
     <RowActionButton icon={Trash2} label={label} danger {...props} />
 );
 
@@ -85,7 +85,7 @@ export function EditLinkAction<
     const TMaskTo extends string = '',
 >(props: LinkComponentProps<'a', TRouter, TFrom, TTo, TMaskFrom, TMaskTo> & { 'aria-label': string }) {
     return (
-        <ActionTooltip content='Edit'>
+        <ActionTooltip content='Изменить'>
             <Link {...props} className={actionClassName}>
                 <Icon icon={Pencil} className={iconClassName} />
             </Link>

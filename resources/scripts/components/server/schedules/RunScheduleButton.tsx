@@ -28,7 +28,7 @@ const RunScheduleButton = ({ schedule }: { schedule: Schedule }) => {
                 disabled={schedule.attributes.is_processing || triggerSchedule.isPending}
                 onClick={onTriggerExecute}
             >
-                Run Now
+                Запустить сейчас
             </Button>
         </>
     );

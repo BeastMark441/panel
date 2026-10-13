@@ -59,16 +59,17 @@ const JavaVersionModalFeature = () => {
     return (
         <Dialog
             open={dialog.open}
-            title='Unsupported Java version'
+            title='Неподдерживаемая версия Java'
             onClose={dialog.hide}
             preventExternalClose={loading}
             hideCloseIcon={loading}
         >
             <SpinnerOverlay visible={loading} />
             <p className='mt-4'>
-                This server is currently running an unsupported version of Java and cannot be started.
+                На этом сервере в настоящее время используется неподдерживаемая версия Java, поэтому его невозможно
+                запустить.
                 <Can action='startup.docker-image'>
-                    &nbsp;Please select a supported version from the list below to continue starting the server.
+                    &nbsp;Выберите поддерживаемую версию из списка ниже, чтобы продолжить запуск сервера.
                 </Can>
             </p>
             <Can action='startup.docker-image'>
@@ -92,11 +93,11 @@ const JavaVersionModalFeature = () => {
             </Can>
             <div className='mt-8 flex flex-col sm:flex-row justify-end sm:space-x-4 space-y-4 sm:space-y-0'>
                 <Button isSecondary onClick={dialog.hide} className='w-full sm:w-auto'>
-                    Cancel
+                    Отмена
                 </Button>
                 <Can action='startup.docker-image'>
                     <Button onClick={updateJava} className='w-full sm:w-auto'>
-                        Update Docker Image
+                        Обновить Docker-образ
                     </Button>
                 </Can>
             </div>

@@ -24,7 +24,7 @@ export default function ForgotPasswordContainer() {
             if (recaptchaEnabled) {
                 token = (await recaptchaRef.current?.execute()) ?? '';
                 if (!token) {
-                    toast.error('Captcha verification failed, please try again.');
+                    toast.error('Проверка капчи не удалась, пожалуйста, попробуйте еще раз.');
 
                     return;
                 }
@@ -66,7 +66,7 @@ export default function ForgotPasswordContainer() {
             </form.AppField>
             <div className='mt-6'>
                 <form.AppForm>
-                    <form.SubmitButton size='xlarge'>Отправить Письмо</form.SubmitButton>
+                    <form.SubmitButton size='xlarge'>Отправить письмо</form.SubmitButton>
                 </form.AppForm>
             </div>
             {recaptchaEnabled && <InvisibleRecaptcha ref={recaptchaRef} siteKey={siteKey || ''} />}
@@ -75,7 +75,7 @@ export default function ForgotPasswordContainer() {
                     to='/auth/login'
                     className='text-xs text-muted-foreground tracking-wide uppercase no-underline hover:text-foreground'
                 >
-                    Вернуться к Входу
+                    Вернуться к входу
                 </Link>
             </div>
         </LoginFormContainer>

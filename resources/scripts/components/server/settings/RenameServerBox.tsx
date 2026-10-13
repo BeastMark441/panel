@@ -31,23 +31,23 @@ const RenameServerBox = () => {
     const isSubmitting = useStore(form.store, (state) => state.isSubmitting);
 
     return (
-        <TitledGreyBox title='Change Server Details' className='relative'>
+        <TitledGreyBox title='Изменение данных сервера' className='relative'>
             <SpinnerOverlay visible={isSubmitting} />
             <Form form={form} className='mb-0'>
                 <form.AppField
                     name='name'
-                    validators={{ onChange: ({ value }) => (value.length >= 1 ? undefined : 'Required') }}
+                    validators={{ onChange: ({ value }) => (value.length >= 1 ? undefined : 'Обязательное поле') }}
                 >
-                    {(field) => <field.TextField id='name' label='Server Name' type='text' />}
+                    {(field) => <field.TextField id='name' label='Название сервера' type='text' />}
                 </form.AppField>
                 <div className='mt-6'>
                     <form.AppField name='description'>
-                        {(field) => <field.TextAreaField label='Server Description' rows={3} />}
+                        {(field) => <field.TextAreaField label='Описание сервера' rows={3} />}
                     </form.AppField>
                 </div>
                 <div className='mt-6 text-right'>
                     <form.AppForm>
-                        <form.SubmitButton>Save</form.SubmitButton>
+                        <form.SubmitButton>Сохранить</form.SubmitButton>
                     </form.AppForm>
                 </div>
             </Form>

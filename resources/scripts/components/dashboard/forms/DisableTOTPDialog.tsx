@@ -33,7 +33,7 @@ const DisableTOTPDialogContent = ({
     return (
         <form id='disable-totp-form' className='mt-6' onSubmit={submit}>
             <label className='block pb-1' htmlFor='totp-password'>
-                Password
+                Пароль
             </label>
             <TextInput
                 id='totp-password'
@@ -42,11 +42,11 @@ const DisableTOTPDialogContent = ({
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.currentTarget.value)}
             />
             <Dialog.Footer>
-                <Button.Text onClick={onClose}>Cancel</Button.Text>
+                <Button.Text onClick={onClose}>Отмена</Button.Text>
                 <Tooltip
                     delay={100}
                     disabled={password.length > 0}
-                    content='You must enter your account password to continue.'
+                    content='Для продолжения введите пароль от учётной записи.'
                 >
                     <Button.Danger
                         type='submit'
@@ -54,7 +54,7 @@ const DisableTOTPDialogContent = ({
                         disabled={disableTwoFactor.isPending || !password.length}
                         isLoading={disableTwoFactor.isPending}
                     >
-                        Disable
+                        Отключить
                     </Button.Danger>
                 </Tooltip>
             </Dialog.Footer>
@@ -71,8 +71,8 @@ export default function DisableTOTPDialog({ open, onClose }: DialogProps) {
             onClose={onClose}
             preventExternalClose={disableTwoFactor.isPending}
             hideCloseIcon={disableTwoFactor.isPending}
-            title='Disable Two-Step Verification'
-            description='Disabling two-step verification will make your account less secure.'
+            title='Отключение двухфакторной аутентификации'
+            description='Отключение двухфакторной аутентификации снизит безопасность учётной записи.'
         >
             <DisableTOTPDialogContent disableTwoFactor={disableTwoFactor} onClose={onClose} />
         </Dialog>

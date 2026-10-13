@@ -94,7 +94,7 @@ const VariableEditor = ({ variable, uuid }: Props & { uuid: string }) => {
             title={
                 <p className='text-sm uppercase'>
                     {!attributes.is_editable && (
-                        <span className='bg-card text-xs py-1 px-2 rounded-full mr-2 mb-1'>Read Only</span>
+                        <span className='bg-card text-xs py-1 px-2 rounded-full mr-2 mb-1'>Только чтение</span>
                     )}
                     {attributes.name}
                 </p>

@@ -39,7 +39,7 @@ const ActivePill = ({ active }: { active: boolean }) => (
             active ? 'bg-success/90 text-success-foreground' : 'bg-destructive/90 text-destructive-foreground'
         )}
     >
-        {active ? 'Active' : 'Inactive'}
+        {active ? 'Активно' : 'Неактивно'}
     </span>
 );
 
@@ -63,7 +63,7 @@ const ScheduleDetails = ({ schedule }: { schedule: Schedule }) => {
     });
 
     return (
-        <PageContentBlock title='Schedules'>
+        <PageContentBlock title='Расписания'>
             <ScheduleCronRow cron={schedule.attributes.cron} className='sm:hidden bg-card rounded-sm mb-4 p-3' />
             <div className='rounded-sm shadow-sm'>
                 <div className='sm:flex items-center bg-muted p-3 sm:p-6 border-b-4 border-border rounded-t-sm'>
@@ -73,25 +73,25 @@ const ScheduleDetails = ({ schedule }: { schedule: Schedule }) => {
                             {schedule.attributes.is_processing ? (
                                 <span className='flex items-center rounded-full px-2 py-px text-xs ml-4 uppercase bg-popover text-foreground'>
                                     <Spinner />
-                                    Processing
+                                    Выполняется
                                 </span>
                             ) : (
                                 <ActivePill active={schedule.attributes.is_active} />
                             )}
                         </h3>
                         <p className='mt-1 text-sm text-foreground'>
-                            Last run at:&nbsp;
+                            Последнее выполнение:&nbsp;
                             {schedule.attributes.last_run_at ? (
-                                dayjs(schedule.attributes.last_run_at).format('MMM Do [at] h:mmA')
+                                dayjs(schedule.attributes.last_run_at).format('MMM Do [в] h:mmA')
                             ) : (
-                                <span className='text-muted-foreground'>n/a</span>
+                                <span className='text-muted-foreground'>н/д</span>
                             )}
                             <span className='ml-4 pl-4 border-l-4 border-border py-px'>
-                                Next run at:&nbsp;
+                                Следующее выполнение:&nbsp;
                                 {schedule.attributes.next_run_at ? (
-                                    dayjs(schedule.attributes.next_run_at).format('MMM Do [at] h:mmA')
+                                    dayjs(schedule.attributes.next_run_at).format('MMM Do [в] h:mmA')
                                 ) : (
-                                    <span className='text-muted-foreground'>n/a</span>
+                                    <span className='text-muted-foreground'>н/д</span>
                                 )}
                             </span>
                         </p>
@@ -101,7 +101,7 @@ const ScheduleDetails = ({ schedule }: { schedule: Schedule }) => {
                             <Dialog.Trigger
                                 trigger={({ onClick }) => (
                                     <Button.Text className='flex-1 mr-4' onClick={onClick}>
-                                        Edit
+                                        Изменить
                                     </Button.Text>
                                 )}
                             >
@@ -114,11 +114,11 @@ const ScheduleDetails = ({ schedule }: { schedule: Schedule }) => {
                     </div>
                 </div>
                 <div className='hidden sm:grid grid-cols-5 md:grid-cols-5 gap-4 mb-4 mt-4'>
-                    <CronBox title='Minute' value={schedule.attributes.cron.minute} />
-                    <CronBox title='Hour' value={schedule.attributes.cron.hour} />
-                    <CronBox title='Day (Month)' value={schedule.attributes.cron.day_of_month} />
-                    <CronBox title='Month' value={schedule.attributes.cron.month} />
-                    <CronBox title='Day (Week)' value={schedule.attributes.cron.day_of_week} />
+                    <CronBox title='Минута' value={schedule.attributes.cron.minute} />
+                    <CronBox title='Час' value={schedule.attributes.cron.hour} />
+                    <CronBox title='День (месяц)' value={schedule.attributes.cron.day_of_month} />
+                    <CronBox title='Месяц' value={schedule.attributes.cron.month} />
+                    <CronBox title='День (неделя)' value={schedule.attributes.cron.day_of_week} />
                 </div>
                 <DataTable
                     table={table}
@@ -128,9 +128,9 @@ const ScheduleDetails = ({ schedule }: { schedule: Schedule }) => {
                                 <EmptyMedia variant='icon'>
                                     <ListTodo />
                                 </EmptyMedia>
-                                <EmptyTitle>No tasks</EmptyTitle>
+                                <EmptyTitle>Нет задач</EmptyTitle>
                                 <EmptyDescription>
-                                    Add a task to tell this schedule what to do when it runs.
+                                    Добавьте задачу, чтобы указать, что это расписание должно делать при запуске.
                                 </EmptyDescription>
                             </EmptyHeader>
                             {canUpdate && (
@@ -174,7 +174,7 @@ const ScheduleEditContainer = () => {
     }
 
     return (
-        <PageContentBlock title='Schedules'>
+        <PageContentBlock title='Расписания'>
             <Spinner size='large' centered />
         </PageContentBlock>
     );
