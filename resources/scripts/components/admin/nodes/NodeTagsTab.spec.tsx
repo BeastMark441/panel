@@ -8,7 +8,12 @@ import type * as TagQueries from '@/api/admin/tags/queries';
 import type { SelectProps } from '@/components/ui/Select';
 import NodeTagsTab from './NodeTagsTab';
 
-const mocks = vi.hoisted(() => ({ calls: [] as string[] }));
+const mocks = vi.hoisted(() => ({
+    calls: [] as string[],
+    fetchNode: vi.fn(async () => {
+        throw new Error('NodeTagsTab must use the node already seeded in the test cache.');
+    }),
+}));
 
 const tag = (id: number, name: string): TagQueries.AdminTag => ({
     object: 'tag',
@@ -36,7 +41,12 @@ const sync = (kind: string) =>
     });
 
 vi.mock('@/router/routeTree', () => ({ nodeDetailRoute: { useParams: () => ({ id: 4 }) } }));
-vi.mock('@/api/admin/nodes/queries', () => ({ adminNodeTagsQueryOptions: () => ({ queryKey: ['node-tags'] }) }));
+vi.mock('@/api/admin/nodes/queries', () => ({
+    adminNodeTagsQueryOptions: () => ({
+        queryKey: ['node-tags'],
+        queryFn: mocks.fetchNode,
+    }),
+}));
 vi.mock('@/components/ui/Select', () => ({
     default: ({ id, value, options = [], onChange, multiple }: SelectProps) => (
         <select
@@ -87,8 +97,12 @@ const setup = () => {
     return userEvent.setup();
 };
 
-afterEach(cleanup);
+afterEach(() => {
+    cleanup();
+    expect(mocks.fetchNode).not.toHaveBeenCalled();
+});
 beforeEach(() => {
+    vi.clearAllMocks();
     mocks.calls = [];
 });
 

@@ -154,7 +154,7 @@ export default function EggCatalogContainer() {
                                     Источник <Icon icon={ArrowUpRight} />
                                 </a>
                                 <Button size='small' onClick={() => setSelected(entry)}>
-                                    <Icon icon={Download} className='mr-2' />
+                                    <Icon icon={Download} />
                                     Импорт
                                 </Button>
                             </div>
@@ -196,7 +196,7 @@ export default function EggCatalogContainer() {
                     isLoading={refreshCatalog.isPending}
                     onClick={() => refreshCatalog.mutate({})}
                 >
-                    <Icon icon={RefreshCw} className='mr-2' />
+                    <Icon icon={RefreshCw} />
                     Обновить каталог
                 </Button>
             </div>

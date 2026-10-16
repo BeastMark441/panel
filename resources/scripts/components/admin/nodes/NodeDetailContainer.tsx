@@ -9,9 +9,18 @@ import Icon from '@/components/elements/Icon';
 import SubNavigation from '@/components/elements/SubNavigation';
 import Spinner from '@/components/elements/Spinner';
 import { ServerError } from '@/components/elements/ScreenBlock';
-import ResourceExtensionTabs from '@/extensions/ResourceExtensionTabs';
 import { ExtensionResourceProvider, type ExtensionResourceContext } from '@/extensions/resourceContext';
 import Slot from '@/extensions/Slot';
+import { resourceNavigation, type ResourceTab } from '@/views/navigation';
+
+const tabs: ResourceTab[] = [
+    { id: 'about', label: 'Обзор', to: '/panel/nodes/$id', exact: true },
+    { id: 'settings', label: 'Настройки', to: '/panel/nodes/$id/settings' },
+    { id: 'configuration', label: 'Конфигурация', to: '/panel/nodes/$id/configuration' },
+    { id: 'allocation', label: 'Аллокации', to: '/panel/nodes/$id/allocation' },
+    { id: 'tags', label: 'Теги', to: '/panel/nodes/$id/tags' },
+    { id: 'servers', label: 'Серверы', to: '/panel/nodes/$id/servers' },
+];
 
 export default function NodeDetailContainer() {
     const loadedNode = nodeDetailRoute.useLoaderData();
@@ -33,7 +42,6 @@ export default function NodeDetailContainer() {
     }
 
     const { attributes } = node;
-    const params = { id: attributes.id };
 
     return (
         <ExtensionResourceProvider.Provider value={resourceContext}>
@@ -50,32 +58,10 @@ export default function NodeDetailContainer() {
                     К списку узлов
                 </Link>
                 <Slot name='panel.nodes.detail.actions' data={resourceContext} />
-                <SubNavigation className='mb-6 rounded-sm'>
-                    <Link
-                        data-core
-                        to='/panel/nodes/$id'
-                        params={params}
-                        activeOptions={{ exact: true, includeSearch: false }}
-                    >
-                        О узле
-                    </Link>
-                    <Link data-core to='/panel/nodes/$id/settings' params={params}>
-                        Настройки
-                    </Link>
-                    <Link data-core to='/panel/nodes/$id/configuration' params={params}>
-                        Конфигурация
-                    </Link>
-                    <Link data-core to='/panel/nodes/$id/allocation' params={params}>
-                        Аллокации
-                    </Link>
-                    <Link data-core to='/panel/nodes/$id/tags' params={params}>
-                        Теги
-                    </Link>
-                    <Link data-core to='/panel/nodes/$id/servers' params={params}>
-                        Серверы
-                    </Link>
-                    <ResourceExtensionTabs parent='admin.node' basePath={`/panel/nodes/${attributes.id}`} />
-                </SubNavigation>
+                <SubNavigation
+                    className='mb-6 rounded-sm'
+                    items={resourceNavigation('admin.node', { id: String(attributes.id) }, tabs)}
+                />
                 <Outlet />
             </AdminContentBlock>
         </ExtensionResourceProvider.Provider>

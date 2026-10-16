@@ -667,6 +667,69 @@ export type AdminTagResource = {
         resource: string;
     };
 };
+export type AdminThemeAttributes = {
+    id: string;
+    name: string;
+    version: string | null;
+    description: string | null;
+    author: string | null;
+    icon: string | null;
+    icon_url: string | null;
+    builtin: boolean;
+    enabled: boolean;
+    active: boolean;
+    previewing: boolean;
+    /**
+     * The theme this one is built on; null for the built-in classic theme.
+     */
+    extends: string | null;
+    settings_count: number;
+    /**
+     * Why the theme cannot be activated right now.
+     */
+    problem: string | null;
+};
+export type AdminThemeListResponse = {
+    object: string;
+    data: Array<AdminThemeResource>;
+    meta?: {
+        active: string;
+        preview: string | null;
+        safe_mode: boolean;
+    };
+};
+export type AdminThemeResource = {
+    object: string;
+    attributes: AdminThemeAttributes;
+};
+export type AdminThemeSettingAttributes = {
+    key: string;
+    type: 'color' | 'select' | 'toggle' | 'number' | 'text' | 'image';
+    label: string;
+    help: string | null;
+    tab: string | null;
+    default: string | number | boolean | null;
+    value: string | number | boolean | null;
+    options: Array<{
+        value: string;
+        label: string;
+    }>;
+    min: number | null;
+    max: number | null;
+    step: number | null;
+    unit: string | null;
+    max_length: number | null;
+    accept: Array<string>;
+    max_kilobytes: number | null;
+};
+export type AdminThemeSettingListResponse = {
+    object: string;
+    data: Array<AdminThemeSettingResource>;
+};
+export type AdminThemeSettingResource = {
+    object: string;
+    attributes: AdminThemeSettingAttributes;
+};
 export type AdminUserAttributes = {
     id: number;
     external_id: string | null;
@@ -1434,38 +1497,52 @@ export type AdminUploadExtensionSettingFileRequest = {
      */
     file: Blob | File;
 };
+export type AdminUpdateThemeSettingsRequest = {
+    /**
+     * Values keyed by setting name; null restores a setting's default.
+     */
+    settings: {
+        [key: string]: string | number | boolean | null;
+    };
+};
+export type AdminUploadThemeImageRequest = {
+    /**
+     * Image to store.
+     */
+    file: Blob | File;
+};
 export type AdminCreateUserRequest = {
     /**
-     * An external identifier for this resource. Must not be greater than 191 characters.
+     * Внешний идентификатор ресурса. Поле «value» должно содержать не более 191 символов.
      */
     external_id?: string | null;
     /**
-     * The user email address. Must be a valid email address. Must be between 1 and 191 characters.
+     * Адрес электронной почты пользователя. Поле «value» должно содержать корректный адрес электронной почты. Поле «value» должно содержать от 1 до 191 символов.
      */
     email: string;
     /**
-     * The username. Must be between 1 and 191 characters.
+     * Имя пользователя. Поле «value» должно содержать от 1 до 191 символов.
      */
     username: string;
     /**
-     * The password. Must be at least 8 characters.
+     * Пароль. Must be at least 8 characters.
      */
     password?: string | null;
     /**
-     * Whether the user has administrator privileges.
+     * Есть ли у пользователя права администратора.
      */
     root_admin?: boolean;
     /**
-     * The name first. Must be between 1 and 191 characters.
+     * Поле «name first». Поле «value» должно содержать от 1 до 191 символов.
      */
     name_first: string;
     /**
-     * The name last. Must be between 1 and 191 characters.
+     * Поле «name last». Поле «value» должно содержать от 1 до 191 символов.
      */
     name_last: string;
     preferences?: {
         /**
-         * The preferences language.
+         * Поле «preferences language».
          */
         language?: string;
     };
@@ -1473,36 +1550,36 @@ export type AdminCreateUserRequest = {
 };
 export type AdminUpdateUserRequest = {
     /**
-     * An external identifier for this resource. Must not be greater than 191 characters.
+     * Внешний идентификатор ресурса. Поле «value» должно содержать не более 191 символов.
      */
     external_id?: string | null;
     /**
-     * The user email address. Must be a valid email address. Must be between 1 and 191 characters.
+     * Адрес электронной почты пользователя. Поле «value» должно содержать корректный адрес электронной почты. Поле «value» должно содержать от 1 до 191 символов.
      */
     email: string;
     /**
-     * The username. Must be between 1 and 191 characters.
+     * Имя пользователя. Поле «value» должно содержать от 1 до 191 символов.
      */
     username: string;
     /**
-     * The password. Must be at least 8 characters.
+     * Пароль. Must be at least 8 characters.
      */
     password?: string | null;
     /**
-     * Whether the user has administrator privileges.
+     * Есть ли у пользователя права администратора.
      */
     root_admin?: boolean;
     /**
-     * The name first. Must be between 1 and 191 characters.
+     * Поле «name first». Поле «value» должно содержать от 1 до 191 символов.
      */
     name_first: string;
     /**
-     * The name last. Must be between 1 and 191 characters.
+     * Поле «name last». Поле «value» должно содержать от 1 до 191 символов.
      */
     name_last: string;
     preferences?: {
         /**
-         * The preferences language.
+         * Поле «preferences language».
          */
         language?: string;
     };
@@ -1510,117 +1587,117 @@ export type AdminUpdateUserRequest = {
 };
 export type AdminAttachServerMountRequest = {
     /**
-     * The mount ID. Must match an existing stored value.
+     * ID точки монтирования. Must match an existing stored value.
      */
     mount_id: number;
 };
 export type AdminCreateServerRequest = {
     /**
-     * An external identifier for this resource. Must be between 1 and 191 characters.
+     * Внешний идентификатор ресурса. Поле «value» должно содержать от 1 до 191 символов.
      */
     external_id?: string | null;
     /**
-     * The display name. Must be at least 1 character. Must not be greater than 191 characters.
+     * Отображаемое название. Поле «value» должно содержать не менее 1 символов. Поле «value» должно содержать не более 191 символов.
      */
     name: string;
     /**
-     * A description for this resource.
+     * Описание ресурса.
      */
     description?: string | null;
     /**
-     * The owner user ID. Must match an existing stored value.
+     * ID пользователя — владельца ресурса. Must match an existing stored value.
      */
     owner_id: number;
     /**
-     * The egg ID. Must match an existing stored value.
+     * ID egg. Must match an existing stored value.
      */
     egg_id: number;
     /**
-     * The Docker image to use. Must match the regex /^~?[\w\.\/\-:@ ]*$/. Must not be greater than 191 characters.
+     * Используемый образ Docker. Must match the regex /^~?[\w\.\/\-:@ ]*$/. Поле «value» должно содержать не более 191 символов.
      */
     docker_image: string;
     /**
-     * The startup command.
+     * Команда запуска.
      */
     startup: string;
     /**
-     * Environment variables for the server.
+     * Переменные окружения сервера.
      */
     environment?: {
         [key: string]: string;
     };
     /**
-     * Whether install scripts should be skipped.
+     * Пропускать ли скрипты установки.
      */
     skip_scripts?: boolean;
     /**
-     * Whether the OOM killer is disabled.
+     * Отключён ли OOM killer.
      */
     oom_disabled?: boolean;
     /**
-     * The memory limit in megabytes. Must be at least 0.
+     * Лимит памяти в мегабайтах. Значение поля «value» должно быть не меньше 0.
      */
     memory: number;
     /**
-     * The swap limit in megabytes. Must be at least -1.
+     * Лимит памяти подкачки в мегабайтах. Значение поля «value» должно быть не меньше -1.
      */
     swap: number;
     /**
-     * The disk limit in megabytes. Must be at least 0.
+     * Лимит дискового пространства в мегабайтах. Значение поля «value» должно быть не меньше 0.
      */
     disk: number;
     /**
-     * The block IO weight. Must be between 10 and 1000.
+     * Вес блочного ввода-вывода. Значение поля «value» должно быть от 10 до 1000.
      */
     io: number;
     /**
-     * CPU threads available to the server. Must match the regex /^[0-9-,]+$/.
+     * Потоки CPU, доступные серверу. Must match the regex /^[0-9-,]+$/.
      */
     threads?: string | null;
     /**
-     * The CPU limit percentage. Must be at least 0.
+     * Лимит использования CPU в процентах. Значение поля «value» должно быть не меньше 0.
      */
     cpu: number;
     /**
-     * The maximum number of databases allowed. Must be at least 0.
+     * Максимальное количество баз данных. Значение поля «value» должно быть не меньше 0.
      */
     database_limit?: number | null;
     /**
-     * The maximum number of allocations allowed. Must be at least 0.
+     * Максимальное количество выделений. Значение поля «value» должно быть не меньше 0.
      */
     allocation_limit?: number | null;
     /**
-     * The maximum number of backups allowed. Must be at least 0.
+     * Максимальное количество резервных копий. Значение поля «value» должно быть не меньше 0.
      */
     backup_limit?: number | null;
     /**
-     * The primary allocation ID.
+     * ID основного выделения.
      */
     primary_allocation_id: number;
     /**
-     * The deploy.
+     * Поле «deploy».
      */
     deploy?: {
         /**
-         * Must be at least 1.
+         * Значение поля «value» должно быть не меньше 1.
          */
         locations: Array<number>;
         /**
-         * The deploy dedicated ip. This field is required when <code>deploy</code> is present.
+         * Поле «deploy dedicated ip». This field is required when <code>deploy</code> is present.
          */
         dedicated_ip?: boolean;
         port_range?: Array<string>;
         /**
-         * Deploy tags (IDs or slugs) the deployment declares. A node's egg tags are OR-matched against the egg's tags: a node with none accepts every egg, otherwise it needs one tag in common with the egg. Its deployment tags must match these exactly: a node reserved for a tag missing here is skipped, and every tag listed must be reserved on the node.
+         * Теги развёртывания (ID или символьные идентификаторы), указанные при развёртывании. Теги egg на узле сопоставляются с тегами egg по условию «ИЛИ»: узел без таких тегов принимает любой egg, иначе требуется хотя бы один общий тег. Теги развёртывания узла должны точно совпадать с указанными здесь: узел, зарезервированный для отсутствующего здесь тега, пропускается, а каждый указанный тег должен быть зарезервирован на узле.
          */
         tags?: Array<string>;
     };
     /**
-     * Whether the server should start when the operation completes.
+     * Запускать ли сервер после завершения операции.
      */
     start_on_completion?: boolean;
     /**
-     * Whether to place the server on a node whose egg tags the egg does not share. The node's deployment tags are never checked here.
+     * Размещать ли сервер на узле, у которого нет общих тегов egg с выбранным egg. Теги развёртывания узла здесь никогда не проверяются.
      */
     ignore_tags?: boolean;
     secondary_allocations_ids?: Array<number>;
@@ -1628,102 +1705,102 @@ export type AdminCreateServerRequest = {
 };
 export type AdminUpdateServerDetailsRequest = {
     /**
-     * An external identifier for this resource. Must be between 1 and 191 characters.
+     * Внешний идентификатор ресурса. Поле «value» должно содержать от 1 до 191 символов.
      */
     external_id?: string | null;
     /**
-     * The display name. Must be at least 1 character. Must not be greater than 191 characters.
+     * Отображаемое название. Поле «value» должно содержать не менее 1 символов. Поле «value» должно содержать не более 191 символов.
      */
     name: string;
     /**
-     * The owner user ID. Must match an existing stored value.
+     * ID пользователя — владельца ресурса. Must match an existing stored value.
      */
     owner_id: number;
     /**
-     * A description for this resource.
+     * Описание ресурса.
      */
     description?: string | null;
     extensions?: ExtensionFields;
 };
 export type AdminUpdateServerBuildRequest = {
     /**
-     * The allocation ID. Must match an existing stored value.
+     * ID выделения. Must match an existing stored value.
      */
     allocation_id: number;
     /**
-     * Whether the OOM killer is disabled.
+     * Отключён ли OOM killer.
      */
     oom_disabled?: boolean;
     /**
-     * The memory limit in megabytes. Must be at least 0.
+     * Лимит памяти в мегабайтах. Значение поля «value» должно быть не меньше 0.
      */
     memory: number;
     /**
-     * The swap limit in megabytes. Must be at least -1.
+     * Лимит памяти подкачки в мегабайтах. Значение поля «value» должно быть не меньше -1.
      */
     swap: number;
     /**
-     * The block IO weight. Must be between 10 and 1000.
+     * Вес блочного ввода-вывода. Значение поля «value» должно быть от 10 до 1000.
      */
     io: number;
     /**
-     * The CPU limit percentage. Must be at least 0.
+     * Лимит использования CPU в процентах. Значение поля «value» должно быть не меньше 0.
      */
     cpu: number;
     /**
-     * CPU threads available to the server. Must match the regex /^[0-9-,]+$/.
+     * Потоки CPU, доступные серверу. Must match the regex /^[0-9-,]+$/.
      */
     threads?: string | null;
     /**
-     * The disk limit in megabytes. Must be at least 0.
+     * Лимит дискового пространства в мегабайтах. Значение поля «value» должно быть не меньше 0.
      */
     disk: number;
     add_allocation_ids?: Array<number>;
     remove_allocation_ids?: Array<number>;
     /**
-     * The maximum number of databases allowed. Must be at least 0.
+     * Максимальное количество баз данных. Значение поля «value» должно быть не меньше 0.
      */
     database_limit?: number | null;
     /**
-     * The maximum number of allocations allowed. Must be at least 0.
+     * Максимальное количество выделений. Значение поля «value» должно быть не меньше 0.
      */
     allocation_limit?: number | null;
     /**
-     * The maximum number of backups allowed. Must be at least 0.
+     * Максимальное количество резервных копий. Значение поля «value» должно быть не меньше 0.
      */
     backup_limit?: number | null;
 };
 export type AdminUpdateServerStartupRequest = {
     /**
-     * The startup command.
+     * Команда запуска.
      */
     startup: string;
     /**
-     * Environment variables for the server.
+     * Переменные окружения сервера.
      */
     environment?: {
         [key: string]: string;
     };
     /**
-     * The egg ID. Must match an existing stored value.
+     * ID egg. Must match an existing stored value.
      */
     egg_id: number;
     /**
-     * The Docker image to use. Must match the regex /^~?[\w\.\/\-:@ ]*$/. Must not be greater than 191 characters.
+     * Используемый образ Docker. Must match the regex /^~?[\w\.\/\-:@ ]*$/. Поле «value» должно содержать не более 191 символов.
      */
     docker_image: string;
     /**
-     * Whether install scripts should be skipped.
+     * Пропускать ли скрипты установки.
      */
     skip_scripts?: boolean;
     /**
-     * Whether to place the server on a node whose egg tags the egg does not share. The node's deployment tags are never checked here.
+     * Размещать ли сервер на узле, у которого нет общих тегов egg с выбранным egg. Теги развёртывания узла здесь никогда не проверяются.
      */
     ignore_tags?: boolean;
 };
 export type AdminUpdateServerSuspensionRequest = {
     /**
-     * The suspended.
+     * Поле «suspended».
      */
     suspended?: boolean | null;
 };
@@ -1747,152 +1824,152 @@ export type AdminTransferServerRequest = {
 };
 export type AdminCreateServerDatabaseRequest = {
     /**
-     * The database. Must contain only letters, numbers, dashes and underscores. Must be at least 1 character. Must not be greater than 48 characters.
+     * Поле «database». Must contain only letters, numbers, dashes and underscores. Поле «value» должно содержать не менее 1 символов. Поле «value» должно содержать не более 48 символов.
      */
     database: string;
     /**
-     * The remote database address. Must match the regex /^[0-9%.]{1,15}$/.
+     * Удалённый адрес базы данных. Must match the regex /^[0-9%.]{1,15}$/.
      */
     remote: string;
     /**
-     * The database host ID. Must match an existing stored value.
+     * ID хоста баз данных. Must match an existing stored value.
      */
     database_host_id: number;
     /**
-     * The maximum number of connections allowed. Must be at least 0.
+     * Максимальное количество подключений. Значение поля «value» должно быть не меньше 0.
      */
     max_connections?: number | null;
 };
 export type AdminCreateNodeRequest = {
     /**
-     * The public.
+     * Поле «public».
      */
     public?: boolean;
     /**
-     * The display name. Must match the regex /^([\w .-]{1,100})$/.
+     * Отображаемое название. Must match the regex /^([\w .-]{1,100})$/.
      */
     name: string;
     /**
-     * A description for this resource.
+     * Описание ресурса.
      */
     description?: string | null;
     /**
-     * The location ID. Must match an existing stored value.
+     * ID локации. Must match an existing stored value.
      */
     location_id: number;
     /**
-     * The fully qualified domain name.
+     * Полное доменное имя.
      */
     fqdn: string;
     /**
-     * The scheme.
+     * Поле «scheme».
      */
     scheme: string;
     /**
-     * Whether the node is behind a proxy.
+     * Находится ли узел за прокси.
      */
     behind_proxy?: boolean;
     /**
-     * The maintenance mode.
+     * Поле «maintenance mode».
      */
     maintenance_mode?: boolean;
     /**
-     * The memory limit in megabytes. Must be at least 1.
+     * Лимит памяти в мегабайтах. Значение поля «value» должно быть не меньше 1.
      */
     memory: number;
     /**
-     * The memory overallocate. Must be at least -1.
+     * Поле «memory overallocate». Значение поля «value» должно быть не меньше -1.
      */
     memory_overallocate: number;
     /**
-     * The disk limit in megabytes. Must be at least 1.
+     * Лимит дискового пространства в мегабайтах. Значение поля «value» должно быть не меньше 1.
      */
     disk: number;
     /**
-     * The disk overallocate. Must be at least -1.
+     * Поле «disk overallocate». Значение поля «value» должно быть не меньше -1.
      */
     disk_overallocate: number;
     /**
-     * The upload size. Must be at least 1.
+     * Поле «upload size». Значение поля «value» должно быть не меньше 1.
      */
     upload_size?: number;
     /**
-     * The daemon listen. Must be between 1 and 65535.
+     * Поле «daemon listen». Значение поля «value» должно быть от 1 до 65535.
      */
     daemon_listen: number;
     /**
-     * The daemon sftp. Must be between 1 and 65535.
+     * Поле «daemon sftp». Значение поля «value» должно быть от 1 до 65535.
      */
     daemon_sftp: number;
     /**
-     * The daemon base. Must match the regex /^([\/][\d\w.\-\/]+)$/.
+     * Поле «daemon base». Must match the regex /^([\/][\d\w.\-\/]+)$/.
      */
     daemon_base?: string;
     extensions?: ExtensionFields;
 };
 export type AdminUpdateNodeRequest = {
     /**
-     * The public.
+     * Поле «public».
      */
     public?: boolean;
     /**
-     * The display name. Must match the regex /^([\w .-]{1,100})$/.
+     * Отображаемое название. Must match the regex /^([\w .-]{1,100})$/.
      */
     name: string;
     /**
-     * A description for this resource.
+     * Описание ресурса.
      */
     description?: string | null;
     /**
-     * The location ID. Must match an existing stored value.
+     * ID локации. Must match an existing stored value.
      */
     location_id: number;
     /**
-     * The fully qualified domain name.
+     * Полное доменное имя.
      */
     fqdn: string;
     /**
-     * The scheme.
+     * Поле «scheme».
      */
     scheme: string;
     /**
-     * Whether the node is behind a proxy.
+     * Находится ли узел за прокси.
      */
     behind_proxy?: boolean;
     /**
-     * The maintenance mode.
+     * Поле «maintenance mode».
      */
     maintenance_mode?: boolean;
     /**
-     * The memory limit in megabytes. Must be at least 1.
+     * Лимит памяти в мегабайтах. Значение поля «value» должно быть не меньше 1.
      */
     memory: number;
     /**
-     * The memory overallocate. Must be at least -1.
+     * Поле «memory overallocate». Значение поля «value» должно быть не меньше -1.
      */
     memory_overallocate: number;
     /**
-     * The disk limit in megabytes. Must be at least 1.
+     * Лимит дискового пространства в мегабайтах. Значение поля «value» должно быть не меньше 1.
      */
     disk: number;
     /**
-     * The disk overallocate. Must be at least -1.
+     * Поле «disk overallocate». Значение поля «value» должно быть не меньше -1.
      */
     disk_overallocate: number;
     /**
-     * The upload size. Must be at least 1.
+     * Поле «upload size». Значение поля «value» должно быть не меньше 1.
      */
     upload_size?: number;
     /**
-     * The daemon listen. Must be between 1 and 65535.
+     * Поле «daemon listen». Значение поля «value» должно быть от 1 до 65535.
      */
     daemon_listen: number;
     /**
-     * The daemon sftp. Must be between 1 and 65535.
+     * Поле «daemon sftp». Значение поля «value» должно быть от 1 до 65535.
      */
     daemon_sftp: number;
     /**
-     * The daemon base. Must match the regex /^([\/][\d\w.\-\/]+)$/.
+     * Поле «daemon base». Must match the regex /^([\/][\d\w.\-\/]+)$/.
      */
     daemon_base?: string;
     /**
@@ -1903,20 +1980,20 @@ export type AdminUpdateNodeRequest = {
 };
 export type AdminSyncNodeGameTagsRequest = {
     /**
-     * Must not be greater than 191 characters.
+     * Поле «value» должно содержать не более 191 символов.
      */
     tags?: Array<string>;
 };
 export type AdminSyncNodeDeploymentTagsRequest = {
     /**
-     * Must not be greater than 191 characters.
+     * Поле «value» должно содержать не более 191 символов.
      */
     tags?: Array<string>;
 };
 export type AdminCreateNodeAllocationsRequest = {
     ip?: Array<string>;
     /**
-     * An optional alias for this resource. Must not be greater than 255 characters.
+     * Необязательный псевдоним ресурса. Поле «value» должно содержать не более 255 символов.
      */
     alias?: string | null;
     ports?: Array<string>;
@@ -1926,88 +2003,88 @@ export type AdminBulkDeleteNodeAllocationsRequest = {
 };
 export type AdminDeleteNodeAllocationIpBlockRequest = {
     /**
-     * The IP address.
+     * IP-адрес.
      */
     ip: string;
 };
 export type AdminUpdateNodeAllocationRequest = {
     /**
-     * An optional alias for this resource.
+     * Необязательный псевдоним ресурса.
      */
     alias?: string | null;
 };
 export type AdminCreateLocationRequest = {
     /**
-     * The short. Must be between 1 and 60 characters.
+     * Поле «short». Поле «value» должно содержать от 1 до 60 символов.
      */
     short: string;
     /**
-     * The long. Must be between 1 and 191 characters.
+     * Поле «long». Поле «value» должно содержать от 1 до 191 символов.
      */
     long?: string | null;
     extensions?: ExtensionFields;
 };
 export type AdminUpdateLocationRequest = {
     /**
-     * The short. Must be between 1 and 60 characters.
+     * Поле «short». Поле «value» должно содержать от 1 до 60 символов.
      */
     short: string;
     /**
-     * The long. Must be between 1 and 191 characters.
+     * Поле «long». Поле «value» должно содержать от 1 до 191 символов.
      */
     long?: string | null;
     extensions?: ExtensionFields;
 };
 export type AdminCreateMountRequest = {
     /**
-     * The display name. Must be at least 2 characters. Must not be greater than 64 characters.
+     * Отображаемое название. Поле «value» должно содержать не менее 2 символов. Поле «value» должно содержать не более 64 символов.
      */
     name: string;
     /**
-     * A description for this resource. Must not be greater than 191 characters.
+     * Описание ресурса. Поле «value» должно содержать не более 191 символов.
      */
     description?: string | null;
     /**
-     * The source path. Must start with one of <code>/</code>.
+     * Исходный путь. Must start with one of <code>/</code>.
      */
     source: string;
     /**
-     * The target path. Must start with one of <code>/</code>.
+     * Целевой путь. Must start with one of <code>/</code>.
      */
     target: string;
     /**
-     * The read only.
+     * Поле «read only».
      */
     read_only?: boolean;
     /**
-     * Whether users can mount this resource.
+     * Могут ли пользователи монтировать этот ресурс.
      */
     user_mountable?: boolean;
     extensions?: ExtensionFields;
 };
 export type AdminUpdateMountRequest = {
     /**
-     * The display name. Must be at least 2 characters. Must not be greater than 64 characters.
+     * Отображаемое название. Поле «value» должно содержать не менее 2 символов. Поле «value» должно содержать не более 64 символов.
      */
     name: string;
     /**
-     * A description for this resource. Must not be greater than 191 characters.
+     * Описание ресурса. Поле «value» должно содержать не более 191 символов.
      */
     description?: string | null;
     /**
-     * The source path. Must start with one of <code>/</code>.
+     * Исходный путь. Must start with one of <code>/</code>.
      */
     source: string;
     /**
-     * The target path. Must start with one of <code>/</code>.
+     * Целевой путь. Must start with one of <code>/</code>.
      */
     target: string;
     /**
-     * The read only.
+     * Поле «read only».
      */
     read_only?: boolean;
     /**
-     * Whether users can mount this resource.
+     * Могут ли пользователи монтировать этот ресурс.
      */
     user_mountable?: boolean;
     extensions?: ExtensionFields;
@@ -2020,29 +2097,29 @@ export type AdminAttachNodesToMountRequest = {
 };
 export type AdminImportCatalogEggRequest = {
     /**
-     * The catalog id. Must not be greater than 255 characters.
+     * Поле «catalog id». Поле «value» должно содержать не более 255 символов.
      */
     catalog_id: string;
 };
 export type AdminCreateEggVariableRequest = {
     /**
-     * The display name. Must be at least 1 character. Must not be greater than 191 characters.
+     * Отображаемое название. Поле «value» должно содержать не менее 1 символов. Поле «value» должно содержать не более 191 символов.
      */
     name: string;
     /**
-     * A description for this resource.
+     * Описание ресурса.
      */
     description?: string | null;
     /**
-     * The environment variable name. Must not be one of <code>SERVER_MEMORY</code>, <code>SERVER_IP</code>, <code>SERVER_PORT</code>, <code>ENV</code>, <code>HOME</code>, <code>USER</code>, <code>STARTUP</code>, <code>SERVER_UUID</code>, <code>UUID</code>, in any letter case. Must match the regex /^[\w]{1,191}$/.
+     * Имя переменной окружения. Must not be one of <code>SERVER_MEMORY</code>, <code>SERVER_IP</code>, <code>SERVER_PORT</code>, <code>ENV</code>, <code>HOME</code>, <code>USER</code>, <code>STARTUP</code>, <code>SERVER_UUID</code>, <code>UUID</code>, in any letter case. Must match the regex /^[\w]{1,191}$/.
      */
     env_variable: string;
     /**
-     * Laravel validation rules applied to user-submitted values.
+     * Правила валидации Laravel для значений, переданных пользователем.
      */
     rules: string;
     /**
-     * The default value.
+     * Значение по умолчанию.
      */
     default_value?: string;
     options?: Array<string>;
@@ -2052,908 +2129,824 @@ export type AdminReorderEggVariablesRequest = {
 };
 export type AdminUpdateEggVariableRequest = {
     /**
-     * The display name. Must be at least 1 character. Must not be greater than 191 characters.
+     * Отображаемое название. Поле «value» должно содержать не менее 1 символов. Поле «value» должно содержать не более 191 символов.
      */
     name: string;
     /**
-     * A description for this resource.
+     * Описание ресурса.
      */
     description?: string | null;
     /**
-     * The environment variable name. Must not be one of <code>SERVER_MEMORY</code>, <code>SERVER_IP</code>, <code>SERVER_PORT</code>, <code>ENV</code>, <code>HOME</code>, <code>USER</code>, <code>STARTUP</code>, <code>SERVER_UUID</code>, <code>UUID</code>, in any letter case. Must match the regex /^[\w]{1,191}$/.
+     * Имя переменной окружения. Must not be one of <code>SERVER_MEMORY</code>, <code>SERVER_IP</code>, <code>SERVER_PORT</code>, <code>ENV</code>, <code>HOME</code>, <code>USER</code>, <code>STARTUP</code>, <code>SERVER_UUID</code>, <code>UUID</code>, in any letter case. Must match the regex /^[\w]{1,191}$/.
      */
     env_variable: string;
     /**
-     * Laravel validation rules applied to user-submitted values.
+     * Правила валидации Laravel для значений, переданных пользователем.
      */
     rules: string;
     /**
-     * The default value.
+     * Значение по умолчанию.
      */
     default_value?: string;
     options?: Array<string>;
 };
 export type AdminUpdateEggInstallScriptRequest = {
     /**
-     * The install script body.
+     * Текст скрипта установки.
      */
     script_install?: string | null;
     /**
-     * Whether the install script runs in privileged mode.
+     * Выполняется ли скрипт установки в привилегированном режиме.
      */
     script_is_privileged?: boolean;
     /**
-     * The install container entrypoint.
+     * Точка входа контейнера установки.
      */
     script_entry?: string;
     /**
-     * The install container image.
+     * Образ контейнера установки.
      */
     script_container?: string;
     /**
-     * Another egg ID to copy the install script from.
+     * ID другого egg, из которого нужно скопировать скрипт установки.
      */
     copy_script_from?: number | null;
 };
 export type AdminUpdateEggFromImportRequest = {
     /**
-     * The file to import. Must be a file. Must not be greater than 1000 kilobytes.
+     * Файл для импорта. Must be a file. Размер файла «value» не должен превышать 1000 КБ.
      */
     import_file: Blob | File;
 };
 export type AdminSyncEggTagsRequest = {
     /**
-     * Must not be greater than 191 characters.
+     * Поле «value» должно содержать не более 191 символов.
      */
     tags?: Array<string>;
 };
 export type AdminImportEggRequest = {
     /**
-     * The file to import. Must be a file. Must not be greater than 1000 kilobytes.
+     * Файл для импорта. Must be a file. Размер файла «value» не должен превышать 1000 КБ.
      */
     import_file: Blob | File;
 };
 export type AdminCreateEggRequest = {
     /**
-     * The display name. Must not be greater than 191 characters.
+     * Отображаемое название. Поле «value» должно содержать не более 191 символов.
      */
     name: string;
     /**
-     * A description for this resource.
+     * Описание ресурса.
      */
     description?: string | null;
     /**
-     * Docker images available to this resource. One image per line, optionally prefixed with a display name and a pipe (<code>Java 21|ghcr.io/pterodactyl/yolks:java_21</code>). Each must be at most 191 characters and match the regex /^[\w#\.\/\- ]*\|?~?[\w\.\/\-:@ ]*$/.
+     * Образы Docker, доступные для этого ресурса. One image per line, optionally prefixed with a display name and a pipe (<code>Java 21|ghcr.io/pterodactyl/yolks:java_21</code>). Each must be at most 191 characters and match the regex /^[\w#\.\/\- ]*\|?~?[\w\.\/\-:@ ]*$/.
      */
     docker_images: string;
     /**
-     * Whether servers should use their allocation IP for outgoing traffic.
+     * Должны ли серверы использовать IP-адрес своего выделения для исходящего трафика.
      */
     force_outgoing_ip?: boolean;
     /**
-     * File patterns denied by the file manager.
+     * Шаблоны файлов, доступ к которым запрещён в файловом менеджере.
      */
     file_denylist?: Array<string>;
     /**
-     * Feature flags enabled for this resource.
+     * Флаги функций, включённых для этого ресурса.
      */
     features?: Array<string>;
     /**
-     * The startup command.
+     * Команда запуска.
      */
     startup: string;
     /**
-     * The config from. Must match an existing stored value.
+     * Поле «config from». Must match an existing stored value.
      */
     config_from?: number | null;
     /**
-     * The config stop. This field is required when <code>config_from</code> is not present. Must not be greater than 191 characters.
+     * Поле «config stop». This field is required when <code>config_from</code> is not present. Поле «value» должно содержать не более 191 символов.
      */
     config_stop?: string | null;
     /**
-     * The config startup. This field is required when <code>config_from</code> is not present. Must be a valid JSON string.
+     * Поле «config startup». This field is required when <code>config_from</code> is not present. Поле «value» должно содержать корректную строку JSON.
      */
     config_startup?: string | null;
     /**
-     * The config logs. This field is required when <code>config_from</code> is not present. Must be a valid JSON string.
+     * Поле «config logs». This field is required when <code>config_from</code> is not present. Поле «value» должно содержать корректную строку JSON.
      */
     config_logs?: string | null;
     /**
-     * The config files. This field is required when <code>config_from</code> is not present. Must be a valid JSON string.
+     * Поле «config files». This field is required when <code>config_from</code> is not present. Поле «value» должно содержать корректную строку JSON.
      */
     config_files?: string | null;
     extensions?: ExtensionFields;
 };
 export type AdminUpdateEggRequest = {
     /**
-     * The display name. Must not be greater than 191 characters.
+     * Отображаемое название. Поле «value» должно содержать не более 191 символов.
      */
     name: string;
     /**
-     * A description for this resource.
+     * Описание ресурса.
      */
     description?: string | null;
     /**
-     * Docker images available to this resource. One image per line, optionally prefixed with a display name and a pipe (<code>Java 21|ghcr.io/pterodactyl/yolks:java_21</code>). Each must be at most 191 characters and match the regex /^[\w#\.\/\- ]*\|?~?[\w\.\/\-:@ ]*$/.
+     * Образы Docker, доступные для этого ресурса. One image per line, optionally prefixed with a display name and a pipe (<code>Java 21|ghcr.io/pterodactyl/yolks:java_21</code>). Each must be at most 191 characters and match the regex /^[\w#\.\/\- ]*\|?~?[\w\.\/\-:@ ]*$/.
      */
     docker_images: string;
     /**
-     * Whether servers should use their allocation IP for outgoing traffic.
+     * Должны ли серверы использовать IP-адрес своего выделения для исходящего трафика.
      */
     force_outgoing_ip?: boolean;
     /**
-     * File patterns denied by the file manager.
+     * Шаблоны файлов, доступ к которым запрещён в файловом менеджере.
      */
     file_denylist?: Array<string>;
     /**
-     * Feature flags enabled for this resource.
+     * Флаги функций, включённых для этого ресурса.
      */
     features?: Array<string>;
     /**
-     * The startup command.
+     * Команда запуска.
      */
     startup: string;
     /**
-     * The config from. Must match an existing stored value.
+     * Поле «config from». Must match an existing stored value.
      */
     config_from?: number | null;
     /**
-     * The config stop. This field is required when <code>config_from</code> is not present. Must not be greater than 191 characters.
+     * Поле «config stop». This field is required when <code>config_from</code> is not present. Поле «value» должно содержать не более 191 символов.
      */
     config_stop?: string | null;
     /**
-     * The config startup. This field is required when <code>config_from</code> is not present. Must be a valid JSON string.
+     * Поле «config startup». This field is required when <code>config_from</code> is not present. Поле «value» должно содержать корректную строку JSON.
      */
     config_startup?: string | null;
     /**
-     * The config logs. This field is required when <code>config_from</code> is not present. Must be a valid JSON string.
+     * Поле «config logs». This field is required when <code>config_from</code> is not present. Поле «value» должно содержать корректную строку JSON.
      */
     config_logs?: string | null;
     /**
-     * The config files. This field is required when <code>config_from</code> is not present. Must be a valid JSON string.
+     * Поле «config files». This field is required when <code>config_from</code> is not present. Поле «value» должно содержать корректную строку JSON.
      */
     config_files?: string | null;
     extensions?: ExtensionFields;
 };
 export type AdminCreateTagRequest = {
     /**
-     * The display name. Must be between 1 and 191 characters.
+     * Отображаемое название. Поле «value» должно содержать от 1 до 191 символов.
      */
     name: string;
     /**
-     * The slug. Must be between 1 and 191 characters.
+     * Поле «slug». Поле «value» должно содержать от 1 до 191 символов.
      */
     slug: string;
     /**
-     * The color.
+     * Поле «color».
      */
     color?: string | null;
 };
 export type AdminUpdateTagRequest = {
     /**
-     * The display name. Must be between 1 and 191 characters.
+     * Отображаемое название. Поле «value» должно содержать от 1 до 191 символов.
      */
     name: string;
     /**
-     * The slug. Must be between 1 and 191 characters.
+     * Поле «slug». Поле «value» должно содержать от 1 до 191 символов.
      */
     slug: string;
     /**
-     * The color.
+     * Поле «color».
      */
     color?: string | null;
 };
-export type AdminUpdateGeneralSettingsRequest = {
-    branding?: {
-        /**
-         * The branding name. Must not be greater than 191 characters.
-         */
-        name: string;
-    };
-    misc?: {
-        /**
-         * The misc required 2fa.
-         */
-        required_2fa: 0 | 1 | 2;
-    };
-    /**
-     * The default locale.
-     */
-    default_locale: string;
-};
-export type AdminUpdateMailSettingsRequest = {
-    smtp?: {
-        /**
-         * The smtp host.
-         */
-        host: string;
-        /**
-         * The smtp port. Must be between 1 and 65535.
-         */
-        port: number;
-        /**
-         * The smtp encryption.
-         */
-        encryption?: 'tls' | 'ssl' | null;
-        /**
-         * The smtp username. Must not be greater than 191 characters.
-         */
-        username?: string | null;
-        /**
-         * The smtp password. Must not be greater than 191 characters.
-         */
-        password?: string | null;
-        /**
-         * The smtp from address. Must be a valid email address.
-         */
-        from_address: string;
-        /**
-         * The smtp from name. Must not be greater than 191 characters.
-         */
-        from_name?: string | null;
-    };
-};
-export type AdminUpdateAdvancedSettingsRequest = {
-    /**
-     * The recaptcha:enabled.
-     */
-    'recaptcha:enabled': 'true' | 'false';
-    /**
-     * The recaptcha:secret key. Must not be greater than 191 characters.
-     */
-    'recaptcha:secret_key'?: string | null;
-    /**
-     * The recaptcha:website key. Must not be greater than 191 characters.
-     */
-    'recaptcha:website_key': string;
-    /**
-     * The pterodactyl:guzzle:timeout. Must be between 1 and 60.
-     */
-    'pterodactyl:guzzle:timeout': number;
-    /**
-     * The pterodactyl:guzzle:connect timeout. Must be between 1 and 60.
-     */
-    'pterodactyl:guzzle:connect_timeout': number;
-    /**
-     * The pterodactyl:client features:allocations:enabled.
-     */
-    'pterodactyl:client_features:allocations:enabled': 'true' | 'false';
-    /**
-     * The pterodactyl:client features:allocations:range start. This field is required when <code>pterodactyl:client_features:allocations:enabled</code> is <code>true</code>. Must be between 1024 and 65535.
-     */
-    'pterodactyl:client_features:allocations:range_start'?: number | null;
-    /**
-     * The pterodactyl:client features:allocations:range end. This field is required when <code>pterodactyl:client_features:allocations:enabled</code> is <code>true</code>. Must be between 1024 and 65535.
-     */
-    'pterodactyl:client_features:allocations:range_end'?: number | null;
-};
 export type AdminCreateDatabaseHostRequest = {
     /**
-     * The display name. Must not be greater than 191 characters.
+     * Отображаемое название. Поле «value» должно содержать не более 191 символов.
      */
     name: string;
     /**
-     * The database host address. Must match the regex /^[\w\-\.]+$/.
+     * Адрес хоста баз данных. Must match the regex /^[\w\-\.]+$/.
      */
     host: string;
     /**
-     * The port number. Must be between 1 and 65535.
+     * Номер порта. Значение поля «value» должно быть от 1 до 65535.
      */
     port: number;
     /**
-     * The username. Must not be greater than 32 characters.
+     * Имя пользователя. Поле «value» должно содержать не более 32 символов.
      */
     username: string;
     /**
-     * The password.
+     * Пароль.
      */
     password?: string | null;
     /**
-     * The node ID. Must match an existing stored value.
+     * ID узла. Must match an existing stored value.
      */
     node_id?: number | null;
     extensions?: ExtensionFields;
 };
 export type AdminUpdateDatabaseHostRequest = {
     /**
-     * The display name. Must not be greater than 191 characters.
+     * Отображаемое название. Поле «value» должно содержать не более 191 символов.
      */
     name: string;
     /**
-     * The database host address. Must match the regex /^[\w\-\.]+$/.
+     * Адрес хоста баз данных. Must match the regex /^[\w\-\.]+$/.
      */
     host: string;
     /**
-     * The port number. Must be between 1 and 65535.
+     * Номер порта. Значение поля «value» должно быть от 1 до 65535.
      */
     port: number;
     /**
-     * The username. Must not be greater than 32 characters.
+     * Имя пользователя. Поле «value» должно содержать не более 32 символов.
      */
     username: string;
     /**
-     * The password.
+     * Пароль.
      */
     password?: string | null;
     /**
-     * The node ID. Must match an existing stored value.
+     * ID узла. Must match an existing stored value.
      */
     node_id?: number | null;
     extensions?: ExtensionFields;
 };
 export type AdminCreateApiKeyRequest = {
     /**
-     * The memo. Must not be greater than 500 characters.
+     * Поле «memo». Поле «value» должно содержать не более 500 символов.
      */
     memo: string;
     /**
-     * The r servers. Must be at least 0. Must not be greater than 3.
+     * Поле «r servers». Значение поля «value» должно быть не меньше 0. Значение поля «value» не должно превышать 3.
      */
     r_servers?: number;
     /**
-     * The r nodes. Must be at least 0. Must not be greater than 3.
+     * Поле «r nodes». Значение поля «value» должно быть не меньше 0. Значение поля «value» не должно превышать 3.
      */
     r_nodes?: number;
     /**
-     * The r allocations. Must be at least 0. Must not be greater than 3.
+     * Поле «r allocations». Значение поля «value» должно быть не меньше 0. Значение поля «value» не должно превышать 3.
      */
     r_allocations?: number;
     /**
-     * The r users. Must be at least 0. Must not be greater than 3.
+     * Поле «r users». Значение поля «value» должно быть не меньше 0. Значение поля «value» не должно превышать 3.
      */
     r_users?: number;
     /**
-     * The r locations. Must be at least 0. Must not be greater than 3.
+     * Поле «r locations». Значение поля «value» должно быть не меньше 0. Значение поля «value» не должно превышать 3.
      */
     r_locations?: number;
     /**
-     * The r eggs. Must be at least 0. Must not be greater than 3.
+     * Поле «r eggs». Значение поля «value» должно быть не меньше 0. Значение поля «value» не должно превышать 3.
      */
     r_eggs?: number;
     /**
-     * The r database hosts. Must be at least 0. Must not be greater than 3.
+     * Поле «r database hosts». Значение поля «value» должно быть не меньше 0. Значение поля «value» не должно превышать 3.
      */
     r_database_hosts?: number;
     /**
-     * The r server databases. Must be at least 0. Must not be greater than 3.
+     * Поле «r server databases». Значение поля «value» должно быть не меньше 0. Значение поля «value» не должно превышать 3.
      */
     r_server_databases?: number;
 };
 export type AdminUpdateApiKeyRequest = {
     /**
-     * The memo. Must not be greater than 500 characters.
+     * Поле «memo». Поле «value» должно содержать не более 500 символов.
      */
     memo: string;
     /**
-     * The r servers. Must be at least 0. Must not be greater than 3.
+     * Поле «r servers». Значение поля «value» должно быть не меньше 0. Значение поля «value» не должно превышать 3.
      */
     r_servers?: number;
     /**
-     * The r nodes. Must be at least 0. Must not be greater than 3.
+     * Поле «r nodes». Значение поля «value» должно быть не меньше 0. Значение поля «value» не должно превышать 3.
      */
     r_nodes?: number;
     /**
-     * The r allocations. Must be at least 0. Must not be greater than 3.
+     * Поле «r allocations». Значение поля «value» должно быть не меньше 0. Значение поля «value» не должно превышать 3.
      */
     r_allocations?: number;
     /**
-     * The r users. Must be at least 0. Must not be greater than 3.
+     * Поле «r users». Значение поля «value» должно быть не меньше 0. Значение поля «value» не должно превышать 3.
      */
     r_users?: number;
     /**
-     * The r locations. Must be at least 0. Must not be greater than 3.
+     * Поле «r locations». Значение поля «value» должно быть не меньше 0. Значение поля «value» не должно превышать 3.
      */
     r_locations?: number;
     /**
-     * The r eggs. Must be at least 0. Must not be greater than 3.
+     * Поле «r eggs». Значение поля «value» должно быть не меньше 0. Значение поля «value» не должно превышать 3.
      */
     r_eggs?: number;
     /**
-     * The r database hosts. Must be at least 0. Must not be greater than 3.
+     * Поле «r database hosts». Значение поля «value» должно быть не меньше 0. Значение поля «value» не должно превышать 3.
      */
     r_database_hosts?: number;
     /**
-     * The r server databases. Must be at least 0. Must not be greater than 3.
+     * Поле «r server databases». Значение поля «value» должно быть не меньше 0. Значение поля «value» не должно превышать 3.
      */
     r_server_databases?: number;
 };
 export type ApplicationCreateUserRequest = {
     /**
-     * An external identifier for this resource. Must not be greater than 191 characters.
+     * Внешний идентификатор ресурса. Поле «value» должно содержать не более 191 символов.
      */
     external_id?: string | null;
     /**
-     * The user email address. Must be a valid email address. Must be between 1 and 191 characters.
+     * Адрес электронной почты пользователя. Поле «value» должно содержать корректный адрес электронной почты. Поле «value» должно содержать от 1 до 191 символов.
      */
     email: string;
     /**
-     * The username. Must be between 1 and 191 characters.
+     * Имя пользователя. Поле «value» должно содержать от 1 до 191 символов.
      */
     username: string;
     /**
-     * The password. Must be at least 8 characters.
+     * Пароль. Must be at least 8 characters.
      */
     password?: string | null;
     /**
-     * The locale code.
+     * Код локали.
      */
-    language?: 'en';
+    language?: 'en' | 'ru';
     /**
-     * Whether the user has administrator privileges.
+     * Есть ли у пользователя права администратора.
      */
     root_admin?: boolean;
     /**
-     * The first name. Must be between 1 and 191 characters.
+     * Поле «first name». Поле «value» должно содержать от 1 до 191 символов.
      */
     first_name: string;
     /**
-     * The last name. Must be between 1 and 191 characters.
+     * Поле «last name». Поле «value» должно содержать от 1 до 191 символов.
      */
     last_name: string;
     extensions?: ExtensionFields;
 };
 export type ApplicationUpdateUserRequest = {
     /**
-     * An external identifier for this resource. Must not be greater than 191 characters.
+     * Внешний идентификатор ресурса. Поле «value» должно содержать не более 191 символов.
      */
     external_id?: string | null;
     /**
-     * The user email address. Must be a valid email address. Must be between 1 and 191 characters.
+     * Адрес электронной почты пользователя. Поле «value» должно содержать корректный адрес электронной почты. Поле «value» должно содержать от 1 до 191 символов.
      */
     email: string;
     /**
-     * The username. Must be between 1 and 191 characters.
+     * Имя пользователя. Поле «value» должно содержать от 1 до 191 символов.
      */
     username: string;
     /**
-     * The password. Must be at least 8 characters.
+     * Пароль. Must be at least 8 characters.
      */
     password?: string | null;
     /**
-     * The locale code.
+     * Код локали.
      */
-    language?: 'en';
+    language?: 'en' | 'ru';
     /**
-     * Whether the user has administrator privileges.
+     * Есть ли у пользователя права администратора.
      */
     root_admin?: boolean;
     /**
-     * The first name. Must be between 1 and 191 characters.
+     * Поле «first name». Поле «value» должно содержать от 1 до 191 символов.
      */
     first_name: string;
     /**
-     * The last name. Must be between 1 and 191 characters.
+     * Поле «last name». Поле «value» должно содержать от 1 до 191 символов.
      */
     last_name: string;
     extensions?: ExtensionFields;
 };
 export type ApplicationCreateNodeRequest = {
     /**
-     * The public.
+     * Поле «public».
      */
     public?: boolean;
     /**
-     * The display name. Must match the regex /^([\w .-]{1,100})$/.
+     * Отображаемое название. Must match the regex /^([\w .-]{1,100})$/.
      */
     name: string;
     /**
-     * A description for this resource.
+     * Описание ресурса.
      */
     description?: string | null;
     /**
-     * The location ID. Must match an existing stored value.
+     * ID локации. Must match an existing stored value.
      */
     location_id: number;
     /**
-     * The fully qualified domain name.
+     * Полное доменное имя.
      */
     fqdn: string;
     /**
-     * The scheme.
+     * Поле «scheme».
      */
     scheme: string;
     /**
-     * Whether the node is behind a proxy.
+     * Находится ли узел за прокси.
      */
     behind_proxy?: boolean;
     /**
-     * The maintenance mode.
+     * Поле «maintenance mode».
      */
     maintenance_mode?: boolean;
     /**
-     * The memory limit in megabytes. Must be at least 1.
+     * Лимит памяти в мегабайтах. Значение поля «value» должно быть не меньше 1.
      */
     memory: number;
     /**
-     * The memory overallocate. Must be at least -1.
+     * Поле «memory overallocate». Значение поля «value» должно быть не меньше -1.
      */
     memory_overallocate: number;
     /**
-     * The disk limit in megabytes. Must be at least 1.
+     * Лимит дискового пространства в мегабайтах. Значение поля «value» должно быть не меньше 1.
      */
     disk: number;
     /**
-     * The disk overallocate. Must be at least -1.
+     * Поле «disk overallocate». Значение поля «value» должно быть не меньше -1.
      */
     disk_overallocate: number;
     /**
-     * The upload size. Must be at least 1.
+     * Поле «upload size». Значение поля «value» должно быть не меньше 1.
      */
     upload_size?: number;
     /**
-     * The daemon listen. Must be between 1 and 65535.
+     * Поле «daemon listen». Значение поля «value» должно быть от 1 до 65535.
      */
     daemon_listen: number;
     /**
-     * The daemon sftp. Must be between 1 and 65535.
+     * Поле «daemon sftp». Значение поля «value» должно быть от 1 до 65535.
      */
     daemon_sftp: number;
     /**
-     * The daemon base. Must match the regex /^([\/][\d\w.\-\/]+)$/.
+     * Поле «daemon base». Must match the regex /^([\/][\d\w.\-\/]+)$/.
      */
     daemon_base?: string;
     extensions?: ExtensionFields;
 };
 export type ApplicationUpdateNodeRequest = {
     /**
-     * The public.
+     * Поле «public».
      */
     public?: boolean;
     /**
-     * The display name. Must match the regex /^([\w .-]{1,100})$/.
+     * Отображаемое название. Must match the regex /^([\w .-]{1,100})$/.
      */
     name: string;
     /**
-     * A description for this resource.
+     * Описание ресурса.
      */
     description?: string | null;
     /**
-     * The location ID. Must match an existing stored value.
+     * ID локации. Must match an existing stored value.
      */
     location_id: number;
     /**
-     * The fully qualified domain name.
+     * Полное доменное имя.
      */
     fqdn: string;
     /**
-     * The scheme.
+     * Поле «scheme».
      */
     scheme: string;
     /**
-     * Whether the node is behind a proxy.
+     * Находится ли узел за прокси.
      */
     behind_proxy?: boolean;
     /**
-     * The maintenance mode.
+     * Поле «maintenance mode».
      */
     maintenance_mode?: boolean;
     /**
-     * The memory limit in megabytes. Must be at least 1.
+     * Лимит памяти в мегабайтах. Значение поля «value» должно быть не меньше 1.
      */
     memory: number;
     /**
-     * The memory overallocate. Must be at least -1.
+     * Поле «memory overallocate». Значение поля «value» должно быть не меньше -1.
      */
     memory_overallocate: number;
     /**
-     * The disk limit in megabytes. Must be at least 1.
+     * Лимит дискового пространства в мегабайтах. Значение поля «value» должно быть не меньше 1.
      */
     disk: number;
     /**
-     * The disk overallocate. Must be at least -1.
+     * Поле «disk overallocate». Значение поля «value» должно быть не меньше -1.
      */
     disk_overallocate: number;
     /**
-     * The upload size. Must be at least 1.
+     * Поле «upload size». Значение поля «value» должно быть не меньше 1.
      */
     upload_size?: number;
     /**
-     * The daemon listen. Must be between 1 and 65535.
+     * Поле «daemon listen». Значение поля «value» должно быть от 1 до 65535.
      */
     daemon_listen: number;
     /**
-     * The daemon sftp. Must be between 1 and 65535.
+     * Поле «daemon sftp». Значение поля «value» должно быть от 1 до 65535.
      */
     daemon_sftp: number;
     /**
-     * The daemon base. Must match the regex /^([\/][\d\w.\-\/]+)$/.
+     * Поле «daemon base». Must match the regex /^([\/][\d\w.\-\/]+)$/.
      */
     daemon_base?: string;
     /**
-     * The reset secret.
+     * Поле «reset secret».
      */
     reset_secret?: boolean;
     extensions?: ExtensionFields;
 };
 export type ApplicationCreateNodeAllocationsRequest = {
     /**
-     * The IP address.
+     * IP-адрес.
      */
     ip: string;
     /**
-     * An optional alias for this resource. Must not be greater than 191 characters.
+     * Необязательный псевдоним ресурса. Поле «value» должно содержать не более 191 символов.
      */
     alias?: string | null;
     ports?: Array<string>;
 };
 export type ApplicationCreateLocationRequest = {
     /**
-     * The short. Must be between 1 and 60 characters.
+     * Поле «short». Поле «value» должно содержать от 1 до 60 символов.
      */
     short: string;
     /**
-     * The long. Must be between 1 and 191 characters.
+     * Поле «long». Поле «value» должно содержать от 1 до 191 символов.
      */
     long?: string | null;
     extensions?: ExtensionFields;
 };
 export type ApplicationUpdateLocationRequest = {
     /**
-     * The short. Must be between 1 and 60 characters.
+     * Поле «short». Поле «value» должно содержать от 1 до 60 символов.
      */
     short: string;
     /**
-     * The long. Must be between 1 and 191 characters.
+     * Поле «long». Поле «value» должно содержать от 1 до 191 символов.
      */
     long?: string | null;
     extensions?: ExtensionFields;
 };
 export type ApplicationCreateServerRequest = {
     /**
-     * An external identifier for this resource. Must be between 1 and 191 characters.
+     * Внешний идентификатор ресурса. Поле «value» должно содержать от 1 до 191 символов.
      */
     external_id?: string | null;
     /**
-     * The display name. Must be at least 1 character. Must not be greater than 191 characters.
+     * Отображаемое название. Поле «value» должно содержать не менее 1 символов. Поле «value» должно содержать не более 191 символов.
      */
     name: string;
     /**
-     * A description for this resource.
+     * Описание ресурса.
      */
     description?: string | null;
     /**
-     * The user ID. Must match an existing stored value.
+     * ID пользователя. Must match an existing stored value.
      */
     user: number;
     /**
-     * The egg. Must match an existing stored value.
+     * Поле «egg». Must match an existing stored value.
      */
     egg: string;
     /**
-     * The Docker image to use. Must match the regex /^~?[\w\.\/\-:@ ]*$/. Must not be greater than 191 characters.
+     * Используемый образ Docker. Must match the regex /^~?[\w\.\/\-:@ ]*$/. Поле «value» должно содержать не более 191 символов.
      */
     docker_image: string;
     /**
-     * The startup command.
+     * Команда запуска.
      */
     startup: string;
     /**
-     * Environment variables for the server.
+     * Переменные окружения сервера.
      */
     environment?: {
         [key: string]: string;
     };
     /**
-     * Whether install scripts should be skipped.
+     * Пропускать ли скрипты установки.
      */
     skip_scripts?: boolean;
     /**
-     * Whether the OOM killer is disabled.
+     * Отключён ли OOM killer.
      */
     oom_disabled?: boolean;
     /**
-     * The limits.
+     * Поле «limits».
      */
     limits: {
         /**
-         * The limits memory. Must be at least 0.
+         * Поле «limits memory». Значение поля «value» должно быть не меньше 0.
          */
         memory: number;
         /**
-         * The limits swap. Must be at least -1.
+         * Поле «limits swap». Значение поля «value» должно быть не меньше -1.
          */
         swap: number;
         /**
-         * The limits disk. Must be at least 0.
+         * Поле «limits disk». Значение поля «value» должно быть не меньше 0.
          */
         disk: number;
         /**
-         * The limits io. Must be between 10 and 1000.
+         * Поле «limits io». Значение поля «value» должно быть от 10 до 1000.
          */
         io: number;
         /**
-         * The limits threads. Must match the regex /^[0-9-,]+$/.
+         * Поле «limits threads». Must match the regex /^[0-9-,]+$/.
          */
         threads?: string | null;
         /**
-         * The limits cpu. Must be at least 0.
+         * Поле «limits cpu». Значение поля «value» должно быть не меньше 0.
          */
         cpu: number;
     };
     /**
-     * The feature limits.
+     * Поле «feature limits».
      */
     feature_limits: {
         /**
-         * The maximum number of databases allowed. Must be at least 0.
+         * Максимальное количество баз данных. Значение поля «value» должно быть не меньше 0.
          */
         databases?: number | null;
         /**
-         * The maximum number of allocations allowed. Must be at least 0.
+         * Максимальное количество выделений. Значение поля «value» должно быть не меньше 0.
          */
         allocations?: number | null;
         /**
-         * The maximum number of backups allowed. Must be at least 0.
+         * Максимальное количество резервных копий. Значение поля «value» должно быть не меньше 0.
          */
         backups?: number | null;
     };
     allocation?: {
         /**
-         * The allocation default.
+         * Поле «allocation default».
          */
         default: number;
         additional?: Array<number>;
     };
     /**
-     * The deploy.
+     * Поле «deploy».
      */
     deploy?: {
         /**
-         * Must be at least 1.
+         * Значение поля «value» должно быть не меньше 1.
          */
         locations: Array<number>;
         /**
-         * The deploy dedicated ip.
+         * Поле «deploy dedicated ip».
          */
         dedicated_ip?: boolean;
         port_range?: Array<string>;
         /**
-         * Deploy tags (IDs or slugs) the deployment declares. A node's egg tags are OR-matched against the egg's tags: a node with none accepts every egg, otherwise it needs one tag in common with the egg. Its deployment tags must match these exactly: a node reserved for a tag missing here is skipped, and every tag listed must be reserved on the node.
+         * Теги развёртывания (ID или символьные идентификаторы), указанные при развёртывании. Теги egg на узле сопоставляются с тегами egg по условию «ИЛИ»: узел без таких тегов принимает любой egg, иначе требуется хотя бы один общий тег. Теги развёртывания узла должны точно совпадать с указанными здесь: узел, зарезервированный для отсутствующего здесь тега, пропускается, а каждый указанный тег должен быть зарезервирован на узле.
          */
         tags?: Array<number | string>;
     };
     /**
-     * Whether the server should start when the operation completes.
+     * Запускать ли сервер после завершения операции.
      */
     start_on_completion?: boolean;
     extensions?: ExtensionFields;
 };
 export type ApplicationUpdateServerDetailsRequest = {
     /**
-     * An external identifier for this resource. Must be between 1 and 191 characters.
+     * Внешний идентификатор ресурса. Поле «value» должно содержать от 1 до 191 символов.
      */
     external_id?: string | null;
     /**
-     * The display name. Must be at least 1 character. Must not be greater than 191 characters.
+     * Отображаемое название. Поле «value» должно содержать не менее 1 символов. Поле «value» должно содержать не более 191 символов.
      */
     name: string;
     /**
-     * The user ID. Must match an existing stored value.
+     * ID пользователя. Must match an existing stored value.
      */
     user: number;
     /**
-     * A description for this resource.
+     * Описание ресурса.
      */
     description?: string | null;
     extensions?: ExtensionFields;
 };
 export type ApplicationUpdateServerBuildRequest = {
     /**
-     * The allocation ID. Must match an existing stored value.
+     * ID выделения. Must match an existing stored value.
      */
     allocation: string;
     /**
-     * Whether the OOM killer is disabled.
+     * Отключён ли OOM killer.
      */
     oom_disabled?: boolean;
     /**
-     * The limits.
+     * Поле «limits».
      */
     limits?: {
         /**
-         * The limits memory. This field is required when <code>limits</code> is present. Must be at least 0.
+         * Поле «limits memory». This field is required when <code>limits</code> is present. Значение поля «value» должно быть не меньше 0.
          */
         memory?: number;
         /**
-         * The limits swap. This field is required when <code>limits</code> is present. Must be at least -1.
+         * Поле «limits swap». This field is required when <code>limits</code> is present. Значение поля «value» должно быть не меньше -1.
          */
         swap?: number;
         /**
-         * The limits io. This field is required when <code>limits</code> is present. Must be between 10 and 1000.
+         * Поле «limits io». This field is required when <code>limits</code> is present. Значение поля «value» должно быть от 10 до 1000.
          */
         io?: number;
         /**
-         * The limits cpu. This field is required when <code>limits</code> is present. Must be at least 0.
+         * Поле «limits cpu». This field is required when <code>limits</code> is present. Значение поля «value» должно быть не меньше 0.
          */
         cpu?: number;
         /**
-         * The limits threads. Must match the regex /^[0-9-,]+$/.
+         * Поле «limits threads». Must match the regex /^[0-9-,]+$/.
          */
         threads?: string | null;
         /**
-         * The limits disk. This field is required when <code>limits</code> is present. Must be at least 0.
+         * Поле «limits disk». This field is required when <code>limits</code> is present. Значение поля «value» должно быть не меньше 0.
          */
         disk?: number;
     };
     /**
-     * The memory limit in megabytes. This field is required when <code>limits</code> is not present. Must be at least 0.
+     * Лимит памяти в мегабайтах. This field is required when <code>limits</code> is not present. Значение поля «value» должно быть не меньше 0.
      */
     memory?: number;
     /**
-     * The swap limit in megabytes. This field is required when <code>limits</code> is not present. Must be at least -1.
+     * Лимит памяти подкачки в мегабайтах. This field is required when <code>limits</code> is not present. Значение поля «value» должно быть не меньше -1.
      */
     swap?: number;
     /**
-     * The block IO weight. This field is required when <code>limits</code> is not present. Must be between 10 and 1000.
+     * Вес блочного ввода-вывода. This field is required when <code>limits</code> is not present. Значение поля «value» должно быть от 10 до 1000.
      */
     io?: number;
     /**
-     * The CPU limit percentage. This field is required when <code>limits</code> is not present. Must be at least 0.
+     * Лимит использования CPU в процентах. This field is required when <code>limits</code> is not present. Значение поля «value» должно быть не меньше 0.
      */
     cpu?: number;
     /**
-     * CPU threads available to the server. Must match the regex /^[0-9-,]+$/.
+     * Потоки CPU, доступные серверу. Must match the regex /^[0-9-,]+$/.
      */
     threads?: string | null;
     /**
-     * The disk limit in megabytes. This field is required when <code>limits</code> is not present. Must be at least 0.
+     * Лимит дискового пространства в мегабайтах. This field is required when <code>limits</code> is not present. Значение поля «value» должно быть не меньше 0.
      */
     disk?: number;
     add_allocations?: Array<number>;
     remove_allocations?: Array<number>;
     /**
-     * The feature limits.
+     * Поле «feature limits».
      */
     feature_limits: {
         /**
-         * The maximum number of databases allowed. Must be at least 0.
+         * Максимальное количество баз данных. Значение поля «value» должно быть не меньше 0.
          */
         databases?: number | null;
         /**
-         * The maximum number of allocations allowed. Must be at least 0.
+         * Максимальное количество выделений. Значение поля «value» должно быть не меньше 0.
          */
         allocations?: number | null;
         /**
-         * The maximum number of backups allowed. Must be at least 0.
+         * Максимальное количество резервных копий. Значение поля «value» должно быть не меньше 0.
          */
         backups?: number | null;
     };
 };
 export type ApplicationUpdateServerStartupRequest = {
     /**
-     * The startup command.
+     * Команда запуска.
      */
     startup: string;
     /**
-     * Environment variables for the server.
+     * Переменные окружения сервера.
      */
     environment?: {
         [key: string]: string;
     };
     /**
-     * The egg. Must match an existing stored value.
+     * Поле «egg». Must match an existing stored value.
      */
     egg: string;
     /**
-     * The image. Must match the regex /^~?[\w\.\/\-:@ ]*$/. Must not be greater than 191 characters.
+     * Поле «image». Must match the regex /^~?[\w\.\/\-:@ ]*$/. Поле «value» должно содержать не более 191 символов.
      */
     image: string;
     /**
-     * Whether install scripts should be skipped.
+     * Пропускать ли скрипты установки.
      */
     skip_scripts?: boolean;
 };
 export type ApplicationCreateServerDatabaseRequest = {
     /**
-     * The database. Must contain only letters, numbers, dashes and underscores. Must be at least 1 character. Must not be greater than 48 characters.
+     * Поле «database». Must contain only letters, numbers, dashes and underscores. Поле «value» должно содержать не менее 1 символов. Поле «value» должно содержать не более 48 символов.
      */
     database: string;
     /**
-     * The remote database address. Must match the regex /^[0-9%.]{1,15}$/.
+     * Удалённый адрес базы данных. Must match the regex /^[0-9%.]{1,15}$/.
      */
     remote: string;
     /**
-     * The database host address. Must match an existing stored value.
+     * Адрес хоста баз данных. Must match an existing stored value.
      */
     host: number;
 };
@@ -3035,7 +3028,7 @@ export type ClientDisableTwoFactorAuthenticationRequest = {
 };
 export type ClientUpdateAccountEmailRequest = {
     /**
-     * The user email address. Must be a valid email address. Must be between 1 and 191 characters.
+     * Адрес электронной почты пользователя. Поле «value» должно содержать корректный адрес электронной почты. Поле «value» должно содержать от 1 до 191 символов.
      */
     email: string;
     /**
@@ -3049,7 +3042,7 @@ export type ClientUpdateAccountPasswordRequest = {
      */
     current_password: string;
     /**
-     * The password. Must be at least 8 characters.
+     * Пароль. Must be at least 8 characters.
      */
     password: string;
     /**
@@ -3059,68 +3052,68 @@ export type ClientUpdateAccountPasswordRequest = {
 };
 export type ClientCreateAccountApiKeyRequest = {
     /**
-     * A description for this resource. Must not be greater than 500 characters.
+     * Описание ресурса. Поле «value» должно содержать не более 500 символов.
      */
     description: string;
     allowed_ips?: Array<string>;
 };
 export type ClientCreateSshKeyRequest = {
     /**
-     * The display name.
+     * Отображаемое название.
      */
     name: string;
     /**
-     * The SSH public key. Must not be greater than 16384 characters.
+     * Открытый SSH-ключ. Поле «value» должно содержать не более 16384 символов.
      */
     public_key: string;
 };
 export type ClientDeleteSshKeyRequest = {
     /**
-     * The SSH key fingerprint.
+     * Отпечаток SSH-ключа.
      */
     fingerprint: string;
 };
 export type ClientSendServerCommandRequest = {
     /**
-     * The console command to send. Must be at least 1 character.
+     * Команда для отправки в консоль. Поле «value» должно содержать не менее 1 символов.
      */
     command: string;
 };
 export type ClientSendPowerActionRequest = {
     /**
-     * The power signal.
+     * Сигнал управления питанием.
      */
     signal: 'start' | 'stop' | 'restart' | 'kill';
 };
 export type ClientCreateServerDatabaseRequest = {
     /**
-     * The database. Must contain only letters, numbers, dashes and underscores. Must be at least 3 characters. Must not be greater than 48 characters.
+     * Поле «database». Must contain only letters, numbers, dashes and underscores. Поле «value» должно содержать не менее 3 символов. Поле «value» должно содержать не более 48 символов.
      */
     database: string;
     /**
-     * The remote database address. Must match the regex /^[\w\-\/.%:]+$/.
+     * Удалённый адрес базы данных. Must match the regex /^[\w\-\/.%:]+$/.
      */
     remote: string;
 };
 export type ClientRenameFilesRequest = {
     /**
-     * The root. Must not be greater than 2048 characters.
+     * Поле «root». Поле «value» должно содержать не более 2048 символов.
      */
     root?: string | null;
     files?: Array<{
         /**
-         * Must not be greater than 2048 characters.
+         * Поле «value» должно содержать не более 2048 символов.
          */
         to: string;
         /**
-         * Must not be greater than 2048 characters.
+         * Поле «value» должно содержать не более 2048 символов.
          */
         from: string;
     }>;
 };
 export type ClientCopyFileRequest = {
     /**
-     * The location. Must not be greater than 2048 characters.
+     * Поле «location». Поле «value» должно содержать не более 2048 символов.
      */
     location: string;
 };
@@ -3130,55 +3123,55 @@ export type ClientCopyFileRequest = {
 export type ClientWriteFileContentsRequest = string;
 export type ClientCompressFilesRequest = {
     /**
-     * The root. Must not be greater than 2048 characters.
+     * Поле «root». Поле «value» должно содержать не более 2048 символов.
      */
     root?: string | null;
     /**
-     * Must not be greater than 2048 characters.
+     * Поле «value» должно содержать не более 2048 символов.
      */
     files?: Array<string>;
 };
 export type ClientDecompressFileRequest = {
     /**
-     * The root. Must not be greater than 2048 characters.
+     * Поле «root». Поле «value» должно содержать не более 2048 символов.
      */
     root?: string | null;
     /**
-     * The file path. Must not be greater than 2048 characters.
+     * Путь к файлу. Поле «value» должно содержать не более 2048 символов.
      */
     file: string;
 };
 export type ClientDeleteFilesRequest = {
     /**
-     * The root. Must not be greater than 2048 characters.
+     * Поле «root». Поле «value» должно содержать не более 2048 символов.
      */
     root?: string | null;
     /**
-     * Must not be greater than 2048 characters.
+     * Поле «value» должно содержать не более 2048 символов.
      */
     files?: Array<string>;
 };
 export type ClientCreateFolderRequest = {
     /**
-     * The root. Must not be greater than 2048 characters.
+     * Поле «root». Поле «value» должно содержать не более 2048 символов.
      */
     root?: string | null;
     /**
-     * The display name. Must not be greater than 255 characters.
+     * Отображаемое название. Поле «value» должно содержать не более 255 символов.
      */
     name: string;
 };
 export type ClientChangeFilePermissionsRequest = {
     /**
-     * The root. Must not be greater than 2048 characters.
+     * Поле «root». Поле «value» должно содержать не более 2048 символов.
      */
     root?: string | null;
     /**
-     * File paths affected by the operation.
+     * Пути к файлам, затрагиваемым операцией.
      */
     files: Array<{
         /**
-         * Must not be greater than 2048 characters.
+         * Поле «value» должно содержать не более 2048 символов.
          */
         file: string;
         /**
@@ -3189,45 +3182,45 @@ export type ClientChangeFilePermissionsRequest = {
 };
 export type ClientPullRemoteFileRequest = {
     /**
-     * The URL. Must be a valid URL. Must not be greater than 2048 characters.
+     * URL. Must be a valid URL. Поле «value» должно содержать не более 2048 символов.
      */
     url: string;
     /**
-     * The directory path. Must not be greater than 2048 characters.
+     * Путь к каталогу. Поле «value» должно содержать не более 2048 символов.
      */
     directory?: string | null;
     /**
-     * The file name. Must not be greater than 255 characters.
+     * Имя файла. Поле «value» должно содержать не более 255 символов.
      */
     filename?: string | null;
     /**
-     * The use header.
+     * Поле «use header».
      */
     use_header?: boolean;
     /**
-     * The foreground.
+     * Поле «foreground».
      */
     foreground?: boolean;
 };
 export type ClientCreateServerScheduleRequest = {
     /**
-     * The display name. Must not be greater than 191 characters.
+     * Отображаемое название. Поле «value» должно содержать не более 191 символов.
      */
     name: string;
     /**
-     * Whether the resource is active.
+     * Активен ли ресурс.
      */
     is_active?: boolean;
     /**
-     * The minute.
+     * Поле «minute».
      */
     minute: string;
     /**
-     * The hour.
+     * Поле «hour».
      */
     hour: string;
     /**
-     * The day of month.
+     * Поле «day of month».
      */
     day_of_month: string;
     /**
@@ -3235,7 +3228,7 @@ export type ClientCreateServerScheduleRequest = {
      */
     month: string;
     /**
-     * The day of week.
+     * Поле «day of week».
      */
     day_of_week: string;
     /**
@@ -3245,23 +3238,23 @@ export type ClientCreateServerScheduleRequest = {
 };
 export type ClientUpdateServerScheduleRequest = {
     /**
-     * The display name. Must not be greater than 191 characters.
+     * Отображаемое название. Поле «value» должно содержать не более 191 символов.
      */
     name: string;
     /**
-     * Whether the resource is active.
+     * Активен ли ресурс.
      */
     is_active?: boolean;
     /**
-     * The minute.
+     * Поле «minute».
      */
     minute: string;
     /**
-     * The hour.
+     * Поле «hour».
      */
     hour: string;
     /**
-     * The day of month.
+     * Поле «day of month».
      */
     day_of_month: string;
     /**
@@ -3269,7 +3262,7 @@ export type ClientUpdateServerScheduleRequest = {
      */
     month: string;
     /**
-     * The day of week.
+     * Поле «day of week».
      */
     day_of_week: string;
     /**
@@ -3279,107 +3272,107 @@ export type ClientUpdateServerScheduleRequest = {
 };
 export type ClientCreateScheduleTaskRequest = {
     /**
-     * The action to perform.
+     * Действие, которое необходимо выполнить.
      */
     action: 'command' | 'power' | 'backup';
     /**
-     * The payload. This field is required unless <code>action</code> is in <code>backup</code>.
+     * Поле «payload». This field is required unless <code>action</code> is in <code>backup</code>.
      */
     payload?: string | null;
     /**
-     * The delay before this task runs. Must be at least 0. Must not be greater than 900.
+     * Задержка перед выполнением задачи. Значение поля «value» должно быть не меньше 0. Значение поля «value» не должно превышать 900.
      */
     time_offset: number;
     /**
-     * The task execution order. Must be at least 1.
+     * Порядок выполнения задачи. Значение поля «value» должно быть не меньше 1.
      */
     sequence_id?: number;
     /**
-     * Whether the schedule continues when this task fails.
+     * Продолжать ли выполнение расписания при ошибке этой задачи.
      */
     continue_on_failure?: boolean;
 };
 export type ClientUpdateScheduleTaskRequest = {
     /**
-     * The action to perform.
+     * Действие, которое необходимо выполнить.
      */
     action: 'command' | 'power' | 'backup';
     /**
-     * The payload. This field is required unless <code>action</code> is in <code>backup</code>.
+     * Поле «payload». This field is required unless <code>action</code> is in <code>backup</code>.
      */
     payload?: string | null;
     /**
-     * The delay before this task runs. Must be at least 0. Must not be greater than 900.
+     * Задержка перед выполнением задачи. Значение поля «value» должно быть не меньше 0. Значение поля «value» не должно превышать 900.
      */
     time_offset: number;
     /**
-     * The task execution order. Must be at least 1.
+     * Порядок выполнения задачи. Значение поля «value» должно быть не меньше 1.
      */
     sequence_id?: number;
     /**
-     * Whether the schedule continues when this task fails.
+     * Продолжать ли выполнение расписания при ошибке этой задачи.
      */
     continue_on_failure?: boolean;
 };
 export type ClientUpdateAllocationNotesRequest = {
     /**
-     * Notes for this resource. Must not be greater than 256 characters.
+     * Примечания к ресурсу. Поле «value» должно содержать не более 256 символов.
      */
     notes?: string | null;
 };
 export type ClientCreateServerSubuserRequest = {
     /**
-     * The user email address. Must be a valid email address. Must be between 1 and 191 characters.
+     * Адрес электронной почты пользователя. Поле «value» должно содержать корректный адрес электронной почты. Поле «value» должно содержать от 1 до 191 символов.
      */
     email: string;
     /**
-     * Permissions granted to the user.
+     * Права, предоставленные пользователю.
      */
     permissions?: Array<'websocket.connect' | 'control.console' | 'control.start' | 'control.stop' | 'control.restart' | 'user.create' | 'user.read' | 'user.update' | 'user.delete' | 'file.create' | 'file.read' | 'file.read-content' | 'file.update' | 'file.delete' | 'file.archive' | 'file.sftp' | 'backup.create' | 'backup.read' | 'backup.delete' | 'backup.download' | 'backup.restore' | 'allocation.read' | 'allocation.create' | 'allocation.update' | 'allocation.delete' | 'startup.read' | 'startup.update' | 'startup.docker-image' | 'database.create' | 'database.read' | 'database.update' | 'database.delete' | 'database.view_password' | 'schedule.create' | 'schedule.read' | 'schedule.update' | 'schedule.delete' | 'settings.rename' | 'settings.reinstall' | 'activity.read' | string>;
 };
 export type ClientUpdateServerSubuserRequest = {
     /**
-     * Permissions granted to the user.
+     * Права, предоставленные пользователю.
      */
     permissions?: Array<'websocket.connect' | 'control.console' | 'control.start' | 'control.stop' | 'control.restart' | 'user.create' | 'user.read' | 'user.update' | 'user.delete' | 'file.create' | 'file.read' | 'file.read-content' | 'file.update' | 'file.delete' | 'file.archive' | 'file.sftp' | 'backup.create' | 'backup.read' | 'backup.delete' | 'backup.download' | 'backup.restore' | 'allocation.read' | 'allocation.create' | 'allocation.update' | 'allocation.delete' | 'startup.read' | 'startup.update' | 'startup.docker-image' | 'database.create' | 'database.read' | 'database.update' | 'database.delete' | 'database.view_password' | 'schedule.create' | 'schedule.read' | 'schedule.update' | 'schedule.delete' | 'settings.rename' | 'settings.reinstall' | 'activity.read' | string>;
 };
 export type ClientCreateServerBackupRequest = {
     /**
-     * The display name. Must not be greater than 191 characters.
+     * Отображаемое название. Поле «value» должно содержать не более 191 символов.
      */
     name?: string | null;
     /**
-     * Whether the resource is locked.
+     * Заблокирован ли ресурс.
      */
     is_locked?: boolean | null;
     /**
-     * Whether this item should be ignored.
+     * Следует ли игнорировать этот элемент.
      */
     ignored?: string | null;
 };
 export type ClientRestoreServerBackupRequest = {
     /**
-     * The truncate.
+     * Поле «truncate».
      */
     truncate: boolean;
 };
 export type ClientUpdateStartupVariableRequest = {
     /**
-     * The key.
+     * Поле «key».
      */
     key: string;
     /**
-     * The value.
+     * Поле «value».
      */
     value?: string;
 };
 export type ClientRenameServerRequest = {
     /**
-     * The display name. Must be at least 1 character. Must not be greater than 191 characters.
+     * Отображаемое название. Поле «value» должно содержать не менее 1 символов. Поле «value» должно содержать не более 191 символов.
      */
     name: string;
     /**
-     * A description for this resource.
+     * Описание ресурса.
      */
     description?: string | null;
 };
@@ -3388,6 +3381,90 @@ export type ClientSetServerDockerImageRequest = {
      * The Docker image to use.
      */
     docker_image: string;
+};
+export type AdminUpdateGeneralSettingsRequest = {
+    branding?: {
+        /**
+         * Поле «branding name». Поле «value» должно содержать не более 191 символов.
+         */
+        name: string;
+    };
+    misc?: {
+        /**
+         * Поле «misc required 2fa».
+         */
+        required_2fa: 0 | 1 | 2;
+    };
+    /**
+     * Поле «default locale».
+     */
+    default_locale: string;
+};
+export type AdminUpdateMailSettingsRequest = {
+    smtp?: {
+        /**
+         * Поле «smtp host».
+         */
+        host: string;
+        /**
+         * Поле «smtp port». Значение поля «value» должно быть от 1 до 65535.
+         */
+        port: number;
+        /**
+         * Поле «smtp encryption».
+         */
+        encryption?: 'tls' | 'ssl' | null;
+        /**
+         * Поле «smtp username». Поле «value» должно содержать не более 191 символов.
+         */
+        username?: string | null;
+        /**
+         * Поле «smtp password». Поле «value» должно содержать не более 191 символов.
+         */
+        password?: string | null;
+        /**
+         * Поле «smtp from address». Поле «value» должно содержать корректный адрес электронной почты.
+         */
+        from_address: string;
+        /**
+         * Поле «smtp from name». Поле «value» должно содержать не более 191 символов.
+         */
+        from_name?: string | null;
+    };
+};
+export type AdminUpdateAdvancedSettingsRequest = {
+    /**
+     * Поле «recaptcha:enabled».
+     */
+    'recaptcha:enabled': 'true' | 'false';
+    /**
+     * Поле «recaptcha:secret key». Поле «value» должно содержать не более 191 символов.
+     */
+    'recaptcha:secret_key'?: string | null;
+    /**
+     * Поле «recaptcha:website key». Поле «value» должно содержать не более 191 символов.
+     */
+    'recaptcha:website_key': string;
+    /**
+     * Поле «pterodactyl:guzzle:timeout». Значение поля «value» должно быть от 1 до 60.
+     */
+    'pterodactyl:guzzle:timeout': number;
+    /**
+     * Поле «pterodactyl:guzzle:connect timeout». Значение поля «value» должно быть от 1 до 60.
+     */
+    'pterodactyl:guzzle:connect_timeout': number;
+    /**
+     * Поле «pterodactyl:client features:allocations:enabled».
+     */
+    'pterodactyl:client_features:allocations:enabled': 'true' | 'false';
+    /**
+     * Поле «pterodactyl:client features:allocations:range start». This field is required when <code>pterodactyl:client_features:allocations:enabled</code> is <code>true</code>. Значение поля «value» должно быть от 1024 до 65535.
+     */
+    'pterodactyl:client_features:allocations:range_start'?: number | null;
+    /**
+     * Поле «pterodactyl:client features:allocations:range end». This field is required when <code>pterodactyl:client_features:allocations:enabled</code> is <code>true</code>. Значение поля «value» должно быть от 1024 до 65535.
+     */
+    'pterodactyl:client_features:allocations:range_end'?: number | null;
 };
 export type AdminListActivityFilterOptionsResponseBody = {
     data?: {
@@ -3749,6 +3826,11 @@ export type AdminUploadExtensionSettingFileInputPathParameter = string;
 export type AdminEnableExtensionExtensionPathParameter = string;
 export type AdminDisableExtensionExtensionPathParameter = string;
 export type AdminRemoveExtensionExtensionPathParameter = string;
+export type AdminGetThemeSettingsThemePathParameter = string;
+export type AdminActivateThemeThemePathParameter = string;
+export type AdminPreviewThemeThemePathParameter = string;
+export type AdminUploadThemeImageThemePathParameter = string;
+export type AdminUploadThemeImageSettingPathParameter = string;
 /**
  * Page number to retrieve.
  */
@@ -4848,7 +4930,7 @@ export type AdminGetExtensionSettingsData = {
     body?: never;
     path: {
         /**
-         * The extension identifier.
+         * Идентификатор расширения.
          */
         extension: AdminGetExtensionSettingsExtensionPathParameter;
     };
@@ -4881,7 +4963,7 @@ export type AdminUpdateExtensionSettingsData = {
     body: AdminUpdateExtensionSettingsRequest;
     path: {
         /**
-         * The extension identifier.
+         * Идентификатор расширения.
          */
         extension: AdminGetExtensionSettingsExtensionPathParameter;
     };
@@ -4918,7 +5000,7 @@ export type AdminGetExtensionIconData = {
     body?: never;
     path: {
         /**
-         * The extension identifier.
+         * Идентификатор расширения.
          */
         extension: AdminGetExtensionIconExtensionPathParameter;
     };
@@ -4951,11 +5033,11 @@ export type AdminClearExtensionSettingFileData = {
     body?: never;
     path: {
         /**
-         * The extension identifier.
+         * Идентификатор расширения.
          */
         extension: AdminUploadExtensionSettingFileExtensionPathParameter;
         /**
-         * The input name of the extension setting.
+         * Имя поля настройки расширения.
          */
         input: AdminUploadExtensionSettingFileInputPathParameter;
     };
@@ -4988,11 +5070,11 @@ export type AdminUploadExtensionSettingFileData = {
     body: AdminUploadExtensionSettingFileRequest;
     path: {
         /**
-         * The extension identifier.
+         * Идентификатор расширения.
          */
         extension: AdminUploadExtensionSettingFileExtensionPathParameter;
         /**
-         * The input name of the extension setting.
+         * Имя поля настройки расширения.
          */
         input: AdminUploadExtensionSettingFileInputPathParameter;
     };
@@ -5029,7 +5111,7 @@ export type AdminEnableExtensionData = {
     body?: never;
     path: {
         /**
-         * The extension identifier.
+         * Идентификатор расширения.
          */
         extension: AdminEnableExtensionExtensionPathParameter;
     };
@@ -5062,7 +5144,7 @@ export type AdminDisableExtensionData = {
     body?: never;
     path: {
         /**
-         * The extension identifier.
+         * Идентификатор расширения.
          */
         extension: AdminDisableExtensionExtensionPathParameter;
     };
@@ -5095,7 +5177,7 @@ export type AdminRemoveExtensionData = {
     body?: never;
     path: {
         /**
-         * The extension identifier.
+         * Идентификатор расширения.
          */
         extension: AdminRemoveExtensionExtensionPathParameter;
     };
@@ -5124,6 +5206,268 @@ export type AdminRemoveExtensionResponses = {
     204: void;
 };
 export type AdminRemoveExtensionResponse = AdminRemoveExtensionResponses[keyof AdminRemoveExtensionResponses];
+export type AdminListThemesData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/admin/themes';
+};
+export type AdminListThemesErrors = {
+    /**
+     * Authentication credentials were missing or invalid.
+     */
+    401: ErrorEnvelope;
+    /**
+     * The API key does not have permission to perform this action.
+     */
+    403: ErrorEnvelope;
+};
+export type AdminListThemesError = AdminListThemesErrors[keyof AdminListThemesErrors];
+export type AdminListThemesResponses = {
+    /**
+     * Themes returned.
+     */
+    200: AdminThemeListResponse;
+};
+export type AdminListThemesResponse = AdminListThemesResponses[keyof AdminListThemesResponses];
+export type AdminGetThemeSettingsData = {
+    body?: never;
+    path: {
+        /**
+         * The theme.
+         */
+        theme: AdminGetThemeSettingsThemePathParameter;
+    };
+    query?: never;
+    url: '/api/admin/themes/{theme}/settings';
+};
+export type AdminGetThemeSettingsErrors = {
+    /**
+     * Authentication credentials were missing or invalid.
+     */
+    401: ErrorEnvelope;
+    /**
+     * The API key does not have permission to perform this action.
+     */
+    403: ErrorEnvelope;
+    /**
+     * The requested resource could not be found.
+     */
+    404: ErrorEnvelope;
+};
+export type AdminGetThemeSettingsError = AdminGetThemeSettingsErrors[keyof AdminGetThemeSettingsErrors];
+export type AdminGetThemeSettingsResponses = {
+    /**
+     * Settings returned.
+     */
+    200: AdminThemeSettingListResponse;
+};
+export type AdminGetThemeSettingsResponse = AdminGetThemeSettingsResponses[keyof AdminGetThemeSettingsResponses];
+export type AdminUpdateThemeSettingsData = {
+    body: AdminUpdateThemeSettingsRequest;
+    path: {
+        /**
+         * The theme.
+         */
+        theme: AdminGetThemeSettingsThemePathParameter;
+    };
+    query?: never;
+    url: '/api/admin/themes/{theme}/settings';
+};
+export type AdminUpdateThemeSettingsErrors = {
+    /**
+     * Authentication credentials were missing or invalid.
+     */
+    401: ErrorEnvelope;
+    /**
+     * The API key does not have permission to perform this action.
+     */
+    403: ErrorEnvelope;
+    /**
+     * The requested resource could not be found.
+     */
+    404: ErrorEnvelope;
+    /**
+     * The submitted data is invalid.
+     */
+    422: ValidationErrorEnvelope;
+};
+export type AdminUpdateThemeSettingsError = AdminUpdateThemeSettingsErrors[keyof AdminUpdateThemeSettingsErrors];
+export type AdminUpdateThemeSettingsResponses = {
+    /**
+     * Settings updated; fresh settings returned.
+     */
+    200: AdminThemeSettingListResponse;
+};
+export type AdminUpdateThemeSettingsResponse = AdminUpdateThemeSettingsResponses[keyof AdminUpdateThemeSettingsResponses];
+export type AdminStopThemePreviewData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/admin/themes/preview';
+};
+export type AdminStopThemePreviewErrors = {
+    /**
+     * Authentication credentials were missing or invalid.
+     */
+    401: ErrorEnvelope;
+    /**
+     * The API key does not have permission to perform this action.
+     */
+    403: ErrorEnvelope;
+};
+export type AdminStopThemePreviewError = AdminStopThemePreviewErrors[keyof AdminStopThemePreviewErrors];
+export type AdminStopThemePreviewResponses = {
+    /**
+     * Preview stopped.
+     */
+    204: void;
+};
+export type AdminStopThemePreviewResponse = AdminStopThemePreviewResponses[keyof AdminStopThemePreviewResponses];
+export type AdminActivateThemeData = {
+    body?: never;
+    path: {
+        /**
+         * The theme.
+         */
+        theme: AdminActivateThemeThemePathParameter;
+    };
+    query?: never;
+    url: '/api/admin/themes/{theme}/activate';
+};
+export type AdminActivateThemeErrors = {
+    /**
+     * Authentication credentials were missing or invalid.
+     */
+    401: ErrorEnvelope;
+    /**
+     * The API key does not have permission to perform this action.
+     */
+    403: ErrorEnvelope;
+    /**
+     * The requested resource could not be found.
+     */
+    404: ErrorEnvelope;
+};
+export type AdminActivateThemeError = AdminActivateThemeErrors[keyof AdminActivateThemeErrors];
+export type AdminActivateThemeResponses = {
+    /**
+     * Theme activated.
+     */
+    200: AdminThemeResource;
+};
+export type AdminActivateThemeResponse = AdminActivateThemeResponses[keyof AdminActivateThemeResponses];
+export type AdminPreviewThemeData = {
+    body?: never;
+    path: {
+        /**
+         * The theme.
+         */
+        theme: AdminPreviewThemeThemePathParameter;
+    };
+    query?: never;
+    url: '/api/admin/themes/{theme}/preview';
+};
+export type AdminPreviewThemeErrors = {
+    /**
+     * Authentication credentials were missing or invalid.
+     */
+    401: ErrorEnvelope;
+    /**
+     * The API key does not have permission to perform this action.
+     */
+    403: ErrorEnvelope;
+    /**
+     * The requested resource could not be found.
+     */
+    404: ErrorEnvelope;
+};
+export type AdminPreviewThemeError = AdminPreviewThemeErrors[keyof AdminPreviewThemeErrors];
+export type AdminPreviewThemeResponses = {
+    /**
+     * Preview started.
+     */
+    200: AdminThemeResource;
+};
+export type AdminPreviewThemeResponse = AdminPreviewThemeResponses[keyof AdminPreviewThemeResponses];
+export type AdminClearThemeImageData = {
+    body?: never;
+    path: {
+        /**
+         * The theme.
+         */
+        theme: AdminUploadThemeImageThemePathParameter;
+        /**
+         * The setting.
+         */
+        setting: AdminUploadThemeImageSettingPathParameter;
+    };
+    query?: never;
+    url: '/api/admin/themes/{theme}/settings/{setting}/image';
+};
+export type AdminClearThemeImageErrors = {
+    /**
+     * Authentication credentials were missing or invalid.
+     */
+    401: ErrorEnvelope;
+    /**
+     * The API key does not have permission to perform this action.
+     */
+    403: ErrorEnvelope;
+    /**
+     * The requested resource could not be found.
+     */
+    404: ErrorEnvelope;
+};
+export type AdminClearThemeImageError = AdminClearThemeImageErrors[keyof AdminClearThemeImageErrors];
+export type AdminClearThemeImageResponses = {
+    /**
+     * Image removed; fresh settings returned.
+     */
+    200: AdminThemeSettingListResponse;
+};
+export type AdminClearThemeImageResponse = AdminClearThemeImageResponses[keyof AdminClearThemeImageResponses];
+export type AdminUploadThemeImageData = {
+    body: AdminUploadThemeImageRequest;
+    path: {
+        /**
+         * The theme.
+         */
+        theme: AdminUploadThemeImageThemePathParameter;
+        /**
+         * The setting.
+         */
+        setting: AdminUploadThemeImageSettingPathParameter;
+    };
+    query?: never;
+    url: '/api/admin/themes/{theme}/settings/{setting}/image';
+};
+export type AdminUploadThemeImageErrors = {
+    /**
+     * Authentication credentials were missing or invalid.
+     */
+    401: ErrorEnvelope;
+    /**
+     * The API key does not have permission to perform this action.
+     */
+    403: ErrorEnvelope;
+    /**
+     * The requested resource could not be found.
+     */
+    404: ErrorEnvelope;
+    /**
+     * The submitted data is invalid.
+     */
+    422: ValidationErrorEnvelope;
+};
+export type AdminUploadThemeImageError = AdminUploadThemeImageErrors[keyof AdminUploadThemeImageErrors];
+export type AdminUploadThemeImageResponses = {
+    /**
+     * Image stored; fresh settings returned.
+     */
+    200: AdminThemeSettingListResponse;
+};
+export type AdminUploadThemeImageResponse = AdminUploadThemeImageResponses[keyof AdminUploadThemeImageResponses];
 export type AdminListUsersData = {
     body?: never;
     path?: never;
@@ -5213,7 +5557,7 @@ export type AdminGetUserByExternalIdData = {
     body?: never;
     path: {
         /**
-         * The external ID.
+         * Внешний идентификатор.
          */
         external_id: AdminGetUserByExternalIdExternalIdPathParameter;
     };
@@ -5246,7 +5590,7 @@ export type AdminDeleteUserData = {
     body?: never;
     path: {
         /**
-         * The user ID.
+         * ID пользователя.
          */
         user_id: AdminGetUserUserIdPathParameter;
     };
@@ -5283,7 +5627,7 @@ export type AdminGetUserData = {
     body?: never;
     path: {
         /**
-         * The user ID.
+         * ID пользователя.
          */
         user_id: AdminGetUserUserIdPathParameter;
     };
@@ -5321,7 +5665,7 @@ export type AdminUpdateUserData = {
     body: AdminUpdateUserRequest;
     path: {
         /**
-         * The user ID.
+         * ID пользователя.
          */
         user_id: AdminGetUserUserIdPathParameter;
     };
@@ -5358,7 +5702,7 @@ export type AdminDisableUserTwoFactorAuthenticationData = {
     body?: never;
     path: {
         /**
-         * The user ID.
+         * ID пользователя.
          */
         user_id: AdminDisableUserTwoFactorAuthenticationUserIdPathParameter;
     };
@@ -5391,7 +5735,7 @@ export type AdminGetNodeSystemInformationData = {
     body?: never;
     path: {
         /**
-         * The node ID.
+         * ID узла.
          */
         node_id: AdminGetNodeSystemInformationNodeIdPathParameter;
     };
@@ -5428,7 +5772,7 @@ export type AdminCreateNodeDeployTokenData = {
     body?: never;
     path: {
         /**
-         * The node ID.
+         * ID узла.
          */
         node_id: AdminCreateNodeDeployTokenNodeIdPathParameter;
     };
@@ -5461,7 +5805,7 @@ export type AdminGetNodeUtilizationData = {
     body?: never;
     path: {
         /**
-         * The node ID.
+         * ID узла.
          */
         node_id: AdminGetNodeUtilizationNodeIdPathParameter;
     };
@@ -5494,7 +5838,7 @@ export type AdminListServerMountsData = {
     body?: never;
     path: {
         /**
-         * The server ID or UUID.
+         * ID или UUID сервера.
          */
         server_admin_identifier: AdminListServerMountsServerAdminIdentifierPathParameter;
     };
@@ -5527,7 +5871,7 @@ export type AdminAttachServerMountData = {
     body: AdminAttachServerMountRequest;
     path: {
         /**
-         * The server ID or UUID.
+         * ID или UUID сервера.
          */
         server_admin_identifier: AdminListServerMountsServerAdminIdentifierPathParameter;
     };
@@ -5564,11 +5908,11 @@ export type AdminDetachServerMountData = {
     body?: never;
     path: {
         /**
-         * The server ID or UUID.
+         * ID или UUID сервера.
          */
         server_admin_identifier: AdminDetachServerMountServerAdminIdentifierPathParameter;
         /**
-         * The mount ID.
+         * ID точки монтирования.
          */
         mount_id: AdminDetachServerMountMountIdPathParameter;
     };
@@ -5702,7 +6046,7 @@ export type AdminGetServerByExternalIdData = {
     body?: never;
     path: {
         /**
-         * The external ID.
+         * Внешний идентификатор.
          */
         external_id: AdminGetServerByExternalIdExternalIdPathParameter;
     };
@@ -5735,7 +6079,7 @@ export type AdminDeleteServerData = {
     body?: never;
     path: {
         /**
-         * The server ID or UUID.
+         * ID или UUID сервера.
          */
         server_admin_identifier: AdminGetServerServerAdminIdentifierPathParameter;
     };
@@ -5768,7 +6112,7 @@ export type AdminGetServerData = {
     body?: never;
     path: {
         /**
-         * The server ID or UUID.
+         * ID или UUID сервера.
          */
         server_admin_identifier: AdminGetServerServerAdminIdentifierPathParameter;
     };
@@ -5806,7 +6150,7 @@ export type AdminUpdateServerDetailsData = {
     body: AdminUpdateServerDetailsRequest;
     path: {
         /**
-         * The server ID or UUID.
+         * ID или UUID сервера.
          */
         server_admin_identifier: AdminUpdateServerDetailsServerAdminIdentifierPathParameter;
     };
@@ -5843,7 +6187,7 @@ export type AdminUpdateServerBuildData = {
     body: AdminUpdateServerBuildRequest;
     path: {
         /**
-         * The server ID or UUID.
+         * ID или UUID сервера.
          */
         server_admin_identifier: AdminUpdateServerBuildServerAdminIdentifierPathParameter;
     };
@@ -5880,7 +6224,7 @@ export type AdminUpdateServerStartupData = {
     body: AdminUpdateServerStartupRequest;
     path: {
         /**
-         * The server ID or UUID.
+         * ID или UUID сервера.
          */
         server_admin_identifier: AdminUpdateServerStartupServerAdminIdentifierPathParameter;
     };
@@ -5917,7 +6261,7 @@ export type AdminUpdateServerSuspensionData = {
     body?: AdminUpdateServerSuspensionRequest;
     path: {
         /**
-         * The server ID or UUID.
+         * ID или UUID сервера.
          */
         server_admin_identifier: AdminUpdateServerSuspensionServerAdminIdentifierPathParameter;
     };
@@ -5954,7 +6298,7 @@ export type AdminReinstallServerData = {
     body?: never;
     path: {
         /**
-         * The server ID or UUID.
+         * ID или UUID сервера.
          */
         server_admin_identifier: AdminReinstallServerServerAdminIdentifierPathParameter;
     };
@@ -5986,7 +6330,7 @@ export type AdminRebuildServerData = {
     body?: never;
     path: {
         /**
-         * The server ID or UUID.
+         * ID или UUID сервера.
          */
         server_admin_identifier: AdminRebuildServerServerAdminIdentifierPathParameter;
     };
@@ -6019,7 +6363,7 @@ export type AdminGetServerTransferProgressData = {
     body?: never;
     path: {
         /**
-         * The server ID or UUID.
+         * ID или UUID сервера.
          */
         server_admin_identifier: AdminGetServerTransferProgressServerAdminIdentifierPathParameter;
     };
@@ -6056,7 +6400,7 @@ export type AdminTransferServerData = {
     body: AdminTransferServerRequest;
     path: {
         /**
-         * The server ID or UUID.
+         * ID или UUID сервера.
          */
         server_admin_identifier: AdminTransferServerServerAdminIdentifierPathParameter;
     };
@@ -6097,7 +6441,7 @@ export type AdminToggleServerInstallStateData = {
     body?: never;
     path: {
         /**
-         * The server ID or UUID.
+         * ID или UUID сервера.
          */
         server_admin_identifier: AdminToggleServerInstallStateServerAdminIdentifierPathParameter;
     };
@@ -6134,7 +6478,7 @@ export type AdminForceDeleteServerData = {
     body?: never;
     path: {
         /**
-         * The server ID or UUID.
+         * ID или UUID сервера.
          */
         server_admin_identifier: AdminForceDeleteServerServerAdminIdentifierPathParameter;
     };
@@ -6167,7 +6511,7 @@ export type AdminListServerDatabasesData = {
     body?: never;
     path: {
         /**
-         * The server ID or UUID.
+         * ID или UUID сервера.
          */
         server_admin_identifier: AdminListServerDatabasesServerAdminIdentifierPathParameter;
     };
@@ -6205,7 +6549,7 @@ export type AdminCreateServerDatabaseData = {
     body: AdminCreateServerDatabaseRequest;
     path: {
         /**
-         * The server ID or UUID.
+         * ID или UUID сервера.
          */
         server_admin_identifier: AdminListServerDatabasesServerAdminIdentifierPathParameter;
     };
@@ -6242,11 +6586,11 @@ export type AdminDeleteServerDatabaseData = {
     body?: never;
     path: {
         /**
-         * The server ID or UUID.
+         * ID или UUID сервера.
          */
         server_admin_identifier: AdminGetServerDatabaseServerAdminIdentifierPathParameter;
         /**
-         * The database ID.
+         * ID базы данных.
          */
         database_id: AdminGetServerDatabaseDatabaseIdPathParameter;
     };
@@ -6279,11 +6623,11 @@ export type AdminGetServerDatabaseData = {
     body?: never;
     path: {
         /**
-         * The server ID or UUID.
+         * ID или UUID сервера.
          */
         server_admin_identifier: AdminGetServerDatabaseServerAdminIdentifierPathParameter;
         /**
-         * The database ID.
+         * ID базы данных.
          */
         database_id: AdminGetServerDatabaseDatabaseIdPathParameter;
     };
@@ -6321,11 +6665,11 @@ export type AdminRotateServerDatabasePasswordData = {
     body?: never;
     path: {
         /**
-         * The server ID or UUID.
+         * ID или UUID сервера.
          */
         server_admin_identifier: AdminRotateServerDatabasePasswordServerAdminIdentifierPathParameter;
         /**
-         * The database ID.
+         * ID базы данных.
          */
         database_id: AdminRotateServerDatabasePasswordDatabaseIdPathParameter;
     };
@@ -6358,7 +6702,7 @@ export type AdminListServerBackupsData = {
     body?: never;
     path: {
         /**
-         * The server ID or UUID.
+         * ID или UUID сервера.
          */
         server_admin_identifier: AdminListServerBackupsServerAdminIdentifierPathParameter;
     };
@@ -6408,11 +6752,11 @@ export type AdminToggleServerBackupLockData = {
     body?: never;
     path: {
         /**
-         * The server ID or UUID.
+         * ID или UUID сервера.
          */
         server_admin_identifier: AdminToggleServerBackupLockServerAdminIdentifierPathParameter;
         /**
-         * The backup UUID.
+         * UUID резервной копии.
          */
         backup_uuid: AdminToggleServerBackupLockBackupUuidPathParameter;
     };
@@ -6526,7 +6870,7 @@ export type AdminDeleteNodeData = {
     body?: never;
     path: {
         /**
-         * The node ID.
+         * ID узла.
          */
         node_id: AdminGetNodeNodeIdPathParameter;
     };
@@ -6563,7 +6907,7 @@ export type AdminGetNodeData = {
     body?: never;
     path: {
         /**
-         * The node ID.
+         * ID узла.
          */
         node_id: AdminGetNodeNodeIdPathParameter;
     };
@@ -6601,7 +6945,7 @@ export type AdminUpdateNodeData = {
     body: AdminUpdateNodeRequest;
     path: {
         /**
-         * The node ID.
+         * ID узла.
          */
         node_id: AdminGetNodeNodeIdPathParameter;
     };
@@ -6638,7 +6982,7 @@ export type AdminGetNodeConfigurationData = {
     body?: never;
     path: {
         /**
-         * The node ID.
+         * ID узла.
          */
         node_id: AdminGetNodeConfigurationNodeIdPathParameter;
     };
@@ -6671,7 +7015,7 @@ export type AdminSyncNodeGameTagsData = {
     body?: AdminSyncNodeGameTagsRequest;
     path: {
         /**
-         * The node ID.
+         * ID узла.
          */
         node_id: AdminSyncNodeGameTagsNodeIdPathParameter;
     };
@@ -6708,7 +7052,7 @@ export type AdminSyncNodeDeploymentTagsData = {
     body?: AdminSyncNodeDeploymentTagsRequest;
     path: {
         /**
-         * The node ID.
+         * ID узла.
          */
         node_id: AdminSyncNodeDeploymentTagsNodeIdPathParameter;
     };
@@ -6745,7 +7089,7 @@ export type AdminBulkDeleteNodeAllocationsData = {
     body?: AdminBulkDeleteNodeAllocationsRequest;
     path: {
         /**
-         * The node ID.
+         * ID узла.
          */
         node_id: AdminListNodeAllocationsNodeIdPathParameter;
     };
@@ -6786,7 +7130,7 @@ export type AdminListNodeAllocationsData = {
     body?: never;
     path: {
         /**
-         * The node ID.
+         * ID узла.
          */
         node_id: AdminListNodeAllocationsNodeIdPathParameter;
     };
@@ -6848,7 +7192,7 @@ export type AdminCreateNodeAllocationsData = {
     body?: AdminCreateNodeAllocationsRequest;
     path: {
         /**
-         * The node ID.
+         * ID узла.
          */
         node_id: AdminListNodeAllocationsNodeIdPathParameter;
     };
@@ -6885,7 +7229,7 @@ export type AdminListNodeAllocationIpsData = {
     body?: never;
     path: {
         /**
-         * The node ID.
+         * ID узла.
          */
         node_id: AdminListNodeAllocationIpsNodeIdPathParameter;
     };
@@ -6918,7 +7262,7 @@ export type AdminListAvailableNodeAllocationsData = {
     body?: never;
     path: {
         /**
-         * The node ID.
+         * ID узла.
          */
         node_id: AdminListAvailableNodeAllocationsNodeIdPathParameter;
     };
@@ -6972,7 +7316,7 @@ export type AdminDeleteNodeAllocationIpBlockData = {
     body: AdminDeleteNodeAllocationIpBlockRequest;
     path: {
         /**
-         * The node ID.
+         * ID узла.
          */
         node_id: AdminDeleteNodeAllocationIpBlockNodeIdPathParameter;
     };
@@ -7009,7 +7353,7 @@ export type AdminDeleteNodeAllocationData = {
     body?: never;
     path: {
         /**
-         * The node ID.
+         * ID узла.
          */
         node_id: AdminUpdateNodeAllocationNodeIdPathParameter;
         /**
@@ -7050,7 +7394,7 @@ export type AdminUpdateNodeAllocationData = {
     body?: AdminUpdateNodeAllocationRequest;
     path: {
         /**
-         * The node ID.
+         * ID узла.
          */
         node_id: AdminUpdateNodeAllocationNodeIdPathParameter;
         /**
@@ -7164,7 +7508,7 @@ export type AdminDeleteLocationData = {
     body?: never;
     path: {
         /**
-         * The location ID.
+         * ID локации.
          */
         location_id: AdminGetLocationLocationIdPathParameter;
     };
@@ -7197,7 +7541,7 @@ export type AdminGetLocationData = {
     body?: never;
     path: {
         /**
-         * The location ID.
+         * ID локации.
          */
         location_id: AdminGetLocationLocationIdPathParameter;
     };
@@ -7235,7 +7579,7 @@ export type AdminUpdateLocationData = {
     body: AdminUpdateLocationRequest;
     path: {
         /**
-         * The location ID.
+         * ID локации.
          */
         location_id: AdminGetLocationLocationIdPathParameter;
     };
@@ -7272,7 +7616,7 @@ export type AdminListEligibleLocationNodesData = {
     body?: never;
     path: {
         /**
-         * The location ID.
+         * ID локации.
          */
         location_id: AdminListEligibleLocationNodesLocationIdPathParameter;
     };
@@ -7378,7 +7722,7 @@ export type AdminDeleteMountData = {
     body?: never;
     path: {
         /**
-         * The mount ID.
+         * ID точки монтирования.
          */
         mount_id: AdminGetMountMountIdPathParameter;
     };
@@ -7411,7 +7755,7 @@ export type AdminGetMountData = {
     body?: never;
     path: {
         /**
-         * The mount ID.
+         * ID точки монтирования.
          */
         mount_id: AdminGetMountMountIdPathParameter;
     };
@@ -7449,7 +7793,7 @@ export type AdminUpdateMountData = {
     body: AdminUpdateMountRequest;
     path: {
         /**
-         * The mount ID.
+         * ID точки монтирования.
          */
         mount_id: AdminGetMountMountIdPathParameter;
     };
@@ -7486,7 +7830,7 @@ export type AdminAttachEggsToMountData = {
     body: AdminAttachEggsToMountRequest;
     path: {
         /**
-         * The mount ID.
+         * ID точки монтирования.
          */
         mount_id: AdminAttachEggsToMountMountIdPathParameter;
     };
@@ -7528,11 +7872,11 @@ export type AdminDetachEggFromMountData = {
     body?: never;
     path: {
         /**
-         * The mount ID.
+         * ID точки монтирования.
          */
         mount_id: AdminDetachEggFromMountMountIdPathParameter;
         /**
-         * The egg ID.
+         * ID egg.
          */
         egg_id: AdminDetachEggFromMountEggIdPathParameter;
     };
@@ -7565,7 +7909,7 @@ export type AdminAttachNodesToMountData = {
     body: AdminAttachNodesToMountRequest;
     path: {
         /**
-         * The mount ID.
+         * ID точки монтирования.
          */
         mount_id: AdminAttachNodesToMountMountIdPathParameter;
     };
@@ -7607,11 +7951,11 @@ export type AdminDetachNodeFromMountData = {
     body?: never;
     path: {
         /**
-         * The mount ID.
+         * ID точки монтирования.
          */
         mount_id: AdminDetachNodeFromMountMountIdPathParameter;
         /**
-         * The node ID.
+         * ID узла.
          */
         node_id: AdminDetachNodeFromMountNodeIdPathParameter;
     };
@@ -7732,7 +8076,7 @@ export type AdminListEggVariablesData = {
     body?: never;
     path: {
         /**
-         * The egg ID.
+         * ID egg.
          */
         egg_id: AdminListEggVariablesEggIdPathParameter;
     };
@@ -7770,7 +8114,7 @@ export type AdminCreateEggVariableData = {
     body: AdminCreateEggVariableRequest;
     path: {
         /**
-         * The egg ID.
+         * ID egg.
          */
         egg_id: AdminListEggVariablesEggIdPathParameter;
     };
@@ -7807,7 +8151,7 @@ export type AdminReorderEggVariablesData = {
     body: AdminReorderEggVariablesRequest;
     path: {
         /**
-         * The egg ID.
+         * ID egg.
          */
         egg_id: AdminReorderEggVariablesEggIdPathParameter;
     };
@@ -7844,11 +8188,11 @@ export type AdminDeleteEggVariableData = {
     body?: never;
     path: {
         /**
-         * The egg ID.
+         * ID egg.
          */
         egg_id: AdminUpdateEggVariableEggIdPathParameter;
         /**
-         * The variable ID.
+         * ID переменной.
          */
         variable_id: AdminUpdateEggVariableVariableIdPathParameter;
     };
@@ -7881,11 +8225,11 @@ export type AdminUpdateEggVariableData = {
     body: AdminUpdateEggVariableRequest;
     path: {
         /**
-         * The egg ID.
+         * ID egg.
          */
         egg_id: AdminUpdateEggVariableEggIdPathParameter;
         /**
-         * The variable ID.
+         * ID переменной.
          */
         variable_id: AdminUpdateEggVariableVariableIdPathParameter;
     };
@@ -7922,7 +8266,7 @@ export type AdminGetEggInstallScriptData = {
     body?: never;
     path: {
         /**
-         * The egg ID.
+         * ID egg.
          */
         egg_id: AdminGetEggInstallScriptEggIdPathParameter;
     };
@@ -7955,7 +8299,7 @@ export type AdminUpdateEggInstallScriptData = {
     body?: AdminUpdateEggInstallScriptRequest;
     path: {
         /**
-         * The egg ID.
+         * ID egg.
          */
         egg_id: AdminGetEggInstallScriptEggIdPathParameter;
     };
@@ -7996,7 +8340,7 @@ export type AdminExportEggData = {
     body?: never;
     path: {
         /**
-         * The egg ID.
+         * ID egg.
          */
         egg_id: AdminExportEggEggIdPathParameter;
     };
@@ -8029,7 +8373,7 @@ export type AdminUpdateEggFromImportData = {
     body: AdminUpdateEggFromImportRequest;
     path: {
         /**
-         * The egg ID.
+         * ID egg.
          */
         egg_id: AdminUpdateEggFromImportEggIdPathParameter;
     };
@@ -8066,7 +8410,7 @@ export type AdminSyncEggTagsData = {
     body?: AdminSyncEggTagsRequest;
     path: {
         /**
-         * The egg ID.
+         * ID egg.
          */
         egg_id: AdminSyncEggTagsEggIdPathParameter;
     };
@@ -8208,7 +8552,7 @@ export type AdminDeleteEggData = {
     body?: never;
     path: {
         /**
-         * The egg ID.
+         * ID egg.
          */
         egg_id: AdminGetEggEggIdPathParameter;
     };
@@ -8245,7 +8589,7 @@ export type AdminGetEggData = {
     body?: never;
     path: {
         /**
-         * The egg ID.
+         * ID egg.
          */
         egg_id: AdminGetEggEggIdPathParameter;
     };
@@ -8283,7 +8627,7 @@ export type AdminUpdateEggData = {
     body: AdminUpdateEggRequest;
     path: {
         /**
-         * The egg ID.
+         * ID egg.
          */
         egg_id: AdminGetEggEggIdPathParameter;
     };
@@ -8533,66 +8877,6 @@ export type AdminGetSettingsResponses = {
     200: AdminSettingsResponse;
 };
 export type AdminGetSettingsResponse = AdminGetSettingsResponses[keyof AdminGetSettingsResponses];
-export type AdminUpdateGeneralSettingsData = {
-    body: AdminUpdateGeneralSettingsRequest;
-    path?: never;
-    query?: never;
-    url: '/api/admin/settings/general';
-};
-export type AdminUpdateGeneralSettingsErrors = {
-    /**
-     * Authentication credentials were missing or invalid.
-     */
-    401: ErrorEnvelope;
-    /**
-     * The API key does not have permission to perform this action.
-     */
-    403: ErrorEnvelope;
-    /**
-     * The submitted data is invalid.
-     */
-    422: ValidationErrorEnvelope;
-};
-export type AdminUpdateGeneralSettingsError = AdminUpdateGeneralSettingsErrors[keyof AdminUpdateGeneralSettingsErrors];
-export type AdminUpdateGeneralSettingsResponses = {
-    /**
-     * General settings updated.
-     */
-    204: void;
-};
-export type AdminUpdateGeneralSettingsResponse = AdminUpdateGeneralSettingsResponses[keyof AdminUpdateGeneralSettingsResponses];
-export type AdminUpdateMailSettingsData = {
-    body?: AdminUpdateMailSettingsRequest;
-    path?: never;
-    query?: never;
-    url: '/api/admin/settings/mail';
-};
-export type AdminUpdateMailSettingsErrors = {
-    /**
-     * The panel is not configured to use SMTP mail.
-     */
-    400: ErrorEnvelope;
-    /**
-     * Authentication credentials were missing or invalid.
-     */
-    401: ErrorEnvelope;
-    /**
-     * The API key does not have permission to perform this action.
-     */
-    403: ErrorEnvelope;
-    /**
-     * The submitted data is invalid.
-     */
-    422: ValidationErrorEnvelope;
-};
-export type AdminUpdateMailSettingsError = AdminUpdateMailSettingsErrors[keyof AdminUpdateMailSettingsErrors];
-export type AdminUpdateMailSettingsResponses = {
-    /**
-     * Mail settings updated.
-     */
-    204: void;
-};
-export type AdminUpdateMailSettingsResponse = AdminUpdateMailSettingsResponses[keyof AdminUpdateMailSettingsResponses];
 export type AdminSendTestMailData = {
     body?: never;
     path?: never;
@@ -8621,34 +8905,6 @@ export type AdminSendTestMailResponses = {
     204: void;
 };
 export type AdminSendTestMailResponse = AdminSendTestMailResponses[keyof AdminSendTestMailResponses];
-export type AdminUpdateAdvancedSettingsData = {
-    body: AdminUpdateAdvancedSettingsRequest;
-    path?: never;
-    query?: never;
-    url: '/api/admin/settings/advanced';
-};
-export type AdminUpdateAdvancedSettingsErrors = {
-    /**
-     * Authentication credentials were missing or invalid.
-     */
-    401: ErrorEnvelope;
-    /**
-     * The API key does not have permission to perform this action.
-     */
-    403: ErrorEnvelope;
-    /**
-     * The submitted data is invalid.
-     */
-    422: ValidationErrorEnvelope;
-};
-export type AdminUpdateAdvancedSettingsError = AdminUpdateAdvancedSettingsErrors[keyof AdminUpdateAdvancedSettingsErrors];
-export type AdminUpdateAdvancedSettingsResponses = {
-    /**
-     * Advanced settings updated.
-     */
-    204: void;
-};
-export type AdminUpdateAdvancedSettingsResponse = AdminUpdateAdvancedSettingsResponses[keyof AdminUpdateAdvancedSettingsResponses];
 export type AdminListDatabaseHostsData = {
     body?: never;
     path?: never;
@@ -8961,7 +9217,7 @@ export type AdminDeleteApiKeyData = {
     body?: never;
     path: {
         /**
-         * The server UUID or short UUID.
+         * UUID или сокращённый UUID сервера.
          */
         identifier: AdminGetApiKeyIdentifierPathParameter;
     };
@@ -8994,7 +9250,7 @@ export type AdminGetApiKeyData = {
     body?: never;
     path: {
         /**
-         * The server UUID or short UUID.
+         * UUID или сокращённый UUID сервера.
          */
         identifier: AdminGetApiKeyIdentifierPathParameter;
     };
@@ -9027,7 +9283,7 @@ export type AdminUpdateApiKeyData = {
     body: AdminUpdateApiKeyRequest;
     path: {
         /**
-         * The server UUID or short UUID.
+         * UUID или сокращённый UUID сервера.
          */
         identifier: AdminGetApiKeyIdentifierPathParameter;
     };
@@ -9084,148 +9340,6 @@ export type AdminGetVersionInformationResponses = {
     200: AdminVersionInformationResponse;
 };
 export type AdminGetVersionInformationResponse = AdminGetVersionInformationResponses[keyof AdminGetVersionInformationResponses];
-export type AdminDismissTranslationSupportRequest = {
-    /**
-     * 1 - the notice was declined; 2 - the project was supported.
-     */
-    status: 1 | 2;
-};
-export type AdminDismissTranslationSupportData = {
-    body: AdminDismissTranslationSupportRequest;
-    path?: never;
-    query?: never;
-    url: '/api/admin/translation-support/dismiss';
-};
-export type AdminDismissTranslationSupportErrors = {
-    /**
-     * Authentication credentials were missing or invalid.
-     */
-    401: ErrorEnvelope;
-    /**
-     * The API key does not have permission to perform this action.
-     */
-    403: ErrorEnvelope;
-    /**
-     * The request was invalid or the notice was already dismissed.
-     */
-    422: ErrorEnvelope;
-};
-export type AdminDismissTranslationSupportError = AdminDismissTranslationSupportErrors[keyof AdminDismissTranslationSupportErrors];
-export type AdminTranslationSupportDismissalResponse = {
-    /**
-     * 0 - not dismissed yet, 1 - declined, 2 - supported.
-     */
-    status: 0 | 1 | 2;
-    /**
-     * UUID of the dismissal event, or null when none was created.
-     */
-    event_id: string | null;
-};
-export type AdminDismissTranslationSupportResponses = {
-    /**
-     * Dismissal recorded.
-     */
-    200: AdminTranslationSupportDismissalResponse;
-};
-export type AdminDismissTranslationSupportResponse = AdminDismissTranslationSupportResponses[keyof AdminDismissTranslationSupportResponses];
-export type AdminGetTranslationSupportData = {
-    body?: never;
-    path?: never;
-    query?: never;
-    url: '/api/admin/translation-support';
-};
-export type AdminGetTranslationSupportErrors = {
-    /**
-     * Authentication credentials were missing or invalid.
-     */
-    401: ErrorEnvelope;
-    /**
-     * The API key does not have permission to perform this action.
-     */
-    403: ErrorEnvelope;
-};
-export type AdminGetTranslationSupportError = AdminGetTranslationSupportErrors[keyof AdminGetTranslationSupportErrors];
-export type AdminTranslationSupportStatusResponse = {
-    /**
-     * 0 - not dismissed yet, 1 - declined, 2 - supported.
-     */
-    status: 0 | 1 | 2;
-    /**
-     * Whether declining the notice would send a telemetry event.
-     */
-    telemetry_enabled: boolean;
-};
-export type AdminGetTranslationSupportResponses = {
-    /**
-     * Dismissal status returned.
-     */
-    200: AdminTranslationSupportStatusResponse;
-};
-export type AdminGetTranslationSupportResponse = AdminGetTranslationSupportResponses[keyof AdminGetTranslationSupportResponses];
-export type AdminGetUpdatesData = {
-    body?: never;
-    path?: never;
-    query?: never;
-    url: '/api/admin/updates';
-};
-export type AdminGetUpdatesErrors = {
-    /**
-     * Authentication credentials were missing or invalid.
-     */
-    401: ErrorEnvelope;
-    /**
-     * The API key does not have permission to perform this action.
-     */
-    403: ErrorEnvelope;
-};
-export type AdminGetUpdatesError = AdminGetUpdatesErrors[keyof AdminGetUpdatesErrors];
-export type AdminOfficialUpdateStatusResponse = {
-    /**
-     * up_to_date | update_available | no_release | unknown | disabled.
-     */
-    status: 'up_to_date' | 'update_available' | 'no_release' | 'unknown' | 'disabled';
-    /**
-     * Tag of the latest official release on the base major line.
-     */
-    latest: string | null;
-    /**
-     * Link to the official release.
-     */
-    url: string | null;
-};
-export type AdminTranslationUpdateStatusResponse = {
-    /**
-     * up_to_date | update_available | missing_build_info | unknown | disabled.
-     */
-    status: 'up_to_date' | 'update_available' | 'missing_build_info' | 'unknown' | 'disabled';
-    /**
-     * Version label of the installed build.
-     */
-    installed: string;
-    /**
-     * Commit the installed translation build was made from.
-     */
-    installed_build: string | null;
-    /**
-     * Newest commit on the translation branch.
-     */
-    latest_build: string | null;
-    /**
-     * Link comparing the installed build with the translation branch.
-     */
-    url: string | null;
-};
-export type AdminUpdatesStatusResponse = {
-    official: AdminOfficialUpdateStatusResponse;
-    translation: AdminTranslationUpdateStatusResponse;
-};
-export type AdminGetUpdatesResponses = {
-    /**
-     * Update status for both sources returned.
-     */
-    200: AdminUpdatesStatusResponse;
-};
-export type AdminGetUpdatesResponse = AdminGetUpdatesResponses[keyof AdminGetUpdatesResponses];
 export type ApplicationListUsersData = {
     body?: never;
     path?: never;
@@ -9308,7 +9422,7 @@ export type ApplicationDeleteUserData = {
     body?: never;
     path: {
         /**
-         * The user ID.
+         * ID пользователя.
          */
         user_id: ApplicationGetUserUserIdPathParameter;
     };
@@ -9341,7 +9455,7 @@ export type ApplicationGetUserData = {
     body?: never;
     path: {
         /**
-         * The user ID.
+         * ID пользователя.
          */
         user_id: ApplicationGetUserUserIdPathParameter;
     };
@@ -9376,7 +9490,7 @@ export type ApplicationUpdateUserData = {
     body: ApplicationUpdateUserRequest;
     path: {
         /**
-         * The user ID.
+         * ID пользователя.
          */
         user_id: ApplicationGetUserUserIdPathParameter;
     };
@@ -9410,7 +9524,7 @@ export type ApplicationGetUserByExternalIdData = {
     body?: never;
     path: {
         /**
-         * The external ID.
+         * Внешний идентификатор.
          */
         external_id: ApplicationGetUserByExternalIdExternalIdPathParameter;
     };
@@ -9579,7 +9693,7 @@ export type ApplicationDeleteNodeData = {
     body?: never;
     path: {
         /**
-         * The node ID.
+         * ID узла.
          */
         node_id: ApplicationGetNodeNodeIdPathParameter;
     };
@@ -9616,7 +9730,7 @@ export type ApplicationGetNodeData = {
     body?: never;
     path: {
         /**
-         * The node ID.
+         * ID узла.
          */
         node_id: ApplicationGetNodeNodeIdPathParameter;
     };
@@ -9651,7 +9765,7 @@ export type ApplicationUpdateNodeData = {
     body: ApplicationUpdateNodeRequest;
     path: {
         /**
-         * The node ID.
+         * ID узла.
          */
         node_id: ApplicationGetNodeNodeIdPathParameter;
     };
@@ -9689,7 +9803,7 @@ export type ApplicationGetNodeConfigurationData = {
     body?: never;
     path: {
         /**
-         * The node ID.
+         * ID узла.
          */
         node_id: ApplicationGetNodeConfigurationNodeIdPathParameter;
     };
@@ -9722,7 +9836,7 @@ export type ApplicationListNodeAllocationsData = {
     body?: never;
     path: {
         /**
-         * The node ID.
+         * ID узла.
          */
         node_id: ApplicationListNodeAllocationsNodeIdPathParameter;
     };
@@ -9777,7 +9891,7 @@ export type ApplicationCreateNodeAllocationsData = {
     body: ApplicationCreateNodeAllocationsRequest;
     path: {
         /**
-         * The node ID.
+         * ID узла.
          */
         node_id: ApplicationListNodeAllocationsNodeIdPathParameter;
     };
@@ -9818,7 +9932,7 @@ export type ApplicationDeleteNodeAllocationData = {
     body?: never;
     path: {
         /**
-         * The node ID.
+         * ID узла.
          */
         node_id: ApplicationDeleteNodeAllocationNodeIdPathParameter;
         /**
@@ -9929,7 +10043,7 @@ export type ApplicationDeleteLocationData = {
     body?: never;
     path: {
         /**
-         * The location ID.
+         * ID локации.
          */
         location_id: ApplicationGetLocationLocationIdPathParameter;
     };
@@ -9966,7 +10080,7 @@ export type ApplicationGetLocationData = {
     body?: never;
     path: {
         /**
-         * The location ID.
+         * ID локации.
          */
         location_id: ApplicationGetLocationLocationIdPathParameter;
     };
@@ -10001,7 +10115,7 @@ export type ApplicationUpdateLocationData = {
     body: ApplicationUpdateLocationRequest;
     path: {
         /**
-         * The location ID.
+         * ID локации.
          */
         location_id: ApplicationGetLocationLocationIdPathParameter;
     };
@@ -10077,7 +10191,7 @@ export type ApplicationGetEggData = {
     body?: never;
     path: {
         /**
-         * The egg ID.
+         * ID egg.
          */
         egg_id: ApplicationGetEggEggIdPathParameter;
     };
@@ -10291,7 +10405,7 @@ export type ApplicationDeleteServerForServersServerIdData = {
     body?: never;
     path: {
         /**
-         * The server ID.
+         * ID сервера.
          */
         server_id: ApplicationGetServerServerIdPathParameter;
     };
@@ -10324,7 +10438,7 @@ export type ApplicationGetServerData = {
     body?: never;
     path: {
         /**
-         * The server ID.
+         * ID сервера.
          */
         server_id: ApplicationGetServerServerIdPathParameter;
     };
@@ -10359,7 +10473,7 @@ export type ApplicationGetServerByExternalIdData = {
     body?: never;
     path: {
         /**
-         * The external ID.
+         * Внешний идентификатор.
          */
         external_id: ApplicationGetServerByExternalIdExternalIdPathParameter;
     };
@@ -10389,7 +10503,7 @@ export type ApplicationUpdateServerDetailsData = {
     body: ApplicationUpdateServerDetailsRequest;
     path: {
         /**
-         * The server ID.
+         * ID сервера.
          */
         server_id: ApplicationUpdateServerDetailsServerIdPathParameter;
     };
@@ -10423,7 +10537,7 @@ export type ApplicationUpdateServerBuildData = {
     body: ApplicationUpdateServerBuildRequest;
     path: {
         /**
-         * The server ID.
+         * ID сервера.
          */
         server_id: ApplicationUpdateServerBuildServerIdPathParameter;
     };
@@ -10461,7 +10575,7 @@ export type ApplicationUpdateServerStartupData = {
     body: ApplicationUpdateServerStartupRequest;
     path: {
         /**
-         * The server ID.
+         * ID сервера.
          */
         server_id: ApplicationUpdateServerStartupServerIdPathParameter;
     };
@@ -10499,7 +10613,7 @@ export type ApplicationSuspendServerData = {
     body?: never;
     path: {
         /**
-         * The server ID.
+         * ID сервера.
          */
         server_id: ApplicationSuspendServerServerIdPathParameter;
     };
@@ -10540,7 +10654,7 @@ export type ApplicationUnsuspendServerData = {
     body?: never;
     path: {
         /**
-         * The server ID.
+         * ID сервера.
          */
         server_id: ApplicationUnsuspendServerServerIdPathParameter;
     };
@@ -10581,7 +10695,7 @@ export type ApplicationReinstallServerData = {
     body?: never;
     path: {
         /**
-         * The server ID.
+         * ID сервера.
          */
         server_id: ApplicationReinstallServerServerIdPathParameter;
     };
@@ -10618,11 +10732,11 @@ export type ApplicationDeleteServerForServersServerIdForceData = {
     body?: never;
     path: {
         /**
-         * The server ID.
+         * ID сервера.
          */
         server_id: ApplicationDeleteServerServerIdPathParameter;
         /**
-         * Optional parameter. Whether to force the delete operation.
+         * Optional parameter. Выполнять ли принудительное удаление.
          */
         force: ApplicationDeleteServerForcePathParameter;
     };
@@ -10655,7 +10769,7 @@ export type ApplicationListServerDatabasesData = {
     body?: never;
     path: {
         /**
-         * The server ID.
+         * ID сервера.
          */
         server_id: ApplicationListServerDatabasesServerIdPathParameter;
     };
@@ -10693,7 +10807,7 @@ export type ApplicationCreateServerDatabaseData = {
     body: ApplicationCreateServerDatabaseRequest;
     path: {
         /**
-         * The server ID.
+         * ID сервера.
          */
         server_id: ApplicationListServerDatabasesServerIdPathParameter;
     };
@@ -10734,11 +10848,11 @@ export type ApplicationDeleteServerDatabaseData = {
     body?: never;
     path: {
         /**
-         * The server ID.
+         * ID сервера.
          */
         server_id: ApplicationGetServerDatabaseServerIdPathParameter;
         /**
-         * The database ID.
+         * ID базы данных.
          */
         database_id: ApplicationGetServerDatabaseDatabaseIdPathParameter;
     };
@@ -10771,11 +10885,11 @@ export type ApplicationGetServerDatabaseData = {
     body?: never;
     path: {
         /**
-         * The server ID.
+         * ID сервера.
          */
         server_id: ApplicationGetServerDatabaseServerIdPathParameter;
         /**
-         * The database ID.
+         * ID базы данных.
          */
         database_id: ApplicationGetServerDatabaseDatabaseIdPathParameter;
     };
@@ -10810,11 +10924,11 @@ export type ApplicationResetServerDatabasePasswordData = {
     body?: never;
     path: {
         /**
-         * The server ID.
+         * ID сервера.
          */
         server_id: ApplicationResetServerDatabasePasswordServerIdPathParameter;
         /**
-         * The database ID.
+         * ID базы данных.
          */
         database_id: ApplicationResetServerDatabasePasswordDatabaseIdPathParameter;
     };
@@ -11051,11 +11165,11 @@ export type ClientGetExtensionJobProgressData = {
     body?: never;
     path: {
         /**
-         * The extension identifier.
+         * Идентификатор расширения.
          */
         extension: ClientGetExtensionJobProgressExtensionPathParameter;
         /**
-         * The progress job UUID.
+         * UUID задания, ход выполнения которого отслеживается.
          */
         job: ClientGetExtensionJobProgressJobPathParameter;
     };
@@ -11399,7 +11513,7 @@ export type ClientDeleteAccountApiKeyData = {
     body?: never;
     path: {
         /**
-         * The server UUID or short UUID.
+         * UUID или сокращённый UUID сервера.
          */
         identifier: ClientDeleteAccountApiKeyIdentifierPathParameter;
     };
@@ -11512,7 +11626,7 @@ export type ClientGetServerData = {
     body?: never;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientGetServerServerUuidPathParameter;
     };
@@ -11545,7 +11659,7 @@ export type ClientGetWebsocketCredentialsData = {
     body?: never;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientGetWebsocketCredentialsServerUuidPathParameter;
     };
@@ -11578,7 +11692,7 @@ export type ClientGetServerResourcesData = {
     body?: never;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientGetServerResourcesServerUuidPathParameter;
     };
@@ -11615,7 +11729,7 @@ export type ClientGetServerLogsData = {
     body?: never;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientGetServerLogsServerUuidPathParameter;
     };
@@ -11661,15 +11775,15 @@ export type ClientGetServerExtensionJobProgressData = {
     body?: never;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientGetServerExtensionJobProgressServerUuidPathParameter;
         /**
-         * The extension identifier.
+         * Идентификатор расширения.
          */
         extension: ClientGetServerExtensionJobProgressExtensionPathParameter;
         /**
-         * The progress job UUID.
+         * UUID задания, ход выполнения которого отслеживается.
          */
         job: ClientGetServerExtensionJobProgressJobPathParameter;
     };
@@ -11699,7 +11813,7 @@ export type ClientListServerActivityData = {
     body?: never;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientListServerActivityServerUuidPathParameter;
     };
@@ -11769,7 +11883,7 @@ export type ClientListServerActivityFilterOptionsData = {
     body?: never;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientListServerActivityFilterOptionsServerUuidPathParameter;
     };
@@ -11802,7 +11916,7 @@ export type ClientSendServerCommandData = {
     body: ClientSendServerCommandRequest;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientSendServerCommandServerUuidPathParameter;
     };
@@ -11843,7 +11957,7 @@ export type ClientSendPowerActionData = {
     body: ClientSendPowerActionRequest;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientSendPowerActionServerUuidPathParameter;
     };
@@ -11880,7 +11994,7 @@ export type ClientListServerDatabasesData = {
     body?: never;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientListServerDatabasesServerUuidPathParameter;
     };
@@ -11918,7 +12032,7 @@ export type ClientCreateServerDatabaseData = {
     body: ClientCreateServerDatabaseRequest;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientListServerDatabasesServerUuidPathParameter;
     };
@@ -11964,11 +12078,11 @@ export type ClientRotateServerDatabasePasswordData = {
     body?: never;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientRotateServerDatabasePasswordServerUuidPathParameter;
         /**
-         * The database ID.
+         * ID базы данных.
          */
         database_id: ClientRotateServerDatabasePasswordDatabaseIdPathParameter;
     };
@@ -12006,11 +12120,11 @@ export type ClientDeleteServerDatabaseData = {
     body?: never;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientDeleteServerDatabaseServerUuidPathParameter;
         /**
-         * The database ID.
+         * ID базы данных.
          */
         database_id: ClientDeleteServerDatabaseDatabaseIdPathParameter;
     };
@@ -12043,7 +12157,7 @@ export type ClientListFilesData = {
     body?: never;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientListFilesServerUuidPathParameter;
     };
@@ -12089,7 +12203,7 @@ export type ClientGetFileContentsData = {
     body?: never;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientGetFileContentsServerUuidPathParameter;
     };
@@ -12135,7 +12249,7 @@ export type ClientGetFileDownloadUrlData = {
     body?: never;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientGetFileDownloadUrlServerUuidPathParameter;
     };
@@ -12181,7 +12295,7 @@ export type ClientRenameFilesData = {
     body?: ClientRenameFilesRequest;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientRenameFilesServerUuidPathParameter;
     };
@@ -12222,7 +12336,7 @@ export type ClientCopyFileData = {
     body: ClientCopyFileRequest;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientCopyFileServerUuidPathParameter;
     };
@@ -12263,7 +12377,7 @@ export type ClientWriteFileContentsData = {
     body: ClientWriteFileContentsRequest;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientWriteFileContentsServerUuidPathParameter;
     };
@@ -12309,7 +12423,7 @@ export type ClientCompressFilesData = {
     body?: ClientCompressFilesRequest;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientCompressFilesServerUuidPathParameter;
     };
@@ -12350,7 +12464,7 @@ export type ClientDecompressFileData = {
     body: ClientDecompressFileRequest;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientDecompressFileServerUuidPathParameter;
     };
@@ -12391,7 +12505,7 @@ export type ClientDeleteFilesData = {
     body?: ClientDeleteFilesRequest;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientDeleteFilesServerUuidPathParameter;
     };
@@ -12432,7 +12546,7 @@ export type ClientCreateFolderData = {
     body: ClientCreateFolderRequest;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientCreateFolderServerUuidPathParameter;
     };
@@ -12473,7 +12587,7 @@ export type ClientChangeFilePermissionsData = {
     body: ClientChangeFilePermissionsRequest;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientChangeFilePermissionsServerUuidPathParameter;
     };
@@ -12514,7 +12628,7 @@ export type ClientPullRemoteFileData = {
     body: ClientPullRemoteFileRequest;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientPullRemoteFileServerUuidPathParameter;
     };
@@ -12555,7 +12669,7 @@ export type ClientGetFileUploadUrlData = {
     body?: never;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientGetFileUploadUrlServerUuidPathParameter;
     };
@@ -12588,7 +12702,7 @@ export type ClientListServerSchedulesData = {
     body?: never;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientListServerSchedulesServerUuidPathParameter;
     };
@@ -12626,7 +12740,7 @@ export type ClientCreateServerScheduleData = {
     body: ClientCreateServerScheduleRequest;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientListServerSchedulesServerUuidPathParameter;
     };
@@ -12667,11 +12781,11 @@ export type ClientDeleteServerScheduleData = {
     body?: never;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientGetServerScheduleServerUuidPathParameter;
         /**
-         * The schedule ID.
+         * ID расписания.
          */
         schedule_id: ClientGetServerScheduleScheduleIdPathParameter;
     };
@@ -12704,11 +12818,11 @@ export type ClientGetServerScheduleData = {
     body?: never;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientGetServerScheduleServerUuidPathParameter;
         /**
-         * The schedule ID.
+         * ID расписания.
          */
         schedule_id: ClientGetServerScheduleScheduleIdPathParameter;
     };
@@ -12746,11 +12860,11 @@ export type ClientUpdateServerScheduleData = {
     body: ClientUpdateServerScheduleRequest;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientGetServerScheduleServerUuidPathParameter;
         /**
-         * The schedule ID.
+         * ID расписания.
          */
         schedule_id: ClientGetServerScheduleScheduleIdPathParameter;
     };
@@ -12791,11 +12905,11 @@ export type ClientExecuteServerScheduleData = {
     body?: never;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientExecuteServerScheduleServerUuidPathParameter;
         /**
-         * The schedule ID.
+         * ID расписания.
          */
         schedule_id: ClientExecuteServerScheduleScheduleIdPathParameter;
     };
@@ -12827,11 +12941,11 @@ export type ClientCreateScheduleTaskData = {
     body: ClientCreateScheduleTaskRequest;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientCreateScheduleTaskServerUuidPathParameter;
         /**
-         * The schedule ID.
+         * ID расписания.
          */
         schedule_id: ClientCreateScheduleTaskScheduleIdPathParameter;
     };
@@ -12872,15 +12986,15 @@ export type ClientDeleteScheduleTaskData = {
     body?: never;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientUpdateScheduleTaskServerUuidPathParameter;
         /**
-         * The schedule ID.
+         * ID расписания.
          */
         schedule_id: ClientUpdateScheduleTaskScheduleIdPathParameter;
         /**
-         * The task ID.
+         * ID задачи.
          */
         task_id: ClientUpdateScheduleTaskTaskIdPathParameter;
     };
@@ -12913,15 +13027,15 @@ export type ClientUpdateScheduleTaskData = {
     body: ClientUpdateScheduleTaskRequest;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientUpdateScheduleTaskServerUuidPathParameter;
         /**
-         * The schedule ID.
+         * ID расписания.
          */
         schedule_id: ClientUpdateScheduleTaskScheduleIdPathParameter;
         /**
-         * The task ID.
+         * ID задачи.
          */
         task_id: ClientUpdateScheduleTaskTaskIdPathParameter;
     };
@@ -12958,7 +13072,7 @@ export type ClientListServerAllocationsData = {
     body?: never;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientListServerAllocationsServerUuidPathParameter;
     };
@@ -12991,7 +13105,7 @@ export type ClientCreateServerAllocationData = {
     body?: never;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientListServerAllocationsServerUuidPathParameter;
     };
@@ -13028,7 +13142,7 @@ export type ClientDeleteServerAllocationData = {
     body?: never;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientUpdateAllocationNotesServerUuidPathParameter;
         /**
@@ -13069,7 +13183,7 @@ export type ClientUpdateAllocationNotesData = {
     body?: ClientUpdateAllocationNotesRequest;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientUpdateAllocationNotesServerUuidPathParameter;
         /**
@@ -13110,7 +13224,7 @@ export type ClientSetPrimaryAllocationData = {
     body?: never;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientSetPrimaryAllocationServerUuidPathParameter;
         /**
@@ -13147,7 +13261,7 @@ export type ClientListServerSubusersData = {
     body?: never;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientListServerSubusersServerUuidPathParameter;
     };
@@ -13180,7 +13294,7 @@ export type ClientCreateServerSubuserData = {
     body: ClientCreateServerSubuserRequest;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientListServerSubusersServerUuidPathParameter;
     };
@@ -13221,7 +13335,7 @@ export type ClientDeleteServerSubuserData = {
     body?: never;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientGetServerSubuserServerUuidPathParameter;
         /**
@@ -13258,7 +13372,7 @@ export type ClientGetServerSubuserData = {
     body?: never;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientGetServerSubuserServerUuidPathParameter;
         /**
@@ -13295,7 +13409,7 @@ export type ClientUpdateServerSubuserData = {
     body?: ClientUpdateServerSubuserRequest;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientGetServerSubuserServerUuidPathParameter;
         /**
@@ -13336,7 +13450,7 @@ export type ClientListServerBackupsData = {
     body?: never;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientListServerBackupsServerUuidPathParameter;
     };
@@ -13382,7 +13496,7 @@ export type ClientCreateServerBackupData = {
     body?: ClientCreateServerBackupRequest;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientListServerBackupsServerUuidPathParameter;
     };
@@ -13419,11 +13533,11 @@ export type ClientDeleteServerBackupData = {
     body?: never;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientGetServerBackupServerUuidPathParameter;
         /**
-         * The backup UUID.
+         * UUID резервной копии.
          */
         backup_uuid: ClientGetServerBackupBackupUuidPathParameter;
     };
@@ -13456,11 +13570,11 @@ export type ClientGetServerBackupData = {
     body?: never;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientGetServerBackupServerUuidPathParameter;
         /**
-         * The backup UUID.
+         * UUID резервной копии.
          */
         backup_uuid: ClientGetServerBackupBackupUuidPathParameter;
     };
@@ -13493,11 +13607,11 @@ export type ClientGetBackupDownloadUrlData = {
     body?: never;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientGetBackupDownloadUrlServerUuidPathParameter;
         /**
-         * The backup UUID.
+         * UUID резервной копии.
          */
         backup_uuid: ClientGetBackupDownloadUrlBackupUuidPathParameter;
     };
@@ -13534,11 +13648,11 @@ export type ClientToggleBackupLockData = {
     body?: never;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientToggleBackupLockServerUuidPathParameter;
         /**
-         * The backup UUID.
+         * UUID резервной копии.
          */
         backup_uuid: ClientToggleBackupLockBackupUuidPathParameter;
     };
@@ -13571,11 +13685,11 @@ export type ClientRestoreServerBackupData = {
     body: ClientRestoreServerBackupRequest;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientRestoreServerBackupServerUuidPathParameter;
         /**
-         * The backup UUID.
+         * UUID резервной копии.
          */
         backup_uuid: ClientRestoreServerBackupBackupUuidPathParameter;
     };
@@ -13616,7 +13730,7 @@ export type ClientGetStartupConfigurationData = {
     body?: never;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientGetStartupConfigurationServerUuidPathParameter;
     };
@@ -13649,7 +13763,7 @@ export type ClientUpdateStartupVariableData = {
     body: ClientUpdateStartupVariableRequest;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientUpdateStartupVariableServerUuidPathParameter;
     };
@@ -13690,7 +13804,7 @@ export type ClientRenameServerData = {
     body: ClientRenameServerRequest;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientRenameServerServerUuidPathParameter;
     };
@@ -13727,7 +13841,7 @@ export type ClientReinstallServerData = {
     body?: never;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientReinstallServerServerUuidPathParameter;
     };
@@ -13759,7 +13873,7 @@ export type ClientSetServerDockerImageData = {
     body: ClientSetServerDockerImageRequest;
     path: {
         /**
-         * The server UUID.
+         * UUID сервера.
          */
         server_uuid: ClientSetServerDockerImageServerUuidPathParameter;
     };
@@ -13809,3 +13923,91 @@ export type AuthGetCsrfCookieResponses = {
     204: void;
 };
 export type AuthGetCsrfCookieResponse = AuthGetCsrfCookieResponses[keyof AuthGetCsrfCookieResponses];
+export type AdminUpdateGeneralSettingsData = {
+    body: AdminUpdateGeneralSettingsRequest;
+    path?: never;
+    query?: never;
+    url: '/api/admin/settings/general';
+};
+export type AdminUpdateGeneralSettingsErrors = {
+    /**
+     * Authentication credentials were missing or invalid.
+     */
+    401: ErrorEnvelope;
+    /**
+     * The API key does not have permission to perform this action.
+     */
+    403: ErrorEnvelope;
+    /**
+     * The submitted data is invalid.
+     */
+    422: ValidationErrorEnvelope;
+};
+export type AdminUpdateGeneralSettingsError = AdminUpdateGeneralSettingsErrors[keyof AdminUpdateGeneralSettingsErrors];
+export type AdminUpdateGeneralSettingsResponses = {
+    /**
+     * Общие настройки обновлены.
+     */
+    204: void;
+};
+export type AdminUpdateGeneralSettingsResponse = AdminUpdateGeneralSettingsResponses[keyof AdminUpdateGeneralSettingsResponses];
+export type AdminUpdateMailSettingsData = {
+    body?: AdminUpdateMailSettingsRequest;
+    path?: never;
+    query?: never;
+    url: '/api/admin/settings/mail';
+};
+export type AdminUpdateMailSettingsErrors = {
+    /**
+     * Панель не настроена на использование SMTP-почты.
+     */
+    400: ErrorEnvelope;
+    /**
+     * Authentication credentials were missing or invalid.
+     */
+    401: ErrorEnvelope;
+    /**
+     * The API key does not have permission to perform this action.
+     */
+    403: ErrorEnvelope;
+    /**
+     * The submitted data is invalid.
+     */
+    422: ValidationErrorEnvelope;
+};
+export type AdminUpdateMailSettingsError = AdminUpdateMailSettingsErrors[keyof AdminUpdateMailSettingsErrors];
+export type AdminUpdateMailSettingsResponses = {
+    /**
+     * Настройки почты обновлены.
+     */
+    204: void;
+};
+export type AdminUpdateMailSettingsResponse = AdminUpdateMailSettingsResponses[keyof AdminUpdateMailSettingsResponses];
+export type AdminUpdateAdvancedSettingsData = {
+    body: AdminUpdateAdvancedSettingsRequest;
+    path?: never;
+    query?: never;
+    url: '/api/admin/settings/advanced';
+};
+export type AdminUpdateAdvancedSettingsErrors = {
+    /**
+     * Authentication credentials were missing or invalid.
+     */
+    401: ErrorEnvelope;
+    /**
+     * The API key does not have permission to perform this action.
+     */
+    403: ErrorEnvelope;
+    /**
+     * The submitted data is invalid.
+     */
+    422: ValidationErrorEnvelope;
+};
+export type AdminUpdateAdvancedSettingsError = AdminUpdateAdvancedSettingsErrors[keyof AdminUpdateAdvancedSettingsErrors];
+export type AdminUpdateAdvancedSettingsResponses = {
+    /**
+     * Расширенные настройки обновлены.
+     */
+    204: void;
+};
+export type AdminUpdateAdvancedSettingsResponse = AdminUpdateAdvancedSettingsResponses[keyof AdminUpdateAdvancedSettingsResponses];

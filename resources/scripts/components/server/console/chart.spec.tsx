@@ -17,7 +17,9 @@ let resize: ResizeObserverCallback | null = null;
 const SERIES = [{ dataKey: 'value', color: 'var(--chart-1)' }];
 
 const reportWidth = (width: number) =>
-    act(() => resize?.([{ contentRect: { width } } as ResizeObserverEntry], {} as ResizeObserver));
+    act(async () => {
+        resize?.([{ contentRect: { width } } as ResizeObserverEntry], {} as ResizeObserver);
+    });
 
 const renderChart = (data: ChartPoint[], live = true) =>
     render(<AreaChart data={data} series={SERIES} live={live} windowMs={20_000} suggestedMax={100} />);

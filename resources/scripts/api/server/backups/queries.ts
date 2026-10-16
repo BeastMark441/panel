@@ -108,7 +108,8 @@ export const useCreateServerBackup = () => {
     });
 };
 
-export const useDeleteServerBackup = (backup: ServerBackup) => {
+/** Reports failures; the caller announces success, since it knows the backup's name. */
+export const useDeleteServerBackup = () => {
     const queryClient = useQueryClient();
 
     return useMutation({
@@ -117,15 +118,13 @@ export const useDeleteServerBackup = (backup: ServerBackup) => {
             await queryClient.invalidateQueries({
                 queryKey: clientListServerBackupsQueryKey({ path: { server_uuid: path.server_uuid } }),
             });
-            toast.success('Резервная копия удалена', {
-                description: `Резервная копия «${backup.attributes.name}» удалена.`,
-            });
         },
         onError: (error) => notifyHttpError(error, 'Не удалось удалить резервную копию'),
     });
 };
 
-export const useRestoreServerBackup = (backup: ServerBackup) => {
+/** Reports failures; the caller announces success, since it knows the backup's name. */
+export const useRestoreServerBackup = () => {
     const updateCurrentServer = useUpdateCurrentServer();
 
     return useMutation({
@@ -135,15 +134,12 @@ export const useRestoreServerBackup = (backup: ServerBackup) => {
                 ...server,
                 attributes: { ...server.attributes, status: 'restoring_backup' },
             }));
-            toast.success('Восстановление резервной копии начато', {
-                description: `Резервная копия «${backup.attributes.name}» восстанавливается.`,
-            });
         },
         onError: (error) => notifyHttpError(error, 'Не удалось восстановить резервную копию'),
     });
 };
 
-export const useToggleServerBackupLock = (page: number, backup: ServerBackup) => {
+export const useToggleServerBackupLock = (page: number) => {
     const queryClient = useQueryClient();
 
     return useMutation({
@@ -151,7 +147,7 @@ export const useToggleServerBackupLock = (page: number, backup: ServerBackup) =>
         onSuccess: (updated, { path }) => {
             updateServerBackup(queryClient, path.server_uuid, page, path.backup_uuid, () => updated);
             toast.success(
-                backup.attributes.is_locked ? 'Резервная копия разблокирована' : 'Резервная копия заблокирована'
+                updated.attributes.is_locked ? 'Резервная копия заблокирована' : 'Резервная копия разблокирована'
             );
         },
         onError: (error) => notifyHttpError(error, 'Не удалось изменить блокировку резервной копии'),

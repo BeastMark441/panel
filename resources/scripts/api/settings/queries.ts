@@ -1,4 +1,4 @@
-import { queryOptions, useQuery, type QueryClient } from '@tanstack/react-query';
+import { queryOptions, skipToken, useQuery, type QueryClient } from '@tanstack/react-query';
 import type { SiteSettings } from '@/api/settings/types';
 import { getBootstrapSiteSettings } from '@/bootstrap';
 
@@ -18,11 +18,20 @@ const getSiteSettings = (): SiteSettings => {
 export const siteSettingsQueryOptions = () =>
     queryOptions({
         queryKey: siteSettingsQueryKey,
+        queryFn: skipToken,
         initialData: getSiteSettings,
         staleTime: 'static',
     });
 
-export const useSiteSettings = () => useQuery(siteSettingsQueryOptions()).data;
+export const useSiteSettings = (): SiteSettings => {
+    const { data } = useQuery(siteSettingsQueryOptions());
+
+    if (data === undefined) {
+        throw new Error('Site settings have not been hydrated.');
+    }
+
+    return data;
+};
 
 export const setSiteSettingsQueryData = (
     queryClient: QueryClient,

@@ -131,7 +131,11 @@ describe('DataTable', () => {
 
         render(<StringTable />);
 
-        expect(screen.getByText('Нет записей')).toHaveAttribute('data-slot', 'empty-description');
+        const description = screen.getByText('Нет записей');
+
+        expect(description).toHaveAttribute('data-ui', 'empty');
+        expect(description).toHaveAttribute('data-part', 'description');
+        expect(description.parentElement).toHaveAttribute('data-size', 'compact');
     });
 
     it('отражает состояние сортировки скрытых столбцов в управляющем ими заголовке', () => {

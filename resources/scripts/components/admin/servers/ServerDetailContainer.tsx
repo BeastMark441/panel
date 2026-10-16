@@ -9,9 +9,22 @@ import Icon from '@/components/elements/Icon';
 import SubNavigation from '@/components/elements/SubNavigation';
 import Spinner from '@/components/elements/Spinner';
 import { ServerError } from '@/components/elements/ScreenBlock';
-import ResourceExtensionTabs from '@/extensions/ResourceExtensionTabs';
 import { ExtensionResourceProvider, type ExtensionResourceContext } from '@/extensions/resourceContext';
 import Slot from '@/extensions/Slot';
+import { resourceNavigation, type ResourceTab } from '@/views/navigation';
+
+const aboutTab: ResourceTab = { id: 'about', label: 'Обзор', to: '/panel/servers/$id', exact: true };
+const installedTabs: ResourceTab[] = [
+    { id: 'details', label: 'Детали', to: '/panel/servers/$id/details' },
+    { id: 'build', label: 'Ресурсы', to: '/panel/servers/$id/build' },
+    { id: 'startup', label: 'Запуск', to: '/panel/servers/$id/startup' },
+    { id: 'database', label: 'База данных', to: '/panel/servers/$id/database' },
+    { id: 'mounts', label: 'Монтировки', to: '/panel/servers/$id/mounts' },
+];
+const manageTabs: ResourceTab[] = [
+    { id: 'manage', label: 'Управление', to: '/panel/servers/$id/manage' },
+    { id: 'delete', label: 'Удаление', to: '/panel/servers/$id/delete' },
+];
 
 export default function ServerDetailContainer() {
     const loadedServer = serverDetailRoute.useLoaderData();
@@ -33,8 +46,7 @@ export default function ServerDetailContainer() {
     }
 
     const { attributes } = server;
-    const params = { id: attributes.id };
-    const isInstalled = attributes.container.installed === 1;
+    const tabs = [aboutTab, ...(attributes.container.installed === 1 ? installedTabs : []), ...manageTabs];
 
     return (
         <ExtensionResourceProvider.Provider value={resourceContext}>
@@ -61,42 +73,10 @@ export default function ServerDetailContainer() {
                     </Link>
                 </div>
                 <Slot name='panel.servers.detail.actions' data={resourceContext} />
-                <SubNavigation className='mb-6 rounded-sm'>
-                    <Link
-                        data-core
-                        to='/panel/servers/$id'
-                        params={params}
-                        activeOptions={{ exact: true, includeSearch: false }}
-                    >
-                        О сервере
-                    </Link>
-                    {isInstalled && (
-                        <>
-                            <Link data-core to='/panel/servers/$id/details' params={params}>
-                                Детали
-                            </Link>
-                            <Link data-core to='/panel/servers/$id/build' params={params}>
-                                Ресурсы
-                            </Link>
-                            <Link data-core to='/panel/servers/$id/startup' params={params}>
-                                Запуск
-                            </Link>
-                            <Link data-core to='/panel/servers/$id/database' params={params}>
-                                База данных
-                            </Link>
-                            <Link data-core to='/panel/servers/$id/mounts' params={params}>
-                                Монтировки
-                            </Link>
-                        </>
-                    )}
-                    <Link data-core to='/panel/servers/$id/manage' params={params}>
-                        Управление
-                    </Link>
-                    <Link data-core to='/panel/servers/$id/delete' params={params}>
-                        Удаление
-                    </Link>
-                    <ResourceExtensionTabs parent='admin.server' basePath={`/panel/servers/${attributes.id}`} />
-                </SubNavigation>
+                <SubNavigation
+                    className='mb-6 rounded-sm'
+                    items={resourceNavigation('admin.server', { id: String(attributes.id) }, tabs)}
+                />
                 <Outlet />
             </AdminContentBlock>
         </ExtensionResourceProvider.Provider>

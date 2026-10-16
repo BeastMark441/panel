@@ -1,6 +1,7 @@
 /** @vitest-environment jsdom */
 import { QueryClient } from '@tanstack/react-query';
 import { createInstance } from 'i18next';
+import type * as I18nextModule from 'i18next';
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 import type { UserData } from '@/api/account/types';
 
@@ -23,8 +24,14 @@ const user = (language: string) => ({
 
 beforeEach(() => {
     vi.resetModules();
+    vi.doMock('i18next', async () => {
+        const actual = await vi.importActual<typeof I18nextModule>('i18next');
+
+        return { ...actual, default: actual.createInstance() };
+    });
 });
 afterEach(() => {
+    vi.doUnmock('i18next');
     delete (window as BootstrapWindow).PterodactylUser;
     delete (window as BootstrapWindow).SiteConfiguration;
 });
