@@ -7,88 +7,134 @@
   </a>
 </p>
 
-![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/pterodactyl/panel/ci.yaml?label=Tests&style=for-the-badge&branch=2.0-develop)
+![Статус тестов GitHub Actions](https://img.shields.io/github/actions/workflow/status/pterodactyl/panel/ci.yaml?label=Tests&style=for-the-badge&branch=2.0-develop)
 ![Discord](https://img.shields.io/discord/122900397965705216?label=Discord&logo=Discord&logoColor=white&style=for-the-badge)
-![GitHub Releases](https://img.shields.io/github/downloads/pterodactyl/panel/latest/total?style=for-the-badge)
-![GitHub contributors](https://img.shields.io/github/contributors/pterodactyl/panel?style=for-the-badge)
+![Загрузки последнего выпуска](https://img.shields.io/github/downloads/pterodactyl/panel/latest/total?style=for-the-badge)
+![Участники проекта](https://img.shields.io/github/contributors/pterodactyl/panel?style=for-the-badge)
 
-# Pterodactyl Panel
+# Pterodactyl Panel — русский перевод
 
-Pterodactyl® is a free, open-source game server management panel built with PHP, React, and Go. Designed with security
-in mind, Pterodactyl runs all game servers in isolated Docker containers while exposing a beautiful and intuitive
-UI to end users.
+Pterodactyl® — бесплатная панель управления игровыми серверами с открытым исходным кодом, разработанная с использованием PHP, React и Go. В основе проекта лежит безопасность: игровые серверы запускаются в изолированных Docker-контейнерах, а пользователям доступен удобный и понятный интерфейс управления.
 
-Stop settling for less. Make game servers a first class citizen on your platform.
+Не соглашайтесь на меньшее. Сделайте управление игровыми серверами полноценной частью вашей платформы.
 
-[![Watch: Introducing Pterodactyl v2](.github/assets/v2-video.jpg)](https://www.youtube.com/watch?v=1ER4kv0jVEU)
+## Об этом репозитории
 
-## What's new in v2
+Этот репозиторий содержит русифицированную версию Pterodactyl Panel на базе разрабатываемой ветки 2.0.
 
-This branch (`2.0-develop`) is where Pterodactyl v2 is being built. It is under active development; the current
-stable release line lives on [`1.0-develop`](https://github.com/pterodactyl/panel/tree/1.0-develop).
+Перевод подготовил [BeastMark441](https://github.com/BeastMark441).
 
-* **Extension SDK** — extend the panel through a versioned API instead of editing core files, so your changes
-  survive updates. Example extensions live in [pterodactyl/extensions](https://github.com/pterodactyl/extensions).
-* **Fully modernized tech stack** — Vite, React 19, TanStack Router and Query, Tailwind 4 and Laravel 13.
-* **Brand new admin area** — the admin and client areas are now a single React application with one design.
-* **One-click egg importer** — browse the egg catalog and import directly from the panel.
-* **Theming with design tokens** — restyle the panel without rebuilding it.
-* **Still 100% free and open source** — MIT licensed, as always.
+Русификация охватывает клиентскую и административную панели: навигацию, формы, таблицы, диалоги подтверждения, подсказки, уведомления и сообщения валидации. Также переведены отдельные серверные сообщения и описания API.
 
-## Documentation
+Пользовательские данные, содержимое файлов, вывод игровых серверов и технические идентификаторы не переводятся. Тексты сторонних расширений и импортированных шаблонов Egg могут оставаться на языке их авторов.
 
-* [Panel Documentation](https://pterodactyl.io/panel/1.0/getting_started.html)
-* [Wings Documentation](https://pterodactyl.io/wings/1.0/installing.html)
-* [Community Guides](https://pterodactyl.io/community/about.html)
-* Or, get additional help [via Discord](https://discord.gg/pterodactyl)
+Это неофициальная локализация. Авторство оригинальной панели принадлежит разработчикам Pterodactyl.
 
-## Sponsors
+### Ветки и статус разработки
 
-I would like to extend my sincere thanks to the following sponsors for helping fund Pterodactyl's development.
-[Interested in becoming a sponsor?](https://github.com/sponsors/pterodactyl)
+- `custom/2.0` — ветка русского перевода в этом репозитории.
+- `2.0-develop` — исходная ветка разработки Pterodactyl v2.
+- [`1.0-develop`](https://github.com/pterodactyl/panel/tree/1.0-develop) — ветка текущей стабильной линейки оригинального проекта.
 
-| Company                                                                           | About                                                                                                                                                                                                                                           |
-|-----------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [**Buildurly**](https://buildurly.com/)                                           | Buildurly is a hardware procurement company. They deliver tailored, enterprise-grade hardware solutions designed around your unique needs. From sourcing to delivery, Buildurly's white-glove service ensures a seamless, worry-free, professional experience.                                                                                                                                          |
-| [**Hosturly**](https://hosturly.com/)                                             | Hosturly is an enterprise hosting provider. They provide cost-effective, high-performance, and reliable services, including VPS, Web, Dedicated, and Colocation.                                                                                |
-| [**indifferent broccoli**](https://indifferentbroccoli.com/)                      | indifferent broccoli is a game server hosting and rental company. With them, you get top-notch computer power for your gaming sessions. They destroy lag, latency, and complexity--letting you focus on the fun stuff.                         |
-| [**Infraly, LLC**](https://infraly.co/)                                           | Infraly is an infrastructure company powering the next generation of online services. Through their brands, Infraly delivers cutting-edge solutions across multiple markets. Their vertically integrated approach provides unmatched performance, scalability, and reliability, giving our customers full control.                                                                                     |
-| [**MineStrator**](https://minestrator.com/)                                       | MineStrator is a game server hosting provider. Looking for the most high-end French hosting company for your Minecraft server? More than 24,000 members on our Discord trust us. Give us a try!                                                |
-| [**Physgun**](https://physgun.com/)                                               | Physgun is a game server hosting provider. Most providers rent rack space and rebrand a panel. At Physgun, they engineer the performance, write the features, and staff the support. Physgun truly is game hosting perfected!                   |
-| [**WISP**](https://wisp.gg/)                                                      | WISP is an industry-leading SaaS platform for game server management, designed for hosting companies, gaming organizations, and enthusiasts. WISP combines modern, intuitive interfaces with powerful tools, making server deployment and administration seamless, scalable, and efficient.                                                                                                                 |
+Pterodactyl v2 находится в активной разработке. Готовность перевода не означает, что сама версия v2 получила статус стабильного выпуска.
 
+### Проверка перевода
 
-### Supported Games
+На момент последней проверки:
 
-Pterodactyl supports a wide variety of games by utilizing Docker containers to isolate each instance. This gives
-you the power to run game servers without bloating machines with a host of additional dependencies.
+- Полный набор автоматических тестов: 903 теста в 139 файлах — успешно.
+- Проверка форматирования и линт: без предупреждений и ошибок.
+- Проверка TypeScript основного приложения: без ошибок.
+- Интерфейс дополнительно проверен вручную.
 
-Some of our core supported games include:
+Эти результаты относятся к проверенному состоянию исходников и не гарантируют совместимость с любыми сторонними изменениями, темами и расширениями.
 
-* Minecraft — including Paper, Sponge, Bungeecord, Waterfall, and more
-* Rust
-* Terraria
-* Teamspeak
-* Mumble
-* Team Fortress 2
-* Counter Strike: Global Offensive
-* Garry's Mod
-* ARK: Survival Evolved
+### Обратная связь
 
-In addition to our standard nest of supported games, our community is constantly pushing the limits of this software
-and there are plenty more games available provided by the community. Some of these games include:
+Если вы обнаружили непереведённую строку, ошибку или неудачную формулировку, создайте Issue в этом репозитории или предложите исправление через Pull Request.
 
-* Factorio
-* San Andreas: MP
-* Pocketmine MP
-* Squad
-* Xonotic
-* Starmade
-* Discord ATLBot, and most other Node.js/Python discord bots
-* [and many more...](https://eggs.pterodactyl.io)
+В сообщении укажите:
 
-## License
+- Версию или коммит панели.
+- Раздел и действия, при которых возникает проблема.
+- Точный текст или скриншот.
+- Используемые сторонние расширения, если они связаны с проблемой.
+
+Не публикуйте пароли, API-ключи и другие конфиденциальные данные.
+
+## Знакомство с Pterodactyl v2
+
+[![Смотреть: знакомство с Pterodactyl v2](.github/assets/v2-video.jpg)](https://www.youtube.com/watch?v=1ER4kv0jVEU)
+
+## Что нового в v2
+
+Pterodactyl v2 разрабатывается в исходной ветке `2.0-develop` и находится в активной разработке.
+
+- Extension SDK — расширение возможностей панели через версионируемый API без редактирования основных файлов, чтобы ваши изменения сохранялись при обновлениях. Примеры расширений доступны в [pterodactyl/extensions](https://github.com/pterodactyl/extensions).
+- Полностью обновлённый технологический стек — Vite, React 19, TanStack Router и Query, Tailwind 4 и Laravel 13.
+- Новый административный интерфейс — административная и клиентская части объединены в одно React-приложение с единым оформлением.
+- Импорт шаблонов Egg в один клик — просмотр каталога и импорт непосредственно из панели.
+- Оформление на основе дизайн-токенов — изменение внешнего вида панели без повторной сборки.
+- По-прежнему полностью бесплатно и с открытым исходным кодом — под лицензией MIT.
+
+## Документация
+
+- [Документация панели](https://pterodactyl.io/panel/1.0/getting_started.html).
+- [Документация Wings](https://pterodactyl.io/wings/1.0/installing.html).
+- [Руководства сообщества](https://pterodactyl.io/community/about.html).
+- Дополнительная помощь — в [Discord-сообществе Pterodactyl](https://discord.gg/pterodactyl).
+
+Обратите внимание: приведённые ссылки на документацию панели и Wings относятся к линейке 1.0. Учитывайте различия с разрабатываемой версией 2.0.
+
+## Спонсоры оригинального проекта
+
+Разработчики Pterodactyl выражают искреннюю благодарность следующим спонсорам за финансовую поддержку проекта.
+
+[Хотите стать спонсором?](https://github.com/sponsors/pterodactyl)
+
+| Компания | О компании |
+|---|---|
+| [Buildurly](https://buildurly.com/) | Компания по поставке оборудования. Предлагает решения корпоративного уровня с учётом индивидуальных требований заказчика. Сопровождает весь процесс — от подбора до доставки, обеспечивая профессиональный сервис и избавляя клиентов от лишних забот. |
+| [Hosturly](https://hosturly.com/) | Провайдер хостинга корпоративного уровня. Предлагает доступные, производительные и надёжные услуги, включая VPS, веб-хостинг, выделенные серверы и размещение оборудования. |
+| [indifferent broccoli](https://indifferentbroccoli.com/) | Компания по хостингу и аренде игровых серверов. Предоставляет вычислительные мощности для комфортной игры, избавляя пользователей от задержек, лагов и сложностей настройки. |
+| [Infraly, LLC](https://infraly.co/) | Инфраструктурная компания, обеспечивающая работу нового поколения онлайн-сервисов. Через собственные бренды предлагает современные решения для различных рынков. Вертикально интегрированный подход обеспечивает производительность, масштабируемость и надёжность, сохраняя контроль в руках клиентов. |
+| [MineStrator](https://minestrator.com/) | Провайдер игровых серверов. Предлагает высококлассный французский хостинг для Minecraft. Компании доверяют более 24 000 участников её Discord-сообщества. |
+| [Physgun](https://physgun.com/) | Провайдер игровых серверов. Вместо простой аренды места в стойке и смены оформления панели компания самостоятельно работает над производительностью, разрабатывает функции и обеспечивает поддержку. |
+| [WISP](https://wisp.gg/) | Ведущая SaaS-платформа управления игровыми серверами для хостинг-компаний, игровых организаций и энтузиастов. Сочетает современный и понятный интерфейс с мощными инструментами для удобного, масштабируемого и эффективного развёртывания и администрирования серверов. |
+
+## Поддерживаемые игры
+
+Pterodactyl поддерживает множество игр, используя Docker-контейнеры для изоляции каждого экземпляра сервера. Это позволяет запускать игровые серверы без установки множества дополнительных зависимостей непосредственно на хост.
+
+Среди основных поддерживаемых игр и приложений:
+
+- Minecraft — включая Paper, Sponge, Bungeecord, Waterfall и другие.
+- Rust.
+- Terraria.
+- Teamspeak.
+- Mumble.
+- Team Fortress 2.
+- Counter Strike: Global Offensive.
+- Garry's Mod.
+- ARK: Survival Evolved.
+
+Помимо стандартных наборов шаблонов, сообщество постоянно расширяет возможности панели и добавляет поддержку других игр и приложений, в том числе:
+
+- Factorio.
+- San Andreas: MP.
+- Pocketmine MP.
+- Squad.
+- Xonotic.
+- Starmade.
+- Discord ATLBot и большинства других Discord-ботов на Node.js и Python.
+- [Многих других игр и приложений](https://eggs.pterodactyl.io).
+
+## Лицензия и авторство
 
 Pterodactyl® Copyright © 2015 - 2022 Dane Everitt and contributors.
 
-Code released under the [MIT License](./LICENSE.md).
+Код распространяется под [лицензией MIT](./LICENSE.md).
+
+Русский перевод подготовил [BeastMark441](https://github.com/BeastMark441). Авторство перевода не распространяется на оригинальный код и товарные знаки Pterodactyl.
+
+Исходные уведомления об авторских правах и условия лицензии сохраняются.

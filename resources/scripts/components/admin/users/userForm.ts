@@ -19,11 +19,11 @@ export const validateUserPassword = ({ value }: { value: string }): string | und
     }
 
     if (value.length < 8) {
-        return 'Password must be at least 8 characters.';
+        return 'Пароль должен содержать не менее 8 символов.';
     }
 
     if (value.length > 191) {
-        return 'Password must not exceed 191 characters.';
+        return 'Пароль не должен превышать 191 символа.';
     }
 
     return undefined;
@@ -31,11 +31,11 @@ export const validateUserPassword = ({ value }: { value: string }): string | und
 
 export const validateUserEmail = ({ value }: { value: string }): string | undefined => {
     if (value.length < 1) {
-        return 'An email address must be provided.';
+        return 'Укажите адрес электронной почты.';
     }
 
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
-        return 'A valid email address must be provided.';
+        return 'Укажите корректный адрес электронной почты.';
     }
 
     return undefined;
@@ -43,18 +43,14 @@ export const validateUserEmail = ({ value }: { value: string }): string | undefi
 
 export const validateUsername = requiredWithMaxLength(
     191,
-    'A username must be provided.',
-    'A username must not exceed 191 characters.'
+    'Укажите имя пользователя.',
+    'Имя пользователя не должно превышать 191 символа.'
 );
 
-export const validateFirstName = requiredWithMaxLength(
-    191,
-    'A first name must be provided.',
-    'First name must not exceed 191 characters.'
-);
+export const validateFirstName = requiredWithMaxLength(191, 'Укажите имя.', 'Имя не должно превышать 191 символа.');
 
 export const validateLastName = requiredWithMaxLength(
     191,
-    'A last name must be provided.',
-    'Last name must not exceed 191 characters.'
+    'Укажите фамилию.',
+    'Фамилия не должна превышать 191 символа.'
 );

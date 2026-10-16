@@ -92,9 +92,11 @@ export const useCreateServerDatabase = () => {
         ...clientCreateServerDatabaseMutation(),
         onSuccess: async (database, { path }) => {
             await upsertDatabase(queryClient, path.server_uuid, database);
-            toast.success('Database created', { description: `${database.attributes.name} is ready to use.` });
+            toast.success('База данных создана', {
+                description: `База данных «${database.attributes.name}» готова к использованию.`,
+            });
         },
-        onError: (error) => notifyHttpError(error, 'Unable to create database'),
+        onError: (error) => notifyHttpError(error, 'Не удалось создать базу данных'),
     });
 };
 
@@ -107,9 +109,11 @@ export const useDeleteServerDatabase = () => {
             await removeDatabase(queryClient, variables.path.server_uuid, variables.path.database_id);
             const name = variables.meta?.name;
 
-            toast.success('Database deleted', { description: name ? `${name} has been removed.` : undefined });
+            toast.success('База данных удалена', {
+                description: name ? `База данных «${name}» удалена.` : undefined,
+            });
         },
-        onError: (error) => notifyHttpError(error, 'Unable to delete database'),
+        onError: (error) => notifyHttpError(error, 'Не удалось удалить базу данных'),
     });
 };
 
@@ -120,10 +124,10 @@ export const useRotateDatabasePassword = () => {
         ...clientRotateServerDatabasePasswordMutation(),
         onSuccess: async (database, { path }) => {
             await upsertDatabase(queryClient, path.server_uuid, database);
-            toast.success('Database password rotated', {
-                description: `${database.attributes.name} has a new password.`,
+            toast.success('Пароль базы данных изменён', {
+                description: `Для базы данных «${database.attributes.name}» назначен новый пароль.`,
             });
         },
-        onError: (error) => notifyHttpError(error, 'Unable to rotate database password'),
+        onError: (error) => notifyHttpError(error, 'Не удалось изменить пароль базы данных'),
     });
 };

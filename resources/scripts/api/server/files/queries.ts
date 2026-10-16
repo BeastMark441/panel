@@ -110,7 +110,7 @@ export const compressFilesInput = (
     path: { server_uuid: uuid },
     body: { root: directory, files },
     timeout: 60000,
-    timeoutErrorMessage: 'It looks like this archive is taking a long time to generate. It will appear once completed.',
+    timeoutErrorMessage: 'Похоже, создание архива занимает много времени. Он появится после завершения.',
 });
 
 export const decompressFileInput = (
@@ -122,7 +122,7 @@ export const decompressFileInput = (
     body: { root: directory, file },
     timeout: 300000,
     timeoutErrorMessage:
-        'It looks like this archive is taking a long time to be unarchived. Once completed the unarchived files will appear.',
+        'Похоже, распаковка архива занимает много времени. После завершения распакованные файлы появятся.',
 });
 
 export const writeFileContentsInput = (
@@ -268,9 +268,9 @@ export const useCreateDirectory = () => {
                 }));
             }
 
-            toast.success('Directory created');
+            toast.success('Каталог создан');
         },
-        onError: (error) => notifyHttpError(error, 'Unable to create directory'),
+        onError: (error) => notifyHttpError(error, 'Не удалось создать каталог'),
     });
 };
 
@@ -296,9 +296,9 @@ export const useRenameFiles = () => {
             }
 
             await queryClient.invalidateQueries({ queryKey: allServerFilesQueryKey(path.server_uuid) });
-            toast.success('Files updated');
+            toast.success('Файлы обновлены');
         },
-        onError: (error) => notifyHttpError(error, 'Unable to update files'),
+        onError: (error) => notifyHttpError(error, 'Не удалось обновить файлы'),
     });
 };
 
@@ -332,9 +332,9 @@ export const useChmodFiles = () => {
                 await queryClient.invalidateQueries({ queryKey: serverFilesQueryKey(path.server_uuid, body.root) });
             }
 
-            toast.success('Permissions updated');
+            toast.success('Права доступа обновлены');
         },
-        onError: (error) => notifyHttpError(error, 'Unable to update permissions'),
+        onError: (error) => notifyHttpError(error, 'Не удалось обновить права доступа'),
     });
 };
 
@@ -352,9 +352,9 @@ export const useDeleteFiles = () => {
                 );
             }
 
-            toast.success(body?.files?.length === 1 ? 'File deleted' : 'Files deleted');
+            toast.success(body?.files?.length === 1 ? 'Файл удалён' : 'Файлы удалены');
         },
-        onError: (error) => notifyHttpError(error, 'Unable to delete files'),
+        onError: (error) => notifyHttpError(error, 'Не удалось удалить файлы'),
     });
 };
 
@@ -368,9 +368,9 @@ export const useCopyFile = (directory: string) => {
                 await queryClient.invalidateQueries({ queryKey: serverFilesQueryKey(path.server_uuid, directory) });
             }
 
-            toast.success('File copied');
+            toast.success('Файл скопирован');
         },
-        onError: (error) => notifyHttpError(error, 'Unable to copy file'),
+        onError: (error) => notifyHttpError(error, 'Не удалось скопировать файл'),
     });
 };
 
@@ -384,9 +384,9 @@ export const useCompressFiles = () => {
                 await queryClient.invalidateQueries({ queryKey: serverFilesQueryKey(path.server_uuid, body.root) });
             }
 
-            toast.success('Archive started');
+            toast.success('Создание архива начато');
         },
-        onError: (error) => notifyHttpError(error, 'Unable to archive files'),
+        onError: (error) => notifyHttpError(error, 'Не удалось заархивировать файлы'),
     });
 };
 
@@ -400,16 +400,16 @@ export const useDecompressFile = () => {
                 await queryClient.invalidateQueries({ queryKey: serverFilesQueryKey(path.server_uuid, body.root) });
             }
 
-            toast.success('Unarchive started');
+            toast.success('Распаковка начата');
         },
-        onError: (error) => notifyHttpError(error, 'Unable to unarchive file'),
+        onError: (error) => notifyHttpError(error, 'Не удалось распаковать архив'),
     });
 };
 
 export const useFileDownloadUrl = () =>
     useMutation({
         mutationFn: ({ uuid, file }: { uuid: string; file: string }) => getFileDownloadUrl(uuid, file),
-        onError: (error) => notifyHttpError(error, 'Unable to create file download'),
+        onError: (error) => notifyHttpError(error, 'Не удалось создать ссылку для скачивания файла'),
     });
 
 export const useSaveFileContent = () => {
@@ -419,9 +419,9 @@ export const useSaveFileContent = () => {
         ...clientWriteFileContentsMutation(),
         onSuccess: async (_data, { path, query, body }) => {
             await updateServerFileContent(queryClient, path.server_uuid, query.file, body);
-            toast.success('File saved');
+            toast.success('Файл сохранён');
         },
-        onError: (error) => notifyHttpError(error, 'Unable to save file'),
+        onError: (error) => notifyHttpError(error, 'Не удалось сохранить файл'),
     });
 };
 
@@ -499,7 +499,7 @@ export const useUploadFiles = () => {
                     } catch (error) {
                         if (!controller.signal.aborted && !axios.isCancel(error)) {
                             outcome = 'failed';
-                            notifyHttpError(error, `Unable to upload ${file.name}`);
+                            notifyHttpError(error, `Не удалось загрузить ${file.name}`);
                         }
                     }
                 }
@@ -512,10 +512,10 @@ export const useUploadFiles = () => {
         },
         onSuccess: ({ uploaded, failed }) => {
             if (uploaded.length > 0 && failed.length === 0) {
-                toast.success('Upload complete');
+                toast.success('Загрузка файлов завершена');
             }
         },
-        onError: (error) => notifyHttpError(error, 'Unable to upload files'),
+        onError: (error) => notifyHttpError(error, 'Не удалось загрузить файлы'),
         onSettled: (_data, _error, { uuid, directory }) =>
             queryClient.invalidateQueries({ queryKey: serverFilesQueryKey(uuid, directory) }),
     });

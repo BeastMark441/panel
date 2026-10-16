@@ -47,7 +47,7 @@ describe('EggVariablesTab', () => {
         query = { ...query, data: undefined, isFetching: true };
         const { container } = render(<EggVariablesTab />);
 
-        expect(screen.queryByLabelText('Name')).not.toBeInTheDocument();
+        expect(screen.queryByLabelText('Название')).not.toBeInTheDocument();
         expect(container.querySelector('[aria-busy]')).toBeNull();
     });
 
@@ -55,7 +55,7 @@ describe('EggVariablesTab', () => {
         const user = userEvent.setup();
         const { rerender, container } = render(<EggVariablesTab />);
 
-        const name = screen.getByLabelText('Name');
+        const name = screen.getByLabelText('Название');
 
         await user.clear(name);
         await user.type(name, 'Server Version');
@@ -63,7 +63,7 @@ describe('EggVariablesTab', () => {
         query = { ...query, isFetching: true };
         rerender(<EggVariablesTab />);
 
-        expect(screen.getByLabelText('Name')).toBe(name);
+        expect(screen.getByLabelText('Название')).toBe(name);
         expect(name).toHaveValue('Server Version');
         expect(container.querySelector('[aria-busy="true"]')).toContainElement(name);
     });

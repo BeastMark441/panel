@@ -450,7 +450,7 @@ export const useDeleteAdminNode = () => {
 export const useGenerateAdminNodeDeployToken = () =>
     useMutation({
         ...adminCreateNodeDeployTokenMutation(),
-        onError: (error) => notifyHttpError(error, 'Unable to generate deploy token'),
+        onError: (error) => notifyHttpError(error, 'Не удалось создать токен развёртывания'),
     });
 
 export const useCreateAdminNodeAllocations = () => {
@@ -460,9 +460,11 @@ export const useCreateAdminNodeAllocations = () => {
         ...adminCreateNodeAllocationsMutation(),
         onSuccess: async (_data, variables) => {
             await invalidateAdminNodeAllocations(queryClient, [variables.path.node_id]);
-            toast.success('Allocations assigned', { description: 'New allocations have been assigned.' });
+            toast.success('Сетевые адреса назначены', {
+                description: 'Новые сетевые адреса назначены.',
+            });
         },
-        onError: (error) => notifyHttpError(error, 'Unable to assign allocations'),
+        onError: (error) => notifyHttpError(error, 'Не удалось назначить сетевые адреса'),
     });
 };
 
@@ -472,7 +474,7 @@ export const useUpdateAdminNodeAllocationAlias = () => {
     return useMutation({
         ...adminUpdateNodeAllocationMutation(),
         onSuccess: (_data, variables) => invalidateAdminNodeAllocations(queryClient, [variables.path.node_id]),
-        onError: (error) => notifyHttpError(error, 'Unable to update allocation alias'),
+        onError: (error) => notifyHttpError(error, 'Не удалось обновить псевдоним сетевого адреса'),
     });
 };
 
@@ -482,7 +484,7 @@ export const useDeleteAdminNodeAllocation = () => {
     return useMutation({
         ...adminDeleteNodeAllocationMutation(),
         onSuccess: (_data, variables) => invalidateAdminNodeAllocations(queryClient, [variables.path.node_id]),
-        onError: (error) => notifyHttpError(error, 'Unable to delete allocation'),
+        onError: (error) => notifyHttpError(error, 'Не удалось удалить сетевой адрес'),
     });
 };
 
@@ -493,9 +495,11 @@ export const useBulkDeleteAdminNodeAllocations = () => {
         ...adminBulkDeleteNodeAllocationsMutation(),
         onSuccess: async (_data, variables) => {
             await invalidateAdminNodeAllocations(queryClient, [variables.path.node_id]);
-            toast.success('Allocations deleted', { description: 'Selected allocations have been deleted.' });
+            toast.success('Сетевые адреса удалены', {
+                description: 'Выбранные сетевые адреса удалены.',
+            });
         },
-        onError: (error) => notifyHttpError(error, 'Unable to delete allocations'),
+        onError: (error) => notifyHttpError(error, 'Не удалось удалить сетевые адреса'),
     });
 };
 
@@ -506,10 +510,10 @@ export const useDeleteAdminNodeIpBlockAllocations = () => {
         ...adminDeleteNodeAllocationIpBlockMutation(),
         onSuccess: async (_data, variables) => {
             await invalidateAdminNodeAllocations(queryClient, [variables.path.node_id]);
-            toast.success('Allocations deleted', {
-                description: `All unassigned allocations for ${variables.body.ip} have been deleted.`,
+            toast.success('Сетевые адреса удалены', {
+                description: `Все неназначенные сетевые адреса для ${variables.body.ip} удалены.`,
             });
         },
-        onError: (error) => notifyHttpError(error, 'Unable to delete allocations'),
+        onError: (error) => notifyHttpError(error, 'Не удалось удалить сетевые адреса'),
     });
 };

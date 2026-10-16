@@ -24,110 +24,110 @@ class Permission extends Model
      */
     protected static array $permissions = [
         'websocket' => [
-            'description' => 'Allows the user to connect to the server websocket, giving them access to view console output and realtime server stats.',
+            'description' => 'Позволяет пользователю подключаться к веб-сокету сервера, давая доступ к выводу консоли и статистике сервера в реальном времени.',
             'keys' => [
-                'connect' => 'Allows a user to connect to the websocket instance for a server to stream the console.',
+                'connect' => 'Позволяет пользователю подключаться к веб-сокету сервера для получения вывода консоли.',
             ],
         ],
 
         'control' => [
-            'description' => "Permissions that control a user's ability to control the power state of a server, or send commands.",
+            'description' => 'Права, управляющие возможностью пользователя изменять состояние питания сервера или отправлять команды.',
             'keys' => [
-                'console' => 'Allows a user to send commands to the server instance via the console.',
-                'start' => 'Allows a user to start the server if it is stopped.',
-                'stop' => 'Allows a user to stop a server if it is running.',
-                'restart' => 'Allows a user to perform a server restart. This allows them to start the server if it is offline, but not put the server in a completely stopped state.',
+                'console' => 'Позволяет пользователю отправлять команды серверу через консоль.',
+                'start' => 'Позволяет пользователю запускать сервер, если он остановлен.',
+                'stop' => 'Позволяет пользователю останавливать сервер, если он работает.',
+                'restart' => 'Позволяет пользователю перезагружать сервер. Это позволяет запустить сервер, если он недоступен, но не переводит его в полностью остановленное состояние.',
             ],
         ],
 
         'user' => [
-            'description' => 'Permissions that allow a user to manage other subusers on a server. They will never be able to edit their own account, or assign permissions they do not have themselves.',
+            'description' => 'Права, позволяющие пользователю управлять другими субпользователями сервера. Они никогда не смогут изменять собственную учётную запись или назначать права, которых нет у них самих.',
             'keys' => [
-                'create' => 'Allows a user to create new subusers for the server.',
-                'read' => 'Allows the user to view subusers and their permissions for the server.',
-                'update' => 'Allows a user to modify other subusers.',
-                'delete' => 'Allows a user to delete a subuser from the server.',
+                'create' => 'Позволяет пользователю создавать новых субпользователей для сервера.',
+                'read' => 'Позволяет пользователю просматривать субпользователей сервера и их права.',
+                'update' => 'Позволяет пользователю изменять других субпользователей.',
+                'delete' => 'Позволяет пользователю удалять субпользователя с сервера.',
             ],
         ],
 
         'file' => [
-            'description' => "Permissions that control a user's ability to modify the filesystem for this server.",
+            'description' => 'Права, управляющие возможностью пользователя изменять файловую систему этого сервера.',
             'keys' => [
-                'create' => 'Allows a user to create additional files and folders via the Panel. Uploading, pulling remote files, and decompressing archives also require the update permission.',
-                'read' => 'Allows a user to view the contents of a directory, but not view the contents of or download files.',
-                'read-content' => 'Allows a user to view the contents of a given file. This will also allow the user to download files.',
-                'update' => 'Allows a user to update the contents of an existing file or directory.',
-                'delete' => 'Allows a user to delete files or directories.',
-                'archive' => 'Allows a user to archive the contents of a directory as well as decompress existing archives on the system.',
-                'sftp' => 'Allows a user to connect to SFTP and manage server files using the other assigned file permissions.',
+                'create' => 'Позволяет пользователю создавать дополнительные файлы и папки через панель. Загрузка, получение удалённых файлов и распаковка архивов также требуют права update.',
+                'read' => 'Позволяет пользователю просматривать содержимое каталога, но не содержимое файлов и не скачивать их.',
+                'read-content' => 'Позволяет пользователю просматривать содержимое файла. Также позволяет скачивать файлы.',
+                'update' => 'Позволяет пользователю изменять содержимое существующих файлов или каталогов.',
+                'delete' => 'Позволяет пользователю удалять файлы или каталоги.',
+                'archive' => 'Позволяет пользователю архивировать содержимое каталога, а также распаковывать существующие архивы на системе.',
+                'sftp' => 'Позволяет пользователю подключаться по SFTP и управлять файлами сервера с помощью других назначенных прав file.',
             ],
         ],
 
         'backup' => [
-            'description' => "Permissions that control a user's ability to generate and manage server backups.",
+            'description' => 'Права, управляющие возможностью пользователя создавать и управлять резервными копиями сервера.',
             'keys' => [
-                'create' => 'Allows a user to create new backups for this server.',
-                'read' => 'Allows a user to view all backups that exist for this server.',
-                'delete' => 'Allows a user to remove backups from the system.',
-                'download' => 'Allows a user to download a backup for the server. Danger: this allows a user to access all files for the server in the backup.',
-                'restore' => 'Allows a user to restore a backup for the server. Danger: this allows the user to delete all of the server files in the process.',
+                'create' => 'Позволяет пользователю создавать новые резервные копии для этого сервера.',
+                'read' => 'Позволяет пользователю просматривать все резервные копии, существующие для этого сервера.',
+                'delete' => 'Позволяет пользователю удалять резервные копии с системы.',
+                'download' => 'Позволяет пользователю скачивать резервную копию сервера. Внимание: это даёт пользователю доступ ко всем файлам сервера, входящим в резервную копию.',
+                'restore' => 'Позволяет пользователю восстанавливать резервную копию сервера. Внимание: в процессе пользователь сможет удалить все файлы сервера.',
             ],
         ],
 
         // Controls permissions for editing or viewing a server's allocations.
         'allocation' => [
-            'description' => "Permissions that control a user's ability to modify the port allocations for this server.",
+            'description' => 'Права, управляющие возможностью пользователя изменять выделение портов для этого сервера.',
             'keys' => [
-                'read' => 'Allows a user to view all allocations currently assigned to this server. Users with any level of access to this server can always view the primary allocation.',
-                'create' => 'Allows a user to assign additional allocations to the server.',
-                'update' => 'Allows a user to change the primary server allocation and attach notes to each allocation.',
-                'delete' => 'Allows a user to delete an allocation from the server.',
+                'read' => 'Позволяет пользователю просматривать все выделения, в настоящее время назначенные этому серверу. Пользователи с любым уровнем доступа к серверу всегда могут просматривать основное выделение.',
+                'create' => 'Позволяет пользователю назначать серверу дополнительные выделения.',
+                'update' => 'Позволяет пользователю изменять основное выделение сервера и добавлять примечания к каждому выделению.',
+                'delete' => 'Позволяет пользователю удалять выделение с сервера.',
             ],
         ],
 
         // Controls permissions for editing or viewing a server's startup parameters.
         'startup' => [
-            'description' => "Permissions that control a user's ability to view this server's startup parameters.",
+            'description' => 'Права, управляющие возможностью пользователя просматривать параметры запуска этого сервера.',
             'keys' => [
-                'read' => 'Allows a user to view the startup variables for a server.',
-                'update' => 'Allows a user to modify the startup variables for the server.',
-                'docker-image' => 'Allows a user to modify the Docker image used when running the server.',
+                'read' => 'Позволяет пользователю просматривать переменные запуска сервера.',
+                'update' => 'Позволяет пользователю изменять переменные запуска сервера.',
+                'docker-image' => 'Позволяет пользователю изменять Docker-образ, используемый при запуске сервера.',
             ],
         ],
 
         'database' => [
-            'description' => "Permissions that control a user's access to the database management for this server.",
+            'description' => 'Права, управляющие доступом пользователя к управлению базами данных этого сервера.',
             'keys' => [
-                'create' => 'Allows a user to create a new database for this server.',
-                'read' => 'Allows a user to view the database associated with this server.',
-                'update' => 'Allows a user to rotate the password on a database instance. If the user does not have the view_password permission they will not see the updated password.',
-                'delete' => 'Allows a user to remove a database instance from this server.',
-                'view_password' => 'Allows a user to view the password associated with a database instance for this server.',
+                'create' => 'Позволяет пользователю создавать новую базу данных для этого сервера.',
+                'read' => 'Позволяет пользователю просматривать базы данных, связанные с этим сервером.',
+                'update' => 'Позволяет пользователю менять пароль экземпляра базы данных. Если у пользователя нет права view_password, он не увидит новый пароль.',
+                'delete' => 'Позволяет пользователю удалять экземпляр базы данных с этого сервера.',
+                'view_password' => 'Позволяет пользователю просматривать пароль, связанный с экземпляром базы данных этого сервера.',
             ],
         ],
 
         'schedule' => [
-            'description' => "Permissions that control a user's access to the schedule management for this server.",
+            'description' => 'Права, управляющие доступом пользователя к управлению расписаниями этого сервера.',
             'keys' => [
-                'create' => 'Allows a user to create new schedules for this server.', // task.create-schedule
-                'read' => 'Allows a user to view schedules and the tasks associated with them for this server.', // task.view-schedule, task.list-schedules
-                'update' => 'Allows a user to update schedules and schedule tasks for this server.', // task.edit-schedule, task.queue-schedule, task.toggle-schedule
-                'delete' => 'Allows a user to delete schedules for this server.', // task.delete-schedule
+                'create' => 'Позволяет пользователю создавать новые расписания для этого сервера.', // task.create-schedule
+                'read' => 'Позволяет пользователю просматривать расписания и связанные с ними задачи для этого сервера.', // task.view-schedule, task.list-schedules
+                'update' => 'Позволяет пользователю обновлять расписания и задачи расписаний для этого сервера.', // task.edit-schedule, task.queue-schedule, task.toggle-schedule
+                'delete' => 'Позволяет пользователю удалять расписания для этого сервера.', // task.delete-schedule
             ],
         ],
 
         'settings' => [
-            'description' => "Permissions that control a user's access to the settings for this server.",
+            'description' => 'Права, управляющие доступом пользователя к настройкам этого сервера.',
             'keys' => [
-                'rename' => 'Allows a user to rename this server and change the description of it.',
-                'reinstall' => 'Allows a user to trigger a reinstall of this server.',
+                'rename' => 'Позволяет пользователю переименовывать этот сервер и изменять его описание.',
+                'reinstall' => 'Позволяет пользователю запускать переустановку этого сервера.',
             ],
         ],
 
         'activity' => [
-            'description' => "Permissions that control a user's access to the server activity logs.",
+            'description' => 'Права, управляющие доступом пользователя к журналам активности сервера.',
             'keys' => [
-                'read' => 'Allows a user to view the activity logs for the server.',
+                'read' => 'Позволяет пользователю просматривать журналы активности сервера.',
             ],
         ],
     ];

@@ -77,11 +77,11 @@ export const nodeValuesFromForm = ({
 
 export const validateNodeName = (value: string): string | undefined => {
     if (value.length < 1) {
-        return 'A name must be provided.';
+        return 'Укажите имя.';
     }
 
     if (value.length > 100) {
-        return 'A name must not exceed 100 characters.';
+        return 'Имя не должно превышать 100 символов.';
     }
 
     return undefined;
@@ -89,18 +89,16 @@ export const validateNodeName = (value: string): string | undefined => {
 
 export const nodeNumberValidators = {
     memory: {
-        onChange: requiredNumber('A memory limit must be provided.', (value) =>
-            value >= 1 ? undefined : 'A memory limit must be provided.'
+        onChange: requiredNumber('Укажите лимит памяти.', (value) =>
+            value >= 1 ? undefined : 'Укажите лимит памяти.'
         ),
     },
-    memoryOverallocate: { onChange: requiredNumber('A memory overallocation must be provided.') },
+    memoryOverallocate: { onChange: requiredNumber('Укажите значение переаллокации памяти.') },
     disk: {
-        onChange: requiredNumber('A disk limit must be provided.', (value) =>
-            value >= 1 ? undefined : 'A disk limit must be provided.'
-        ),
+        onChange: requiredNumber('Укажите лимит диска.', (value) => (value >= 1 ? undefined : 'Укажите лимит диска.')),
     },
-    diskOverallocate: { onChange: requiredNumber('A disk overallocation must be provided.') },
-    uploadSize: { onChange: requiredNumber('An upload size limit must be provided.') },
-    daemonListen: { onChange: requiredNumber('A daemon port must be provided.') },
-    daemonSftp: { onChange: requiredNumber('A daemon SFTP port must be provided.') },
+    diskOverallocate: { onChange: requiredNumber('Укажите значение переаллокации диска.') },
+    uploadSize: { onChange: requiredNumber('Укажите лимит размера загрузки.') },
+    daemonListen: { onChange: requiredNumber('Укажите порт демона.') },
+    daemonSftp: { onChange: requiredNumber('Укажите SFTP-порт демона.') },
 };

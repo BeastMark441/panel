@@ -9084,6 +9084,148 @@ export type AdminGetVersionInformationResponses = {
     200: AdminVersionInformationResponse;
 };
 export type AdminGetVersionInformationResponse = AdminGetVersionInformationResponses[keyof AdminGetVersionInformationResponses];
+export type AdminDismissTranslationSupportRequest = {
+    /**
+     * 1 - the notice was declined; 2 - the project was supported.
+     */
+    status: 1 | 2;
+};
+export type AdminDismissTranslationSupportData = {
+    body: AdminDismissTranslationSupportRequest;
+    path?: never;
+    query?: never;
+    url: '/api/admin/translation-support/dismiss';
+};
+export type AdminDismissTranslationSupportErrors = {
+    /**
+     * Authentication credentials were missing or invalid.
+     */
+    401: ErrorEnvelope;
+    /**
+     * The API key does not have permission to perform this action.
+     */
+    403: ErrorEnvelope;
+    /**
+     * The request was invalid or the notice was already dismissed.
+     */
+    422: ErrorEnvelope;
+};
+export type AdminDismissTranslationSupportError = AdminDismissTranslationSupportErrors[keyof AdminDismissTranslationSupportErrors];
+export type AdminTranslationSupportDismissalResponse = {
+    /**
+     * 0 - not dismissed yet, 1 - declined, 2 - supported.
+     */
+    status: 0 | 1 | 2;
+    /**
+     * UUID of the dismissal event, or null when none was created.
+     */
+    event_id: string | null;
+};
+export type AdminDismissTranslationSupportResponses = {
+    /**
+     * Dismissal recorded.
+     */
+    200: AdminTranslationSupportDismissalResponse;
+};
+export type AdminDismissTranslationSupportResponse = AdminDismissTranslationSupportResponses[keyof AdminDismissTranslationSupportResponses];
+export type AdminGetTranslationSupportData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/admin/translation-support';
+};
+export type AdminGetTranslationSupportErrors = {
+    /**
+     * Authentication credentials were missing or invalid.
+     */
+    401: ErrorEnvelope;
+    /**
+     * The API key does not have permission to perform this action.
+     */
+    403: ErrorEnvelope;
+};
+export type AdminGetTranslationSupportError = AdminGetTranslationSupportErrors[keyof AdminGetTranslationSupportErrors];
+export type AdminTranslationSupportStatusResponse = {
+    /**
+     * 0 - not dismissed yet, 1 - declined, 2 - supported.
+     */
+    status: 0 | 1 | 2;
+    /**
+     * Whether declining the notice would send a telemetry event.
+     */
+    telemetry_enabled: boolean;
+};
+export type AdminGetTranslationSupportResponses = {
+    /**
+     * Dismissal status returned.
+     */
+    200: AdminTranslationSupportStatusResponse;
+};
+export type AdminGetTranslationSupportResponse = AdminGetTranslationSupportResponses[keyof AdminGetTranslationSupportResponses];
+export type AdminGetUpdatesData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/admin/updates';
+};
+export type AdminGetUpdatesErrors = {
+    /**
+     * Authentication credentials were missing or invalid.
+     */
+    401: ErrorEnvelope;
+    /**
+     * The API key does not have permission to perform this action.
+     */
+    403: ErrorEnvelope;
+};
+export type AdminGetUpdatesError = AdminGetUpdatesErrors[keyof AdminGetUpdatesErrors];
+export type AdminOfficialUpdateStatusResponse = {
+    /**
+     * up_to_date | update_available | no_release | unknown | disabled.
+     */
+    status: 'up_to_date' | 'update_available' | 'no_release' | 'unknown' | 'disabled';
+    /**
+     * Tag of the latest official release on the base major line.
+     */
+    latest: string | null;
+    /**
+     * Link to the official release.
+     */
+    url: string | null;
+};
+export type AdminTranslationUpdateStatusResponse = {
+    /**
+     * up_to_date | update_available | missing_build_info | unknown | disabled.
+     */
+    status: 'up_to_date' | 'update_available' | 'missing_build_info' | 'unknown' | 'disabled';
+    /**
+     * Version label of the installed build.
+     */
+    installed: string;
+    /**
+     * Commit the installed translation build was made from.
+     */
+    installed_build: string | null;
+    /**
+     * Newest commit on the translation branch.
+     */
+    latest_build: string | null;
+    /**
+     * Link comparing the installed build with the translation branch.
+     */
+    url: string | null;
+};
+export type AdminUpdatesStatusResponse = {
+    official: AdminOfficialUpdateStatusResponse;
+    translation: AdminTranslationUpdateStatusResponse;
+};
+export type AdminGetUpdatesResponses = {
+    /**
+     * Update status for both sources returned.
+     */
+    200: AdminUpdatesStatusResponse;
+};
+export type AdminGetUpdatesResponse = AdminGetUpdatesResponses[keyof AdminGetUpdatesResponses];
 export type ApplicationListUsersData = {
     body?: never;
     path?: never;

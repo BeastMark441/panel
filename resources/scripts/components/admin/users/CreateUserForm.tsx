@@ -46,16 +46,16 @@ export default function CreateUserForm() {
 
     return (
         <AdminContentBlock
-            title='Admin · Create User'
-            heading='Create User'
-            description='Create a panel account and configure its access.'
+            title='Админ · Новый пользователь'
+            heading='Новый пользователь'
+            description='Создайте учётную запись панели и настройте доступ.'
         >
             <Link
                 to='/panel/users'
                 className='inline-flex items-center text-sm text-muted-foreground hover:text-foreground mb-4'
             >
                 <Icon icon={ArrowLeft} className='mr-2' />
-                Back to Users
+                К списку пользователей
             </Link>
             <Form form={form}>
                 <div className='space-y-6'>
@@ -69,7 +69,7 @@ export default function CreateUserForm() {
                     </form.AppField>
                     <div className='flex justify-end'>
                         <form.AppForm>
-                            <form.SubmitButton>Create User</form.SubmitButton>
+                            <form.SubmitButton>Создать пользователя</form.SubmitButton>
                         </form.AppForm>
                     </div>
                 </div>

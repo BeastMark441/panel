@@ -32,9 +32,11 @@ export const useImportAdminCatalogEgg = () => {
         ...adminImportCatalogEggMutation(),
         onSuccess: async (egg) => {
             await invalidateGeneratedOperations(queryClient, ['adminListEggs']);
-            toast.success('Egg imported', { description: `${egg.attributes.name} has been added from the catalog.` });
+            toast.success('Шаблон Egg импортирован', {
+                description: `Шаблон Egg «${egg.attributes.name}» добавлен из каталога.`,
+            });
         },
-        onError: (error) => notifyHttpError(error, 'Unable to import catalog egg'),
+        onError: (error) => notifyHttpError(error, 'Не удалось импортировать шаблон Egg из каталога'),
     });
 };
 
@@ -44,6 +46,6 @@ export const useRefreshAdminEggCatalog = () => {
     return useMutation({
         ...adminRefreshEggCatalogMutation(),
         onSuccess: () => queryClient.invalidateQueries({ queryKey: adminListEggCatalogQueryKey() }),
-        onError: (error) => notifyHttpError(error, 'Unable to refresh egg catalog'),
+        onError: (error) => notifyHttpError(error, 'Не удалось обновить каталог шаблонов Egg'),
     });
 };

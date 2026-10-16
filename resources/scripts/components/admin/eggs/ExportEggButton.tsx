@@ -36,13 +36,13 @@ export default function ExportEggButton({ egg }: Props) {
             link.remove();
             window.URL.revokeObjectURL(url);
         } catch (error) {
-            notifyHttpError(error, 'Unable to export egg');
+            notifyHttpError(error, 'Не удалось экспортировать шаблон Egg');
         }
     };
 
     return (
         <Button isSecondary disabled={exportEgg.isFetching} isLoading={exportEgg.isFetching} onClick={download}>
-            Export
+            Экспорт
         </Button>
     );
 }

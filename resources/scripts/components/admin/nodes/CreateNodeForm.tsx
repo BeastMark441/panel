@@ -32,16 +32,16 @@ export default function CreateNodeForm() {
 
     return (
         <AdminContentBlock
-            title='Admin · Create Node'
-            heading='Create Node'
-            description='Add a Wings node to your panel.'
+            title='Админ · Создать узел'
+            heading='Создать узел'
+            description='Добавьте узел Wings в панель.'
         >
             <Link
                 to='/panel/nodes'
                 className='inline-flex items-center text-sm text-muted-foreground hover:text-foreground mb-4'
             >
                 <Icon icon={ArrowLeft} className='mr-2' />
-                Back to Nodes
+                К списку узлов
             </Link>
             <Form form={form}>
                 <div className='space-y-6'>
@@ -51,7 +51,7 @@ export default function CreateNodeForm() {
                     </form.AppField>
                     <div className='flex justify-end'>
                         <form.AppForm>
-                            <form.SubmitButton>Create Node</form.SubmitButton>
+                            <form.SubmitButton>Создать узел</form.SubmitButton>
                         </form.AppForm>
                     </div>
                 </div>

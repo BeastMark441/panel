@@ -40,7 +40,7 @@ const AssignmentRow = ({ label, children }: { label: string; children: React.Rea
 
 const assignmentLinkClass = 'block truncate text-sm font-medium text-foreground transition-colors hover:text-accent';
 
-const formatLimit = (value: number, unit: string, unlimited = 'Unlimited') =>
+const formatLimit = (value: number, unit: string, unlimited = 'Безлимитно') =>
     value === 0 ? <Code>{unlimited}</Code> : <Code>{`${value}${unit}`}</Code>;
 
 const getDefaultAllocation = (
@@ -59,7 +59,7 @@ const hasConnectionAlias = (allocation: AllocationAttributes | undefined): alloc
 
 function ExternalIdentifierValue({ externalId }: { externalId: string | null | undefined }) {
     if (!externalId) {
-        return <span className='text-muted-foreground'>Not Set</span>;
+        return <span className='text-muted-foreground'>Не установлено</span>;
     }
 
     return <Code>{externalId}</Code>;
@@ -67,7 +67,7 @@ function ExternalIdentifierValue({ externalId }: { externalId: string | null | u
 
 function EggValue({ egg }: { egg: NamedRef | undefined }) {
     if (!egg) {
-        return <span className='text-muted-foreground'>Unknown</span>;
+        return <span className='text-muted-foreground'>Неизвестно</span>;
     }
 
     return (
@@ -79,7 +79,7 @@ function EggValue({ egg }: { egg: NamedRef | undefined }) {
 
 function CpuPinningValue({ threads }: { threads: string | null | undefined }) {
     if (!threads) {
-        return <span className='text-muted-foreground'>Not Set</span>;
+        return <span className='text-muted-foreground'>Не установлено</span>;
     }
 
     return <Code>{threads}</Code>;
@@ -87,11 +87,11 @@ function CpuPinningValue({ threads }: { threads: string | null | undefined }) {
 
 function SwapValue({ swap }: { swap: number }) {
     if (swap === 0) {
-        return <Code>Not Set</Code>;
+        return <Code>Не установлено</Code>;
     }
 
     if (swap === -1) {
-        return <Code>Unlimited</Code>;
+        return <Code>Безлимитно</Code>;
     }
 
     return <Code>{`${swap}MiB`}</Code>;
@@ -99,7 +99,7 @@ function SwapValue({ swap }: { swap: number }) {
 
 function DefaultConnectionValue({ allocation }: { allocation: AllocationAttributes | undefined }) {
     if (!allocation) {
-        return <span className='text-muted-foreground'>Unknown</span>;
+        return <span className='text-muted-foreground'>Неизвестно</span>;
     }
 
     return <Code>{`${allocation.ip}:${allocation.port}`}</Code>;
@@ -107,7 +107,7 @@ function DefaultConnectionValue({ allocation }: { allocation: AllocationAttribut
 
 function ConnectionAliasValue({ allocation }: { allocation: AllocationAttributes | undefined }) {
     if (!hasConnectionAlias(allocation)) {
-        return <span className='text-muted-foreground'>No Alias Assigned</span>;
+        return <span className='text-muted-foreground'>Алиас не назначен</span>;
     }
 
     return <Code>{`${allocation.alias}:${allocation.port}`}</Code>;
@@ -123,39 +123,39 @@ function InformationCard({
     egg: NamedRef | undefined;
 }) {
     return (
-        <TitledGreyBox title='Information'>
-            <Row label='Internal Identifier'>
+        <TitledGreyBox title='Информация'>
+            <Row label='Внутренний идентификатор'>
                 <Code>{attributes.id}</Code>
             </Row>
-            <Row label='External Identifier'>
+            <Row label='Внешний идентификатор'>
                 <ExternalIdentifierValue externalId={attributes.external_id} />
             </Row>
-            <Row label='UUID / Docker Container ID'>
+            <Row label='UUID / ID Docker-контейнера'>
                 <CopyOnClick text={attributes.uuid}>
                     <Code>{attributes.uuid}</Code>
                 </CopyOnClick>
             </Row>
-            <Row label='Current Egg'>
+            <Row label='Текущее яйцо'>
                 <EggValue egg={egg} />
             </Row>
-            <Row label='Server Name'>{attributes.name}</Row>
-            <Row label='CPU Limit'>{formatLimit(attributes.limits.cpu, '%')}</Row>
-            <Row label='CPU Pinning'>
+            <Row label='Имя сервера'>{attributes.name}</Row>
+            <Row label='Лимит CPU'>{formatLimit(attributes.limits.cpu, '%')}</Row>
+            <Row label='Привязка CPU'>
                 <CpuPinningValue threads={attributes.limits.threads} />
             </Row>
-            <Row label='Memory'>
+            <Row label='Память'>
                 {formatLimit(attributes.limits.memory, 'MiB')}
                 {' / '}
                 <SwapValue swap={attributes.limits.swap} />
             </Row>
-            <Row label='Disk Space'>{formatLimit(attributes.limits.disk, 'MiB')}</Row>
-            <Row label='Block IO Weight'>
+            <Row label='Место на диске'>{formatLimit(attributes.limits.disk, 'MiB')}</Row>
+            <Row label='Вес блочного IO'>
                 <Code>{attributes.limits.io}</Code>
             </Row>
-            <Row label='Default Connection'>
+            <Row label='Основное подключение'>
                 <DefaultConnectionValue allocation={allocation} />
             </Row>
-            <Row label='Connection Alias'>
+            <Row label='Алиас подключения'>
                 <ConnectionAliasValue allocation={allocation} />
             </Row>
         </TitledGreyBox>
@@ -168,10 +168,12 @@ function StatusCard({ attributes }: { attributes: ServerAttributes }) {
     }
 
     return (
-        <TitledGreyBox title='Status'>
-            {attributes.suspended && <p className='text-sm text-warning mb-2'>This server is currently suspended.</p>}
+        <TitledGreyBox title='Статус'>
+            {attributes.suspended && (
+                <p className='text-sm text-warning mb-2'>Сервер в настоящее время заблокирован.</p>
+            )}
             {attributes.container.installed === 0 && (
-                <p className='text-sm text-accent mb-2'>This server is currently installing.</p>
+                <p className='text-sm text-accent mb-2'>Сервер в настоящее время устанавливается.</p>
             )}
             {attributes.status === 'install_failed' && (
                 <p className='text-sm text-destructive'>This server failed to install.</p>
@@ -182,7 +184,7 @@ function StatusCard({ attributes }: { attributes: ServerAttributes }) {
 
 function OwnerValue({ user, ownerName }: { user: UserRef | undefined; ownerName: string }) {
     if (!user) {
-        return <span className='text-sm text-muted-foreground'>Unknown</span>;
+        return <span className='text-sm text-muted-foreground'>Неизвестно</span>;
     }
 
     return (
@@ -197,7 +199,7 @@ function OwnerValue({ user, ownerName }: { user: UserRef | undefined; ownerName:
 
 function NodeValue({ node }: { node: NodeRef | undefined }) {
     if (!node) {
-        return <span className='text-sm text-muted-foreground'>Unknown</span>;
+        return <span className='text-sm text-muted-foreground'>Неизвестно</span>;
     }
 
     return (
@@ -212,7 +214,7 @@ function NodeValue({ node }: { node: NodeRef | undefined }) {
 
 function LocationValue({ location }: { location: LocationRef | undefined }) {
     if (!location) {
-        return <span className='text-sm text-muted-foreground'>Unknown</span>;
+        return <span className='text-sm text-muted-foreground'>Неизвестно</span>;
     }
 
     return (
@@ -237,15 +239,15 @@ function AssignmentCard({
     ownerName: string;
 }) {
     return (
-        <TitledGreyBox title='Server Assignment'>
+        <TitledGreyBox title='Назначение сервера'>
             <dl>
-                <AssignmentRow label='Owner'>
+                <AssignmentRow label='Владелец'>
                     <OwnerValue user={user} ownerName={ownerName} />
                 </AssignmentRow>
-                <AssignmentRow label='Node'>
+                <AssignmentRow label='Узел'>
                     <NodeValue node={node} />
                 </AssignmentRow>
-                <AssignmentRow label='Location'>
+                <AssignmentRow label='Локация'>
                     <LocationValue location={location} />
                 </AssignmentRow>
             </dl>

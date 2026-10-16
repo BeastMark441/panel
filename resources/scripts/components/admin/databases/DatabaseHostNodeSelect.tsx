@@ -13,8 +13,8 @@ export default function DatabaseHostNodeSelect({ id, value, onChange }: Props) {
 
     const groups = [
         {
-            label: 'Global',
-            options: [{ value: '', label: 'None' }],
+            label: 'Глобальный',
+            options: [{ value: '', label: 'Без узла' }],
         },
         ...(locations ?? []).map((group) => ({
             label: `${group.location.attributes.long || group.location.attributes.short} (${group.location.attributes.short})`,
@@ -27,17 +27,17 @@ export default function DatabaseHostNodeSelect({ id, value, onChange }: Props) {
 
     return (
         <div>
-            <Label htmlFor={id}>Linked Node</Label>
+            <Label htmlFor={id}>Связанный узел</Label>
             <Select
                 id={id}
                 value={value}
-                placeholder='None'
+                placeholder='Без узла'
                 groups={groups}
                 disabled={locations === undefined}
                 onChange={(value) => onChange(String(value))}
             />
             <p className='input-help'>
-                Default to this database host when adding databases to servers on selected node.
+                При добавлении баз данных для серверов на выбранном узле использовать этот хост по умолчанию.
             </p>
         </div>
     );

@@ -66,7 +66,7 @@ const MountDetailsCard = ({
     error: unknown;
     onDelete: () => void;
 }) => (
-    <TitledGreyBox title='Mount Details'>
+    <TitledGreyBox title='Сведения о креплении'>
         <Form form={form} className='m-0'>
             <form.AppField
                 name='name'
@@ -78,8 +78,8 @@ const MountDetailsCard = ({
                     <field.TextField
                         type='text'
                         id='name'
-                        label='Name'
-                        description='A unique name used to identify this mount.'
+                        label='Название'
+                        description='Уникальное название, по которому будет идентифицироваться это крепление.'
                     />
                 )}
             </form.AppField>
@@ -88,15 +88,15 @@ const MountDetailsCard = ({
                     name='description'
                     validators={{
                         onChange: ({ value }) =>
-                            value.length <= 191 ? undefined : 'A description must not exceed 191 characters.',
+                            value.length <= 191 ? undefined : 'Описание не должно превышать 191 символ.',
                     }}
                 >
                     {(field) => (
                         <field.TextField
                             type='text'
                             id='description'
-                            label='Description'
-                            description='A longer description for this mount.'
+                            label='Описание'
+                            description='Более подробное описание этого крепления.'
                         />
                     )}
                 </form.AppField>
@@ -105,15 +105,15 @@ const MountDetailsCard = ({
                 <form.AppField
                     name='source'
                     validators={{
-                        onChange: ({ value }) => (value.length >= 1 ? undefined : 'A source path must be provided.'),
+                        onChange: ({ value }) => (value.length >= 1 ? undefined : 'Укажите исходный путь.'),
                     }}
                 >
                     {(field) => (
                         <field.TextField
                             type='text'
                             id='source'
-                            label='Source'
-                            description='The path on the host system to mount into the container.'
+                            label='Источник'
+                            description='Путь на хост-машине, который будет смонтирован в контейнер.'
                         />
                     )}
                 </form.AppField>
@@ -122,15 +122,15 @@ const MountDetailsCard = ({
                 <form.AppField
                     name='target'
                     validators={{
-                        onChange: ({ value }) => (value.length >= 1 ? undefined : 'A target path must be provided.'),
+                        onChange: ({ value }) => (value.length >= 1 ? undefined : 'Укажите целевой путь.'),
                     }}
                 >
                     {(field) => (
                         <field.TextField
                             type='text'
                             id='target'
-                            label='Target'
-                            description='The path inside the container where the source will be mounted.'
+                            label='Целевой путь'
+                            description='Путь внутри контейнера, по которому будет доступен исходный каталог.'
                         />
                     )}
                 </form.AppField>
@@ -139,8 +139,8 @@ const MountDetailsCard = ({
                 <form.AppField name='readOnly'>
                     {(field) => (
                         <field.SwitchField
-                            label='Read Only'
-                            description='Mount this volume as read only inside the container.'
+                            label='Только чтение'
+                            description='Монтировать этот том в контейнер как доступный только для чтения.'
                         />
                     )}
                 </form.AppField>
@@ -149,8 +149,8 @@ const MountDetailsCard = ({
                 <form.AppField name='userMountable'>
                     {(field) => (
                         <field.SwitchField
-                            label='User Mountable'
-                            description='Allow this mount to be added to servers by users.'
+                            label='Доступно пользователям'
+                            description='Позволять пользователям добавлять это крепление к своим серверам.'
                         />
                     )}
                 </form.AppField>
@@ -168,10 +168,10 @@ const MountDetailsCard = ({
             </form.AppField>
             <div className='flex justify-end mt-6'>
                 <Button type='button' color='red' isSecondary className='mr-2' onClick={onDelete}>
-                    Delete Mount
+                    Удалить крепление
                 </Button>
                 <form.AppForm>
-                    <form.SubmitButton>Save Changes</form.SubmitButton>
+                    <form.SubmitButton>Сохранить изменения</form.SubmitButton>
                 </form.AppForm>
             </div>
         </Form>
@@ -192,7 +192,7 @@ const AttachedEggsCard = ({
             [
                 {
                     id: 'name',
-                    header: 'Egg',
+                    header: 'Шаблон Egg',
                     cell: ({ row }) => (
                         <Link
                             to='/panel/eggs/$eggId'
@@ -222,8 +222,8 @@ const AttachedEggsCard = ({
                             params={{ eggId: egg.attributes.id }}
                         />
                         <Dialog.ConfirmTrigger
-                            title='Detach egg'
-                            confirm='Detach Egg'
+                            title='Отвязать шаблон Egg'
+                            confirm='Отвязать шаблон Egg'
                             trigger={({ onClick }) => (
                                 <DeleteAction
                                     label='Detach'
@@ -252,9 +252,9 @@ const AttachedEggsCard = ({
     });
 
     return (
-        <TitledGreyBox title='Eggs'>
+        <TitledGreyBox title='Шаблоны Egg'>
             <ListToolbar>
-                <NewButton onClick={onAttach}>Attach eggs</NewButton>
+                <NewButton onClick={onAttach}>Привязать шаблоны Egg</NewButton>
             </ListToolbar>
             <DataTable
                 table={table}
@@ -264,11 +264,13 @@ const AttachedEggsCard = ({
                             <EmptyMedia variant='icon'>
                                 <Egg />
                             </EmptyMedia>
-                            <EmptyTitle>No eggs attached</EmptyTitle>
-                            <EmptyDescription>Servers using an attached egg are offered this mount.</EmptyDescription>
+                            <EmptyTitle>Нет привязанных шаблонов Egg</EmptyTitle>
+                            <EmptyDescription>
+                                Серверам, использующим привязанный шаблон Egg, будет предложено это крепление.
+                            </EmptyDescription>
                         </EmptyHeader>
                         <EmptyContent>
-                            <NewButton onClick={onAttach}>Attach eggs</NewButton>
+                            <NewButton onClick={onAttach}>Привязать шаблоны Egg</NewButton>
                         </EmptyContent>
                     </Empty>
                 }
@@ -291,7 +293,7 @@ const AttachedNodesCard = ({
             [
                 {
                     id: 'name',
-                    header: 'Node',
+                    header: 'Узел',
                     cell: ({ row }) => (
                         <div className='min-w-0'>
                             <Link
@@ -315,8 +317,8 @@ const AttachedNodesCard = ({
                             params={{ id: node.attributes.id }}
                         />
                         <Dialog.ConfirmTrigger
-                            title='Detach node'
-                            confirm='Detach Node'
+                            title='Отвязать узел'
+                            confirm='Отвязать узел'
                             trigger={({ onClick }) => (
                                 <DeleteAction
                                     label='Detach'
@@ -345,9 +347,9 @@ const AttachedNodesCard = ({
     });
 
     return (
-        <TitledGreyBox title='Nodes'>
+        <TitledGreyBox title='Узлы'>
             <ListToolbar>
-                <NewButton onClick={onAttach}>Attach nodes</NewButton>
+                <NewButton onClick={onAttach}>Привязать узлы</NewButton>
             </ListToolbar>
             <DataTable
                 table={table}
@@ -357,11 +359,13 @@ const AttachedNodesCard = ({
                             <EmptyMedia variant='icon'>
                                 <HardDrive />
                             </EmptyMedia>
-                            <EmptyTitle>No nodes attached</EmptyTitle>
-                            <EmptyDescription>Servers on an attached node are offered this mount.</EmptyDescription>
+                            <EmptyTitle>Нет привязанных узлов</EmptyTitle>
+                            <EmptyDescription>
+                                Серверам на привязанном узле будет предложено это крепление.
+                            </EmptyDescription>
                         </EmptyHeader>
                         <EmptyContent>
-                            <NewButton onClick={onAttach}>Attach nodes</NewButton>
+                            <NewButton onClick={onAttach}>Привязать узлы</NewButton>
                         </EmptyContent>
                     </Empty>
                 }
@@ -402,39 +406,39 @@ const DeleteMountDialog = ({
     return (
         <Dialog
             open
-            title='Confirm mount deletion'
+            title='Подтверждение удаления крепления'
             preventExternalClose={deleteSubmitting}
             hideCloseIcon={deleteSubmitting}
             onClose={close}
         >
             <SpinnerOverlay visible={deleteSubmitting} />
             <p className='text-sm'>
-                Deleting a mount is a permanent action, it cannot be undone. This will permanently delete the{' '}
-                <strong>{mount.attributes.name}</strong> mount and detach it from every egg and node.
+                Удаление крепления — необратимое действие. Крепление <strong>{mount.attributes.name}</strong> будет
+                удалено и отключено от всех шаблонов Egg и узлов.
             </p>
             <Form form={deleteForm} className='m-0 mt-6'>
                 <deleteForm.AppField
                     name='confirm'
                     validators={{
                         onChange: ({ value }) =>
-                            value === mount.attributes.name ? undefined : 'The mount name must be provided.',
+                            value === mount.attributes.name ? undefined : 'Укажите название крепления.',
                     }}
                 >
                     {(field) => (
                         <field.TextField
                             type='text'
                             id='confirm_mount_name'
-                            label='Confirm Name'
-                            description='Enter the name of this mount to confirm deletion.'
+                            label='Название крепления для подтверждения'
+                            description='Введите название этого крепления, чтобы подтвердить удаление.'
                         />
                     )}
                 </deleteForm.AppField>
                 <div className='mt-6 text-right'>
                     <Button type='button' isSecondary className='mr-2' onClick={close}>
-                        Cancel
+                        Отмена
                     </Button>
                     <deleteForm.AppForm>
-                        <deleteForm.SubmitButton color='red'>Delete Mount</deleteForm.SubmitButton>
+                        <deleteForm.SubmitButton color='red'>Удалить крепление</deleteForm.SubmitButton>
                     </deleteForm.AppForm>
                 </div>
             </Form>
@@ -475,7 +479,7 @@ const MountDetailContent = ({ mount }: { mount: AdminMountWithRelations }) => {
 
     return (
         <AdminContentBlock
-            title={`Admin · Mount · ${attributes.name}`}
+            title={`Админ · Крепление · ${attributes.name}`}
             heading={attributes.name}
             description={attributes.uuid}
         >
@@ -484,7 +488,7 @@ const MountDetailContent = ({ mount }: { mount: AdminMountWithRelations }) => {
                 className='inline-flex items-center text-sm text-muted-foreground mb-4 hover:text-foreground'
             >
                 <Icon icon={ArrowLeft} className='mr-2' />
-                Back to Mounts
+                К списку креплений
             </Link>
 
             <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
@@ -563,7 +567,7 @@ export default function MountDetailContainer() {
 
     if (!mount) {
         return (
-            <AdminContentBlock title='Admin · Mount' heading='Mount'>
+            <AdminContentBlock title='Админ · Крепление' heading='Крепление'>
                 <Spinner size='large' centered />
             </AdminContentBlock>
         );

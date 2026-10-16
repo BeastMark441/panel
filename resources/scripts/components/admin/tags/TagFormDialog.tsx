@@ -40,25 +40,25 @@ const validateRequired = (label: string, value: string): string | undefined => {
     const length = value.trim().length;
 
     if (length === 0) {
-        return `${label} is required.`;
+        return `Поле «${label}» обязательно для заполнения.`;
     }
 
     if (length > 191) {
-        return `${label} must not exceed 191 characters.`;
+        return `Поле «${label}» не может превышать 191 символ.`;
     }
 
     return undefined;
 };
 
 const validateSlug = (value: string): string | undefined => {
-    const requiredError = validateRequired('Slug', value);
+    const requiredError = validateRequired('Слаг', value);
 
     if (requiredError) {
         return requiredError;
     }
 
     if (/^\d+$/.test(value.trim())) {
-        return 'A slug cannot contain only numbers.';
+        return 'Слаг не может состоять только из цифр.';
     }
 
     return undefined;
@@ -77,7 +77,7 @@ const validateColor = (value: string): string | undefined => {
 
     return color.startsWith('#') && hasValidLength && isHexadecimal
         ? undefined
-        : 'Use a hexadecimal color with 3, 4, 6, or 8 digits.';
+        : 'Укажите HEX-цвет из 3, 4, 6 или 8 цифр.';
 };
 
 export default function TagFormDialog({ open, onClose, tag }: Props) {
@@ -104,7 +104,7 @@ export default function TagFormDialog({ open, onClose, tag }: Props) {
     return (
         <Dialog
             open={open}
-            title={tag ? 'Update tag' : 'Create tag'}
+            title={tag ? 'Обновление тега' : 'Создание тега'}
             preventExternalClose={isSubmitting}
             hideCloseIcon={isSubmitting}
             onClose={onClose}
@@ -114,13 +114,13 @@ export default function TagFormDialog({ open, onClose, tag }: Props) {
                 <div className='grid gap-5'>
                     <form.AppField
                         name='name'
-                        validators={{ onChange: ({ value }) => validateRequired('Name', value) }}
+                        validators={{ onChange: ({ value }) => validateRequired('Название', value) }}
                     >
                         {(field) => (
                             <field.TextField
                                 type='text'
-                                label='Name'
-                                description='The readable label shown throughout the panel.'
+                                label='Название'
+                                description='Понятная метка, отображаемая по всей панели.'
                                 autoComplete='off'
                             />
                         )}
@@ -129,8 +129,8 @@ export default function TagFormDialog({ open, onClose, tag }: Props) {
                         {(field) => (
                             <field.TextField
                                 type='text'
-                                label='Slug'
-                                description='A stable identifier used by deployments and API integrations.'
+                                label='Слаг'
+                                description='Стабильный идентификатор, используемый развёртываниями и API-интеграциями.'
                                 autoComplete='off'
                                 spellCheck={false}
                             />
@@ -140,9 +140,9 @@ export default function TagFormDialog({ open, onClose, tag }: Props) {
                         {(field) => (
                             <field.TextField
                                 type='text'
-                                label='Color'
-                                description='Optional hexadecimal color used for the tag indicator.'
-                                placeholder='Hex color'
+                                label='Цвет'
+                                description='Необязательный HEX-цвет для индикатора тега.'
+                                placeholder='HEX-цвет'
                                 autoComplete='off'
                                 spellCheck={false}
                             />
@@ -151,10 +151,10 @@ export default function TagFormDialog({ open, onClose, tag }: Props) {
                 </div>
                 <div className='mt-6 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end'>
                     <Button.Text type='button' isSecondary onClick={onClose}>
-                        Cancel
+                        Отмена
                     </Button.Text>
                     <form.AppForm>
-                        <form.SubmitButton>{tag ? 'Save changes' : 'Create tag'}</form.SubmitButton>
+                        <form.SubmitButton>{tag ? 'Сохранить изменения' : 'Создать тег'}</form.SubmitButton>
                     </form.AppForm>
                 </div>
             </Form>

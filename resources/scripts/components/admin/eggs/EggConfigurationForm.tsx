@@ -11,11 +11,11 @@ export type EggForm = AppForm<EggFormValues>;
 
 const validateEggName = (value: string): string | undefined => {
     if (value.length < 1) {
-        return 'An egg name must be provided.';
+        return 'Необходимо указать название шаблона Egg.';
     }
 
     if (value.length > 191) {
-        return 'An egg name must not exceed 191 characters.';
+        return 'Название шаблона Egg не должно превышать 191 символ.';
     }
 
     return undefined;
@@ -67,7 +67,7 @@ const EggConfigurationFields = ({
     startupRef,
 }: Props) => (
     <div className='space-y-4'>
-        <TitledGreyBox title='Configuration'>
+        <TitledGreyBox title='Конфигурация'>
             <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
                 <div className='space-y-4'>
                     <form.AppField
@@ -80,10 +80,10 @@ const EggConfigurationFields = ({
                             <field.TextField
                                 type='text'
                                 id='name'
-                                label='Name'
+                                label='Название'
                                 description={
-                                    'A simple, human-readable name to use as an identifier for this Egg. This is what ' +
-                                    'users will see as their game server type.'
+                                    'Простое человекочитаемое название, используемое как идентификатор этого шаблона Egg. ' +
+                                    'Именно его пользователи увидят как тип игрового сервера.'
                                 }
                             />
                         )}
@@ -92,20 +92,20 @@ const EggConfigurationFields = ({
                         {(field) => (
                             <field.TextAreaField
                                 id='description'
-                                label='Description'
+                                label='Описание'
                                 rows={6}
-                                description='A description of this Egg.'
+                                description='Описание этого шаблона Egg.'
                             />
                         )}
                     </form.AppField>
                     <form.AppField name='forceOutgoingIp'>
                         {(field) => (
                             <field.SwitchField
-                                label='Force Outgoing IP'
+                                label='Принудительно использовать исходящий IP'
                                 description={
-                                    'Forces all outgoing network traffic to have its Source IP NATed to the IP of the ' +
-                                    "server's primary allocation IP. Enabling this disables internal networking for " +
-                                    'servers using this egg.'
+                                    'Принудительно направляет весь исходящий сетевой трафик через NAT на основной IP-адрес ' +
+                                    'сервера (из основного назначения). Включение этой опции отключает внутреннюю сеть для ' +
+                                    'серверов, использующих этот шаблон Egg.'
                                 }
                             />
                         )}
@@ -116,19 +116,19 @@ const EggConfigurationFields = ({
                         name='dockerImages'
                         validators={{
                             onChange: ({ value }) =>
-                                value.length >= 1 ? undefined : 'At least one docker image must be provided.',
+                                value.length >= 1 ? undefined : 'Необходимо указать хотя бы один Docker-образ.',
                         }}
                     >
                         {(field) => (
                             <field.TextAreaField
                                 id='dockerImages'
-                                label='Docker Images'
+                                label='Docker-образы'
                                 rows={4}
                                 placeholder='ghcr.io/pterodactyl/yolks:debian'
                                 description={
-                                    'The docker images available to servers using this egg. Enter one per line. ' +
-                                    'Optionally provide a display name by prefixing the image with the name and a ' +
-                                    'pipe, e.g. Display Name|ghcr.io/my/egg.'
+                                    'Docker-образы, доступные серверам, использующим этот шаблон Egg. Указывайте по одному ' +
+                                    'образу в строке. Необязательно: укажите отображаемое имя, добавив его перед образом с ' +
+                                    'вертикальной чертой, например: Display Name|ghcr.io/my/egg.'
                                 }
                             />
                         )}
@@ -137,15 +137,15 @@ const EggConfigurationFields = ({
                         name='startup'
                         validators={{
                             onChange: ({ value }) =>
-                                value.length >= 1 ? undefined : 'A startup command must be provided.',
+                                value.length >= 1 ? undefined : 'Необходимо указать команду запуска.',
                         }}
                     >
                         {(field) => (
                             <field.TextAreaField
                                 id='startup'
-                                label='Startup Command'
+                                label='Команда запуска'
                                 rows={8}
-                                description='The default startup command used for new servers created with this Egg.'
+                                description='Команда по умолчанию для запуска новых серверов, созданных на основе этого шаблона Egg.'
                             />
                         )}
                     </form.AppField>
@@ -154,10 +154,10 @@ const EggConfigurationFields = ({
                             <field.TextField
                                 type='text'
                                 id='featuresText'
-                                label='Features'
+                                label='Возможности'
                                 description={
-                                    'Additional features belonging to the egg, comma-separated. Useful for configuring ' +
-                                    'additional panel modifications.'
+                                    'Дополнительные возможности шаблона Egg через запятую. Полезно для настройки ' +
+                                    'дополнительных модификаций панели.'
                                 }
                             />
                         )}
@@ -166,21 +166,21 @@ const EggConfigurationFields = ({
             </div>
         </TitledGreyBox>
 
-        <TitledGreyBox title='Process Management'>
+        <TitledGreyBox title='Управление процессами'>
             <p className='text-xs text-warning mb-4'>
-                These options should not be edited unless you understand how this system works. All fields are required
-                unless you select an Egg from the &quot;Copy Settings From&quot; dropdown, in which case the process
-                fields may be left blank to inherit from that Egg.
+                Не изменяйте эти настройки, если вы не понимаете, как работает эта система. Все поля обязательны, если
+                только вы не выбрали шаблон Egg в выпадающем списке «Скопировать настройки из», в этом случае поля
+                процессов можно оставить пустыми, чтобы унаследовать настройки из выбранного шаблона.
             </p>
             <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
                 <form.AppField name='configFrom'>
                     {(field) => (
                         <field.SelectField
                             id='configFrom'
-                            label='Copy Settings From'
-                            description='Default to the process settings from another Egg.'
+                            label='Скопировать настройки из'
+                            description='По умолчанию использовать настройки процессов из другого шаблона Egg.'
                             options={[
-                                { value: 0, label: 'None' },
+                                { value: 0, label: 'Нет' },
                                 ...eggs.map((egg) => ({
                                     value: egg.attributes.id,
                                     label: `${egg.attributes.name} <${egg.attributes.author}>`,
@@ -194,36 +194,36 @@ const EggConfigurationFields = ({
                         <field.TextField
                             type='text'
                             id='configStop'
-                            label='Stop Command'
-                            description='The command sent to server processes to stop them gracefully. To send a SIGINT enter ^C.'
+                            label='Команда остановки'
+                            description='Команда, отправляемая процессам сервера для корректной остановки. Для отправки SIGINT введите ^C.'
                         />
                     )}
                 </form.AppField>
             </div>
             <div className='grid grid-cols-1 md:grid-cols-2 gap-4 mt-4'>
                 <EggJsonField
-                    label='Log Configuration'
+                    label='Конфигурация логов'
                     description={
-                        'A JSON representation of where log files are stored and whether the daemon should ' +
-                        'create custom logs. Leave blank to inherit this block from the selected parent egg.'
+                        'JSON-представление о том, где хранятся файлы логов и должен ли демон создавать кастомные логи. ' +
+                        'Оставьте пустым, чтобы унаследовать этот блок из выбранного родительского шаблона Egg.'
                     }
                     initialContent={initialConfigLogs}
                     editorRef={logRef}
                 />
                 <EggJsonField
-                    label='Configuration Files'
+                    label='Конфигурационные файлы'
                     description={
-                        'A JSON representation of configuration files to modify and what parts should be changed. ' +
-                        'Leave blank to inherit this block from the selected parent egg.'
+                        'JSON-представление о том, какие конфигурационные файлы следует изменять и какие их части менять. ' +
+                        'Оставьте пустым, чтобы унаследовать этот блок из выбранного родительского шаблона Egg.'
                     }
                     initialContent={initialConfigFiles}
                     editorRef={filesRef}
                 />
                 <EggJsonField
-                    label='Start Configuration'
+                    label='Конфигурация запуска'
                     description={
-                        'A JSON representation of the values the daemon should look for when booting a server ' +
-                        'to determine completion. Leave blank to inherit this block from the selected parent egg.'
+                        'JSON-представление значений, которые демон должен искать при запуске сервера, чтобы определить ' +
+                        'завершение загрузки. Оставьте пустым, чтобы унаследовать этот блок из выбранного родительского шаблона Egg.'
                     }
                     initialContent={initialConfigStartup}
                     editorRef={startupRef}

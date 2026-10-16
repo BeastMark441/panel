@@ -37,14 +37,14 @@ const HeaderTable = ({
 
 describe('NodeTable', () => {
     it.each([
-        ['checking', 'Checking'],
-        ['online', 'Online'],
-        ['offline', 'Offline'],
+        ['checking', 'Проверка'],
+        ['online', 'В сети'],
+        ['offline', 'Не в сети'],
     ] as const)('renders the %s node status', (status, label) => {
-        render(<NodeStatusBadge status={status} title={`${label} node`} />);
+        render(<NodeStatusBadge status={status} title={`«${label}» узел`} />);
 
         expect(screen.getByRole('status')).toHaveTextContent(label);
-        expect(screen.getByRole('status')).toHaveAttribute('title', `${label} node`);
+        expect(screen.getByRole('status')).toHaveAttribute('title', `«${label}» узел`);
     });
 
     it('only enables sorting for node-backed sort columns', () => {
@@ -69,10 +69,10 @@ describe('NodeTable', () => {
 
         render(<HeaderTable sorting={[{ id: 'memory', desc: true }]} onSortingChange={onSortingChange} />);
 
-        expect(screen.queryByRole('columnheader', { name: 'Memory' })).not.toBeInTheDocument();
-        expect(screen.getByRole('columnheader', { name: /Memory.*Disk/ })).toHaveAttribute('aria-sort', 'descending');
+        expect(screen.queryByRole('columnheader', { name: 'Память' })).not.toBeInTheDocument();
+        expect(screen.getByRole('columnheader', { name: /Память.*Диск/ })).toHaveAttribute('aria-sort', 'descending');
 
-        await user.click(screen.getByRole('button', { name: 'Сортировать «Disk» по убыванию' }));
+        await user.click(screen.getByRole('button', { name: 'Сортировать «Диск» по убыванию' }));
 
         expect(onSortingChange).toHaveBeenCalledWith([{ id: 'disk', desc: true }]);
     });

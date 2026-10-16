@@ -162,9 +162,11 @@ export const useSyncAdminEggTags = () => {
         ...adminSyncEggTagsMutation(),
         onSuccess: async () => {
             await invalidateGeneratedOperations(queryClient, ['adminGetEgg', 'adminListEggs', 'adminListTags']);
-            toast.success('Egg tags updated', { description: 'The egg tag assignments have been saved.' });
+            toast.success('Теги шаблонов Egg обновлены', {
+                description: 'Назначения тегов шаблонов Egg сохранены.',
+            });
         },
-        onError: (error) => notifyHttpError(error, 'Unable to update egg tags'),
+        onError: (error) => notifyHttpError(error, 'Не удалось обновить теги шаблонов Egg'),
     });
 };
 
@@ -174,9 +176,9 @@ const onNodeTagsSynced = async (queryClient: QueryClient, nodeId: number) => {
         invalidateGeneratedOperations(queryClient, ['adminListNodes', 'adminListTags']),
     ]);
     // Games and reservations save together, so both syncs update one toast.
-    toast.success('Node tags updated', {
+    toast.success('Теги ноды обновлены', {
         id: `admin-node-tags-${nodeId}`,
-        description: 'The node tag assignments have been saved.',
+        description: 'Назначения тегов ноды сохранены.',
     });
 };
 
@@ -186,7 +188,7 @@ export const useSyncAdminNodeGameTags = () => {
     return useMutation({
         ...adminSyncNodeGameTagsMutation(),
         onSuccess: (_tags, variables) => onNodeTagsSynced(queryClient, variables.path.node_id),
-        onError: (error) => notifyHttpError(error, 'Unable to update node tags'),
+        onError: (error) => notifyHttpError(error, 'Не удалось обновить теги ноды'),
     });
 };
 
@@ -196,6 +198,6 @@ export const useSyncAdminNodeDeploymentTags = () => {
     return useMutation({
         ...adminSyncNodeDeploymentTagsMutation(),
         onSuccess: (_tags, variables) => onNodeTagsSynced(queryClient, variables.path.node_id),
-        onError: (error) => notifyHttpError(error, 'Unable to update node tags'),
+        onError: (error) => notifyHttpError(error, 'Не удалось обновить теги ноды'),
     });
 };

@@ -71,7 +71,7 @@ export default function NodeTagsTab() {
     }
 
     return (
-        <TitledGreyBox title='Node Tags'>
+        <TitledGreyBox title='Теги узла'>
             {tags.length === 0 && <NoTagsYet />}
             <Form form={form} className='m-0'>
                 <div className='grid grid-cols-1 gap-6 md:grid-cols-2'>
@@ -81,9 +81,9 @@ export default function NodeTagsTab() {
                                 <TagsField
                                     tags={tags}
                                     exclude={reservations}
-                                    label='Games'
-                                    description='An egg runs here when it has one of these tags. Leave this empty to accept every egg.'
-                                    emptyText='This node accepts every egg.'
+                                    label='Игры'
+                                    description='Яйцо запускается на этом узле, если у него есть один из этих тегов. Оставьте пустым, чтобы принимать все яйца.'
+                                    emptyText='Этот узел принимает все яйца.'
                                 />
                             )}
                         </form.AppField>
@@ -94,9 +94,9 @@ export default function NodeTagsTab() {
                                 <TagsField
                                     tags={tags}
                                     exclude={games}
-                                    label='Reservations'
-                                    description='A reserved node only takes deployments that name every one of these tags.'
-                                    emptyText='This node is not reserved.'
+                                    label='Резервации'
+                                    description='Резервированный узел принимает только развёртывания, в которых указаны все эти теги.'
+                                    emptyText='Этот узел не зарезервирован.'
                                 />
                             )}
                         </form.AppField>
@@ -104,7 +104,7 @@ export default function NodeTagsTab() {
                 </div>
                 <div className='mt-6 flex justify-end'>
                     <form.AppForm>
-                        <form.SubmitButton>Save tags</form.SubmitButton>
+                        <form.SubmitButton>Сохранить теги</form.SubmitButton>
                     </form.AppForm>
                 </div>
             </Form>

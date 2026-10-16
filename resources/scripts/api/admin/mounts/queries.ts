@@ -222,9 +222,11 @@ export const useAttachAdminMountEggs = () => {
             await queryClient.cancelQueries({ queryKey: adminMountQueryKey(mount.attributes.id) });
             queryClient.setQueryData(adminMountQueryKey(mount.attributes.id), mount);
             await invalidateGeneratedOperations(queryClient, ['adminListMounts']);
-            toast.success('Eggs attached', { description: 'The selected eggs have been attached to this mount.' });
+            toast.success('Шаблоны Egg привязаны', {
+                description: 'Выбранные шаблоны Egg привязаны к этой точке монтирования.',
+            });
         },
-        onError: (error) => notifyHttpError(error, 'Unable to attach eggs'),
+        onError: (error) => notifyHttpError(error, 'Не удалось привязать шаблоны Egg'),
     });
 };
 
@@ -237,9 +239,11 @@ export const useAttachAdminMountNodes = () => {
             await queryClient.cancelQueries({ queryKey: adminMountQueryKey(mount.attributes.id) });
             queryClient.setQueryData(adminMountQueryKey(mount.attributes.id), mount);
             await invalidateGeneratedOperations(queryClient, ['adminListMounts']);
-            toast.success('Nodes attached', { description: 'The selected nodes have been attached to this mount.' });
+            toast.success('Ноды привязаны', {
+                description: 'Выбранные ноды привязаны к этой точке монтирования.',
+            });
         },
-        onError: (error) => notifyHttpError(error, 'Unable to attach nodes'),
+        onError: (error) => notifyHttpError(error, 'Не удалось привязать ноды'),
     });
 };
 
@@ -255,13 +259,13 @@ export const useDetachAdminMountEgg = () => {
             ]);
             const name = variables.meta?.name;
 
-            toast.success('Egg detached', {
+            toast.success('Шаблон Egg отвязан', {
                 description: name
-                    ? `${name} has been detached from this mount.`
-                    : 'The egg has been detached from this mount.',
+                    ? `Шаблон Egg «${name}» отвязан от этой точки монтирования.`
+                    : 'Шаблон Egg отвязан от этой точки монтирования.',
             });
         },
-        onError: (error) => notifyHttpError(error, 'Unable to detach egg'),
+        onError: (error) => notifyHttpError(error, 'Не удалось отвязать шаблон Egg'),
     });
 };
 
@@ -277,12 +281,12 @@ export const useDetachAdminMountNode = () => {
             ]);
             const name = variables.meta?.name;
 
-            toast.success('Node detached', {
+            toast.success('Нода отвязана', {
                 description: name
-                    ? `${name} has been detached from this mount.`
-                    : 'The node has been detached from this mount.',
+                    ? `Нода «${name}» отвязана от этой точки монтирования.`
+                    : 'Нода отвязана от этой точки монтирования.',
             });
         },
-        onError: (error) => notifyHttpError(error, 'Unable to detach node'),
+        onError: (error) => notifyHttpError(error, 'Не удалось отвязать ноду'),
     });
 };

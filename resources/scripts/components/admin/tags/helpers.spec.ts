@@ -64,21 +64,21 @@ describe('nodeAcceptsEgg', () => {
 
     it('words a refusal the way the API does', () => {
         expect(nodeRejectsEggMessage('node-alpha', [minecraft, srcds])).toBe(
-            'node-alpha only accepts eggs tagged Minecraft, Source Engine.'
+            'Узел node-alpha принимает только яйца с тегами: Minecraft, Source Engine.'
         );
     });
 });
 
 describe('tagCheckError', () => {
     it('returns the tag check message for the field', () => {
-        const message = 'node-alpha only accepts eggs tagged Minecraft.';
+        const message = 'Узел node-alpha принимает только яйца с тегами: Minecraft.';
 
         expect(tagCheckError(unprocessable('node_id', message), 'node_id')).toBe(message);
     });
 
     it('ignores other validation errors and other fields', () => {
         expect(tagCheckError(unprocessable('node_id', 'The node id field is required.'), 'node_id')).toBeNull();
-        expect(tagCheckError(unprocessable('egg_id', 'n only accepts eggs tagged A.'), 'node_id')).toBeNull();
+        expect(tagCheckError(unprocessable('egg_id', 'n принимает только яйца с тегами: A.'), 'node_id')).toBeNull();
         expect(tagCheckError(new Error('offline'), 'node_id')).toBeNull();
     });
 });

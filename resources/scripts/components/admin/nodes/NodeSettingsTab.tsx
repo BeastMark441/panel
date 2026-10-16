@@ -50,7 +50,7 @@ const NodeSettingsForm = () => {
     return (
         <Form form={form}>
             <div className='grid grid-cols-1 lg:grid-cols-2 gap-6'>
-                <TitledGreyBox title='Settings'>
+                <TitledGreyBox title='Настройки'>
                     <form.AppField
                         name='name'
                         validators={{
@@ -61,27 +61,27 @@ const NodeSettingsForm = () => {
                             <field.TextField
                                 type='text'
                                 id='name'
-                                label='Node Name'
-                                description='A short identifier used to distinguish this node from others.'
+                                label='Имя узла'
+                                description='Короткий идентификатор для различения этого узла с другими.'
                             />
                         )}
                     </form.AppField>
                     <div className='mt-6'>
                         <form.AppField name='description'>
-                            {(field) => <field.TextField type='text' id='description' label='Description' />}
+                            {(field) => <field.TextField type='text' id='description' label='Описание' />}
                         </form.AppField>
                     </div>
                     <div className='mt-6'>
                         <form.AppField
                             name='locationId'
                             validators={{
-                                onChange: ({ value }) => (value >= 1 ? undefined : 'A location must be selected.'),
+                                onChange: ({ value }) => (value >= 1 ? undefined : 'Выберите локацию.'),
                             }}
                         >
                             {(field) => (
                                 <field.SelectField
                                     id='location_id'
-                                    label='Location'
+                                    label='Локация'
                                     options={locations.map((location) => ({
                                         value: location.attributes.id,
                                         label: location.attributes.long
@@ -96,7 +96,7 @@ const NodeSettingsForm = () => {
                         <form.AppField
                             name='fqdn'
                             validators={{
-                                onChange: ({ value }) => (value.length >= 1 ? undefined : 'An FQDN must be provided.'),
+                                onChange: ({ value }) => (value.length >= 1 ? undefined : 'Укажите FQDN.'),
                             }}
                         >
                             {(field) => (
@@ -104,7 +104,7 @@ const NodeSettingsForm = () => {
                                     type='text'
                                     id='fqdn'
                                     label='FQDN'
-                                    description='The domain name or IP address that points to this node.'
+                                    description='Имя домена или IP-адрес, указывающий на этот узел.'
                                 />
                             )}
                         </form.AppField>
@@ -114,10 +114,10 @@ const NodeSettingsForm = () => {
                             {(field) => (
                                 <field.SelectField
                                     id='scheme'
-                                    label='Communicate Over SSL'
+                                    label='Общение по SSL'
                                     options={[
-                                        { value: 'https', label: 'Use SSL Connection (https)' },
-                                        { value: 'http', label: 'Use HTTP Connection (http)' },
+                                        { value: 'https', label: 'SSL-подключение (https)' },
+                                        { value: 'http', label: 'HTTP-подключение (http)' },
                                     ]}
                                 />
                             )}
@@ -127,8 +127,8 @@ const NodeSettingsForm = () => {
                         <form.AppField name='public'>
                             {(field) => (
                                 <field.SwitchField
-                                    label='Allow Automatic Allocation'
-                                    description='Public nodes are available for automatic server deployment.'
+                                    label='Разрешить автоматическую аллокацию'
+                                    description='Открытые узлы доступны для автоматического развёртывания серверов.'
                                 />
                             )}
                         </form.AppField>
@@ -137,8 +137,8 @@ const NodeSettingsForm = () => {
                         <form.AppField name='behindProxy'>
                             {(field) => (
                                 <field.SwitchField
-                                    label='Behind Proxy'
-                                    description='Enable if this node sits behind a proxy such as Cloudflare.'
+                                    label='За прокси'
+                                    description='Включите, если узел находится за прокси, например Cloudflare.'
                                 />
                             )}
                         </form.AppField>
@@ -147,58 +147,64 @@ const NodeSettingsForm = () => {
                         <form.AppField name='maintenanceMode'>
                             {(field) => (
                                 <field.SwitchField
-                                    label='Maintenance Mode'
-                                    description='Servers on a node in maintenance mode cannot be accessed.'
+                                    label='Режим обслуживания'
+                                    description='Серверы на узле в режиме обслуживания недоступны.'
                                 />
                             )}
                         </form.AppField>
                     </div>
                 </TitledGreyBox>
                 <div className='space-y-6'>
-                    <TitledGreyBox title='Allocation Limits'>
+                    <TitledGreyBox title='Лимиты аллокации'>
                         <div className='grid grid-cols-2 gap-4'>
                             <form.AppField name='memory' validators={nodeNumberValidators.memory}>
-                                {(field) => <field.NumberField id='memory' label='Total Memory (MiB)' min={1} />}
+                                {(field) => <field.NumberField id='memory' label='Вся память (МиБ)' min={1} />}
                             </form.AppField>
                             <form.AppField
                                 name='memoryOverallocate'
                                 validators={nodeNumberValidators.memoryOverallocate}
                             >
                                 {(field) => (
-                                    <field.NumberField id='memory_overallocate' label='Overallocate (%)' min={-1} />
+                                    <field.NumberField id='memory_overallocate' label='Переаллокация (%)' min={-1} />
                                 )}
                             </form.AppField>
                             <form.AppField name='disk' validators={nodeNumberValidators.disk}>
-                                {(field) => <field.NumberField id='disk' label='Disk Space (MiB)' min={1} />}
+                                {(field) => <field.NumberField id='disk' label='Место на диске (МиБ)' min={1} />}
                             </form.AppField>
                             <form.AppField name='diskOverallocate' validators={nodeNumberValidators.diskOverallocate}>
                                 {(field) => (
-                                    <field.NumberField id='disk_overallocate' label='Overallocate (%)' min={-1} />
+                                    <field.NumberField id='disk_overallocate' label='Переаллокация (%)' min={-1} />
                                 )}
                             </form.AppField>
                         </div>
                     </TitledGreyBox>
-                    <TitledGreyBox title='General Configuration'>
+                    <TitledGreyBox title='Общие настройки'>
                         <form.AppField name='uploadSize' validators={nodeNumberValidators.uploadSize}>
                             {(field) => (
-                                <field.NumberField id='upload_size' label='Maximum Web Upload Filesize (MiB)' min={1} />
+                                <field.NumberField
+                                    id='upload_size'
+                                    label='Макс. размер загрузки через веб (МиБ)'
+                                    min={1}
+                                />
                             )}
                         </form.AppField>
                         <div className='mt-6 grid grid-cols-2 gap-4'>
                             <form.AppField name='daemonListen' validators={nodeNumberValidators.daemonListen}>
                                 {(field) => (
-                                    <field.NumberField id='daemon_listen' label='Daemon Port' min={1} max={65535} />
+                                    <field.NumberField id='daemon_listen' label='Порт демона' min={1} max={65535} />
                                 )}
                             </form.AppField>
                             <form.AppField name='daemonSftp' validators={nodeNumberValidators.daemonSftp}>
                                 {(field) => (
-                                    <field.NumberField id='daemon_sftp' label='Daemon SFTP Port' min={1} max={65535} />
+                                    <field.NumberField id='daemon_sftp' label='SFTP-порт демона' min={1} max={65535} />
                                 )}
                             </form.AppField>
                         </div>
                         <div className='mt-6'>
                             <form.AppField name='daemonBase'>
-                                {(field) => <field.TextField type='text' id='daemon_base' label='Daemon Base Path' />}
+                                {(field) => (
+                                    <field.TextField type='text' id='daemon_base' label='Базовый путь демона' />
+                                )}
                             </form.AppField>
                         </div>
                     </TitledGreyBox>
@@ -216,21 +222,21 @@ const NodeSettingsForm = () => {
                     />
                 )}
             </form.AppField>
-            <TitledGreyBox title='Save Settings' className='mt-6'>
+            <TitledGreyBox title='Сохранение настроек' className='mt-6'>
                 <form.AppField name='resetSecret'>
                     {(field) => (
                         <field.SwitchField
-                            label='Reset Daemon Master Key'
+                            label='Сбросить главный ключ демона'
                             description={
-                                'Resetting the daemon master key voids any request using the old key. ' +
-                                'This key is used for all sensitive daemon operations including server creation and deletion.'
+                                'Сброс главного ключа демона делает недействительными запросы, использующие ' +
+                                'старый ключ. Этот ключ используется для всех важных операций демона, включая создание и удаление серверов.'
                             }
                         />
                     )}
                 </form.AppField>
                 <div className='mt-6 text-right'>
                     <form.AppForm>
-                        <form.SubmitButton>Save Changes</form.SubmitButton>
+                        <form.SubmitButton>Сохранить изменения</form.SubmitButton>
                     </form.AppForm>
                 </div>
             </TitledGreyBox>

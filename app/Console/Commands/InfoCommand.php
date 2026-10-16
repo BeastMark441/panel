@@ -73,7 +73,7 @@ class InfoCommand extends Command
         $this->line('Из-за изменений в коде оригинальные разработчики могут не иметь возможности помочь с возникшими проблемами.');
         $this->line('По вопросам перевода и работы модифицированной панели обращайтесь в репозиторий проекта:');
         $this->line('https://github.com/BeastMark441/panel');
-        $this->line('This panel has been modified.', 'bg=red');
+        $this->line($this->formatText('This panel has been modified.', 'bg=red'));
     }
 
     /**

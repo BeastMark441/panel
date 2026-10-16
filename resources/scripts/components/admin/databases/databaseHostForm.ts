@@ -35,15 +35,15 @@ export const databaseHostFormValues = (host: AdminDatabaseHost): DatabaseHostFor
     extensions: initialExtensionValues(),
 });
 
-const validateName = requiredWithMaxLength(191, 'A name must be provided.', 'The name must not exceed 191 characters.');
+const validateName = requiredWithMaxLength(191, 'Укажите название.', 'Название не должно превышать 191 символ.');
 
 const validateHost: TextValidator = ({ value }): string | undefined => {
     if (value.length < 1) {
-        return 'A host must be provided.';
+        return 'Укажите хост.';
     }
 
     if (!/^[\w\-.]+$/.test(value)) {
-        return 'The host must be a valid hostname or IP address.';
+        return 'Хост должен быть корректным именем хоста или IP-адресом.';
     }
 
     return undefined;
@@ -51,19 +51,18 @@ const validateHost: TextValidator = ({ value }): string | undefined => {
 
 const validateUsername = requiredWithMaxLength(
     32,
-    'A username must be provided.',
-    'The username must not exceed 32 characters.'
+    'Укажите имя пользователя.',
+    'Имя пользователя не должно превышать 32 символов.'
 );
 
-const validateRequiredPassword: TextValidator = ({ value }) =>
-    value.length >= 1 ? undefined : 'A password must be provided.';
+const validateRequiredPassword: TextValidator = ({ value }) => (value.length >= 1 ? undefined : 'Укажите пароль.');
 
 export const databaseHostValidators = {
     name: { onChange: validateName },
     host: { onChange: validateHost },
     port: {
-        onChange: requiredNumber('A port must be provided.', (value) =>
-            value >= 1 && value <= 65535 ? undefined : 'The port must be between 1 and 65535.'
+        onChange: requiredNumber('Укажите порт.', (value) =>
+            value >= 1 && value <= 65535 ? undefined : 'Порт должен быть в диапазоне от 1 до 65535.'
         ),
     },
     username: { onChange: validateUsername },

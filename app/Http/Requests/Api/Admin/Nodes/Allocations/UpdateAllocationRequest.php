@@ -30,7 +30,7 @@ class UpdateAllocationRequest extends AdminApiRequest
     public function attributes(): array
     {
         return [
-            'alias' => 'IP Alias',
+            'alias' => 'Псевдоним IP',
         ];
     }
 }

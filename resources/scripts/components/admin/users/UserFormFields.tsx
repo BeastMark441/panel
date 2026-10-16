@@ -23,8 +23,8 @@ const AccountFields = ({ form }: Pick<Props, 'form'>) => (
                 <field.TextField
                     type='email'
                     id='email'
-                    label='Email Address'
-                    description='The email address this user will sign in and receive notifications with.'
+                    label='Адрес электронной почты'
+                    description='Адрес, по которому пользователь входит в панель и получает уведомления.'
                 />
             )}
         </form.AppField>
@@ -33,17 +33,17 @@ const AccountFields = ({ form }: Pick<Props, 'form'>) => (
                 <field.TextField
                     type='text'
                     id='username'
-                    label='Username'
-                    description='A unique username used to identify this account.'
+                    label='Имя пользователя'
+                    description='Уникальное имя, по которому определяется эта учётная запись.'
                 />
             )}
         </form.AppField>
         <div className='grid grid-cols-1 sm:grid-cols-2 gap-6'>
             <form.AppField name='nameFirst' validators={{ onChange: validateFirstName }}>
-                {(field) => <field.TextField type='text' id='name_first' label='First Name' />}
+                {(field) => <field.TextField type='text' id='name_first' label='Имя' />}
             </form.AppField>
             <form.AppField name='nameLast' validators={{ onChange: validateLastName }}>
-                {(field) => <field.TextField type='text' id='name_last' label='Last Name' />}
+                {(field) => <field.TextField type='text' id='name_last' label='Фамилия' />}
             </form.AppField>
         </div>
     </div>
@@ -56,8 +56,8 @@ const AuthenticationFields = ({ form, languageOptions, languagesLoading }: Props
                 <field.TextField
                     type='password'
                     id='password'
-                    label='Password'
-                    description='Leave blank to email this user a setup link to choose their own.'
+                    label='Пароль'
+                    description='Оставьте пустым, чтобы отправить пользователю ссылку для установки пароля.'
                     autoComplete='new-password'
                 />
             )}
@@ -65,17 +65,17 @@ const AuthenticationFields = ({ form, languageOptions, languagesLoading }: Props
         <form.AppField
             name='language'
             validators={{
-                onChange: ({ value }) => (value.length >= 1 ? undefined : 'A language must be provided.'),
+                onChange: ({ value }) => (value.length >= 1 ? undefined : 'Выберите язык.'),
             }}
         >
             {(field) => (
                 <field.SelectField
                     id='language'
-                    label='Language'
+                    label='Язык'
                     options={languageOptions}
                     disabled={languagesLoading}
-                    placeholder='Select a language'
-                    description='The default language for this account.'
+                    placeholder='Выберите язык'
+                    description='Язык по умолчанию для этой учётной записи.'
                 />
             )}
         </form.AppField>
@@ -86,8 +86,8 @@ const AccessFields = ({ form }: Pick<Props, 'form'>) => (
     <form.AppField name='rootAdmin'>
         {(field) => (
             <field.SwitchField
-                label='Administrator'
-                description='Grant this account full administrative access to the Panel.'
+                label='Администратор'
+                description='Предоставить этой учётной записи полные административные права в панели.'
             />
         )}
     </form.AppField>
@@ -96,17 +96,17 @@ const AccessFields = ({ form }: Pick<Props, 'form'>) => (
 export default function UserFormFields({ form, languageOptions, languagesLoading }: Props) {
     return (
         <div className='space-y-6'>
-            <TitledGreyBox title='Account Details'>
+            <TitledGreyBox title='Данные учётной записи'>
                 <AccountFields form={form} />
             </TitledGreyBox>
-            <TitledGreyBox title='Authentication'>
+            <TitledGreyBox title='Аутентификация'>
                 <AuthenticationFields
                     form={form}
                     languageOptions={languageOptions}
                     languagesLoading={languagesLoading}
                 />
             </TitledGreyBox>
-            <TitledGreyBox title='Access'>
+            <TitledGreyBox title='Права доступа'>
                 <AccessFields form={form} />
             </TitledGreyBox>
         </div>

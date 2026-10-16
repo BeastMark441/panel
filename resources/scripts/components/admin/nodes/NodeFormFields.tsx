@@ -36,8 +36,8 @@ const IdentityFields = ({ form, locations, prefix }: IdentityFieldsProps) => (
                 <field.TextField
                     type='text'
                     id={`${prefix}name`}
-                    label='Name'
-                    description='A short identifier used to distinguish this node from others.'
+                    label='Имя'
+                    description='Короткий идентификатор для различения этого узла с другими.'
                 />
             )}
         </form.AppField>
@@ -46,21 +46,21 @@ const IdentityFields = ({ form, locations, prefix }: IdentityFieldsProps) => (
                 <field.TextField
                     type='text'
                     id={`${prefix}description`}
-                    label='Description'
-                    description='A longer description of this node.'
+                    label='Описание'
+                    description='Более подробное описание этого узла.'
                 />
             )}
         </form.AppField>
         <form.AppField
             name='locationId'
             validators={{
-                onChange: ({ value }) => (value >= 1 ? undefined : 'A location must be selected.'),
+                onChange: ({ value }) => (value >= 1 ? undefined : 'Выберите локацию.'),
             }}
         >
             {(field) => (
                 <field.SelectField
                     id={`${prefix}location_id`}
-                    label='Location'
+                    label='Локация'
                     options={locations.map((location) => ({
                         value: location.attributes.id,
                         label: location.attributes.short,
@@ -73,8 +73,8 @@ const IdentityFields = ({ form, locations, prefix }: IdentityFieldsProps) => (
 
 const NetworkFields = ({ form, prefix, requiresSslScheme }: NetworkFieldsProps) => {
     const schemeDescription = requiresSslScheme
-        ? 'This Panel is using HTTPS, so browsers require node connections to use SSL.'
-        : 'In most cases you should use SSL. Use HTTP only for non-SSL nodes.';
+        ? 'Панель работает по HTTPS, поэтому браузеры требуют SSL для подключения к узлам.'
+        : 'В большинстве случаев следует использовать SSL. Используйте HTTP только для узлов без SSL.';
 
     return (
         <div className='space-y-6'>
@@ -82,7 +82,7 @@ const NetworkFields = ({ form, prefix, requiresSslScheme }: NetworkFieldsProps) 
                 <form.AppField
                     name='fqdn'
                     validators={{
-                        onChange: ({ value }) => (value.length >= 1 ? undefined : 'An FQDN must be provided.'),
+                        onChange: ({ value }) => (value.length >= 1 ? undefined : 'Укажите FQDN.'),
                     }}
                 >
                     {(field) => (
@@ -90,7 +90,7 @@ const NetworkFields = ({ form, prefix, requiresSslScheme }: NetworkFieldsProps) 
                             type='text'
                             id={`${prefix}fqdn`}
                             label='FQDN'
-                            description='The domain name or IP address that points to this node.'
+                            description='Имя домена или IP-адрес, указывающий на этот узел.'
                         />
                     )}
                 </form.AppField>
@@ -99,19 +99,19 @@ const NetworkFields = ({ form, prefix, requiresSslScheme }: NetworkFieldsProps) 
                     validators={{
                         onChange: ({ value }) =>
                             requiresSslScheme && value === 'http'
-                                ? 'HTTP node connections cannot be used when the Panel is loaded over HTTPS.'
+                                ? 'Подключение к узлу по HTTP недоступно, если панель загружается по HTTPS.'
                                 : undefined,
                     }}
                 >
                     {(field) => (
                         <field.SelectField
                             id={`${prefix}scheme`}
-                            label='Communicate Over SSL'
+                            label='Общение по SSL'
                             options={[
-                                { value: 'https', label: 'Use SSL Connection (https)' },
+                                { value: 'https', label: 'SSL-подключение (https)' },
                                 {
                                     value: 'http',
-                                    label: 'Use HTTP Connection (http)',
+                                    label: 'HTTP-подключение (http)',
                                     disabled: requiresSslScheme,
                                 },
                             ]}
@@ -124,8 +124,8 @@ const NetworkFields = ({ form, prefix, requiresSslScheme }: NetworkFieldsProps) 
                 <form.AppField name='public'>
                     {(field) => (
                         <field.SwitchField
-                            label='Node Visibility'
-                            description='Public nodes are available for automatic server deployment.'
+                            label='Видимость узла'
+                            description='Открытые узлы доступны для автоматического развёртывания серверов.'
                             controlPosition='end'
                             className='w-full'
                         />
@@ -134,8 +134,8 @@ const NetworkFields = ({ form, prefix, requiresSslScheme }: NetworkFieldsProps) 
                 <form.AppField name='behindProxy'>
                     {(field) => (
                         <field.SwitchField
-                            label='Behind Proxy'
-                            description='Enable if this node sits behind a proxy such as Cloudflare.'
+                            label='За прокси'
+                            description='Включите, если узел находится за прокси, например Cloudflare.'
                             controlPosition='end'
                             className='w-full'
                         />
@@ -144,8 +144,8 @@ const NetworkFields = ({ form, prefix, requiresSslScheme }: NetworkFieldsProps) 
                 <form.AppField name='maintenanceMode'>
                     {(field) => (
                         <field.SwitchField
-                            label='Maintenance Mode'
-                            description='Servers on a node in maintenance mode cannot be accessed.'
+                            label='Режим обслуживания'
+                            description='Серверы на узле в режиме обслуживания недоступны.'
                             controlPosition='end'
                             className='w-full sm:col-span-2 xl:col-span-1'
                         />
@@ -159,18 +159,20 @@ const NetworkFields = ({ form, prefix, requiresSslScheme }: NetworkFieldsProps) 
 const ResourceFields = ({ form, prefix }: FormFieldsProps) => (
     <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6'>
         <form.AppField name='memory' validators={nodeNumberValidators.memory}>
-            {(field) => <field.NumberField id={`${prefix}memory`} label='Memory (MiB)' min={1} />}
+            {(field) => <field.NumberField id={`${prefix}memory`} label='Память (МиБ)' min={1} />}
         </form.AppField>
         <form.AppField name='memoryOverallocate' validators={nodeNumberValidators.memoryOverallocate}>
             {(field) => (
-                <field.NumberField id={`${prefix}memory_overallocate`} label='Memory Overallocate (%)' min={-1} />
+                <field.NumberField id={`${prefix}memory_overallocate`} label='Переаллокация памяти (%)' min={-1} />
             )}
         </form.AppField>
         <form.AppField name='disk' validators={nodeNumberValidators.disk}>
-            {(field) => <field.NumberField id={`${prefix}disk`} label='Disk Space (MiB)' min={1} />}
+            {(field) => <field.NumberField id={`${prefix}disk`} label='Диск (МиБ)' min={1} />}
         </form.AppField>
         <form.AppField name='diskOverallocate' validators={nodeNumberValidators.diskOverallocate}>
-            {(field) => <field.NumberField id={`${prefix}disk_overallocate`} label='Disk Overallocate (%)' min={-1} />}
+            {(field) => (
+                <field.NumberField id={`${prefix}disk_overallocate`} label='Переаллокация диска (%)' min={-1} />
+            )}
         </form.AppField>
     </div>
 );
@@ -178,16 +180,16 @@ const ResourceFields = ({ form, prefix }: FormFieldsProps) => (
 const DaemonFields = ({ form, prefix }: FormFieldsProps) => (
     <div className='grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-[12rem_12rem_12rem_1fr] gap-6'>
         <form.AppField name='daemonListen' validators={nodeNumberValidators.daemonListen}>
-            {(field) => <field.NumberField id={`${prefix}daemon_listen`} label='Daemon Port' min={1} max={65535} />}
+            {(field) => <field.NumberField id={`${prefix}daemon_listen`} label='Порт демона' min={1} max={65535} />}
         </form.AppField>
         <form.AppField name='daemonSftp' validators={nodeNumberValidators.daemonSftp}>
-            {(field) => <field.NumberField id={`${prefix}daemon_sftp`} label='Daemon SFTP Port' min={1} max={65535} />}
+            {(field) => <field.NumberField id={`${prefix}daemon_sftp`} label='SFTP-порт демона' min={1} max={65535} />}
         </form.AppField>
         <form.AppField name='uploadSize' validators={nodeNumberValidators.uploadSize}>
-            {(field) => <field.NumberField id={`${prefix}upload_size`} label='Upload Size Limit (MiB)' min={1} />}
+            {(field) => <field.NumberField id={`${prefix}upload_size`} label='Лимит размера загрузки (МиБ)' min={1} />}
         </form.AppField>
         <form.AppField name='daemonBase'>
-            {(field) => <field.TextField type='text' id={`${prefix}daemon_base`} label='Daemon Base Path' />}
+            {(field) => <field.TextField type='text' id={`${prefix}daemon_base`} label='Базовый путь демона' />}
         </form.AppField>
     </div>
 );
@@ -197,16 +199,16 @@ export default function NodeFormFields({ form, prefix = '', requiresSslScheme = 
 
     return (
         <div className='grid grid-cols-1 xl:grid-cols-2 gap-6'>
-            <TitledGreyBox title='Identity'>
+            <TitledGreyBox title='Основное'>
                 <IdentityFields form={form} locations={locations} prefix={prefix} />
             </TitledGreyBox>
-            <TitledGreyBox title='Network'>
+            <TitledGreyBox title='Сеть'>
                 <NetworkFields form={form} prefix={prefix} requiresSslScheme={requiresSslScheme} />
             </TitledGreyBox>
-            <TitledGreyBox title='Resource Limits' className='xl:col-span-2'>
+            <TitledGreyBox title='Лимиты ресурсов' className='xl:col-span-2'>
                 <ResourceFields form={form} prefix={prefix} />
             </TitledGreyBox>
-            <TitledGreyBox title='Daemon' className='xl:col-span-2'>
+            <TitledGreyBox title='Демон' className='xl:col-span-2'>
                 <DaemonFields form={form} prefix={prefix} />
             </TitledGreyBox>
         </div>

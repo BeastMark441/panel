@@ -41,7 +41,7 @@ const NodeLiveness = ({ node }: { node: AdminNode }) => {
         return <NodeStatusBadge status='offline' title={error.message} />;
     }
 
-    return <NodeStatusBadge status='checking' title='Checking node status' />;
+    return <NodeStatusBadge status='checking' title='Проверка статуса узла' />;
 };
 
 function DeleteNodeDialog({ node, open, onClose }: NodeDialogProps) {
@@ -63,7 +63,7 @@ function DeleteNodeDialog({ node, open, onClose }: NodeDialogProps) {
     return (
         <Dialog
             open={open}
-            title='Confirm node deletion'
+            title='Подтвердите удаление узла'
             preventExternalClose={isSubmitting}
             hideCloseIcon={isSubmitting}
             onClose={() => {
@@ -73,31 +73,30 @@ function DeleteNodeDialog({ node, open, onClose }: NodeDialogProps) {
         >
             <SpinnerOverlay visible={isSubmitting} />
             <p className='text-sm'>
-                Deleting a node is permanent. This will remove <strong>{attributes.name}</strong>.
+                Удаление узла необратимо. Будет удалён узел <strong>{attributes.name}</strong>.
             </p>
             <Form form={deleteForm} className='m-0 mt-6'>
                 <deleteForm.AppField
                     name='confirm'
                     validators={{
-                        onChange: ({ value }) =>
-                            value === attributes.name ? undefined : 'The node name must be provided.',
+                        onChange: ({ value }) => (value === attributes.name ? undefined : 'Имя узла обязательно.'),
                     }}
                 >
                     {(field) => (
                         <field.TextField
                             type='text'
                             id={`confirm_${attributes.id}`}
-                            label='Confirm Node Name'
-                            description='Enter the name of this node to confirm deletion.'
+                            label='Подтвердите имя узла'
+                            description='Введите имя узла, чтобы подтвердить удаление.'
                         />
                     )}
                 </deleteForm.AppField>
                 <div className='mt-6 flex justify-end gap-2'>
                     <Button.Text type='button' isSecondary onClick={onClose}>
-                        Cancel
+                        Отмена
                     </Button.Text>
                     <deleteForm.AppForm>
-                        <deleteForm.SubmitButton color='red'>Delete node</deleteForm.SubmitButton>
+                        <deleteForm.SubmitButton color='red'>Удалить узел</deleteForm.SubmitButton>
                     </deleteForm.AppForm>
                 </div>
             </Form>
@@ -131,7 +130,7 @@ const NodeStatusCell = ({ node }: { node: AdminNode }) => (
         {node.attributes.maintenance_mode ? (
             <span className='inline-flex items-center gap-1 text-xs font-medium text-warning'>
                 <Icon icon={Wrench} aria-hidden='true' className='h-3 w-3' />
-                Maintenance
+                Обслуживание
             </span>
         ) : null}
     </div>
@@ -168,13 +167,13 @@ const ResourcesHeader = ({ table }: { table: Table<AdminNode> }) => {
     const disk = table.getColumn('disk');
 
     if (!memory || !disk) {
-        return <span>Resources</span>;
+        return <span>Ресурсы</span>;
     }
 
     return (
         <span className='inline-flex items-center gap-1'>
-            <DataTableColumnHeader column={memory} title='Memory' />
-            <DataTableColumnHeader column={disk} title='Disk' />
+            <DataTableColumnHeader column={memory} title='Память' />
+            <DataTableColumnHeader column={disk} title='Диск' />
         </span>
     );
 };
@@ -182,10 +181,10 @@ const ResourcesHeader = ({ table }: { table: Table<AdminNode> }) => {
 const ResourcesCell = ({ node }: { node: AdminNode }) => (
     <div className='whitespace-nowrap text-xs tabular-nums'>
         <p className='text-muted-foreground'>
-            <span className='text-foreground'>{bytesToString(mbToBytes(node.attributes.memory), 0)}</span> memory
+            <span className='text-foreground'>{bytesToString(mbToBytes(node.attributes.memory), 0)}</span> памяти
         </p>
         <p className='mt-0.5 text-muted-foreground'>
-            <span className='text-foreground'>{bytesToString(mbToBytes(node.attributes.disk), 0)}</span> disk
+            <span className='text-foreground'>{bytesToString(mbToBytes(node.attributes.disk), 0)}</span> диска
         </p>
     </div>
 );
@@ -202,7 +201,7 @@ const AccessCell = ({ node }: { node: AdminNode }) => {
             </span>
             <span className='inline-flex items-center gap-1 text-muted-foreground'>
                 <Icon icon={attributes.public ? Eye : EyeOff} aria-hidden='true' className='h-3 w-3' />
-                {attributes.public ? 'Public' : 'Private'}
+                {attributes.public ? 'Открыт' : 'Закрыт'}
             </span>
         </div>
     );
@@ -213,7 +212,7 @@ const NodeActionsCell = ({ node }: { node: AdminNode }) => {
 
     return (
         <RowActions>
-            <EditLinkAction aria-label={`Edit ${name}`} to='/panel/nodes/$id/settings' params={{ id }} />
+            <EditLinkAction aria-label={`Изменить ${name}`} to='/panel/nodes/$id/settings' params={{ id }} />
             <Dialog.Trigger
                 trigger={({ onClick }) => <DeleteAction aria-label={`Удалить ${name}`} onClick={onClick} />}
             >
@@ -227,21 +226,21 @@ export const nodeColumns = [
     {
         id: 'name',
         accessorFn: (node) => node.attributes.name,
-        header: ({ column }) => <DataTableColumnHeader column={column} title='Node' />,
+        header: ({ column }) => <DataTableColumnHeader column={column} title='Узел' />,
         cell: ({ row }) => <NodeIdentityCell node={row.original} />,
         enableSorting: true,
         meta: { headerClassName: 'min-w-40', cellClassName: 'min-w-40' },
     },
     {
         id: 'status',
-        header: 'Status',
+        header: 'Статус',
         cell: ({ row }) => <NodeStatusCell node={row.original} />,
         enableSorting: false,
         meta: { headerClassName: 'w-28', cellClassName: 'w-28' },
     },
     {
         id: 'location',
-        header: 'Location',
+        header: 'Локация',
         cell: ({ row }) => <LocationCell node={row.original} />,
         enableSorting: false,
         meta: { headerClassName: 'hidden w-32 @4xl:table-cell', cellClassName: 'hidden w-32 @4xl:table-cell' },
@@ -249,7 +248,7 @@ export const nodeColumns = [
     {
         id: 'servers_count',
         accessorFn: (node) => node.attributes.servers_count,
-        header: 'Servers',
+        header: 'Серверы',
         cell: ({ row }) => <span className='tabular-nums'>{row.original.attributes.servers_count}</span>,
         enableSorting: false,
         meta: { headerClassName: 'w-20', cellClassName: 'w-20' },
@@ -264,20 +263,20 @@ export const nodeColumns = [
     {
         id: 'memory',
         accessorFn: (node) => node.attributes.memory,
-        header: 'Memory',
+        header: 'Память',
         enableSorting: true,
         sortDescFirst: true,
     },
     {
         id: 'disk',
         accessorFn: (node) => node.attributes.disk,
-        header: 'Disk',
+        header: 'Диск',
         enableSorting: true,
         sortDescFirst: true,
     },
     {
         id: 'access',
-        header: 'Access',
+        header: 'Доступ',
         cell: ({ row }) => <AccessCell node={row.original} />,
         enableSorting: false,
         meta: { headerClassName: 'hidden w-20 @2xl:table-cell', cellClassName: 'hidden w-20 @2xl:table-cell' },
@@ -285,7 +284,7 @@ export const nodeColumns = [
     {
         id: 'created_at',
         accessorFn: (node) => node.attributes.created_at,
-        header: ({ column }) => <DataTableColumnHeader column={column} title='Created' />,
+        header: ({ column }) => <DataTableColumnHeader column={column} title='Создан' />,
         cell: ({ row }) => (
             <time
                 dateTime={row.original.attributes.created_at}

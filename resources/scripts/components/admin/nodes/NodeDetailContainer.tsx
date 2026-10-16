@@ -38,7 +38,7 @@ export default function NodeDetailContainer() {
     return (
         <ExtensionResourceProvider.Provider value={resourceContext}>
             <AdminContentBlock
-                title={`Admin · ${attributes.name}`}
+                title={`Админ · ${attributes.name}`}
                 heading={attributes.name}
                 description={attributes.fqdn}
             >
@@ -47,7 +47,7 @@ export default function NodeDetailContainer() {
                     className='inline-flex items-center text-sm text-muted-foreground hover:text-foreground mb-4'
                 >
                     <Icon icon={ArrowLeft} className='mr-2' />
-                    Back to Nodes
+                    К списку узлов
                 </Link>
                 <Slot name='panel.nodes.detail.actions' data={resourceContext} />
                 <SubNavigation className='mb-6 rounded-sm'>
@@ -57,22 +57,22 @@ export default function NodeDetailContainer() {
                         params={params}
                         activeOptions={{ exact: true, includeSearch: false }}
                     >
-                        About
+                        О узле
                     </Link>
                     <Link data-core to='/panel/nodes/$id/settings' params={params}>
-                        Settings
+                        Настройки
                     </Link>
                     <Link data-core to='/panel/nodes/$id/configuration' params={params}>
-                        Configuration
+                        Конфигурация
                     </Link>
                     <Link data-core to='/panel/nodes/$id/allocation' params={params}>
-                        Allocation
+                        Аллокации
                     </Link>
                     <Link data-core to='/panel/nodes/$id/tags' params={params}>
-                        Tags
+                        Теги
                     </Link>
                     <Link data-core to='/panel/nodes/$id/servers' params={params}>
-                        Servers
+                        Серверы
                     </Link>
                     <ResourceExtensionTabs parent='admin.node' basePath={`/panel/nodes/${attributes.id}`} />
                 </SubNavigation>

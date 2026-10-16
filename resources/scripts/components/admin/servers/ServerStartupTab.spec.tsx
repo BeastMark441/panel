@@ -117,7 +117,10 @@ const tagCheckFailure = new AxiosError('Unprocessable', '422', undefined, undefi
     config: { headers: new AxiosHeaders() },
     data: {
         errors: [
-            { detail: 'node-alpha only accepts eggs tagged Minecraft.', meta: { source_field: 'egg_id', rule: '' } },
+            {
+                detail: 'Узел node-alpha принимает только яйца с тегами: Minecraft.',
+                meta: { source_field: 'egg_id', rule: '' },
+            },
         ],
     },
 });
@@ -130,9 +133,11 @@ describe('ServerStartupTab', () => {
         render(<ServerStartupTab />);
 
         await user.selectOptions(screen.getByTestId('eggId'), '2');
-        await user.click(screen.getByRole('button', { name: 'Save Modifications' }));
-        expect(await screen.findByText('node-alpha only accepts eggs tagged Minecraft.')).toBeInTheDocument();
-        await user.click(screen.getByRole('button', { name: 'Change anyway' }));
+        await user.click(screen.getByRole('button', { name: 'Сохранить изменения' }));
+        expect(
+            await screen.findByText('Узел node-alpha принимает только яйца с тегами: Minecraft.')
+        ).toBeInTheDocument();
+        await user.click(screen.getByRole('button', { name: 'Изменить всё равно' }));
 
         await waitFor(() => expect(screen.queryByRole('alert')).not.toBeInTheDocument());
         expect(mocks.updateStartup).toHaveBeenCalledTimes(2);

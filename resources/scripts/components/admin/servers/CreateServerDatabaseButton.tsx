@@ -19,11 +19,11 @@ type CreateServerDatabaseDialogProps = Props & {
 
 const validateDatabaseName = ({ value }: { value: string }): string | undefined => {
     if (value.length < 1) {
-        return 'A database name must be provided.';
+        return 'Укажите имя базы данных.';
     }
 
     if (value.length > 48) {
-        return 'Database name must not exceed 48 characters.';
+        return 'Имя базы данных не должно превышать 48 символов.';
     }
 
     return undefined;
@@ -61,7 +61,7 @@ function CreateServerDatabaseDialog({ serverId, open, onClose }: CreateServerDat
     return (
         <Dialog
             open={open}
-            title='Create new database'
+            title='Создание новой базы данных'
             preventExternalClose={isSubmitting}
             hideCloseIcon={isSubmitting}
             onClose={onClose}
@@ -73,8 +73,8 @@ function CreateServerDatabaseDialog({ serverId, open, onClose }: CreateServerDat
                         <field.TextField
                             type='text'
                             id='database_name'
-                            label='Database Name'
-                            description='A descriptive name for this database instance.'
+                            label='Имя базы данных'
+                            description='Описательное имя этого экземпляра базы данных.'
                         />
                     )}
                 </form.AppField>
@@ -83,10 +83,10 @@ function CreateServerDatabaseDialog({ serverId, open, onClose }: CreateServerDat
                         {(field) => (
                             <field.SelectField
                                 id='database_host_id'
-                                label='Database Host'
-                                description='The host this database will be created on.'
+                                label='Хост базы данных'
+                                description='Хост, на котором будет создана эта база данных.'
                                 options={[
-                                    { value: 0, label: 'Select a database host...', disabled: true },
+                                    { value: 0, label: 'Выберите хост базы данных...', disabled: true },
                                     ...hosts.map((host) => ({
                                         value: host.attributes.id,
                                         label: `${host.attributes.name} (${host.attributes.host}:${host.attributes.port})`,
@@ -102,10 +102,10 @@ function CreateServerDatabaseDialog({ serverId, open, onClose }: CreateServerDat
                             <field.TextField
                                 type='text'
                                 id='connections_from'
-                                label='Connections From'
+                                label='Соединения с'
                                 description={
-                                    'Where connections should be allowed from. Leave blank to allow connections ' +
-                                    'from anywhere.'
+                                    'Откуда разрешены подключения. Оставьте пустым, чтобы разрешать ' +
+                                    'подключения отовсюду.'
                                 }
                             />
                         )}
@@ -118,18 +118,20 @@ function CreateServerDatabaseDialog({ serverId, open, onClose }: CreateServerDat
                                 type='number'
                                 min={0}
                                 id='max_connections'
-                                label='Max Connections'
-                                description='Maximum simultaneous connections allowed for this database user.'
+                                label='Максимум соединений'
+                                description='Максимальное количество одновременных соединений для этого пользователя базы данных.'
                             />
                         )}
                     </form.AppField>
                 </div>
                 <div className='flex flex-wrap justify-end mt-6'>
                     <Button type='button' isSecondary className='w-full sm:w-auto sm:mr-2' onClick={onClose}>
-                        Cancel
+                        Отмена
                     </Button>
                     <form.AppForm>
-                        <form.SubmitButton className='w-full mt-4 sm:w-auto sm:mt-0'>Create Database</form.SubmitButton>
+                        <form.SubmitButton className='w-full mt-4 sm:w-auto sm:mt-0'>
+                            Создать базу данных
+                        </form.SubmitButton>
                     </form.AppForm>
                 </div>
             </Form>
@@ -139,7 +141,7 @@ function CreateServerDatabaseDialog({ serverId, open, onClose }: CreateServerDat
 
 export default function CreateServerDatabaseButton(props: Props) {
     return (
-        <Dialog.Trigger trigger={({ onClick }) => <NewButton onClick={onClick}>New database</NewButton>}>
+        <Dialog.Trigger trigger={({ onClick }) => <NewButton onClick={onClick}>Новая база данных</NewButton>}>
             {({ open, onClose }) => <CreateServerDatabaseDialog {...props} open={open} onClose={onClose} />}
         </Dialog.Trigger>
     );

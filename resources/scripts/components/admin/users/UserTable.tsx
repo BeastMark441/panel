@@ -42,39 +42,39 @@ function DeleteUserDialog({ user, open, onClose }: UserDialogProps) {
     return (
         <Dialog
             open={open}
-            title='Confirm user deletion'
+            title='Подтвердите удаление пользователя'
             preventExternalClose={isSubmitting}
             hideCloseIcon={isSubmitting}
             onClose={onClose}
         >
             <SpinnerOverlay visible={isSubmitting} />
             <p className='text-sm'>
-                Deleting a user is permanent. This will permanently delete <strong>{attributes.email}</strong> and all
-                associated data.
+                Удаление пользователя необратимо. Будут удалены <strong>{attributes.email}</strong> и все связанные
+                данные.
             </p>
             <Form form={form} className='m-0 mt-6'>
                 <form.AppField
                     name='confirm'
                     validators={{
                         onChange: ({ value }) =>
-                            value === attributes.email ? undefined : 'The email address must be provided.',
+                            value === attributes.email ? undefined : 'Адрес электронной почты обязателен.',
                     }}
                 >
                     {(field) => (
                         <field.TextField
                             type='text'
                             id={`confirm_${attributes.uuid}`}
-                            label='Confirm email address'
-                            description='Enter the email address to confirm deletion.'
+                            label='Подтвердите адрес электронной почты'
+                            description='Введите адрес электронной почты, чтобы подтвердить удаление.'
                         />
                     )}
                 </form.AppField>
                 <div className='mt-6 flex justify-end gap-2'>
                     <Button.Text type='button' isSecondary onClick={onClose}>
-                        Cancel
+                        Отмена
                     </Button.Text>
                     <form.AppForm>
-                        <form.SubmitButton color='red'>Delete user</form.SubmitButton>
+                        <form.SubmitButton color='red'>Удалить пользователя</form.SubmitButton>
                     </form.AppForm>
                 </div>
             </Form>
@@ -91,7 +91,7 @@ const UserIdentityCell = ({ user }: { user: AdminUser }) => {
             <img
                 className='hidden h-9 w-9 shrink-0 rounded-full border border-border bg-background sm:block'
                 src={`${attributes.image}?s=100`}
-                alt={`${attributes.email} avatar`}
+                alt={`${attributes.email} — аватар`}
             />
             <div className='min-w-0'>
                 {attributes.id === undefined ? (
@@ -110,7 +110,7 @@ const UserIdentityCell = ({ user }: { user: AdminUser }) => {
                         {attributes.root_admin ? (
                             <Icon
                                 icon={Star}
-                                aria-label='Root administrator'
+                                aria-label='Корневой администратор'
                                 className='h-3.5 w-3.5 shrink-0 text-warning'
                             />
                         ) : null}
@@ -129,13 +129,13 @@ const UserActionsCell = ({ user }: { user: AdminUser }) => {
 
     return (
         <RowActions>
-            <EditLinkAction aria-label={`Edit ${email}`} to='/panel/users/$id' params={{ id }} />
+            <EditLinkAction aria-label={`Изменить ${email}`} to='/panel/users/$id' params={{ id }} />
             <Dialog.Trigger
                 trigger={({ onClick }) => (
                     <DeleteAction
                         aria-label={`Удалить ${email}`}
                         disabled={user.attributes.servers_count > 0}
-                        disabledReason='Users who own servers cannot be deleted.'
+                        disabledReason='Пользователей, владеющих серверами, нельзя удалить.'
                         onClick={onClick}
                     />
                 )}
@@ -150,7 +150,7 @@ export const userColumns = [
     {
         id: 'email',
         accessorFn: (user) => user.attributes.email,
-        header: ({ column }) => <DataTableColumnHeader column={column} title='User' />,
+        header: ({ column }) => <DataTableColumnHeader column={column} title='Пользователь' />,
         cell: ({ row }) => <UserIdentityCell user={row.original} />,
         enableSorting: true,
         meta: { headerClassName: 'min-w-52', cellClassName: 'min-w-52' },
@@ -158,7 +158,7 @@ export const userColumns = [
     {
         id: 'username',
         accessorFn: (user) => user.attributes.username,
-        header: ({ column }) => <DataTableColumnHeader column={column} title='Username' />,
+        header: ({ column }) => <DataTableColumnHeader column={column} title='Имя пользователя' />,
         cell: ({ row }) => (
             <span className='block w-0 min-w-full truncate font-mono text-xs' title={row.original.attributes.username}>
                 {row.original.attributes.username}
@@ -169,7 +169,7 @@ export const userColumns = [
     },
     {
         id: 'security',
-        header: 'Security',
+        header: 'Безопасность',
         cell: ({ row }) => {
             const enabled = row.original.attributes['2fa'];
 
@@ -181,7 +181,7 @@ export const userColumns = [
                     )}
                 >
                     <Icon icon={enabled ? UserLock : LockOpen} aria-hidden='true' className='h-3.5 w-3.5' />
-                    {enabled ? '2FA on' : '2FA off'}
+                    {enabled ? '2FA вкл' : '2FA выкл'}
                 </span>
             );
         },
@@ -190,7 +190,7 @@ export const userColumns = [
     },
     {
         id: 'servers_count',
-        header: 'Servers',
+        header: 'Серверы',
         cell: ({ row }) => {
             const { id, servers_count } = row.original.attributes;
 
@@ -212,7 +212,7 @@ export const userColumns = [
     {
         id: 'created_at',
         accessorFn: (user) => user.attributes.created_at,
-        header: ({ column }) => <DataTableColumnHeader column={column} title='Created' />,
+        header: ({ column }) => <DataTableColumnHeader column={column} title='Создан' />,
         cell: ({ row }) => (
             <time
                 className='whitespace-nowrap text-xs text-muted-foreground'

@@ -10,9 +10,10 @@ export default function NoTagsYet() {
                 <EmptyMedia variant='icon'>
                     <Tags />
                 </EmptyMedia>
-                <EmptyTitle>No tags yet</EmptyTitle>
+                <EmptyTitle>Тегов пока нет</EmptyTitle>
                 <EmptyDescription>
-                    Type a name below to create one, or manage tags on the <Link to='/panel/tags'>Tags page</Link>.
+                    Введите название ниже, чтобы создать тег, или управляйте тегами на{' '}
+                    <Link to='/panel/tags'>странице тегов</Link>.
                 </EmptyDescription>
             </EmptyHeader>
         </Empty>

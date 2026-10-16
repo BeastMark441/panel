@@ -23,7 +23,7 @@ export default function EggVariablesTab() {
                     <div className='space-y-4'>
                         <Alert type='danger'>{httpErrorToHuman(error)}</Alert>
                         <Button.Text type='button' onClick={() => refetch()}>
-                            Retry
+                            Повторить
                         </Button.Text>
                     </div>
                 );
@@ -34,15 +34,16 @@ export default function EggVariablesTab() {
 
         if (variables.data.length === 0) {
             return (
-                <TitledGreyBox title='Egg Variables'>
+                <TitledGreyBox title='Переменные шаблона Egg'>
                     <Empty className={emptyCompactClass}>
                         <EmptyHeader>
                             <EmptyMedia variant='icon'>
                                 <Variable />
                             </EmptyMedia>
-                            <EmptyTitle>No variables</EmptyTitle>
+                            <EmptyTitle>Переменные не найдены</EmptyTitle>
                             <EmptyDescription>
-                                Variables let server owners configure the startup command and environment.
+                                Переменные позволяют владельцам серверов настраивать команду запуска и переменные
+                                окружения.
                             </EmptyDescription>
                         </EmptyHeader>
                         <EmptyContent>

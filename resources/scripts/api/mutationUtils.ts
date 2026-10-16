@@ -3,11 +3,25 @@ import { hasGeneratedOperationId } from '@/api/queryKeyGuards';
 
 export type ResourceMutationAction = 'create' | 'update' | 'delete';
 
+const resourceNouns = {
+    'application API key': { noun: 'API-ключ приложения', gender: 'm' },
+    database: { noun: 'база данных', gender: 'f' },
+    'database host': { noun: 'хост баз данных', gender: 'm' },
+    egg: { noun: 'шаблон Egg', gender: 'm' },
+    location: { noun: 'локация', gender: 'f' },
+    mount: { noun: 'точка монтирования', gender: 'f' },
+    node: { noun: 'нода', gender: 'f' },
+    server: { noun: 'сервер', gender: 'm' },
+    tag: { noun: 'тег', gender: 'm' },
+    user: { noun: 'пользователь', gender: 'm' },
+    variable: { noun: 'переменная', gender: 'f' },
+} satisfies Record<string, { noun: string; gender: 'm' | 'f' }>;
+
 const resourceMutationCopy = {
-    create: { verb: 'create', pastTense: 'created' },
-    update: { verb: 'update', pastTense: 'updated' },
-    delete: { verb: 'delete', pastTense: 'deleted' },
-} satisfies Record<ResourceMutationAction, { verb: string; pastTense: string }>;
+    create: { verb: 'создать', past: { m: 'создан', f: 'создана' } },
+    update: { verb: 'обновить', past: { m: 'обновлён', f: 'обновлена' } },
+    delete: { verb: 'удалить', past: { m: 'удалён', f: 'удалена' } },
+} satisfies Record<ResourceMutationAction, { verb: string; past: { m: string; f: string } }>;
 
 const sentenceCase = (value: string) => value.charAt(0).toUpperCase() + value.slice(1);
 
@@ -58,12 +72,18 @@ export const removeQueriesWhenUnobserved = (queryClient: QueryClient, filters: Q
 
 export const resourceMutationMessages = (resource: string, action: ResourceMutationAction, name?: string) => {
     const copy = resourceMutationCopy[action];
+    const { noun, gender } = resourceNouns[resource as keyof typeof resourceNouns] ?? {
+        noun: resource,
+        gender: 'm' as const,
+    };
+    const past = copy.past[gender];
+    const title = `${sentenceCase(noun)} ${past}`;
 
     return {
-        errorTitle: `Unable to ${copy.verb} ${resource}`,
+        errorTitle: `Не удалось ${copy.verb} ${noun}`,
         success: {
-            title: `${sentenceCase(resource)} ${copy.pastTense}`,
-            description: name ? `${name} has been ${copy.pastTense}.` : `The ${resource} has been ${copy.pastTense}.`,
+            title,
+            description: name ? `«${name}» ${past}.` : `${title}.`,
         },
     };
 };

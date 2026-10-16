@@ -53,37 +53,35 @@ const serverToValues = (server: AdminServer): Values => ({
     removeAllocations: [],
 });
 
-const validateCpu = requiredNumber('A CPU limit must be provided.', (value) =>
-    value >= 0 ? undefined : 'Invalid CPU limit.'
+const validateCpu = requiredNumber('Укажите лимит CPU.', (value) => (value >= 0 ? undefined : 'Неверный лимит CPU.'));
+const validateMemory = requiredNumber('Укажите лимит памяти.', (value) =>
+    value >= 0 ? undefined : 'Неверный лимит памяти.'
 );
-const validateMemory = requiredNumber('A memory limit must be provided.', (value) =>
-    value >= 0 ? undefined : 'Invalid memory limit.'
+const validateSwap = requiredNumber('Укажите лимит подкачки.', (value) =>
+    value >= -1 ? undefined : 'Неверный лимит подкачки.'
 );
-const validateSwap = requiredNumber('A swap limit must be provided.', (value) =>
-    value >= -1 ? undefined : 'Invalid swap limit.'
+const validateDisk = requiredNumber('Укажите лимит диска.', (value) =>
+    value >= 0 ? undefined : 'Неверный лимит диска.'
 );
-const validateDisk = requiredNumber('A disk limit must be provided.', (value) =>
-    value >= 0 ? undefined : 'Invalid disk limit.'
-);
-const validateIo = requiredNumber('An IO proportion must be provided.', (value): string | undefined => {
+const validateIo = requiredNumber('Укажите пропорцию IO.', (value): string | undefined => {
     if (value < 10) {
-        return 'The IO proportion must be at least 10.';
+        return 'Пропорция IO должна быть не менее 10.';
     }
 
     if (value > 1000) {
-        return 'The IO proportion must not exceed 1000.';
+        return 'Пропорция IO не должна превышать 1000.';
     }
 
     return undefined;
 });
-const validateDatabaseLimit = requiredNumber('A database limit must be provided.', (value) =>
-    value >= 0 ? undefined : 'Invalid database limit.'
+const validateDatabaseLimit = requiredNumber('Укажите лимит баз данных.', (value) =>
+    value >= 0 ? undefined : 'Неверный лимит баз данных.'
 );
-const validateAllocationLimit = requiredNumber('An allocation limit must be provided.', (value) =>
-    value >= 0 ? undefined : 'Invalid allocation limit.'
+const validateAllocationLimit = requiredNumber('Укажите лимит выделений.', (value) =>
+    value >= 0 ? undefined : 'Неверный лимит выделений.'
 );
-const validateBackupLimit = requiredNumber('A backup limit must be provided.', (value) =>
-    value >= 0 ? undefined : 'Invalid backup limit.'
+const validateBackupLimit = requiredNumber('Укажите лимит резервных копий.', (value) =>
+    value >= 0 ? undefined : 'Неверный лимит резервных копий.'
 );
 
 function ServerBuildForm({ server }: Props) {
@@ -142,14 +140,14 @@ function ServerBuildForm({ server }: Props) {
     return (
         <Form form={form}>
             <div className='grid grid-cols-1 lg:grid-cols-2 gap-6'>
-                <TitledGreyBox title='Resource Management'>
+                <TitledGreyBox title='Управление ресурсами'>
                     <form.AppField name='cpu' validators={{ onChange: validateCpu }}>
                         {(field) => (
                             <field.NumberField
                                 id='cpu'
-                                label='CPU Limit (%)'
+                                label='Лимит CPU (%)'
                                 min={0}
-                                description='Each thread on the system is 100%. Set to 0 for unlimited CPU.'
+                                description='Каждый поток системы — 100%. Установите 0 для неограниченного использования CPU.'
                             />
                         )}
                     </form.AppField>
@@ -159,10 +157,10 @@ function ServerBuildForm({ server }: Props) {
                                 <field.TextField
                                     type='text'
                                     id='threads'
-                                    label='CPU Pinning'
+                                    label='Привязка CPU'
                                     description={
-                                        'Advanced: the specific CPU cores this process can run on (e.g. 0, 0-1,3). ' +
-                                        'Leave blank to allow all cores.'
+                                        'Продвинутые настройки: конкретные ядра CPU, на которых может работать процесс (например, 0, 0-1,3). ' +
+                                        'Оставьте пустым, чтобы разрешить все ядра.'
                                     }
                                 />
                             )}
@@ -173,9 +171,9 @@ function ServerBuildForm({ server }: Props) {
                             {(field) => (
                                 <field.NumberField
                                     id='memory'
-                                    label='Allocated Memory (MiB)'
+                                    label='Выделенная память (МБ)'
                                     min={0}
-                                    description='The maximum memory for this container. Set to 0 for unlimited.'
+                                    description='Максимальный объём памяти для этого контейнера. Установите 0 для неограниченного объёма.'
                                 />
                             )}
                         </form.AppField>
@@ -185,9 +183,9 @@ function ServerBuildForm({ server }: Props) {
                             {(field) => (
                                 <field.NumberField
                                     id='swap'
-                                    label='Allocated Swap (MiB)'
+                                    label='Выделенная подкачка (МБ)'
                                     min={-1}
-                                    description='Set to 0 to disable swap, or -1 for unlimited swap.'
+                                    description='Установите 0 для отключения подкачки или -1 для неограниченной подкачки.'
                                 />
                             )}
                         </form.AppField>
@@ -197,9 +195,9 @@ function ServerBuildForm({ server }: Props) {
                             {(field) => (
                                 <field.NumberField
                                     id='disk'
-                                    label='Disk Space Limit (MiB)'
+                                    label='Лимит дискового пространства (МБ)'
                                     min={0}
-                                    description='Set to 0 to allow unlimited disk usage.'
+                                    description='Установите 0 для неограниченного использования диска.'
                                 />
                             )}
                         </form.AppField>
@@ -209,10 +207,10 @@ function ServerBuildForm({ server }: Props) {
                             {(field) => (
                                 <field.NumberField
                                     id='io'
-                                    label='Block IO Proportion'
+                                    label='Пропорция блочного IO'
                                     min={10}
                                     max={1000}
-                                    description='Advanced: a value between 10 and 1000.'
+                                    description='Продвинутые настройки: значение от 10 до 1000.'
                                 />
                             )}
                         </form.AppField>
@@ -223,10 +221,10 @@ function ServerBuildForm({ server }: Props) {
                                 <field.SelectField
                                     id='oomDisabled'
                                     label='OOM Killer'
-                                    description='Enabling the OOM killer may cause server processes to exit unexpectedly.'
+                                    description='Включение OOM Killer может привести к неожиданному завершению процессов сервера.'
                                     options={[
-                                        { value: 'false', label: 'Enabled' },
-                                        { value: 'true', label: 'Disabled' },
+                                        { value: 'false', label: 'Включён' },
+                                        { value: 'true', label: 'Выключен' },
                                     ]}
                                 />
                             )}
@@ -234,28 +232,28 @@ function ServerBuildForm({ server }: Props) {
                     </div>
                 </TitledGreyBox>
                 <div className='space-y-6'>
-                    <TitledGreyBox title='Application Feature Limits'>
+                    <TitledGreyBox title='Лимиты возможностей'>
                         <div className='grid grid-cols-1 sm:grid-cols-3 gap-4'>
                             <form.AppField name='databaseLimit' validators={{ onChange: validateDatabaseLimit }}>
-                                {(field) => <field.NumberField id='database_limit' label='Database Limit' min={0} />}
+                                {(field) => <field.NumberField id='database_limit' label='Лимит баз данных' min={0} />}
                             </form.AppField>
                             <form.AppField name='allocationLimit' validators={{ onChange: validateAllocationLimit }}>
-                                {(field) => (
-                                    <field.NumberField id='allocation_limit' label='Allocation Limit' min={0} />
-                                )}
+                                {(field) => <field.NumberField id='allocation_limit' label='Лимит выделений' min={0} />}
                             </form.AppField>
                             <form.AppField name='backupLimit' validators={{ onChange: validateBackupLimit }}>
-                                {(field) => <field.NumberField id='backup_limit' label='Backup Limit' min={0} />}
+                                {(field) => (
+                                    <field.NumberField id='backup_limit' label='Лимит резервных копий' min={0} />
+                                )}
                             </form.AppField>
                         </div>
                     </TitledGreyBox>
-                    <TitledGreyBox title='Allocation Management'>
+                    <TitledGreyBox title='Управление выделениями'>
                         <form.AppField name='allocationId'>
                             {(field) => (
                                 <field.SelectField
                                     id='allocationId'
-                                    label='Game Port'
-                                    description='The default connection address for this server.'
+                                    label='Игровой порт'
+                                    description='Адрес подключения по умолчанию для этого сервера.'
                                     options={assignedOptions}
                                     onChange={(value) =>
                                         form.setFieldValue('removeAllocations', (current) =>
@@ -270,8 +268,8 @@ function ServerBuildForm({ server }: Props) {
                                 {(field) => (
                                     <field.MultiSelectField
                                         id='addAllocations'
-                                        label='Assign Additional Ports'
-                                        description='Unassigned ports on this node that will be assigned to the server.'
+                                        label='Назначить дополнительные порты'
+                                        description='Неназначенные порты на этом узле, которые будут назначены серверу.'
                                         options={unassigned.map((allocation) => ({
                                             value: allocation.attributes.id,
                                             label: allocationLabel(allocation),
@@ -285,8 +283,8 @@ function ServerBuildForm({ server }: Props) {
                                 {(field) => (
                                     <field.MultiSelectField
                                         id='removeAllocations'
-                                        label='Remove Additional Ports'
-                                        description='Select the ports to remove from this server.'
+                                        label='Удалить дополнительные порты'
+                                        description='Выберите порты, которые нужно удалить с этого сервера.'
                                         options={removableOptions}
                                     />
                                 )}
@@ -297,7 +295,7 @@ function ServerBuildForm({ server }: Props) {
             </div>
             <div className='flex justify-end mt-6'>
                 <form.AppForm>
-                    <form.SubmitButton>Update Build Configuration</form.SubmitButton>
+                    <form.SubmitButton>Обновить конфигурацию</form.SubmitButton>
                 </form.AppForm>
             </div>
         </Form>
@@ -308,7 +306,7 @@ export default function ServerBuildTab() {
     const { server } = useServerDetail();
 
     if (server.attributes.container.installed !== 1) {
-        return <ServerError message='Access to this resource is not allowed due to the current installation state.' />;
+        return <ServerError message='Доступ к этому ресурсу невозможен из-за текущего состояния установки.' />;
     }
 
     return <ServerBuildForm key={`${server.attributes.id}:${server.attributes.updated_at}`} server={server} />;

@@ -158,7 +158,7 @@ describe('extension fields in admin forms', () => {
         expect(screen.getByText('other fields')).toBeTruthy();
         expect(screen.queryByText('Unloaded')).toBeNull();
 
-        const save = () => fireEvent.click(screen.getAllByRole('button', { name: 'Save Changes' })[0]);
+        const save = () => fireEvent.click(screen.getAllByRole('button', { name: 'Сохранить изменения' })[0]);
 
         // Untouched extensions are sent with their saved values, so their rules run on every
         // save; the one the panel could not read is left out, so its values stay as they are.
@@ -220,12 +220,12 @@ describe('extension fields in admin forms', () => {
         expect(screen.getByText('create note: none')).toBeTruthy();
         expect(screen.queryByText('Unloaded')).toBeNull();
 
-        fireEvent.change(screen.getByLabelText('Email Address'), { target: { value: 'new@example.test' } });
-        fireEvent.change(screen.getByLabelText('Username'), { target: { value: 'newuser' } });
-        fireEvent.change(screen.getByLabelText('First Name'), { target: { value: 'New' } });
-        fireEvent.change(screen.getByLabelText('Last Name'), { target: { value: 'User' } });
+        fireEvent.change(screen.getByLabelText('Адрес электронной почты'), { target: { value: 'new@example.test' } });
+        fireEvent.change(screen.getByLabelText('Имя пользователя'), { target: { value: 'newuser' } });
+        fireEvent.change(screen.getByLabelText('Имя'), { target: { value: 'New' } });
+        fireEvent.change(screen.getByLabelText('Фамилия'), { target: { value: 'User' } });
         fireEvent.change(tier, { target: { value: 'silver' } });
-        fireEvent.click(screen.getByRole('button', { name: 'Create User' }));
+        fireEvent.click(screen.getByRole('button', { name: 'Создать пользователя' }));
 
         await waitFor(() => expect(payloads).toHaveLength(1));
         // An extension left untouched is still sent, so a `required` rule of its fails the create.
@@ -266,11 +266,13 @@ describe('extension fields while the list of form extensions loads', () => {
             </Wrapper>
         );
 
-        fireEvent.change(await screen.findByLabelText('Email Address'), { target: { value: 'new@example.test' } });
-        fireEvent.change(screen.getByLabelText('Username'), { target: { value: 'newuser' } });
-        fireEvent.change(screen.getByLabelText('First Name'), { target: { value: 'New' } });
-        fireEvent.change(screen.getByLabelText('Last Name'), { target: { value: 'User' } });
-        fireEvent.click(screen.getByRole('button', { name: 'Create User' }));
+        fireEvent.change(await screen.findByLabelText('Адрес электронной почты'), {
+            target: { value: 'new@example.test' },
+        });
+        fireEvent.change(screen.getByLabelText('Имя пользователя'), { target: { value: 'newuser' } });
+        fireEvent.change(screen.getByLabelText('Имя'), { target: { value: 'New' } });
+        fireEvent.change(screen.getByLabelText('Фамилия'), { target: { value: 'User' } });
+        fireEvent.click(screen.getByRole('button', { name: 'Создать пользователя' }));
 
         await waitFor(() => expect(payloads).toHaveLength(1));
         expect(screen.queryByLabelText('Tier')).toBeNull();

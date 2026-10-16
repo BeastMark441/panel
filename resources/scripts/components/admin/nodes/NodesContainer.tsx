@@ -139,8 +139,8 @@ export default function NodesContainer() {
     return (
         <AdminContentBlock
             title='Админ · Узлы'
-            heading='Nodes'
-            description='Manage Wings nodes, connectivity, allocations, and server capacity.'
+            heading='Узлы'
+            description='Управляйте узлами Wings, подключением, аллокациями и ёмкостью для серверов.'
         >
             <form
                 className='mb-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between'

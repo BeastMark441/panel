@@ -76,7 +76,7 @@ function EggConfigurationForm({ egg }: Props) {
             </form.AppField>
             <div className='flex justify-end mt-6'>
                 <form.AppForm>
-                    <form.SubmitButton>Save Changes</form.SubmitButton>
+                    <form.SubmitButton>Сохранить изменения</form.SubmitButton>
                 </form.AppForm>
             </div>
         </Form>

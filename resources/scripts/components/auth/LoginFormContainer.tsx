@@ -1,6 +1,7 @@
 import React from 'react';
 import Form from '@/components/form/Form';
 import PterodactylMark from '@/components/elements/PterodactylMark';
+import TranslationCredit from '@/components/elements/TranslationCredit';
 
 interface Props {
     form: { handleSubmit: () => unknown };
@@ -33,6 +34,7 @@ export default function LoginFormContainer({ form, title, className, children }:
                     Pterodactyl Software
                 </a>
             </p>
+            <TranslationCredit />
         </div>
     );
 }

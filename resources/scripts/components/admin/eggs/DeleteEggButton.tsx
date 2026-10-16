@@ -38,7 +38,7 @@ function DeleteEggDialog({ egg, onDeleted, open, onClose }: DeleteEggDialogProps
     return (
         <Dialog
             open={open}
-            title='Confirm egg deletion'
+            title='Подтверждение удаления шаблона Egg'
             preventExternalClose={isSubmitting}
             hideCloseIcon={isSubmitting}
             onClose={() => {
@@ -48,32 +48,32 @@ function DeleteEggDialog({ egg, onDeleted, open, onClose }: DeleteEggDialogProps
         >
             <SpinnerOverlay visible={isSubmitting} />
             <p className='text-sm'>
-                Deleting an egg is a permanent action, it cannot be undone. This will permanently delete the{' '}
-                <strong>{egg.attributes.name}</strong> egg. An egg with attached servers cannot be deleted.
+                Удаление шаблона Egg — необратимое действие. Это действие безвозвратно удалит шаблон{' '}
+                <strong>{egg.attributes.name}</strong>. Шаблон Egg с привязанными серверами не может быть удалён.
             </p>
             <Form form={form} className='m-0 mt-6'>
                 <form.AppField
                     name='confirm'
                     validators={{
                         onChange: ({ value }) =>
-                            value === egg.attributes.name ? undefined : 'The egg name must be provided.',
+                            value === egg.attributes.name ? undefined : 'Необходимо ввести название шаблона Egg.',
                     }}
                 >
                     {(field) => (
                         <field.TextField
                             type='text'
                             id='confirm_egg_name'
-                            label='Confirm Name'
-                            description='Enter the name of this egg to confirm deletion.'
+                            label='Подтверждение названия'
+                            description='Введите название этого шаблона Egg для подтверждения удаления.'
                         />
                     )}
                 </form.AppField>
                 <div className='mt-6 text-right'>
                     <Button type='button' isSecondary className='mr-2' onClick={onClose}>
-                        Cancel
+                        Отмена
                     </Button>
                     <form.AppForm>
-                        <form.SubmitButton color='red'>Delete Egg</form.SubmitButton>
+                        <form.SubmitButton color='red'>Удалить шаблон Egg</form.SubmitButton>
                     </form.AppForm>
                 </div>
             </Form>
@@ -86,7 +86,7 @@ export default function DeleteEggButton({ egg, onDeleted }: Props) {
         <Dialog.Trigger
             trigger={({ onClick }) => (
                 <Button color='red' isSecondary onClick={onClick}>
-                    Delete Egg
+                    Удалить шаблон Egg
                 </Button>
             )}
         >

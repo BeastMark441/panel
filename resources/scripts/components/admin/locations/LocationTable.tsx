@@ -35,38 +35,37 @@ function DeleteLocationDialog({ location, open, onClose }: LocationDialogProps) 
     return (
         <Dialog
             open={open}
-            title='Confirm location deletion'
+            title='Подтвердите удаление локации'
             preventExternalClose={isSubmitting}
             hideCloseIcon={isSubmitting}
             onClose={onClose}
         >
             <SpinnerOverlay visible={isSubmitting} />
             <p className='text-sm'>
-                Deleting a location is permanent. This will remove <strong>{attributes.short}</strong>.
+                Удаление локации необратимо. Локация <strong>{attributes.short}</strong> будет удалена.
             </p>
             <Form form={form} className='m-0 mt-6'>
                 <form.AppField
                     name='confirm'
                     validators={{
-                        onChange: ({ value }) =>
-                            value === attributes.short ? undefined : 'The short code must be provided.',
+                        onChange: ({ value }) => (value === attributes.short ? undefined : 'Короткий код обязателен.'),
                     }}
                 >
                     {(field) => (
                         <field.TextField
                             type='text'
                             id={`confirm_${attributes.id}`}
-                            label='Confirm short code'
-                            description='Enter the short code to confirm deletion.'
+                            label='Подтвердите короткий код'
+                            description='Введите короткий код, чтобы подтвердить удаление.'
                         />
                     )}
                 </form.AppField>
                 <div className='mt-6 flex justify-end gap-2'>
                     <Button.Text type='button' isSecondary onClick={onClose}>
-                        Cancel
+                        Отмена
                     </Button.Text>
                     <form.AppForm>
-                        <form.SubmitButton color='red'>Delete location</form.SubmitButton>
+                        <form.SubmitButton color='red'>Удалить локацию</form.SubmitButton>
                     </form.AppForm>
                 </div>
             </Form>
@@ -77,7 +76,7 @@ function DeleteLocationDialog({ location, open, onClose }: LocationDialogProps) 
 const LocationActionsCell = ({ location }: { location: AdminLocation }) => (
     <RowActions>
         <EditLinkAction
-            aria-label={`Edit ${location.attributes.short}`}
+            aria-label={`Изменить ${location.attributes.short}`}
             to='/panel/locations/$id'
             params={{ id: location.attributes.id }}
         />
@@ -95,7 +94,7 @@ export const locationColumns = [
     {
         id: 'short',
         accessorFn: (location) => location.attributes.short,
-        header: ({ column }) => <DataTableColumnHeader column={column} title='Location' />,
+        header: ({ column }) => <DataTableColumnHeader column={column} title='Локация' />,
         cell: ({ row }) => (
             <div className='w-0 min-w-full'>
                 <Link
@@ -118,14 +117,14 @@ export const locationColumns = [
     },
     {
         id: 'nodes_count',
-        header: 'Nodes',
+        header: 'Ноды',
         cell: ({ row }) => <span className='tabular-nums'>{row.original.attributes.nodes_count}</span>,
         enableSorting: false,
         meta: { headerClassName: 'hidden w-20 @sm:table-cell', cellClassName: 'hidden w-20 @sm:table-cell' },
     },
     {
         id: 'servers_count',
-        header: 'Servers',
+        header: 'Серверы',
         cell: ({ row }) => <span className='tabular-nums'>{row.original.attributes.servers_count}</span>,
         enableSorting: false,
         meta: { headerClassName: 'hidden w-20 @lg:table-cell', cellClassName: 'hidden w-20 @lg:table-cell' },
@@ -133,7 +132,7 @@ export const locationColumns = [
     {
         id: 'created_at',
         accessorFn: (location) => location.attributes.created_at,
-        header: ({ column }) => <DataTableColumnHeader column={column} title='Created' />,
+        header: ({ column }) => <DataTableColumnHeader column={column} title='Создана' />,
         cell: ({ row }) => (
             <time
                 className='whitespace-nowrap text-xs text-muted-foreground'

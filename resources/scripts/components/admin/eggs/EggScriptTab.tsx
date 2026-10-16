@@ -64,14 +64,14 @@ function EggScriptForm({ egg }: Props) {
 
     return (
         <Form form={form}>
-            <TitledGreyBox title='Install Script'>
+            <TitledGreyBox title='Скрипт установки'>
                 {Number(copyScriptFrom) > 0 && (
                     <p className='text-xs text-warning mb-4'>
-                        This egg is copying its install script
+                        Этот шаблон Egg копирует свой скрипт установки
                         {copiedFromEgg ? (
                             <>
                                 {' '}
-                                from{' '}
+                                из{' '}
                                 <Link
                                     to='/panel/eggs/$eggId/script'
                                     params={{ eggId: copiedFromEgg.attributes.id }}
@@ -81,10 +81,10 @@ function EggScriptForm({ egg }: Props) {
                                 </Link>
                             </>
                         ) : (
-                            ' from another egg'
+                            ' из другого шаблона'
                         )}
-                        . Changes made to the script below will not apply unless you select &quot;None&quot; from the
-                        &quot;Copy Script From&quot; dropdown.
+                        . Изменения скрипта ниже не будут применены, пока в выпадающем списке «Скопировать скрипт из»
+                        выбрано не «Нет».
                     </p>
                 )}
                 <CodemirrorEditor
@@ -95,16 +95,16 @@ function EggScriptForm({ egg }: Props) {
                     onContentSaved={() => {}}
                 />
             </TitledGreyBox>
-            <TitledGreyBox title='Script Configuration' className='mt-6'>
+            <TitledGreyBox title='Настройки скрипта' className='mt-6'>
                 <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
                     <form.AppField name='copyScriptFrom'>
                         {(field) => (
                             <field.SelectField
                                 id='copyScriptFrom'
-                                label='Copy Script From'
-                                description='If selected, the script above is ignored and the chosen egg’s script is used.'
+                                label='Скопировать скрипт из'
+                                description='Если выбрано, скрипт выше игнорируется и используется скрипт выбранного шаблона Egg.'
                                 options={[
-                                    { value: 0, label: 'None' },
+                                    { value: 0, label: 'Нет' },
                                     ...copyableEggs.map((option) => ({
                                         value: option.attributes.id,
                                         label: option.attributes.name,
@@ -118,8 +118,8 @@ function EggScriptForm({ egg }: Props) {
                             <field.TextField
                                 type='text'
                                 id='scriptContainer'
-                                label='Script Container'
-                                description='Docker container used when running this script for the server.'
+                                label='Контейнер скрипта'
+                                description='Docker-контейнер, используемый при запуске этого скрипта для сервера.'
                             />
                         )}
                     </form.AppField>
@@ -128,8 +128,8 @@ function EggScriptForm({ egg }: Props) {
                             <field.TextField
                                 type='text'
                                 id='scriptEntry'
-                                label='Script Entrypoint Command'
-                                description='The entrypoint command to use for this script.'
+                                label='Команда entrypoint скрипта'
+                                description='Команда entrypoint, используемая для этого скрипта.'
                             />
                         )}
                     </form.AppField>
@@ -138,10 +138,10 @@ function EggScriptForm({ egg }: Props) {
                     <form.AppField name='scriptIsPrivileged'>
                         {(field) => (
                             <field.SwitchField
-                                label='Privileged Installation Script'
+                                label='Привилегированный скрипт установки'
                                 description={
-                                    'Run the installation script with elevated privileges, granting access to the ' +
-                                    "node's docker socket. Only enable this when you trust the script."
+                                    'Выполнять скрипт установки с повышенными привилегиями, предоставляя доступ к ' +
+                                    'docker-сокету узла. Включайте эту опцию только в том случае, если вы доверяете скрипту.'
                                 }
                             />
                         )}
@@ -149,9 +149,9 @@ function EggScriptForm({ egg }: Props) {
                 </div>
             </TitledGreyBox>
             {dependentEggs.length > 0 && (
-                <TitledGreyBox title='Eggs Using This Script' className='mt-6'>
+                <TitledGreyBox title='Шаблоны Egg, использующие этот скрипт' className='mt-6'>
                     <p className='text-sm text-muted-foreground mb-4'>
-                        Changes to this install script affect these eggs because they copy from this one.
+                        Изменения этого скрипта установки влияют на перечисленные шаблоны Egg, так как они копируют его.
                     </p>
                     <div className='space-y-2'>
                         {dependentEggs.map((dependent) => (
@@ -169,7 +169,7 @@ function EggScriptForm({ egg }: Props) {
             )}
             <div className='flex justify-end mt-6'>
                 <form.AppForm>
-                    <form.SubmitButton>Save Changes</form.SubmitButton>
+                    <form.SubmitButton>Сохранить изменения</form.SubmitButton>
                 </form.AppForm>
             </div>
         </Form>

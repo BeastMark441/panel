@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import ContentContainer from '@/components/elements/ContentContainer';
+import TranslationCredit from '@/components/elements/TranslationCredit';
 import { cn } from '@/lib/cn';
 
 export interface PageContentBlockProps {
@@ -28,6 +29,7 @@ const PageContentBlock = ({ title, className, children }: PageContentBlockProps)
                     </a>
                     &nbsp;&copy; 2015 - <span suppressHydrationWarning>{new Date().getFullYear()}</span>
                 </p>
+                <TranslationCredit />
             </ContentContainer>
         </div>
     );

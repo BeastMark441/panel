@@ -63,17 +63,17 @@ describe('mutation utilities', () => {
 
     it('builds consistent resource mutation copy with and without a resource name', () => {
         expect(resourceMutationMessages('database host', 'update', 'primary')).toEqual({
-            errorTitle: 'Unable to update database host',
+            errorTitle: 'Не удалось обновить хост баз данных',
             success: {
-                title: 'Database host updated',
-                description: 'primary has been updated.',
+                title: 'Хост баз данных обновлён',
+                description: '«primary» обновлён.',
             },
         });
         expect(resourceMutationMessages('egg', 'delete')).toEqual({
-            errorTitle: 'Unable to delete egg',
+            errorTitle: 'Не удалось удалить шаблон Egg',
             success: {
-                title: 'Egg deleted',
-                description: 'The egg has been deleted.',
+                title: 'Шаблон Egg удалён',
+                description: 'Шаблон Egg удалён.',
             },
         });
     });

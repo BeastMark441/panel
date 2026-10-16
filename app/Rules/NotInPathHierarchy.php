@@ -27,15 +27,15 @@ class NotInPathHierarchy implements ValidationRule
             $blocked = Mount::normalizePath($blocked);
 
             if ($path === $blocked) {
-                $fail($this->includeDescendants
-                    ? "The {$attribute} path cannot be or reside within [{$blocked}]."
-                    : "The {$attribute} path cannot be [{$blocked}].");
+                $fail(trans($this->includeDescendants
+                    ? 'validation.internal.not_in_path_hierarchy_within'
+                    : 'validation.internal.not_in_path_hierarchy_exact', ['attribute' => ':attribute', 'blocked' => $blocked]));
 
                 return;
             }
 
             if ($this->includeDescendants && str_starts_with($path, $blocked.'/')) {
-                $fail("The {$attribute} path cannot be or reside within [{$blocked}].");
+                $fail(trans('validation.internal.not_in_path_hierarchy_within', ['attribute' => ':attribute', 'blocked' => $blocked]));
 
                 return;
             }

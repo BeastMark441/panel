@@ -35,7 +35,7 @@ function CreateLocationDialog({ open, onClose }: CreateLocationDialogProps) {
     return (
         <Dialog
             open={open}
-            title='Создать новуй локацию'
+            title='Создать новую локацию'
             preventExternalClose={isSubmitting}
             hideCloseIcon={isSubmitting}
             onClose={onClose}
@@ -87,7 +87,7 @@ function CreateLocationDialog({ open, onClose }: CreateLocationDialogProps) {
                 </form.AppField>
                 <div className='flex flex-wrap justify-end mt-6'>
                     <Button type='button' isSecondary className='w-full sm:w-auto sm:mr-2' onClick={onClose}>
-                        Cancel
+                        Отмена
                     </Button>
                     <form.AppForm>
                         <form.SubmitButton className='w-full mt-4 sm:w-auto sm:mt-0'>Создать локацию</form.SubmitButton>

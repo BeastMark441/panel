@@ -26,9 +26,9 @@ export default function TagsField({ tags, label, description, emptyText, exclude
         const value = tagValueForName(tags, name);
 
         if (value === null) {
-            toast.error('A tag name cannot be only a number.');
+            toast.error('Название тега не может состоять только из цифр.');
         } else if (excluded.has(value)) {
-            toast.error(`${name} is already in the other list.`);
+            toast.error(`${name} уже есть в другом списке.`);
         } else if (!values.includes(value)) {
             field.handleChange([...values, value]);
         }
@@ -39,8 +39,8 @@ export default function TagsField({ tags, label, description, emptyText, exclude
             <MultiSelectField
                 label={label}
                 description={description}
-                placeholder='Select or type tags'
-                searchPlaceholder='Search or create tags…'
+                placeholder='Выберите или введите теги'
+                searchPlaceholder='Поиск или создание тегов…'
                 onCreate={create}
                 options={[
                     ...tags
@@ -49,7 +49,7 @@ export default function TagsField({ tags, label, description, emptyText, exclude
                             value: String(tag.attributes.id),
                             label: `${tag.attributes.name} (${tag.attributes.slug})`,
                         })),
-                    ...newNames.map((name) => ({ value: name, label: `${name} (new)` })),
+                    ...newNames.map((name) => ({ value: name, label: `${name} (новый)` })),
                 ]}
             />
             <div className='mt-4 min-h-8'>

@@ -107,13 +107,13 @@ class UpdateServerBuildConfigurationRequest extends ServerWriteRequest
     public function attributes(): array
     {
         return [
-            'add_allocations' => 'allocations to add',
-            'remove_allocations' => 'allocations to remove',
-            'add_allocations.*' => 'allocation to add',
-            'remove_allocations.*' => 'allocation to remove',
-            'feature_limits.databases' => 'Database Limit',
-            'feature_limits.allocations' => 'Allocation Limit',
-            'feature_limits.backups' => 'Backup Limit',
+            'add_allocations' => 'сетевые адреса для добавления',
+            'remove_allocations' => 'сетевые адреса для удаления',
+            'add_allocations.*' => 'сетевой адрес для добавления',
+            'remove_allocations.*' => 'сетевой адрес для удаления',
+            'feature_limits.databases' => 'Лимит баз данных',
+            'feature_limits.allocations' => 'Лимит сетевых адресов',
+            'feature_limits.backups' => 'Лимит резервных копий',
         ];
     }
 

@@ -36,9 +36,9 @@ class UpdateGeneralSettingsRequest extends AdminApiRequest
     public function attributes(): array
     {
         return [
-            'branding.name' => 'Company Name',
-            'misc.required_2fa' => 'Require 2-Factor Authentication',
-            'default_locale' => 'Default Language',
+            'branding.name' => 'Название компании',
+            'misc.required_2fa' => 'Обязательная двухфакторная аутентификация',
+            'default_locale' => 'Язык по умолчанию',
         ];
     }
 

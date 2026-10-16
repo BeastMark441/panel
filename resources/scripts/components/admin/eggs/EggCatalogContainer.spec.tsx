@@ -78,15 +78,15 @@ describe('egg catalog', () => {
 
         await user.click(screen.getByRole('button', { name: '2' }));
         expect(screen.getByRole('heading', { name: 'Paper' })).toBeInTheDocument();
-        await user.type(screen.getByLabelText('Search eggs'), 'MINECRAFT');
+        await user.type(screen.getByLabelText('Поиск шаблонов'), 'MINECRAFT');
         expect(screen.getAllByRole('article')).toHaveLength(1);
         expect(screen.getByRole('heading', { name: 'Paper' })).toBeInTheDocument();
-        await user.clear(screen.getByLabelText('Search eggs'));
-        await user.click(screen.getByLabelText('Category'));
+        await user.clear(screen.getByLabelText('Поиск шаблонов'));
+        await user.click(screen.getByLabelText('Категория'));
         await user.click(await screen.findByRole('option', { name: 'games' }));
         expect(screen.getAllByRole('article')).toHaveLength(1);
-        await user.type(screen.getByLabelText('Search eggs'), 'unmatched');
-        expect(screen.getByText('No eggs match your search.')).toBeInTheDocument();
+        await user.type(screen.getByLabelText('Поиск шаблонов'), 'unmatched');
+        expect(screen.getByText('Нет совпадений')).toBeInTheDocument();
         expect(request).toHaveBeenCalledOnce();
     });
 
@@ -111,20 +111,22 @@ describe('egg catalog', () => {
             data: [],
             meta: { pagination: { total: 0, count: 0, per_page: 100, current_page: 1, total_pages: 1 } },
         });
-        await user.click(await screen.findByRole('button', { name: 'Import' }));
-        const dialog = await screen.findByRole('dialog', { name: 'Import Paper' });
-        const submit = within(dialog).getByRole('button', { name: 'Import Egg' });
+        await user.click(await screen.findByRole('button', { name: 'Импорт' }));
+        const dialog = await screen.findByRole('dialog', { name: 'Импорт: Paper' });
+        const submit = within(dialog).getByRole('button', { name: 'Импортировать шаблон Egg' });
 
         await user.click(submit);
         await waitFor(() => expect(request).toHaveBeenCalledTimes(2));
         expect(request.mock.calls[1]![0].url).toBe('/api/admin/eggs/catalog/import');
         expect(request.mock.calls[1]![0].data).toBe('{"catalog_id":"games-paper"}');
-        expect(within(dialog).getByRole('button', { name: 'Cancel' })).toBeDisabled();
+        expect(within(dialog).getByRole('button', { name: 'Отмена' })).toBeDisabled();
         await user.keyboard('{Escape}');
         expect(dialog).toBeInTheDocument();
 
         await act(async () => failImport(error));
-        await waitFor(() => expect(mocks.notifyError).toHaveBeenCalledWith(error, 'Unable to import catalog egg'));
+        await waitFor(() =>
+            expect(mocks.notifyError).toHaveBeenCalledWith(error, 'Не удалось импортировать шаблон Egg из каталога')
+        );
         expect(mocks.navigate).not.toHaveBeenCalled();
         await waitFor(() => expect(submit).toBeEnabled());
         await user.click(submit);
@@ -132,7 +134,7 @@ describe('egg catalog', () => {
             expect(mocks.navigate).toHaveBeenCalledWith({ to: '/panel/eggs/$eggId', params: { eggId: 42 } })
         );
         expect(queryClient.getQueryState(adminEggsQueryOptions().queryKey)?.isInvalidated).toBe(true);
-        expect(mocks.toastSuccess).toHaveBeenCalledWith('Egg imported', expect.anything());
+        expect(mocks.toastSuccess).toHaveBeenCalledWith('Шаблон Egg импортирован', expect.anything());
         expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     });
 
@@ -145,10 +147,10 @@ describe('egg catalog', () => {
         const { user } = setup();
 
         expect(await screen.findByRole('alert')).toHaveTextContent('Catalog unavailable');
-        await user.click(screen.getByRole('button', { name: 'Retry' }));
+        await user.click(screen.getByRole('button', { name: 'Повторить' }));
         await screen.findByRole('heading', { name: 'Paper' });
-        await user.click(screen.getByRole('button', { name: 'Refresh Catalog' }));
-        await screen.findByText('The catalog is empty');
+        await user.click(screen.getByRole('button', { name: 'Обновить каталог' }));
+        await screen.findByText('Каталог пуст');
         expect(request.mock.calls.map(([config]) => [config.method, config.url])).toEqual([
             ['get', '/api/admin/eggs/catalog'],
             ['get', '/api/admin/eggs/catalog'],

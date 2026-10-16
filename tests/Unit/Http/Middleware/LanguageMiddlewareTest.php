@@ -9,6 +9,8 @@ use Pterodactyl\Models\User;
 
 uses(\Pterodactyl\Tests\Unit\Http\Middleware\MiddlewareTestCase::class);
 test('language is set for guest', function () {
+    $this->app->setLocale('de');
+    config(['app.locale' => 'en']);
     $this->setRequestUserModel(null);
     getMiddleware()->handle($this->request, $this->getClosureAssertions());
     expect($this->app->getLocale())->toBe('en');

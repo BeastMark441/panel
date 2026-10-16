@@ -100,9 +100,11 @@ export const useCreateServerBackup = () => {
             await queryClient.invalidateQueries({
                 queryKey: clientListServerBackupsQueryKey({ path: { server_uuid: path.server_uuid } }),
             });
-            toast.success('Backup started', { description: `${backup.attributes.name} is being created.` });
+            toast.success('Создание резервной копии начато', {
+                description: `Резервная копия «${backup.attributes.name}» создаётся.`,
+            });
         },
-        onError: (error) => notifyHttpError(error, 'Unable to create backup'),
+        onError: (error) => notifyHttpError(error, 'Не удалось создать резервную копию'),
     });
 };
 
@@ -115,9 +117,11 @@ export const useDeleteServerBackup = (backup: ServerBackup) => {
             await queryClient.invalidateQueries({
                 queryKey: clientListServerBackupsQueryKey({ path: { server_uuid: path.server_uuid } }),
             });
-            toast.success('Backup deleted', { description: `${backup.attributes.name} has been removed.` });
+            toast.success('Резервная копия удалена', {
+                description: `Резервная копия «${backup.attributes.name}» удалена.`,
+            });
         },
-        onError: (error) => notifyHttpError(error, 'Unable to delete backup'),
+        onError: (error) => notifyHttpError(error, 'Не удалось удалить резервную копию'),
     });
 };
 
@@ -131,11 +135,11 @@ export const useRestoreServerBackup = (backup: ServerBackup) => {
                 ...server,
                 attributes: { ...server.attributes, status: 'restoring_backup' },
             }));
-            toast.success('Backup restore started', {
-                description: `${backup.attributes.name} is being restored.`,
+            toast.success('Восстановление резервной копии начато', {
+                description: `Резервная копия «${backup.attributes.name}» восстанавливается.`,
             });
         },
-        onError: (error) => notifyHttpError(error, 'Unable to restore backup'),
+        onError: (error) => notifyHttpError(error, 'Не удалось восстановить резервную копию'),
     });
 };
 
@@ -146,9 +150,11 @@ export const useToggleServerBackupLock = (page: number, backup: ServerBackup) =>
         ...clientToggleBackupLockMutation(),
         onSuccess: (updated, { path }) => {
             updateServerBackup(queryClient, path.server_uuid, page, path.backup_uuid, () => updated);
-            toast.success(backup.attributes.is_locked ? 'Backup unlocked' : 'Backup locked');
+            toast.success(
+                backup.attributes.is_locked ? 'Резервная копия разблокирована' : 'Резервная копия заблокирована'
+            );
         },
-        onError: (error) => notifyHttpError(error, 'Unable to update backup lock'),
+        onError: (error) => notifyHttpError(error, 'Не удалось изменить блокировку резервной копии'),
     });
 };
 
@@ -158,10 +164,10 @@ export const useBackupDownloadUrl = () =>
             const { data } = await clientGetBackupDownloadUrl(input);
 
             if (!data) {
-                throw new Error('Backup download URL response did not include data.');
+                throw new Error('Ответ со ссылкой для скачивания резервной копии не содержит данных.');
             }
 
             return data.attributes.url;
         },
-        onError: (error) => notifyHttpError(error, 'Unable to create backup download'),
+        onError: (error) => notifyHttpError(error, 'Не удалось создать ссылку для скачивания резервной копии'),
     });

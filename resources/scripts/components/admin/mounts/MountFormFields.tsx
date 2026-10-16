@@ -19,24 +19,23 @@ const DetailsFields = ({ form }: Props) => (
                 <field.TextField
                     type='text'
                     id='name'
-                    label='Name'
-                    description='A unique name used to identify this mount.'
+                    label='Название'
+                    description='Уникальное название, по которому будет идентифицироваться это крепление.'
                 />
             )}
         </form.AppField>
         <form.AppField
             name='description'
             validators={{
-                onChange: ({ value }) =>
-                    value.length <= 191 ? undefined : 'A description must not exceed 191 characters.',
+                onChange: ({ value }) => (value.length <= 191 ? undefined : 'Описание не должно превышать 191 символ.'),
             }}
         >
             {(field) => (
                 <field.TextField
                     type='text'
                     id='description'
-                    label='Description'
-                    description='A longer description for this mount.'
+                    label='Описание'
+                    description='Более подробное описание этого крепления.'
                 />
             )}
         </form.AppField>
@@ -48,30 +47,30 @@ const PathFields = ({ form }: Props) => (
         <form.AppField
             name='source'
             validators={{
-                onChange: ({ value }) => (value.length >= 1 ? undefined : 'A source path must be provided.'),
+                onChange: ({ value }) => (value.length >= 1 ? undefined : 'Укажите исходный путь.'),
             }}
         >
             {(field) => (
                 <field.TextField
                     type='text'
                     id='source'
-                    label='Source'
-                    description='The path on the host system to mount into the container.'
+                    label='Источник'
+                    description='Путь на хост-машине, который будет смонтирован в контейнер.'
                 />
             )}
         </form.AppField>
         <form.AppField
             name='target'
             validators={{
-                onChange: ({ value }) => (value.length >= 1 ? undefined : 'A target path must be provided.'),
+                onChange: ({ value }) => (value.length >= 1 ? undefined : 'Укажите целевой путь.'),
             }}
         >
             {(field) => (
                 <field.TextField
                     type='text'
                     id='target'
-                    label='Target'
-                    description='The path inside the container where the source will be mounted.'
+                    label='Целевой путь'
+                    description='Путь внутри контейнера, по которому будет доступен исходный каталог.'
                 />
             )}
         </form.AppField>
@@ -83,16 +82,16 @@ const AccessFields = ({ form }: Props) => (
         <form.AppField name='readOnly'>
             {(field) => (
                 <field.SwitchField
-                    label='Read Only'
-                    description='Mount this volume as read only inside the container.'
+                    label='Только чтение'
+                    description='Монтировать этот том в контейнер как доступный только для чтения.'
                 />
             )}
         </form.AppField>
         <form.AppField name='userMountable'>
             {(field) => (
                 <field.SwitchField
-                    label='User Mountable'
-                    description='Allow this mount to be added to servers by users.'
+                    label='Доступно пользователям'
+                    description='Позволять пользователям добавлять это крепление к своим серверам.'
                 />
             )}
         </form.AppField>
@@ -102,13 +101,13 @@ const AccessFields = ({ form }: Props) => (
 export default function MountFormFields({ form }: Props) {
     return (
         <div className='space-y-6'>
-            <TitledGreyBox title='Mount Details'>
+            <TitledGreyBox title='Сведения о креплении'>
                 <DetailsFields form={form} />
             </TitledGreyBox>
-            <TitledGreyBox title='Paths'>
+            <TitledGreyBox title='Пути'>
                 <PathFields form={form} />
             </TitledGreyBox>
-            <TitledGreyBox title='Access'>
+            <TitledGreyBox title='Доступ'>
                 <AccessFields form={form} />
             </TitledGreyBox>
         </div>

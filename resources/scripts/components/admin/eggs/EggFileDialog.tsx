@@ -58,7 +58,7 @@ export default function EggFileDialog({
                     void submit();
                 }}
             >
-                <Label htmlFor={fileId}>Egg File</Label>
+                <Label htmlFor={fileId}>Файл шаблона Egg</Label>
                 <FileInput
                     id={fileId}
                     accept='application/json,.json'
@@ -73,7 +73,7 @@ export default function EggFileDialog({
                         disabled={submitting}
                         onClick={onClose}
                     >
-                        Cancel
+                        Отмена
                     </Button>
                     <Button
                         type='submit'

@@ -68,10 +68,10 @@ class StoreUserRequest extends AdminApiRequest
     public function attributes(): array
     {
         return [
-            'external_id' => 'Third Party Identifier',
-            'name_first' => 'First Name',
-            'name_last' => 'Last Name',
-            'root_admin' => 'Root Administrator Status',
+            'external_id' => 'Внешний идентификатор',
+            'name_first' => 'Имя',
+            'name_last' => 'Фамилия',
+            'root_admin' => 'Права корневого администратора',
         ];
     }
 

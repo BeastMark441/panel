@@ -1,10 +1,10 @@
 export const validateMountName = (value: string): string | undefined => {
     if (value.length < 2) {
-        return 'A name must be at least 2 characters.';
+        return 'Название должно содержать не менее 2 символов.';
     }
 
     if (value.length > 64) {
-        return 'A name must not exceed 64 characters.';
+        return 'Название не должно превышать 64 символов.';
     }
 
     return undefined;

@@ -63,7 +63,7 @@ function ServerMountsContent({ server }: Props) {
             [
                 {
                     id: 'name',
-                    header: 'Mount',
+                    header: 'Монтировка',
                     cell: ({ row }) => (
                         <div className='min-w-0'>
                             <Link
@@ -83,7 +83,7 @@ function ServerMountsContent({ server }: Props) {
                 },
                 {
                     id: 'status',
-                    header: 'Status',
+                    header: 'Статус',
                     cell: ({ row }) => (
                         <span
                             className={
@@ -92,7 +92,7 @@ function ServerMountsContent({ server }: Props) {
                                     : 'text-xs uppercase text-muted-foreground'
                             }
                         >
-                            {row.original.attributes.mounted ? 'Mounted' : 'Unmounted'}
+                            {row.original.attributes.mounted ? 'Замонтирован' : 'Не смонтирован'}
                         </span>
                     ),
                     meta: { headerClassName: 'hidden sm:table-cell w-24', cellClassName: 'hidden sm:table-cell w-24' },
@@ -102,7 +102,7 @@ function ServerMountsContent({ server }: Props) {
                     (mount) => (
                         <RowActions>
                             <EditLinkAction
-                                aria-label={`Edit ${mount.attributes.name}`}
+                                aria-label={`Изменить ${mount.attributes.name}`}
                                 to='/panel/mounts/$id'
                                 params={{ id: mount.attributes.id }}
                             />
@@ -114,7 +114,7 @@ function ServerMountsContent({ server }: Props) {
                                 isLoading={updatingId === mount.attributes.id}
                                 onClick={() => toggle(mount)}
                             >
-                                {mount.attributes.mounted ? 'Unmount' : 'Mount'}
+                                {mount.attributes.mounted ? 'Размонтировать' : 'Замонтировать'}
                             </Button>
                         </RowActions>
                     ),
@@ -136,7 +136,7 @@ function ServerMountsContent({ server }: Props) {
 
     return (
         <div>
-            <TitledGreyBox title='Available Mounts'>
+            <TitledGreyBox title='Доступные монтировки'>
                 {mounts ? (
                     <DataTable
                         table={table}
@@ -147,15 +147,15 @@ function ServerMountsContent({ server }: Props) {
                                     <EmptyMedia variant='icon'>
                                         <FolderInput />
                                     </EmptyMedia>
-                                    <EmptyTitle>No mounts available</EmptyTitle>
+                                    <EmptyTitle>Нет доступных монтировок</EmptyTitle>
                                     <EmptyDescription>
-                                        A mount appears here once it is attached to both this server&apos;s egg and its
-                                        node.
+                                        Монтировка появится здесь, когда она будет привязана как к яйцу этого сервера,
+                                        так и к его узлу.
                                     </EmptyDescription>
                                 </EmptyHeader>
                                 <EmptyContent>
                                     <NewLinkButton to='/panel/mounts' isSecondary icon={FolderInput}>
-                                        Manage mounts
+                                        Управлять монтировками
                                     </NewLinkButton>
                                 </EmptyContent>
                             </Empty>
@@ -173,7 +173,7 @@ export default function ServerMountsTab() {
     const { server } = useServerDetail();
 
     if (server.attributes.container.installed !== 1) {
-        return <ServerError message='Access to this resource is not allowed due to the current installation state.' />;
+        return <ServerError message='Доступ к этому ресурсу невозможен из-за текущего состояния установки.' />;
     }
 
     return <ServerMountsContent server={server} />;

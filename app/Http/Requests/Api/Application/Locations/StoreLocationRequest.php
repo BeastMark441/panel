@@ -35,8 +35,8 @@ class StoreLocationRequest extends ApplicationApiRequest
     public function attributes(): array
     {
         return [
-            'long' => 'Location Description',
-            'short' => 'Location Identifier',
+            'long' => 'Описание локации',
+            'short' => 'Короткий код',
         ];
     }
 

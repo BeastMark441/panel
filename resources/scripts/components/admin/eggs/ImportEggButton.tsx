@@ -19,7 +19,7 @@ export default function ImportEggButton() {
         <Dialog.Trigger
             trigger={({ onClick }) => (
                 <NewButton isSecondary icon={Upload} onClick={onClick}>
-                    Import egg
+                    Импорт шаблона Egg
                 </NewButton>
             )}
         >
@@ -27,9 +27,9 @@ export default function ImportEggButton() {
                 <EggFileDialog
                     open={open}
                     onClose={onClose}
-                    title='Import egg'
-                    description='Upload an egg JSON file to add a server template.'
-                    submitLabel='Import Egg'
+                    title='Импорт шаблона Egg'
+                    description='Загрузите JSON-файл шаблона Egg, чтобы добавить шаблон сервера.'
+                    submitLabel='Импортировать шаблон Egg'
                     submitting={importEgg.isPending}
                     onSubmit={submit}
                 />

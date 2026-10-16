@@ -125,19 +125,19 @@ function ServerDetailsForm({ server }: Props) {
 
     return (
         <Form form={form}>
-            <TitledGreyBox title='Base Information'>
+            <TitledGreyBox title='Основные сведения'>
                 <form.AppField
                     name='name'
                     validators={{
-                        onChange: ({ value }) => (value.length >= 1 ? undefined : 'A server name must be provided.'),
+                        onChange: ({ value }) => (value.length >= 1 ? undefined : 'Укажите название сервера.'),
                     }}
                 >
                     {(field) => (
                         <field.TextField
                             type='text'
                             id='name'
-                            label='Server Name'
-                            description='Character limits: a-zA-Z0-9_- and [Space].'
+                            label='Название сервера'
+                            description='Допустимые символы: a-zA-Z0-9_- и пробел.'
                         />
                     )}
                 </form.AppField>
@@ -147,10 +147,10 @@ function ServerDetailsForm({ server }: Props) {
                             <field.TextField
                                 type='text'
                                 id='external_id'
-                                label='External Identifier'
+                                label='Внешний идентификатор'
                                 description={
-                                    'Leave empty to not assign an external identifier for this server. The external ID ' +
-                                    'should be unique to this server and not be in use by any other server.'
+                                    'Оставьте пустым, чтобы не назначать внешний идентификатор этому серверу. Внешний ' +
+                                    'идентификатор должен быть уникальным и не использоваться другими серверами.'
                                 }
                             />
                         )}
@@ -161,17 +161,15 @@ function ServerDetailsForm({ server }: Props) {
                         {(field) => (
                             <field.SelectField
                                 id='user'
-                                label='Server Owner'
-                                placeholder='Search users by name, username or email…'
+                                label='Владелец сервера'
+                                placeholder='Поиск пользователей по имени, нику или email…'
                                 emptyMessage={
-                                    isSearching || search !== debouncedSearch
-                                        ? 'Searching…'
-                                        : 'No matching users found.'
+                                    isSearching || search !== debouncedSearch ? 'Поиск…' : 'Пользователи не найдены.'
                                 }
                                 options={users.map(ownerSelectOption)}
                                 onChange={pickOwner}
                                 onSearchChange={setSearch}
-                                description='Changing the owner will generate a new daemon security token automatically.'
+                                description='При смене владельца автоматически будет создан новый токен безопасности демона.'
                             />
                         )}
                     </form.AppField>
@@ -182,8 +180,8 @@ function ServerDetailsForm({ server }: Props) {
                             <field.TextField
                                 type='text'
                                 id='description'
-                                label='Server Description'
-                                description='A brief description of this server.'
+                                label='Описание сервера'
+                                description='Краткое описание этого сервера.'
                             />
                         )}
                     </form.AppField>
@@ -201,7 +199,7 @@ function ServerDetailsForm({ server }: Props) {
                 </form.AppField>
                 <div className='flex justify-end mt-6'>
                     <form.AppForm>
-                        <form.SubmitButton>Update Details</form.SubmitButton>
+                        <form.SubmitButton>Обновить сведения</form.SubmitButton>
                     </form.AppForm>
                 </div>
             </TitledGreyBox>
@@ -213,7 +211,7 @@ export default function ServerDetailsTab() {
     const { server } = useServerDetail();
 
     if (server.attributes.container.installed !== 1) {
-        return <ServerError message='Access to this resource is not allowed due to the current installation state.' />;
+        return <ServerError message='Доступ к этому ресурсу невозможен из-за текущего состояния установки.' />;
     }
 
     return <ServerDetailsForm key={`${server.attributes.id}:${server.attributes.updated_at}`} server={server} />;

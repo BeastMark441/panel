@@ -7,7 +7,7 @@ import { endBootstrapSession } from '@/bootstrap';
 import { AccessDenied, NotFound, ServerError } from '@/components/elements/ScreenBlock';
 import { parseRedirectSearch } from '@/router/redirect';
 
-const accessDeniedMessage = 'You do not have permission to access this page.';
+const accessDeniedMessage = 'У вас нет прав для доступа к этой странице.';
 
 export class RouteAccessDenied extends Error {
     constructor(message = accessDeniedMessage) {

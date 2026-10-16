@@ -34,9 +34,9 @@ class StoreAllocationRequest extends AdminApiRequest
     public function attributes(): array
     {
         return [
-            'ip' => 'IP Address',
-            'alias' => 'IP Alias',
-            'ports' => 'Ports',
+            'ip' => 'IP-адрес',
+            'alias' => 'Псевдоним IP',
+            'ports' => 'Порты',
         ];
     }
 

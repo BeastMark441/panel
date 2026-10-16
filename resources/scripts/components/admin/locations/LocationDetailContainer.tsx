@@ -44,7 +44,7 @@ type LocationNode = Extract<
 const locationNodeColumns = [
     {
         id: 'name',
-        header: 'Node',
+        header: 'Узел',
         cell: ({ row }) => (
             <div className='min-w-0'>
                 <Link
@@ -62,7 +62,7 @@ const locationNodeColumns = [
     },
     {
         id: 'servers',
-        header: 'Servers',
+        header: 'Серверы',
         cell: ({ row }) => (
             <span className='text-xs text-muted-foreground'>{row.original.attributes.servers_count}</span>
         ),
@@ -71,7 +71,7 @@ const locationNodeColumns = [
     actionsColumn<LocationNode>(1, (node) => (
         <RowActions>
             <EditLinkAction
-                aria-label={`Edit ${node.attributes.name}`}
+                aria-label={`Изменить ${node.attributes.name}`}
                 to='/panel/nodes/$id/settings'
                 params={{ id: node.attributes.id }}
             />
@@ -119,7 +119,7 @@ function LocationDetailForm({ location }: { location: AdminLocation }) {
 
     return (
         <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
-            <TitledGreyBox title='Location Details'>
+            <TitledGreyBox title='Детали локации'>
                 <Form form={form} className='m-0'>
                     <form.AppField
                         name='short'
@@ -131,8 +131,8 @@ function LocationDetailForm({ location }: { location: AdminLocation }) {
                             <field.TextField
                                 type='text'
                                 id='short'
-                                label='Short Code'
-                                description='A short identifier used to distinguish this location from others.'
+                                label='Короткий код'
+                                description='Короткий идентификатор для различения этой локации с другими.'
                             />
                         )}
                     </form.AppField>
@@ -143,15 +143,15 @@ function LocationDetailForm({ location }: { location: AdminLocation }) {
                                 onChange: ({ value }) =>
                                     (value?.length ?? 0) <= 191
                                         ? undefined
-                                        : 'The description must not exceed 191 characters.',
+                                        : 'Описание не должно превышать 191 символа.',
                             }}
                         >
                             {(field) => (
                                 <field.TextField
                                     type='text'
                                     id='long'
-                                    label='Description'
-                                    description='A longer description of this location.'
+                                    label='Описание'
+                                    description='Более подробное описание этой локации.'
                                 />
                             )}
                         </form.AppField>
@@ -169,22 +169,22 @@ function LocationDetailForm({ location }: { location: AdminLocation }) {
                     </form.AppField>
                     <div className='flex justify-end mt-6'>
                         <Dialog.ConfirmTrigger
-                            title='Delete location'
-                            confirm='Delete Location'
+                            title='Удалить локацию'
+                            confirm='Удалить локацию'
                             pending={deleteLocation.isPending}
                             onConfirmed={(_event, close) => onDelete(close)}
                             trigger={({ onClick }) => (
                                 <Button type='button' color='red' isSecondary className='mr-2' onClick={onClick}>
                                     <Icon icon={Trash2} className='mr-2' />
-                                    Delete Location
+                                    Удалить локацию
                                 </Button>
                             )}
                         >
-                            Deleting <strong>{attributes.short}</strong> is permanent and cannot be undone. Locations
-                            with assigned nodes cannot be deleted.
+                            Удаление <strong>{attributes.short}</strong> необратимо. Локацию, к которой назначены узлы,
+                            удалить нельзя.
                         </Dialog.ConfirmTrigger>
                         <form.AppForm>
-                            <form.SubmitButton>Save Changes</form.SubmitButton>
+                            <form.SubmitButton>Сохранить изменения</form.SubmitButton>
                         </form.AppForm>
                     </div>
                 </Form>
@@ -193,9 +193,9 @@ function LocationDetailForm({ location }: { location: AdminLocation }) {
             <TitledGreyBox
                 title={
                     <div className='flex items-center justify-between gap-3'>
-                        <h2 className={cardTitleClass}>Nodes</h2>
+                        <h2 className={cardTitleClass}>Узлы</h2>
                         <span className='text-xs text-muted-foreground'>
-                            {attributes.nodes_count} nodes · {attributes.servers_count} servers
+                            {attributes.nodes_count} узлов · {attributes.servers_count} серверов
                         </span>
                     </div>
                 }
@@ -208,8 +208,10 @@ function LocationDetailForm({ location }: { location: AdminLocation }) {
                                 <EmptyMedia variant='icon'>
                                     <HardDrive />
                                 </EmptyMedia>
-                                <EmptyTitle>No nodes</EmptyTitle>
-                                <EmptyDescription>Nodes assigned to this location will appear here.</EmptyDescription>
+                                <EmptyTitle>Узлы отсутствуют</EmptyTitle>
+                                <EmptyDescription>
+                                    Узлы, назначенные на эту локацию, будут отображаться здесь.
+                                </EmptyDescription>
                             </EmptyHeader>
                         </Empty>
                     }
@@ -231,7 +233,7 @@ export default function LocationDetailContainer() {
 
     if (!location) {
         return (
-            <AdminContentBlock title='Admin · Location' heading='Location'>
+            <AdminContentBlock title='Админ · Локация' heading='Локация'>
                 <Spinner size='large' centered />
             </AdminContentBlock>
         );
@@ -239,16 +241,16 @@ export default function LocationDetailContainer() {
 
     return (
         <AdminContentBlock
-            title={`Admin · Location · ${location.attributes.short}`}
+            title={`Админ · Локация · ${location.attributes.short}`}
             heading={location.attributes.short}
-            description={location.attributes.long ?? 'No description provided.'}
+            description={location.attributes.long ?? 'Описание не указано.'}
         >
             <Link
                 to='/panel/locations'
                 className='inline-flex items-center text-sm text-muted-foreground hover:text-accent mb-4'
             >
                 <Icon icon={ArrowLeft} className='mr-2' />
-                Back to Locations
+                К списку локаций
             </Link>
 
             <LocationDetailForm

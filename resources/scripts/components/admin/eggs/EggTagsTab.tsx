@@ -52,22 +52,22 @@ export default function EggTagsTab() {
     }
 
     return (
-        <ContentBox title='Egg Tags'>
+        <ContentBox title='Теги шаблона Egg'>
             {tags.length === 0 && <NoTagsYet />}
             <Form form={form} className='m-0'>
                 <form.AppField name='tags'>
                     {() => (
                         <TagsField
                             tags={tags}
-                            label='Assigned Tags'
-                            description='Tags organize eggs and match them with nodes configured to accept them.'
-                            emptyText='No tags are assigned to this egg.'
+                            label='Назначенные теги'
+                            description='Теги организуют шаблоны Egg и сопоставляют их с узлами, настроенными на их приём.'
+                            emptyText='Этому шаблону Egg не назначено ни одного тега.'
                         />
                     )}
                 </form.AppField>
                 <div className='mt-6 flex justify-end'>
                     <form.AppForm>
-                        <form.SubmitButton>Save tags</form.SubmitButton>
+                        <form.SubmitButton>Сохранить теги</form.SubmitButton>
                     </form.AppForm>
                 </div>
             </Form>

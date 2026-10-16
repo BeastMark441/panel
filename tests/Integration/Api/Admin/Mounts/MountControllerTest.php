@@ -112,3 +112,28 @@ test('invalid payloads return validation errors', function (): void {
         expect($error['detail'])->not->toBeEmpty();
     }
 });
+
+test('mount source prefix violation returns a localized message', function (): void {
+    app()->setLocale('ru');
+    $response = $this->postJson(route('api.admin.mounts.store'), ['name' => 'Bad Prefix Mount', 'source' => 'relative/path', 'target' => '/mnt/target']);
+    $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+    $response->assertJsonStructure(['errors' => [['code', 'detail', 'meta' => ['source_field', 'rule']]]]);
+
+    $errors = collect($response->json('errors'));
+    $error = $errors->firstWhere('meta.source_field', 'source');
+    expect($error)->not->toBeNull('Expected a validation error for the [source] field.');
+    expect($error['meta']['rule'])->toBe('starts_with');
+    expect($error['detail'])->toBe('Значение поля «Исходный путь» должно начинаться с одного из следующих префиксов: /.');
+});
+
+test('protected mount path violation returns a localized message', function (): void {
+    app()->setLocale('ru');
+    $response = $this->postJson(route('api.admin.mounts.store'), ['name' => 'Protected Mount', 'source' => '/etc/pterodactyl/config.yml', 'target' => '/mnt/target']);
+    $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+    $response->assertJsonStructure(['errors' => [['code', 'detail', 'meta' => ['source_field', 'rule']]]]);
+
+    $errors = collect($response->json('errors'));
+    $error = $errors->firstWhere('meta.source_field', 'source');
+    expect($error)->not->toBeNull('Expected a validation error for the [source] field.');
+    expect($error['detail'])->toBe('Значение поля «Исходный путь» не может совпадать с путём «/etc/pterodactyl» или находиться внутри него.');
+});

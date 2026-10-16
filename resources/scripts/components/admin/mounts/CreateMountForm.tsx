@@ -38,16 +38,16 @@ export default function CreateMountForm() {
 
     return (
         <AdminContentBlock
-            title='Admin · Create Mount'
-            heading='Create Mount'
-            description='Create a directory mount that can be attached to servers.'
+            title='Админ · Создание крепления'
+            heading='Создание крепления'
+            description='Создайте крепление — дополнительный каталог, который можно монтировать в контейнеры серверов.'
         >
             <Link
                 to='/panel/mounts'
                 className='inline-flex items-center text-sm text-muted-foreground hover:text-foreground mb-4'
             >
                 <Icon icon={ArrowLeft} className='mr-2' />
-                Back to Mounts
+                К списку креплений
             </Link>
             <Form form={form}>
                 <div className='space-y-6'>
@@ -57,7 +57,7 @@ export default function CreateMountForm() {
                     </form.AppField>
                     <div className='flex justify-end'>
                         <form.AppForm>
-                            <form.SubmitButton>Create Mount</form.SubmitButton>
+                            <form.SubmitButton>Создать крепление</form.SubmitButton>
                         </form.AppForm>
                     </div>
                 </div>

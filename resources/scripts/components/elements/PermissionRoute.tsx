@@ -7,7 +7,7 @@ interface Props {
     children?: React.ReactNode;
 }
 
-const accessDenied = <AccessDenied message='You do not have permission to access this page.' />;
+const accessDenied = <AccessDenied message='У вас нет прав для доступа к этой странице.' />;
 
 export default function PermissionRoute({ permission, children }: Props) {
     if (!permission) {

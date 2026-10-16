@@ -39,28 +39,28 @@ export default function CreateDatabaseHostForm() {
 
     return (
         <AdminContentBlock
-            title='Admin · Create Database Host'
-            heading='Create Database Host'
-            description='Add a database host for server databases.'
+            title='Админ · Создание хоста баз данных'
+            heading='Создание хоста баз данных'
+            description='Добавьте хост, на котором будут создаваться базы данных серверов.'
         >
             <Link
                 to='/panel/databases'
                 className='inline-flex items-center text-sm text-muted-foreground hover:text-foreground mb-4'
             >
                 <Icon icon={ArrowLeft} className='mr-2' />
-                Back to Database Hosts
+                К списку хостов баз данных
             </Link>
             <Form form={form}>
                 <div className='space-y-6'>
-                    <TitledGreyBox title='Host Details'>
+                    <TitledGreyBox title='Сведения о хосте'>
                         <div className='space-y-6'>
                             <form.AppField name='name' validators={databaseHostValidators.name}>
                                 {(field) => (
                                     <field.TextField
                                         type='text'
                                         id='name'
-                                        label='Name'
-                                        description='A short, human-readable name used to identify this host.'
+                                        label='Название'
+                                        description='Короткое легко читаемое название, по которому будет идентифицироваться этот хост.'
                                     />
                                 )}
                             </form.AppField>
@@ -70,13 +70,13 @@ export default function CreateDatabaseHostForm() {
                                         <field.TextField
                                             type='text'
                                             id='host'
-                                            label='Host'
-                                            description='The hostname or IP address that this database server is reachable on.'
+                                            label='Хост'
+                                            description='Имя хоста или IP-адрес, по которому доступен этот сервер баз данных.'
                                         />
                                     )}
                                 </form.AppField>
                                 <form.AppField name='port' validators={databaseHostValidators.port}>
-                                    {(field) => <field.NumberField id='port' label='Port' />}
+                                    {(field) => <field.NumberField id='port' label='Порт' />}
                                 </form.AppField>
                             </div>
                             <DatabaseHostNodeSelect
@@ -86,14 +86,14 @@ export default function CreateDatabaseHostForm() {
                             />
                         </div>
                     </TitledGreyBox>
-                    <TitledGreyBox title='Credentials'>
+                    <TitledGreyBox title='Учётные данные'>
                         <form.AppField name='username' validators={databaseHostValidators.username}>
                             {(field) => (
                                 <field.TextField
                                     type='text'
                                     id='username'
-                                    label='Username'
-                                    description='A user on the database server with permission to create users and databases.'
+                                    label='Имя пользователя'
+                                    description='Пользователь сервера баз данных, имеющий право создавать пользователей и базы данных.'
                                 />
                             )}
                         </form.AppField>
@@ -103,8 +103,8 @@ export default function CreateDatabaseHostForm() {
                                     <field.TextField
                                         type='password'
                                         id='password'
-                                        label='Password'
-                                        description='The password for the account used to connect to this host.'
+                                        label='Пароль'
+                                        description='Пароль учётной записи, используемой для подключения к этому хосту.'
                                     />
                                 )}
                             </form.AppField>
@@ -122,7 +122,7 @@ export default function CreateDatabaseHostForm() {
                     </form.AppField>
                     <div className='flex justify-end'>
                         <form.AppForm>
-                            <form.SubmitButton>Create Host</form.SubmitButton>
+                            <form.SubmitButton>Создать хост</form.SubmitButton>
                         </form.AppForm>
                     </div>
                 </div>

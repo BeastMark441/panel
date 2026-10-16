@@ -46,24 +46,24 @@ function DeleteDatabaseConfirmForm({
                     onChange: ({ value }) =>
                         value === databaseName || value === serverDatabaseShortName(databaseName)
                             ? undefined
-                            : 'The database name must be provided.',
+                            : 'Введите имя базы данных.',
                 }}
             >
                 {(field) => (
                     <field.TextField
                         type='text'
                         id='confirm_name'
-                        label='Confirm Database Name'
-                        description='Enter the database name to confirm deletion.'
+                        label='Подтвердите имя базы данных'
+                        description='Введите имя базы данных, чтобы подтвердить удаление.'
                     />
                 )}
             </form.AppField>
             <div className='mt-6 text-right'>
                 <Button type='button' isSecondary className='mr-2' onClick={onCancel}>
-                    Cancel
+                    Отмена
                 </Button>
                 <form.AppForm>
-                    <form.SubmitButton color='red'>Delete Database</form.SubmitButton>
+                    <form.SubmitButton color='red'>Удалить базу данных</form.SubmitButton>
                 </form.AppForm>
             </div>
         </Form>
@@ -93,15 +93,16 @@ function DeleteServerDatabaseDialog({ serverId, database, open, onClose }: Serve
     return (
         <Dialog
             open={open}
-            title='Confirm database deletion'
+            title='Подтверждение удаления базы данных'
             preventExternalClose={isSubmitting}
             hideCloseIcon={isSubmitting}
             onClose={onClose}
         >
             <SpinnerOverlay visible={isSubmitting} />
             <p className='text-sm'>
-                Deleting a database is a permanent action, it cannot be undone. This will permanently delete the{' '}
-                <strong>{databaseAttributes.name}</strong> database and remove all associated data.
+                Удаление базы данных является необратимым действием. База данных{' '}
+                <strong>{databaseAttributes.name}</strong> будет удалена безвозвратно вместе со всеми связанными
+                данными.
             </p>
             <DeleteDatabaseConfirmForm form={form} databaseName={databaseAttributes.name} onCancel={onClose} />
         </Dialog>
@@ -126,33 +127,33 @@ function ServerDatabaseConnectionDialog({ serverId, database, open, onClose }: S
     };
 
     return (
-        <Dialog open={open} title='Database connection details' onClose={onClose}>
+        <Dialog open={open} title='Параметры подключения к базе данных' onClose={onClose}>
             <div>
-                <Label>Endpoint</Label>
+                <Label>Точка доступа</Label>
                 <CopyOnClick text={connectionString}>
                     <TextInput type='text' readOnly value={connectionString} />
                 </CopyOnClick>
             </div>
             <div className='mt-6'>
-                <Label>Connections from</Label>
+                <Label>Соединения с</Label>
                 <TextInput type='text' readOnly value={databaseAttributes.connections_from} />
             </div>
             <div className='mt-6'>
-                <Label>Max Connections</Label>
-                <TextInput type='text' readOnly value={databaseAttributes.max_connections ?? 'Unlimited'} />
+                <Label>Максимум соединений</Label>
+                <TextInput type='text' readOnly value={databaseAttributes.max_connections ?? 'Безлимитно'} />
             </div>
             <div className='mt-6'>
-                <Label>Username</Label>
+                <Label>Имя пользователя</Label>
                 <CopyOnClick text={databaseAttributes.username}>
                     <TextInput type='text' readOnly value={databaseAttributes.username} />
                 </CopyOnClick>
             </div>
             <div className='mt-6'>
-                <Label>Password</Label>
-                <SecretInput value={password} label='Password' />
+                <Label>Пароль</Label>
+                <SecretInput value={password} label='Пароль' />
             </div>
             <div className='mt-6'>
-                <Label>JDBC Connection String</Label>
+                <Label>JDBC-строка подключения</Label>
                 <CopyOnClick text={jdbcConnection} showInNotification={false}>
                     <TextInput type='text' readOnly value={jdbcConnection} />
                 </CopyOnClick>
@@ -165,10 +166,10 @@ function ServerDatabaseConnectionDialog({ serverId, database, open, onClose }: S
                     onClick={rotate}
                     isLoading={rotatePassword.isPending}
                 >
-                    Rotate Password
+                    Сменить пароль
                 </Button>
                 <Button isSecondary onClick={onClose}>
-                    Close
+                    Закрыть
                 </Button>
             </div>
         </Dialog>
@@ -184,8 +185,8 @@ export function ServerDatabaseActions({ serverId, database }: ServerDatabaseRowP
                 trigger={({ onClick }) => (
                     <RowActionButton
                         icon={Eye}
-                        label='Connection details'
-                        aria-label={`View ${name} connection details`}
+                        label='Параметры подключения'
+                        aria-label={`Посмотреть параметры подключения к ${name}`}
                         onClick={onClick}
                     />
                 )}

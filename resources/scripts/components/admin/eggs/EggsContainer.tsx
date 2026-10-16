@@ -19,7 +19,7 @@ import { emptyCompactClass } from '@/components/ui/styles';
 const eggColumns = [
     {
         id: 'name',
-        header: 'Egg',
+        header: 'Шаблон Egg',
         cell: ({ row }) => (
             <div className='min-w-0'>
                 <Link
@@ -40,7 +40,7 @@ const eggColumns = [
     },
     {
         id: 'author',
-        header: 'Author',
+        header: 'Автор',
         cell: ({ row }) => (
             <span className='block max-w-64 truncate text-sm' title={row.original.attributes.author}>
                 {row.original.attributes.author}
@@ -57,7 +57,7 @@ const eggColumns = [
     actionsColumn<AdminEggListItem>(1, (egg) => (
         <RowActions>
             <EditLinkAction
-                aria-label={`Edit ${egg.attributes.name}`}
+                aria-label={`Изменить ${egg.attributes.name}`}
                 to='/panel/eggs/$eggId'
                 params={{ eggId: egg.attributes.id }}
             />
@@ -83,20 +83,20 @@ export default function EggsContainer() {
 
     return (
         <AdminContentBlock
-            title='Admin · Eggs'
-            heading='Eggs'
-            description='Manage server templates, startup configuration, variables, and install scripts.'
+            title='Админ · Шаблоны Egg'
+            heading='Шаблоны Egg'
+            description='Управляйте шаблонами серверов, конфигурацией запуска, переменными и скриптами установки.'
         >
             <Alert type='danger' className='mb-6 text-sm'>
-                Eggs are powerful and can break servers when edited incorrectly. Avoid editing official eggs unless you
-                are certain of the change.
+                Шаблоны Egg — мощный инструмент: неправильные изменения могут сломать серверы. Избегайте редактирования
+                официальных шаблонов, если вы не уверены в изменениях.
             </Alert>
             <ListToolbar>
                 <NewLinkButton to='/panel/eggs/catalog' isSecondary icon={Search}>
-                    Browse catalog
+                    Открыть каталог
                 </NewLinkButton>
                 <ImportEggButton />
-                <NewLinkButton to='/panel/eggs/new'>New egg</NewLinkButton>
+                <NewLinkButton to='/panel/eggs/new'>Новый шаблон Egg</NewLinkButton>
             </ListToolbar>
             <DataTable
                 table={table}
@@ -107,14 +107,14 @@ export default function EggsContainer() {
                             <EmptyMedia variant='icon'>
                                 <Egg />
                             </EmptyMedia>
-                            <EmptyTitle>No eggs yet</EmptyTitle>
+                            <EmptyTitle>Пока нет шаблонов Egg</EmptyTitle>
                             <EmptyDescription>
-                                Eggs are the templates servers are built from. Browse the catalog for ready-made eggs or
-                                create your own.
+                                Шаблоны Egg — это заготовки, на основе которых создаются серверы. Найдите готовые
+                                шаблоны в каталоге или создайте собственный.
                             </EmptyDescription>
                         </EmptyHeader>
                         <EmptyContent>
-                            <NewLinkButton to='/panel/eggs/new'>New egg</NewLinkButton>
+                            <NewLinkButton to='/panel/eggs/new'>Новый шаблон Egg</NewLinkButton>
                         </EmptyContent>
                     </Empty>
                 }

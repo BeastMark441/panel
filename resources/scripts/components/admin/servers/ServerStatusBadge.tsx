@@ -4,17 +4,17 @@ export type ServerStatus = 'active' | 'installing' | 'suspended';
 
 const statusStyles = {
     active: {
-        label: 'Active',
+        label: 'Активен',
         dot: 'bg-success',
         badge: 'border-success/25 bg-success/10 text-success',
     },
     installing: {
-        label: 'Installing',
+        label: 'Устанавливается',
         dot: 'bg-warning',
         badge: 'border-warning/25 bg-warning/10 text-warning',
     },
     suspended: {
-        label: 'Suspended',
+        label: 'Заблокирован',
         dot: 'bg-destructive',
         badge: 'border-destructive/25 bg-destructive/10 text-destructive',
     },

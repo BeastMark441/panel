@@ -43,36 +43,36 @@ describe('server delete tab', () => {
     it('confirms each delete mode separately and clears the confirmation on cancel', async () => {
         const user = userEvent.setup();
 
-        await user.click(screen.getByRole('button', { name: 'Safely Delete This Server' }));
-        const safe = await screen.findByRole('dialog', { name: 'Confirm server deletion' });
+        await user.click(screen.getByRole('button', { name: 'Безопасно удалить этот сервер' }));
+        const safe = await screen.findByRole('dialog', { name: 'Подтверждение удаления сервера' });
 
-        await user.type(within(safe).getByLabelText('Confirm Server Name'), 'Alpha');
-        await user.click(within(safe).getByRole('button', { name: 'Cancel' }));
+        await user.type(within(safe).getByLabelText('Подтвердите имя сервера'), 'Alpha');
+        await user.click(within(safe).getByRole('button', { name: 'Отмена' }));
         await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
 
-        await user.click(screen.getByRole('button', { name: 'Forcibly Delete This Server' }));
-        const force = await screen.findByRole('dialog', { name: 'Forcibly delete server' });
+        await user.click(screen.getByRole('button', { name: 'Принудительно удалить этот сервер' }));
+        const force = await screen.findByRole('dialog', { name: 'Принудительное удаление сервера' });
 
-        expect(within(force).getByLabelText('Confirm Server Name')).toHaveValue('');
-        await user.click(within(force).getByRole('button', { name: 'Force Delete Server' }));
+        expect(within(force).getByLabelText('Подтвердите имя сервера')).toHaveValue('');
+        await user.click(within(force).getByRole('button', { name: 'Принудительно удалить сервер' }));
         expect(adapter).not.toHaveBeenCalled();
-        await user.click(within(force).getByRole('button', { name: 'Cancel' }));
+        await user.click(within(force).getByRole('button', { name: 'Отмена' }));
         await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
 
-        await user.click(screen.getByRole('button', { name: 'Safely Delete This Server' }));
-        const reopened = await screen.findByRole('dialog', { name: 'Confirm server deletion' });
+        await user.click(screen.getByRole('button', { name: 'Безопасно удалить этот сервер' }));
+        const reopened = await screen.findByRole('dialog', { name: 'Подтверждение удаления сервера' });
 
-        expect(within(reopened).getByLabelText('Confirm Server Name')).toHaveValue('');
+        expect(within(reopened).getByLabelText('Подтвердите имя сервера')).toHaveValue('');
     });
 
     it('deletes with the confirmed mode and then leaves the deleted server page', async () => {
         const user = userEvent.setup();
 
-        await user.click(screen.getByRole('button', { name: 'Forcibly Delete This Server' }));
-        const force = await screen.findByRole('dialog', { name: 'Forcibly delete server' });
+        await user.click(screen.getByRole('button', { name: 'Принудительно удалить этот сервер' }));
+        const force = await screen.findByRole('dialog', { name: 'Принудительное удаление сервера' });
 
-        await user.type(within(force).getByLabelText('Confirm Server Name'), 'Alpha');
-        await user.click(within(force).getByRole('button', { name: 'Force Delete Server' }));
+        await user.type(within(force).getByLabelText('Подтвердите имя сервера'), 'Alpha');
+        await user.click(within(force).getByRole('button', { name: 'Принудительно удалить сервер' }));
 
         await waitFor(() => expect(mocks.navigate).toHaveBeenCalledWith({ to: '/panel/servers' }));
         expect(adapter).toHaveBeenCalledOnce();

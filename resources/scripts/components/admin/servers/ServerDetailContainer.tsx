@@ -39,7 +39,7 @@ export default function ServerDetailContainer() {
     return (
         <ExtensionResourceProvider.Provider value={resourceContext}>
             <AdminContentBlock
-                title={`Admin · ${attributes.name}`}
+                title={`Админ · ${attributes.name}`}
                 heading={attributes.name}
                 description={attributes.identifier}
             >
@@ -49,7 +49,7 @@ export default function ServerDetailContainer() {
                         className='inline-flex items-center text-sm text-muted-foreground hover:text-foreground'
                     >
                         <Icon icon={ArrowLeft} className='mr-2' />
-                        Back to Servers
+                        К списку серверов
                     </Link>
                     <Link
                         to='/server/$id'
@@ -57,7 +57,7 @@ export default function ServerDetailContainer() {
                         className='inline-flex items-center text-sm text-muted-foreground hover:text-foreground'
                     >
                         <Icon icon={ExternalLink} className='mr-2' />
-                        Open Client Area
+                        Открыть в клиентской панели
                     </Link>
                 </div>
                 <Slot name='panel.servers.detail.actions' data={resourceContext} />
@@ -68,32 +68,32 @@ export default function ServerDetailContainer() {
                         params={params}
                         activeOptions={{ exact: true, includeSearch: false }}
                     >
-                        About
+                        О сервере
                     </Link>
                     {isInstalled && (
                         <>
                             <Link data-core to='/panel/servers/$id/details' params={params}>
-                                Details
+                                Детали
                             </Link>
                             <Link data-core to='/panel/servers/$id/build' params={params}>
-                                Build
+                                Ресурсы
                             </Link>
                             <Link data-core to='/panel/servers/$id/startup' params={params}>
-                                Startup
+                                Запуск
                             </Link>
                             <Link data-core to='/panel/servers/$id/database' params={params}>
-                                Database
+                                База данных
                             </Link>
                             <Link data-core to='/panel/servers/$id/mounts' params={params}>
-                                Mounts
+                                Монтировки
                             </Link>
                         </>
                     )}
                     <Link data-core to='/panel/servers/$id/manage' params={params}>
-                        Manage
+                        Управление
                     </Link>
                     <Link data-core to='/panel/servers/$id/delete' params={params}>
-                        Delete
+                        Удаление
                     </Link>
                     <ResourceExtensionTabs parent='admin.server' basePath={`/panel/servers/${attributes.id}`} />
                 </SubNavigation>

@@ -9,15 +9,15 @@ describe('node form', () => {
     });
 
     it('rejects emptied number inputs', () => {
-        expect(nodeNumberValidators.memory.onChange({ value: null })).toBe('A memory limit must be provided.');
+        expect(nodeNumberValidators.memory.onChange({ value: null })).toBe('Укажите лимит памяти.');
         expect(nodeNumberValidators.memoryOverallocate.onChange({ value: null })).toBe(
-            'A memory overallocation must be provided.'
+            'Укажите значение переаллокации памяти.'
         );
-        expect(nodeNumberValidators.daemonSftp.onChange({ value: null })).toBe('A daemon SFTP port must be provided.');
+        expect(nodeNumberValidators.daemonSftp.onChange({ value: null })).toBe('Укажите SFTP-порт демона.');
     });
 
     it('keeps the existing range checks for entered numbers', () => {
-        expect(nodeNumberValidators.disk.onChange({ value: 0 })).toBe('A disk limit must be provided.');
+        expect(nodeNumberValidators.disk.onChange({ value: 0 })).toBe('Укажите лимит диска.');
         expect(nodeNumberValidators.disk.onChange({ value: 1 })).toBeUndefined();
         expect(nodeNumberValidators.memoryOverallocate.onChange({ value: -1 })).toBeUndefined();
     });

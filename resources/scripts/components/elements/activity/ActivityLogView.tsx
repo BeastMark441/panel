@@ -54,8 +54,134 @@ const humanise = (value: string) =>
         )
         .join(' ');
 
+// Display names for the technical event resources (group labels).
+const RESOURCE_LABELS = {
+    Auth: 'Авторизация',
+    User: 'Пользователь',
+    Account: 'Аккаунт',
+    'Api Key': 'API-ключ',
+    'Ssh Key': 'SSH-ключ',
+    'Two Factor': '2FA',
+    Reinstall: 'Переустановка',
+    Console: 'Консоль',
+    Power: 'Питание',
+    Backup: 'Резервные копии',
+    Database: 'Базы данных',
+    File: 'Файлы',
+    SFTP: 'SFTP',
+    Allocation: 'Сетевые адреса',
+    'Node Allocation': 'Сетевые адреса',
+    Schedule: 'Расписания',
+    Task: 'Задачи',
+    Settings: 'Настройки',
+    Startup: 'Запуск',
+    Subuser: 'Субпользователи',
+    Egg: 'Egg',
+    'Egg Variable': 'Переменные Egg',
+    Location: 'Локации',
+    Mount: 'Точки монтирования',
+    Node: 'Ноды',
+    Server: 'Серверы',
+    'Server Backup': 'Резервные копии',
+    'Server Database': 'Базы данных',
+    Tag: 'Теги',
+} satisfies Record<string, string>;
+
+// Display names for the technical event actions.
+const ACTION_LABELS = {
+    Fail: 'Сбой',
+    Success: 'Успех',
+    'Password Reset': 'Сброс пароля',
+    'Reset Password': 'Запрос сброса пароля',
+    Checkpoint: 'Двухфакторная проверка',
+    'Recovery Token': 'Резервный код',
+    Token: 'Код подтверждения',
+    'IP Blocked': 'Заблокированный IP',
+    Create: 'Создать',
+    Delete: 'Удалить',
+    'Delete One': 'Удаление',
+    'Delete Other': 'Удаление',
+    'Delete Block': 'Удаление блока адресов',
+    Update: 'Обновить',
+    'Email Changed': 'Изменение email',
+    'Password Changed': 'Смена пароля',
+    Command: 'Команда',
+    Start: 'Запуск',
+    Stop: 'Остановка',
+    Restart: 'Перезапуск',
+    Kill: 'Принудительная остановка',
+    Download: 'Скачивание',
+    Restore: 'Восстановление',
+    'Restore Complete': 'Восстановление завершено',
+    'Restore Failed': 'Сбой восстановления',
+    Complete: 'Завершение',
+    Lock: 'Блокировка',
+    'Toggle Lock': 'Блокировка',
+    Unlock: 'Разблокировка',
+    'Rotate Password': 'Смена пароля',
+    'Compress One': 'Архивация',
+    'Compress Other': 'Архивация',
+    'Chmod One': 'Смена прав',
+    'Chmod Other': 'Смена прав',
+    Read: 'Просмотр',
+    Copy: 'Копирование',
+    'Create Directory': 'Создание каталога',
+    'Create Directory One': 'Создание каталога',
+    'Create Directory Other': 'Создание каталога',
+    Decompress: 'Распаковка',
+    Pull: 'Скачивание файла',
+    'Rename One': 'Переименование',
+    'Rename Other': 'Переименование',
+    Rename: 'Переименование',
+    Write: 'Запись',
+    Upload: 'Загрузка',
+    Uploaded: 'Загрузка',
+    Denied: 'Отказ в доступе',
+    Notes: 'Заметки',
+    Primary: 'Основной адрес',
+    Execute: 'Запуск вручную',
+    Description: 'Описание',
+    Edit: 'Изменение',
+    Image: 'Образ Docker',
+    Import: 'Импорт',
+    'Update Import': 'Обновление из импорта',
+    Scripts: 'Скрипт установки',
+    Tags: 'Теги',
+    'Tags One': 'Теги',
+    'Tags Other': 'Теги',
+    Reorder: 'Изменение порядка',
+    'Attach Egg': 'Привязка к Egg',
+    'Attach Egg One': 'Привязка к Egg',
+    'Attach Egg Other': 'Привязка к Egg',
+    'Detach Egg': 'Отвязка от Egg',
+    'Attach Node': 'Привязка нод',
+    'Attach Node One': 'Привязка нод',
+    'Attach Node Other': 'Привязка нод',
+    'Detach Node': 'Отвязка нод',
+    'Deploy Token': 'Токен развёртывания',
+    'Deployment Tags': 'Теги развёртывания',
+    'Deployment Tags One': 'Теги развёртывания',
+    'Deployment Tags Other': 'Теги развёртывания',
+    Alias: 'Псевдоним',
+    Details: 'Сведения',
+    Build: 'Конфигурация ресурсов',
+    Rebuild: 'Пересоздание',
+    Suspend: 'Блокировка',
+    Unsuspend: 'Разблокировка',
+    'Toggle Install': 'Статус установки',
+    Transfer: 'Перенос',
+    Mount: 'Привязка',
+    Unmount: 'Отвязка',
+} satisfies Record<string, string>;
+
+const label = (value: string, dictionary: Record<string, string>) => {
+    const human = humanise(value);
+
+    return dictionary[human] ?? human;
+};
+
 const eventGroups = (events: string[]): SelectGroup[] => {
-    const reset: SelectGroup = { label: '', options: [{ value: '', label: 'All events' }] };
+    const reset: SelectGroup = { label: '', options: [{ value: '', label: 'Все события' }] };
     const grouped = new Map<string, SelectOption[]>();
 
     for (const event of events) {
@@ -68,8 +194,8 @@ const eventGroups = (events: string[]): SelectGroup[] => {
 
         options.push({
             value: event,
-            label: humanise(action),
-            textLabel: `${humanise(resource)} · ${humanise(action)}`,
+            label: label(action, ACTION_LABELS),
+            textLabel: `${label(resource, RESOURCE_LABELS)} · ${label(action, ACTION_LABELS)}`,
         });
         grouped.set(resource, options);
     }
@@ -78,7 +204,7 @@ const eventGroups = (events: string[]): SelectGroup[] => {
         reset,
         ...[...grouped.entries()]
             .map(([resource, options]) => ({
-                label: humanise(resource),
+                label: label(resource, RESOURCE_LABELS),
                 options: options.sort((a, b) => String(a.label).localeCompare(String(b.label))),
             }))
             .sort((a, b) => a.label.localeCompare(b.label)),
@@ -152,7 +278,7 @@ export default function ActivityLogView({
 
     const eventOptions = eventGroups(facets.events);
     const userOptions = [
-        { value: '', label: 'All users' },
+        { value: '', label: 'Все пользователи' },
         ...facets.users.map((option) => ({
             value: String(option.id),
             label: option.email ? `${option.username} (${option.email})` : option.username,
@@ -202,7 +328,7 @@ export default function ActivityLogView({
                     <Select
                         groups={eventOptions}
                         value={event ?? ''}
-                        placeholder='Все действия'
+                        placeholder='Все события'
                         searchPlaceholder='Поиск действия…'
                         emptyMessage='Здесь пока ничего не записано.'
                         onChange={(value) => withFilter('event', String(value) || null)}

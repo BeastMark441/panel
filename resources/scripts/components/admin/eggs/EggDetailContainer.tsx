@@ -39,7 +39,7 @@ export default function EggDetailContainer() {
     return (
         <ExtensionResourceProvider.Provider value={resourceContext}>
             <AdminContentBlock
-                title={`Admin · ${egg.attributes.name}`}
+                title={`Админ · Шаблон Egg · ${egg.attributes.name}`}
                 heading={egg.attributes.name}
                 description={egg.attributes.description ?? undefined}
             >
@@ -49,7 +49,7 @@ export default function EggDetailContainer() {
                         className='inline-flex items-center text-sm text-muted-foreground hover:text-foreground'
                     >
                         <Icon icon={ArrowLeft} className='mr-2' />
-                        Back to Eggs
+                        К списку шаблонов Egg
                     </Link>
                     <div className='flex flex-wrap items-center gap-2'>
                         <ExportEggButton egg={egg} />
@@ -65,16 +65,16 @@ export default function EggDetailContainer() {
                         params={{ eggId }}
                         activeOptions={{ exact: true, includeSearch: false }}
                     >
-                        Configuration
+                        Конфигурация
                     </Link>
                     <Link data-core to='/panel/eggs/$eggId/tags' params={{ eggId }}>
-                        Tags
+                        Теги
                     </Link>
                     <Link data-core to='/panel/eggs/$eggId/variables' params={{ eggId }}>
-                        Variables
+                        Переменные
                     </Link>
                     <Link data-core to='/panel/eggs/$eggId/script' params={{ eggId }}>
-                        Install Script
+                        Скрипт установки
                     </Link>
                     <ResourceExtensionTabs parent='admin.egg' basePath={`/panel/eggs/${eggId}`} />
                 </SubNavigation>

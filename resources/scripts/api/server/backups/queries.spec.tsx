@@ -101,8 +101,8 @@ describe('server backup mutations', () => {
         );
 
         expect(mocks.updateCurrentServer).toHaveBeenCalledOnce();
-        expect(mocks.toastSuccess).toHaveBeenCalledWith('Backup restore started', {
-            description: 'before-upgrade is being restored.',
+        expect(mocks.toastSuccess).toHaveBeenCalledWith('Восстановление резервной копии начато', {
+            description: 'Резервная копия «before-upgrade» восстанавливается.',
         });
         expect(mocks.updateCurrentServer.mock.invocationCallOrder[0]).toBeLessThan(
             mocks.toastSuccess.mock.invocationCallOrder[0] ?? Number.MAX_SAFE_INTEGER

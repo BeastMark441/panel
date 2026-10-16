@@ -53,7 +53,7 @@ const transferNodeGroups = (
             .filter((node) => node.id !== currentNodeId)
             .map((node) => ({
                 value: node.id,
-                label: acceptsEgg(node.id) ? node.name : `${node.name} (does not accept this egg)`,
+                label: acceptsEgg(node.id) ? node.name : `${node.name} (не принимает это яйцо)`,
             }));
         const { long, short } = location.attributes;
 
@@ -82,13 +82,13 @@ export default function TransferServerModal({ server, open, onClose }: Props) {
         onSubmitMeta: { ignoreTags: false },
         onSubmit: async ({ value, meta }) => {
             if (!nodeId) {
-                toast.error('A target node must be selected.');
+                toast.error('Выберите целевой узел.');
 
                 return;
             }
 
             if (!value.allocationId) {
-                toast.error('A default allocation must be selected.');
+                toast.error('Выберите основное выделение.');
 
                 return;
             }
@@ -125,18 +125,18 @@ export default function TransferServerModal({ server, open, onClose }: Props) {
     return (
         <Dialog
             open={open}
-            title='Transfer server'
+            title='Перенос сервера'
             preventExternalClose={isSubmitting}
             hideCloseIcon={isSubmitting}
             onClose={onClose}
         >
             <SpinnerOverlay visible={isSubmitting} />
             <Form form={form} className='m-0'>
-                <Label htmlFor='nodeId'>Node</Label>
+                <Label htmlFor='nodeId'>Узел</Label>
                 <Select
                     id='nodeId'
                     value={nodeId}
-                    placeholder='Select a target node...'
+                    placeholder='Выберите целевой узел...'
                     groups={transferNodeGroups(groups, attributes.node, acceptsEgg)}
                     onChange={(value) => {
                         setNodeId(Number(value));
@@ -145,16 +145,16 @@ export default function TransferServerModal({ server, open, onClose }: Props) {
                         form.setFieldValue('allocationAdditional', []);
                     }}
                 />
-                <p className='mt-1 text-xs text-muted-foreground'>The node this server will be transferred to.</p>
+                <p className='mt-1 text-xs text-muted-foreground'>Узел, на который будет перенесён этот сервер.</p>
                 <div className='mt-6'>
                     <form.AppField name='allocationId'>
                         {(field) => (
                             <field.SelectField
                                 id='allocationId'
-                                label='Default Allocation'
-                                description='The main allocation that will be assigned to this server.'
+                                label='Основное выделение'
+                                description='Основное выделение, которое будет назначено этому серверу.'
                                 options={[
-                                    { value: 0, label: 'Select an allocation...', disabled: true },
+                                    { value: 0, label: 'Выберите выделение...', disabled: true },
                                     ...allocationOptions,
                                 ]}
                                 onChange={(value) =>
@@ -171,8 +171,8 @@ export default function TransferServerModal({ server, open, onClose }: Props) {
                         {(field) => (
                             <field.MultiSelectField
                                 id='allocationAdditional'
-                                label='Additional Allocation(s)'
-                                description='Additional allocations to assign to this server.'
+                                label='Дополнительные выделения'
+                                description='Дополнительные выделения, которые будут назначены этому серверу.'
                                 options={additionalOptions}
                             />
                         )}
@@ -182,7 +182,7 @@ export default function TransferServerModal({ server, open, onClose }: Props) {
                     <div className='mt-6'>
                         <TagCheckAlert
                             message={rejection}
-                            action='Transfer anyway'
+                            action='Перенести всё равно'
                             pending={isSubmitting}
                             onAction={() => void form.handleSubmit({ ignoreTags: true })}
                         />
@@ -190,7 +190,7 @@ export default function TransferServerModal({ server, open, onClose }: Props) {
                 )}
                 <div className='flex flex-wrap justify-end mt-6'>
                     <Button type='button' isSecondary className='w-full sm:w-auto sm:mr-2' onClick={onClose}>
-                        Cancel
+                        Отмена
                     </Button>
                     <Button
                         className='w-full mt-4 sm:w-auto sm:mt-0'
@@ -198,7 +198,7 @@ export default function TransferServerModal({ server, open, onClose }: Props) {
                         disabled={isSubmitting}
                         onClick={() => form.handleSubmit()}
                     >
-                        Confirm Transfer
+                        Подтвердить перенос
                     </Button>
                 </div>
             </Form>

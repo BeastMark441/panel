@@ -101,37 +101,37 @@ const createServerValues = (values: Values): CreateServerValues => ({
 });
 
 const CoreDetailsBox = ({ form, users }: { form: ServerForm; users: AdminUser[] }) => (
-    <TitledGreyBox title='Core Details'>
+    <TitledGreyBox title='Основные сведения'>
         <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
             <div className='space-y-6'>
                 <form.AppField
                     name='name'
                     validators={{
-                        onChange: ({ value }) => (value.length >= 1 ? undefined : 'A server name must be provided.'),
+                        onChange: ({ value }) => (value.length >= 1 ? undefined : 'Укажите название сервера.'),
                     }}
                 >
                     {(field) => (
                         <field.TextField
                             type='text'
                             id='name'
-                            label='Server Name'
-                            description='Character limits: a-z A-Z 0-9 _ - . and [Space].'
+                            label='Название сервера'
+                            description='Допустимые символы: a-z A-Z 0-9 _ - . и пробел.'
                         />
                     )}
                 </form.AppField>
                 <form.AppField
                     name='ownerId'
                     validators={{
-                        onChange: ({ value }) => (value >= 1 ? undefined : 'A server owner must be selected.'),
+                        onChange: ({ value }) => (value >= 1 ? undefined : 'Выберите владельца сервера.'),
                     }}
                 >
                     {(field) => (
                         <field.SelectField
                             id='ownerId'
-                            label='Server Owner'
-                            description='The user that this server will belong to.'
+                            label='Владелец сервера'
+                            description='Пользователь, которому будет принадлежать этот сервер.'
                             options={[
-                                { value: 0, label: 'Select a server owner…', disabled: true },
+                                { value: 0, label: 'Выберите владельца сервера…', disabled: true },
                                 ...users.map((user) => ({
                                     value: user.attributes.id ?? 0,
                                     label: `${user.attributes.email} (${user.attributes.username})`,
@@ -147,8 +147,8 @@ const CoreDetailsBox = ({ form, users }: { form: ServerForm; users: AdminUser[] 
                         <field.TextField
                             type='text'
                             id='description'
-                            label='Server Description'
-                            description='A brief description of this server.'
+                            label='Описание сервера'
+                            description='Краткое описание этого сервера.'
                         />
                     )}
                 </form.AppField>
@@ -156,8 +156,8 @@ const CoreDetailsBox = ({ form, users }: { form: ServerForm; users: AdminUser[] 
                     <form.AppField name='startOnCompletion'>
                         {(field) => (
                             <field.SwitchField
-                                label='Start Server when Installed'
-                                description='Start this server automatically once the installation completes.'
+                                label='Запустить сервер после установки'
+                                description='Автоматически запустить этот сервер после завершения установки.'
                             />
                         )}
                     </form.AppField>
@@ -191,15 +191,15 @@ const AllocationBox = ({
     const additionalOptions = allocationOptions.filter((option) => option.value !== defaultAllocationId);
 
     return (
-        <TitledGreyBox title='Allocation Management'>
+        <TitledGreyBox title='Управление выделениями'>
             <div className='relative grid grid-cols-1 md:grid-cols-3 gap-6'>
                 {loading && <Spinner size='small' centered />}
                 <div>
-                    <Label htmlFor='nodeId'>Node</Label>
+                    <Label htmlFor='nodeId'>Узел</Label>
                     <Select
                         id='nodeId'
                         value={nodeId}
-                        placeholder='Select a node…'
+                        placeholder='Выберите узел…'
                         onChange={(value) => {
                             onNodeChange(Number(value));
                             form.setFieldValue('allocationId', 0);
@@ -212,24 +212,23 @@ const AllocationBox = ({
                             options: group.nodes.map((node) => ({ value: node.id, label: node.name })),
                         }))}
                     />
-                    <p className='input-help'>The node which this server will be deployed to.</p>
+                    <p className='input-help'>Узел, на котором будет размещён этот сервер.</p>
                 </div>
                 <div>
                     <form.AppField
                         name='allocationId'
                         validators={{
-                            onChange: ({ value }) =>
-                                value >= 1 ? undefined : 'A default allocation must be selected.',
+                            onChange: ({ value }) => (value >= 1 ? undefined : 'Выберите основное выделение.'),
                         }}
                     >
                         {(field) => (
                             <field.SelectField
                                 id='allocationId'
-                                label='Default Allocation'
-                                description='The main allocation that will be assigned to this server.'
+                                label='Основное выделение'
+                                description='Основное выделение, которое будет назначено этому серверу.'
                                 disabled={nodeId <= 0}
                                 options={[
-                                    { value: 0, label: 'Select an allocation…', disabled: true },
+                                    { value: 0, label: 'Выберите выделение…', disabled: true },
                                     ...allocationOptions,
                                 ]}
                                 onChange={(value) =>
@@ -246,8 +245,8 @@ const AllocationBox = ({
                         {(field) => (
                             <field.MultiSelectField
                                 id='allocationAdditional'
-                                label='Additional Allocation(s)'
-                                description='Additional allocations to assign to this server on creation.'
+                                label='Дополнительные выделения'
+                                description='Дополнительные выделения, которые будут назначены серверу при создании.'
                                 disabled={nodeId <= 0}
                                 options={additionalOptions}
                             />
@@ -260,44 +259,38 @@ const AllocationBox = ({
 };
 
 const FeatureLimitsBox = ({ form }: { form: ServerForm }) => (
-    <TitledGreyBox title='Application Feature Limits'>
+    <TitledGreyBox title='Лимиты возможностей'>
         <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
-            <form.AppField
-                name='databaseLimit'
-                validators={{ onChange: requiredNumber('A database limit must be provided.') }}
-            >
+            <form.AppField name='databaseLimit' validators={{ onChange: requiredNumber('Укажите лимит баз данных.') }}>
                 {(field) => (
                     <field.NumberField
                         id='databaseLimit'
-                        label='Database Limit'
+                        label='Лимит баз данных'
                         min={0}
-                        description='The total number of databases a user is allowed to create for this server.'
+                        description='Максимальное количество баз данных, которое пользователь может создать для этого сервера.'
                     />
                 )}
             </form.AppField>
-            <form.AppField
-                name='allocationLimit'
-                validators={{ onChange: requiredNumber('An allocation limit must be provided.') }}
-            >
+            <form.AppField name='allocationLimit' validators={{ onChange: requiredNumber('Укажите лимит выделений.') }}>
                 {(field) => (
                     <field.NumberField
                         id='allocationLimit'
-                        label='Allocation Limit'
+                        label='Лимит выделений'
                         min={0}
-                        description='The total number of allocations a user is allowed to create for this server.'
+                        description='Максимальное количество выделений, которое пользователь может создать для этого сервера.'
                     />
                 )}
             </form.AppField>
             <form.AppField
                 name='backupLimit'
-                validators={{ onChange: requiredNumber('A backup limit must be provided.') }}
+                validators={{ onChange: requiredNumber('Укажите лимит резервных копий.') }}
             >
                 {(field) => (
                     <field.NumberField
                         id='backupLimit'
-                        label='Backup Limit'
+                        label='Лимит резервных копий'
                         min={0}
-                        description='The total number of backups that can be created for this server.'
+                        description='Максимальное количество резервных копий, которое можно создать для этого сервера.'
                     />
                 )}
             </form.AppField>
@@ -306,15 +299,15 @@ const FeatureLimitsBox = ({ form }: { form: ServerForm }) => (
 );
 
 const ResourceManagementBox = ({ form }: { form: ServerForm }) => (
-    <TitledGreyBox title='Resource Management'>
+    <TitledGreyBox title='Управление ресурсами'>
         <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-            <form.AppField name='cpu' validators={{ onChange: requiredNumber('A CPU limit must be provided.') }}>
+            <form.AppField name='cpu' validators={{ onChange: requiredNumber('Укажите лимит CPU.') }}>
                 {(field) => (
                     <field.NumberField
                         id='cpu'
-                        label='CPU Limit (%)'
+                        label='Лимит CPU (%)'
                         min={0}
-                        description='Set to 0 to allow unlimited CPU usage. 100% equals one thread.'
+                        description='Значение 0 разрешает неограниченное использование CPU. 100% соответствует одному потоку.'
                     />
                 )}
             </form.AppField>
@@ -323,56 +316,58 @@ const ResourceManagementBox = ({ form }: { form: ServerForm }) => (
                     <field.TextField
                         type='text'
                         id='threads'
-                        label='CPU Pinning'
-                        description='Advanced: specific CPU threads (e.g. 0, 0-1,3) or leave blank for all.'
+                        label='Привязка CPU'
+                        description='Продвинутые настройки: конкретные потоки CPU (например, 0, 0-1,3) или оставьте пустым для всех.'
                     />
                 )}
             </form.AppField>
-            <form.AppField name='memory' validators={{ onChange: requiredNumber('A memory limit must be provided.') }}>
+            <form.AppField name='memory' validators={{ onChange: requiredNumber('Укажите лимит памяти.') }}>
                 {(field) => (
                     <field.NumberField
                         id='memory'
-                        label='Memory (MiB)'
+                        label='Память (МБ)'
                         min={0}
-                        description='The maximum amount of memory allowed. Set to 0 for unlimited.'
+                        description='Максимальный разрешённый объём памяти. Установите 0 для неограниченного объёма.'
                     />
                 )}
             </form.AppField>
-            <form.AppField name='swap' validators={{ onChange: requiredNumber('A swap limit must be provided.') }}>
+            <form.AppField name='swap' validators={{ onChange: requiredNumber('Укажите лимит подкачки.') }}>
                 {(field) => (
                     <field.NumberField
                         id='swap'
-                        label='Swap (MiB)'
+                        label='Подкачка (МБ)'
                         min={-1}
-                        description='Set to 0 to disable swap, or -1 to allow unlimited swap.'
+                        description='Установите 0 для отключения подкачки или -1 для неограниченной подкачки.'
                     />
                 )}
             </form.AppField>
-            <form.AppField name='disk' validators={{ onChange: requiredNumber('A disk limit must be provided.') }}>
+            <form.AppField name='disk' validators={{ onChange: requiredNumber('Укажите лимит диска.') }}>
                 {(field) => (
                     <field.NumberField
                         id='disk'
-                        label='Disk Space (MiB)'
+                        label='Дисковое пространство (МБ)'
                         min={0}
-                        description='Set to 0 to allow unlimited disk usage.'
+                        description='Установите 0 для неограниченного использования диска.'
                     />
                 )}
             </form.AppField>
             <form.AppField
                 name='io'
                 validators={{
-                    onChange: requiredNumber('A block IO weight must be provided.', (value) =>
-                        value >= 10 && value <= 1000 ? undefined : 'Block IO weight must be between 10 and 1000.'
+                    onChange: requiredNumber('Укажите вес блочного IO.', (value) =>
+                        value >= 10 && value <= 1000
+                            ? undefined
+                            : 'Вес блочного IO должен быть в пределах от 10 до 1000.'
                     ),
                 }}
             >
                 {(field) => (
                     <field.NumberField
                         id='io'
-                        label='Block IO Weight'
+                        label='Вес блочного IO'
                         min={10}
                         max={1000}
-                        description='Advanced: IO performance relative to other containers (10 to 1000).'
+                        description='Продвинутые настройки: производительность IO по сравнению с другими контейнерами (от 10 до 1000).'
                     />
                 )}
             </form.AppField>
@@ -381,10 +376,10 @@ const ResourceManagementBox = ({ form }: { form: ServerForm }) => (
             <form.AppField name='enableOomKiller'>
                 {(field) => (
                     <field.SwitchField
-                        label='Enable OOM Killer'
+                        label='Включить OOM Killer'
                         description={
-                            'Terminates the server if it breaches its memory limits. Enabling the OOM killer may ' +
-                            'cause server processes to exit unexpectedly.'
+                            'Прерывает работу сервера при превышении лимита памяти. Включение OOM Killer может ' +
+                            'привести к неожиданному завершению процессов сервера.'
                         }
                     />
                 )}
@@ -407,15 +402,15 @@ const EggConfigurationBox = ({
     const eggId = useStore(form.store, (state) => Number(state.values.eggId ?? 0));
 
     return (
-        <TitledGreyBox title='Egg Configuration'>
+        <TitledGreyBox title='Настройки яйца'>
             <div className='relative space-y-6'>
                 {loading && <Spinner size='small' centered />}
                 <div>
-                    <Label htmlFor='eggId'>Egg</Label>
+                    <Label htmlFor='eggId'>Яйцо</Label>
                     <Select
                         id='eggId'
                         value={eggId}
-                        placeholder='Select an egg…'
+                        placeholder='Выберите яйцо…'
                         options={eggs.map((egg) => ({ value: egg.attributes.id, label: egg.attributes.name }))}
                         onChange={(value) => {
                             const nextEggId = Number(value);
@@ -424,14 +419,14 @@ const EggConfigurationBox = ({
                             loadEgg(nextEggId);
                         }}
                     />
-                    <p className='input-help'>Select the egg that will define how this server should operate.</p>
+                    <p className='input-help'>Выберите яйцо, которое определяет работу этого сервера.</p>
                 </div>
                 <div>
                     <form.AppField name='skipScripts'>
                         {(field) => (
                             <field.SwitchField
-                                label='Skip Egg Install Script'
-                                description='Skip the egg install script during installation if one is attached.'
+                                label='Пропустить скрипт установки яйца'
+                                description='Пропустить скрипт установки яйца во время установки, если он привязан.'
                             />
                         )}
                     </form.AppField>
@@ -447,10 +442,10 @@ const DockerImageBox = ({ form, egg }: { form: ServerForm; egg: EggForServer | n
     const isCustom = !images.some(([, value]) => value === image);
 
     return (
-        <TitledGreyBox title='Docker Configuration'>
+        <TitledGreyBox title='Настройки Docker'>
             <div className='space-y-4'>
                 <div>
-                    <Label htmlFor='image'>Docker Image</Label>
+                    <Label htmlFor='image'>Образ Docker</Label>
                     <Select
                         id='image'
                         value={isCustom ? 'custom' : image}
@@ -458,7 +453,7 @@ const DockerImageBox = ({ form, egg }: { form: ServerForm; egg: EggForServer | n
                         onChange={(value) => form.setFieldValue('image', value === 'custom' ? '' : String(value))}
                         options={[
                             ...images.map(([name, value]) => ({ value, label: `${name} (${value})` })),
-                            { value: 'custom', label: 'Custom Image…' },
+                            { value: 'custom', label: 'Собственный образ…' },
                         ]}
                     />
                 </div>
@@ -466,17 +461,16 @@ const DockerImageBox = ({ form, egg }: { form: ServerForm; egg: EggForServer | n
                     <form.AppField
                         name='image'
                         validators={{
-                            onChange: ({ value }) =>
-                                value.length >= 1 ? undefined : 'A Docker image must be provided.',
+                            onChange: ({ value }) => (value.length >= 1 ? undefined : 'Укажите образ Docker.'),
                         }}
                     >
                         {(field) => (
                             <field.TextField
                                 type='text'
                                 id='customImage'
-                                label='Custom Image'
-                                placeholder='Or enter a custom image…'
-                                description='The default Docker image used to run this server.'
+                                label='Собственный образ'
+                                placeholder='Введите собственный образ…'
+                                description='Образ Docker по умолчанию, используемый для запуска этого сервера.'
                             />
                         )}
                     </form.AppField>
@@ -490,25 +484,25 @@ const StartupBox = ({ form, egg }: { form: ServerForm; egg: EggForServer | null 
     const variables = relationshipData(egg?.attributes.relationships?.variables);
 
     return (
-        <TitledGreyBox title='Startup Configuration'>
+        <TitledGreyBox title='Настройки запуска'>
             <form.AppField
                 name='startup'
                 validators={{
-                    onChange: ({ value }) => (value.length >= 1 ? undefined : 'A startup command must be provided.'),
+                    onChange: ({ value }) => (value.length >= 1 ? undefined : 'Укажите команду запуска.'),
                 }}
             >
                 {(field) => (
                     <field.TextField
                         type='text'
                         id='startup'
-                        label='Startup Command'
-                        description='The following substitutes are available: {{SERVER_MEMORY}}, {{SERVER_IP}}, and {{SERVER_PORT}}.'
+                        label='Команда запуска'
+                        description='Доступны следующие подстановки: {{SERVER_MEMORY}}, {{SERVER_IP}} и {{SERVER_PORT}}.'
                     />
                 )}
             </form.AppField>
             {variables.length > 0 && (
                 <div className='mt-6'>
-                    <p className='text-sm uppercase text-muted-foreground mb-4'>Service Variables</p>
+                    <p className='text-sm uppercase text-muted-foreground mb-4'>Переменные сервиса</p>
                     <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
                         {variables.map(({ attributes }) => (
                             <form.AppField key={attributes.id} name={`environment.${attributes.env_variable}`}>
@@ -609,7 +603,7 @@ const TagCheck = ({
         return (
             <TagCheckAlert
                 message={rejection.message}
-                action='Create anyway'
+                action='Создать всё равно'
                 pending={pending}
                 onAction={onCreateAnyway}
             />
@@ -628,9 +622,9 @@ const TagCheck = ({
 const NoNodesAlert = () => (
     <Alert type='warning' className='text-sm'>
         <span>
-            You must have at least one node configured before you can add a server to this panel.{' '}
+            Чтобы добавить сервер на эту панель, необходимо настроить хотя бы один узел.{' '}
             <Link to='/panel/nodes' className='font-medium underline'>
-                Manage Nodes
+                Управление узлами
             </Link>
         </span>
     </Alert>
@@ -697,16 +691,16 @@ export default function CreateServerForm() {
 
     return (
         <AdminContentBlock
-            title='Admin · Create Server'
-            heading='Create Server'
-            description='Create a game server on one of your nodes.'
+            title='Админ · Создание сервера'
+            heading='Создание сервера'
+            description='Создание игрового сервера на одном из ваших узлов.'
         >
             <Link
                 to='/panel/servers'
                 className='inline-flex items-center text-sm text-muted-foreground hover:text-foreground mb-4'
             >
                 <Icon icon={ArrowLeft} className='mr-2' />
-                Back to Servers
+                К списку серверов
             </Link>
             <CreateServerBody loading={loading} hasNodes={hasNodes}>
                 <Form form={form}>
@@ -735,7 +729,7 @@ export default function CreateServerForm() {
                         />
                         <div className='flex justify-end'>
                             <form.AppForm>
-                                <form.SubmitButton>Create Server</form.SubmitButton>
+                                <form.SubmitButton>Создать сервер</form.SubmitButton>
                             </form.AppForm>
                         </div>
                     </div>

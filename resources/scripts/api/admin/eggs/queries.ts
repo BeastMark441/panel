@@ -170,11 +170,11 @@ export const useImportAdminEgg = () => {
         ...adminImportEggMutation(),
         onSuccess: async (egg) => {
             await invalidateGeneratedOperations(queryClient, adminEggListOperations);
-            toast.success('Egg imported', {
-                description: `${egg.attributes.name} has been imported from the uploaded file.`,
+            toast.success('Шаблон Egg импортирован', {
+                description: `Шаблон Egg «${egg.attributes.name}» импортирован из загруженного файла.`,
             });
         },
-        onError: (error) => notifyHttpError(error, 'Unable to import egg'),
+        onError: (error) => notifyHttpError(error, 'Не удалось импортировать шаблон Egg'),
     });
 };
 
@@ -224,11 +224,11 @@ export const useUpdateAdminEggScript = () => {
                 invalidateGeneratedOperations(queryClient, adminEggListOperations),
                 queryClient.invalidateQueries({ queryKey: adminEggDetailKey(egg.attributes.id) }),
             ]);
-            toast.success('Install script updated', {
-                description: `${egg.attributes.name} has a new install script.`,
+            toast.success('Скрипт установки обновлён', {
+                description: `Для шаблона Egg «${egg.attributes.name}» назначен новый скрипт установки.`,
             });
         },
-        onError: (error) => notifyHttpError(error, 'Unable to update install script'),
+        onError: (error) => notifyHttpError(error, 'Не удалось обновить скрипт установки'),
     });
 };
 
@@ -242,11 +242,11 @@ export const useUpdateAdminEggFromFile = () => {
                 invalidateGeneratedOperations(queryClient, adminEggListOperations),
                 queryClient.invalidateQueries({ queryKey: adminEggDetailKey(egg.attributes.id) }),
             ]);
-            toast.success('Egg updated', {
-                description: `${egg.attributes.name} has been updated from the uploaded file.`,
+            toast.success('Шаблон Egg обновлён', {
+                description: `Шаблон Egg «${egg.attributes.name}» обновлён из загруженного файла.`,
             });
         },
-        onError: (error) => notifyHttpError(error, 'Unable to update egg from file'),
+        onError: (error) => notifyHttpError(error, 'Не удалось обновить шаблон Egg из файла'),
     });
 };
 

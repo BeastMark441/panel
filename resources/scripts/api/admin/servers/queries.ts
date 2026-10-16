@@ -461,9 +461,11 @@ export const useUpdateAdminServerDetails = () => {
                     queryKey: adminServerDetailKey(variables.path.server_admin_identifier),
                 }),
             ]);
-            toast.success('Server details updated', { description: `${server.attributes.name} has been updated.` });
+            toast.success('Сведения о сервере обновлены', {
+                description: `Сервер «${server.attributes.name}» обновлён.`,
+            });
         },
-        onError: (error) => notifyHttpError(error, 'Unable to update server details'),
+        onError: (error) => notifyHttpError(error, 'Не удалось обновить сведения о сервере'),
     });
 };
 
@@ -478,11 +480,11 @@ export const useUpdateAdminServerBuild = () => {
                 queryClient.invalidateQueries({ queryKey: adminServerDetailKey(server.attributes.id) }),
                 invalidateAdminNodeAllocations(queryClient, [server.attributes.node]),
             ]);
-            toast.success('Build configuration updated', {
-                description: `${server.attributes.name} has updated build settings.`,
+            toast.success('Конфигурация ресурсов обновлена', {
+                description: `Для сервера «${server.attributes.name}» обновлены настройки ресурсов.`,
             });
         },
-        onError: (error) => notifyHttpError(error, 'Unable to update build configuration'),
+        onError: (error) => notifyHttpError(error, 'Не удалось обновить конфигурацию ресурсов'),
     });
 };
 
@@ -498,11 +500,11 @@ export const useUpdateAdminServerStartup = () => {
                     queryKey: adminServerDetailKey(variables.path.server_admin_identifier),
                 }),
             ]);
-            toast.success('Startup configuration updated', {
-                description: `${server.attributes.name} has updated startup settings.`,
+            toast.success('Конфигурация запуска обновлена', {
+                description: `Для сервера «${server.attributes.name}» обновлены настройки запуска.`,
             });
         },
-        onError: (error) => notifyHttpError(error, 'Unable to update startup configuration'),
+        onError: (error) => notifyHttpError(error, 'Не удалось обновить конфигурацию запуска'),
     });
 };
 
@@ -571,11 +573,11 @@ export const useTransferAdminServer = () => {
                     sourceNodeId === undefined ? undefined : [sourceNodeId, variables.body.node_id]
                 ),
             ]);
-            toast.success('Server transfer started', {
-                description: 'The server will move to the selected node and allocation.',
+            toast.success('Перенос сервера начат', {
+                description: 'Сервер будет перемещён на выбранную ноду и сетевой адрес.',
             });
         },
-        onError: (error) => notifyHttpError(error, 'Unable to transfer server'),
+        onError: (error) => notifyHttpError(error, 'Не удалось перенести сервер'),
     });
 };
 
@@ -629,11 +631,11 @@ export const useRotateAdminServerDatabasePassword = () => {
             await queryClient.invalidateQueries({
                 queryKey: adminServerDatabaseListQueryKey(variables.path.server_admin_identifier),
             });
-            toast.success('Database password rotated', {
-                description: `${database.attributes.name} has a new password.`,
+            toast.success('Пароль базы данных изменён', {
+                description: `Для базы данных «${database.attributes.name}» назначен новый пароль.`,
             });
         },
-        onError: (error) => notifyHttpError(error, 'Unable to rotate database password'),
+        onError: (error) => notifyHttpError(error, 'Не удалось изменить пароль базы данных'),
     });
 };
 
@@ -648,13 +650,13 @@ export const useAttachAdminServerMount = () => {
             });
             const name = variables.meta?.name;
 
-            toast.success('Mount attached', {
+            toast.success('Точка монтирования добавлена', {
                 description: name
-                    ? `${name} has been mounted to this server.`
-                    : 'The mount has been attached to this server.',
+                    ? `Точка монтирования «${name}» добавлена к этому серверу.`
+                    : 'Точка монтирования добавлена к этому серверу.',
             });
         },
-        onError: (error) => notifyHttpError(error, 'Unable to attach mount'),
+        onError: (error) => notifyHttpError(error, 'Не удалось добавить точку монтирования'),
     });
 };
 
@@ -669,13 +671,13 @@ export const useDetachAdminServerMount = () => {
             });
             const name = variables.meta?.name;
 
-            toast.success('Mount detached', {
+            toast.success('Точка монтирования удалена', {
                 description: name
-                    ? `${name} has been unmounted from this server.`
-                    : 'The mount has been detached from this server.',
+                    ? `Точка монтирования «${name}» удалена с этого сервера.`
+                    : 'Точка монтирования удалена с этого сервера.',
             });
         },
-        onError: (error) => notifyHttpError(error, 'Unable to detach mount'),
+        onError: (error) => notifyHttpError(error, 'Не удалось удалить точку монтирования'),
     });
 };
 
@@ -691,9 +693,9 @@ export const useReinstallAdminServer = () => {
                     queryKey: adminServerDetailKey(variables.path.server_admin_identifier),
                 }),
             ]);
-            toast.success('Server is being reinstalled.');
+            toast.success('Сервер переустанавливается.');
         },
-        onError: (error) => notifyHttpError(error, 'Unable to reinstall server'),
+        onError: (error) => notifyHttpError(error, 'Не удалось переустановить сервер'),
     });
 };
 
@@ -709,9 +711,9 @@ export const useToggleAdminServerInstallState = () => {
                     queryKey: adminServerDetailKey(variables.path.server_admin_identifier),
                 }),
             ]);
-            toast.success('Install status has been toggled.');
+            toast.success('Статус установки переключён.');
         },
-        onError: (error) => notifyHttpError(error, 'Unable to toggle install status'),
+        onError: (error) => notifyHttpError(error, 'Не удалось переключить статус установки'),
     });
 };
 
@@ -727,14 +729,14 @@ export const useUpdateAdminServerSuspension = () => {
                     queryKey: adminServerDetailKey(variables.path.server_admin_identifier),
                 }),
             ]);
-            toast.success(
-                variables.body?.suspended === true ? 'Server has been suspended.' : 'Server has been unsuspended.'
-            );
+            toast.success(variables.body?.suspended === true ? 'Сервер заблокирован.' : 'Блокировка сервера снята.');
         },
         onError: (error, variables) =>
             notifyHttpError(
                 error,
-                variables.body?.suspended === true ? 'Unable to suspend server' : 'Unable to unsuspend server'
+                variables.body?.suspended === true
+                    ? 'Не удалось заблокировать сервер'
+                    : 'Не удалось снять блокировку сервера'
             ),
     });
 };

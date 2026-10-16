@@ -58,16 +58,16 @@ export default function CreateEggForm() {
 
     return (
         <AdminContentBlock
-            title='Admin · Create Egg'
-            heading='Create Egg'
-            description='Create a reusable server template and startup configuration.'
+            title='Админ · Создание шаблона Egg'
+            heading='Создание шаблона Egg'
+            description='Создайте многоразовый шаблон сервера и конфигурацию запуска.'
         >
             <Link
                 to='/panel/eggs'
                 className='inline-flex items-center text-sm text-muted-foreground hover:text-foreground mb-4'
             >
                 <Icon icon={ArrowLeft} className='mr-2' />
-                Back to Eggs
+                К списку шаблонов Egg
             </Link>
             {eggsFetching ? (
                 <Spinner size='large' centered />
@@ -96,7 +96,7 @@ export default function CreateEggForm() {
                     </form.AppField>
                     <div className='flex justify-end mt-6'>
                         <form.AppForm>
-                            <form.SubmitButton>Create Egg</form.SubmitButton>
+                            <form.SubmitButton>Создать шаблон Egg</form.SubmitButton>
                         </form.AppForm>
                     </div>
                 </Form>

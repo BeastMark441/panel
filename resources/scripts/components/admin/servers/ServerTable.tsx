@@ -197,28 +197,28 @@ export const serverColumns = [
     {
         id: 'name',
         accessorFn: (server) => server.attributes.name,
-        header: ({ column }) => <DataTableColumnHeader column={column} title='Server' />,
+        header: ({ column }) => <DataTableColumnHeader column={column} title='Сервер' />,
         cell: ({ row }) => <ServerIdentityCell server={row.original} />,
         enableSorting: true,
         meta: { headerClassName: 'min-w-40', cellClassName: 'min-w-40' },
     },
     {
         id: 'owner',
-        header: 'Owner',
+        header: 'Владелец',
         cell: ({ row }) => <OwnerCell server={row.original} />,
         enableSorting: false,
         meta: { headerClassName: 'hidden w-40 @xl:table-cell', cellClassName: 'hidden w-40 @xl:table-cell' },
     },
     {
         id: 'node',
-        header: 'Node',
+        header: 'Узел',
         cell: ({ row }) => <NodeCell server={row.original} />,
         enableSorting: false,
         meta: { headerClassName: 'hidden w-44 @3xl:table-cell', cellClassName: 'hidden w-44 @3xl:table-cell' },
     },
     {
         id: 'status',
-        header: 'Status',
+        header: 'Статус',
         cell: ({ row }) => (
             <ServerStatusBadge
                 status={getServerStatus(row.original.attributes.suspended, row.original.attributes.container.installed)}
@@ -230,7 +230,7 @@ export const serverColumns = [
     {
         id: 'created_at',
         accessorFn: (server) => server.attributes.created_at,
-        header: ({ column }) => <DataTableColumnHeader column={column} title='Created' />,
+        header: ({ column }) => <DataTableColumnHeader column={column} title='Создан' />,
         cell: ({ row }) => (
             <time
                 dateTime={row.original.attributes.created_at}

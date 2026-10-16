@@ -27,6 +27,8 @@ return [
             'json_error' => 'There was an error while attempting to parse the JSON file: :error.',
             'file_error' => 'The JSON file provided was not valid.',
             'invalid_json_provided' => 'The JSON file provided is not in a format that can be recognized.',
+            'invalid_definition' => 'The selected catalog egg contains an invalid definition.',
+            'not_in_catalog' => 'The selected egg is no longer in the Pterodactyl catalog. Refresh the catalog and try again.',
         ],
     ],
     'subusers' => [
@@ -36,6 +38,26 @@ return [
     ],
     'databases' => [
         'delete_has_databases' => 'Cannot delete a database host server that has active databases linked to it.',
+        'no_suitable_host' => 'No database host was found that meets the requirements for this server.',
+        'too_many' => 'Operation aborted: creating a new database would put this server over the defined limit.',
+        'client_creation_disabled' => 'Client database creation is not enabled in this Panel.',
+        'duplicate_name' => 'A database with that name already exists for this server.',
+    ],
+
+    'backups' => [
+        'locked' => 'Cannot delete a backup that is marked as locked.',
+    ],
+
+    'file' => [
+        'too_large_to_view' => 'The file you are attempting to open is too large to view in the file editor.',
+    ],
+
+    'two_factor' => [
+        'invalid_token' => 'The provided two-factor authentication token was not valid.',
+    ],
+
+    'schedules' => [
+        'invalid_cron' => 'The cron data provided does not evaluate to a valid expression.',
     ],
     'tasks' => [
         'chain_interval_too_long' => 'The maximum interval time for a chained task is 15 minutes.',

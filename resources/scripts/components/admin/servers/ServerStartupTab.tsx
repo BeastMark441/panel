@@ -65,14 +65,14 @@ const EnvironmentVariables = ({ form, egg }: { form: AppForm<Values, TagCheckMet
 
     if (variables.length === 0) {
         return (
-            <TitledGreyBox title='Service Variables'>
+            <TitledGreyBox title='Переменные сервиса'>
                 <Empty className={emptyCompactClass}>
                     <EmptyHeader>
                         <EmptyMedia variant='icon'>
                             <Variable />
                         </EmptyMedia>
-                        <EmptyTitle>No variables</EmptyTitle>
-                        <EmptyDescription>This egg doesn&apos;t define any environment variables.</EmptyDescription>
+                        <EmptyTitle>Нет переменных</EmptyTitle>
+                        <EmptyDescription>Это яйцо не определяет переменных окружения.</EmptyDescription>
                     </EmptyHeader>
                 </Empty>
             </TitledGreyBox>
@@ -94,11 +94,11 @@ const EnvironmentVariables = ({ form, egg }: { form: AppForm<Values, TagCheckMet
                     </form.AppField>
                     <div className='mt-3 text-xs text-muted-foreground space-y-1'>
                         <p>
-                            <strong>Startup Variable:</strong> <Code>{attributes.env_variable}</Code>
+                            <strong>Переменная запуска:</strong> <Code>{attributes.env_variable}</Code>
                         </p>
                         {attributes.rules && (
                             <p>
-                                <strong>Input Rules:</strong> <Code className='break-all'>{attributes.rules}</Code>
+                                <strong>Правила ввода:</strong> <Code className='break-all'>{attributes.rules}</Code>
                             </p>
                         )}
                     </div>
@@ -133,20 +133,20 @@ const EggSelector = ({
                   label: `${label} (${value})`,
               })),
               ...(hasPresetImages && !Object.values(dockerImages).includes(image)
-                  ? [{ value: image, label: `${image} (custom)` }]
+                  ? [{ value: image, label: `${image} (собственный)` }]
                   : []),
           ]
         : [];
 
     return (
         <>
-            <TitledGreyBox title='Service Configuration'>
+            <TitledGreyBox title='Настройки сервиса'>
                 <p className='text-xs text-destructive mb-4'>
-                    Changing any of the values below will result in the server being reinstalled. The server will be
-                    stopped and will then proceed.
+                    Изменение любого из значений ниже приведёт к переустановке сервера. Сервер будет остановлен, после
+                    чего установка продолжится.
                 </p>
                 <div>
-                    <Label htmlFor='eggId'>Egg</Label>
+                    <Label htmlFor='eggId'>Яйцо</Label>
                     <Select
                         id='eggId'
                         value={eggId}
@@ -167,17 +167,17 @@ const EggSelector = ({
                     <form.AppField name='skipScripts'>
                         {(field) => (
                             <field.SwitchField
-                                label='Skip Egg Install Script'
-                                description='Skip the egg install script when reinstalling the server.'
+                                label='Пропустить скрипт установки яйца'
+                                description='Пропустить скрипт установки яйца при переустановке сервера.'
                             />
                         )}
                     </form.AppField>
                 </div>
             </TitledGreyBox>
-            <TitledGreyBox title='Docker Image Configuration' className='mt-6'>
+            <TitledGreyBox title='Настройки образа Docker' className='mt-6'>
                 {hasPresetImages ? (
                     <>
-                        <Label htmlFor='image'>Image</Label>
+                        <Label htmlFor='image'>Образ</Label>
                         <Select
                             id='image'
                             value={image}
@@ -193,8 +193,8 @@ const EggSelector = ({
                                     <field.TextField
                                         type='text'
                                         id='custom_docker_image'
-                                        label='Custom Docker Image'
-                                        placeholder='Or enter a custom image...'
+                                        label='Собственный образ Docker'
+                                        placeholder='Или введите собственный образ...'
                                     />
                                 )}
                             </form.AppField>
@@ -206,14 +206,14 @@ const EggSelector = ({
                             <field.TextField
                                 type='text'
                                 id='image'
-                                label='Image'
-                                placeholder='Enter a docker image...'
+                                label='Образ'
+                                placeholder='Введите образ Docker...'
                             />
                         )}
                     </form.AppField>
                 )}
                 <p className='mt-1 text-xs text-muted-foreground'>
-                    Select an image from the dropdown or enter a custom Docker image.
+                    Выберите образ из списка или введите собственный образ Docker.
                 </p>
             </TitledGreyBox>
         </>
@@ -312,27 +312,27 @@ function ServerStartupTabContent({ server }: Props) {
 
     return (
         <Form form={form}>
-            <TitledGreyBox title='Startup Command Modification'>
+            <TitledGreyBox title='Изменение команды запуска'>
                 <form.AppField name='startup'>
                     {(field) => (
                         <field.TextField
                             type='text'
                             id='startup'
-                            label='Startup Command'
+                            label='Команда запуска'
                             description={
-                                'The following variables are available by default: {{SERVER_MEMORY}}, ' +
-                                '{{SERVER_IP}}, and {{SERVER_PORT}}.'
+                                'По умолчанию доступны следующие переменные: {{SERVER_MEMORY}}, ' +
+                                '{{SERVER_IP}} и {{SERVER_PORT}}.'
                             }
                         />
                     )}
                 </form.AppField>
                 <div className='mt-6'>
-                    <Label htmlFor='default_startup'>Default Service Start Command</Label>
+                    <Label htmlFor='default_startup'>Команда запуска по умолчанию</Label>
                     <TextInput
                         id='default_startup'
                         type='text'
                         readOnly
-                        value={egg?.attributes.startup || 'Startup not defined'}
+                        value={egg?.attributes.startup || 'Команда запуска не определена'}
                     />
                 </div>
             </TitledGreyBox>
@@ -352,7 +352,7 @@ function ServerStartupTabContent({ server }: Props) {
                 <div className='mt-6'>
                     <TagCheckAlert
                         message={rejection}
-                        action='Change anyway'
+                        action='Изменить всё равно'
                         pending={isSubmitting}
                         onAction={() => void form.handleSubmit({ ignoreTags: true })}
                     />
@@ -360,7 +360,7 @@ function ServerStartupTabContent({ server }: Props) {
             )}
             <div className='flex justify-end mt-6'>
                 <form.AppForm>
-                    <form.SubmitButton>Save Modifications</form.SubmitButton>
+                    <form.SubmitButton>Сохранить изменения</form.SubmitButton>
                 </form.AppForm>
             </div>
         </Form>
@@ -371,7 +371,7 @@ export default function ServerStartupTab() {
     const { server } = useServerDetail();
 
     if (server.attributes.container.installed !== 1) {
-        return <ServerError message='Access to this resource is not allowed due to the current installation state.' />;
+        return <ServerError message='Доступ к этому ресурсу невозможен из-за текущего состояния установки.' />;
     }
 
     return <ServerStartupTabContent key={server.attributes.id} server={server} />;

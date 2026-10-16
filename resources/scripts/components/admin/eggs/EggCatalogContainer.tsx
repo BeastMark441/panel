@@ -77,8 +77,10 @@ export default function EggCatalogContainer() {
                             <EmptyMedia variant='icon'>
                                 <SearchX />
                             </EmptyMedia>
-                            <EmptyTitle>No matching eggs</EmptyTitle>
-                            <EmptyDescription>No eggs match your search.</EmptyDescription>
+                            <EmptyTitle>Нет совпадений</EmptyTitle>
+                            <EmptyDescription>
+                                Никогда из шаблонов Egg не соответствуют вашему запросу.
+                            </EmptyDescription>
                         </EmptyHeader>
                         <EmptyContent>
                             <NewButton
@@ -90,7 +92,7 @@ export default function EggCatalogContainer() {
                                     setPage(1);
                                 }}
                             >
-                                Clear search
+                                Очистить поиск
                             </NewButton>
                         </EmptyContent>
                     </Empty>
@@ -103,9 +105,9 @@ export default function EggCatalogContainer() {
                         <EmptyMedia variant='icon'>
                             <Egg />
                         </EmptyMedia>
-                        <EmptyTitle>The catalog is empty</EmptyTitle>
+                        <EmptyTitle>Каталог пуст</EmptyTitle>
                         <EmptyDescription>
-                            Refresh the catalog to download the latest eggs from eggs.pterodactyl.io.
+                            Обновите каталог, чтобы скачать последние шаблоны Egg с eggs.pterodactyl.io.
                         </EmptyDescription>
                     </EmptyHeader>
                     <EmptyContent>
@@ -116,7 +118,7 @@ export default function EggCatalogContainer() {
                             isLoading={refreshCatalog.isPending}
                             onClick={() => refreshCatalog.mutate({})}
                         >
-                            Refresh catalog
+                            Обновить каталог
                         </NewButton>
                     </EmptyContent>
                 </Empty>
@@ -140,7 +142,7 @@ export default function EggCatalogContainer() {
                                 </h2>
                             </div>
                             <p className='line-clamp-3 text-sm leading-relaxed text-muted-foreground'>
-                                {entry.description || 'No description provided.'}
+                                {entry.description || 'Описание не предоставлено.'}
                             </p>
                             <div className='mt-auto flex flex-wrap items-center justify-between gap-3 pt-2'>
                                 <a
@@ -149,11 +151,11 @@ export default function EggCatalogContainer() {
                                     rel='noopener noreferrer'
                                     className='inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground'
                                 >
-                                    View source <Icon icon={ArrowUpRight} />
+                                    Источник <Icon icon={ArrowUpRight} />
                                 </a>
                                 <Button size='small' onClick={() => setSelected(entry)}>
                                     <Icon icon={Download} className='mr-2' />
-                                    Import
+                                    Импорт
                                 </Button>
                             </div>
                         </article>
@@ -176,9 +178,9 @@ export default function EggCatalogContainer() {
 
     return (
         <AdminContentBlock
-            title='Admin · Egg Catalog'
-            heading='Egg Catalog'
-            description='Find and import server templates from eggs.pterodactyl.io.'
+            title='Админ · Каталог шаблонов Egg'
+            heading='Каталог шаблонов Egg'
+            description='Найдите и импортируйте шаблоны серверов с eggs.pterodactyl.io.'
         >
             <div className='mb-6 flex flex-wrap items-center justify-between gap-3'>
                 <Link
@@ -186,7 +188,7 @@ export default function EggCatalogContainer() {
                     className='inline-flex items-center text-sm text-muted-foreground hover:text-foreground'
                 >
                     <Icon icon={ArrowLeft} className='mr-2' />
-                    Back to Eggs
+                    К списку шаблонов Egg
                 </Link>
                 <Button
                     isSecondary
@@ -195,7 +197,7 @@ export default function EggCatalogContainer() {
                     onClick={() => refreshCatalog.mutate({})}
                 >
                     <Icon icon={RefreshCw} className='mr-2' />
-                    Refresh Catalog
+                    Обновить каталог
                 </Button>
             </div>
 
@@ -204,7 +206,7 @@ export default function EggCatalogContainer() {
                     <div className='flex flex-wrap items-center justify-between gap-3'>
                         <span>{httpErrorToHuman(error)}</span>
                         <Button isSecondary size='xsmall' disabled={isFetching} onClick={() => void refetch()}>
-                            Retry
+                            Повторить
                         </Button>
                     </div>
                 </Alert>
@@ -212,11 +214,11 @@ export default function EggCatalogContainer() {
 
             <div className='mb-6 grid gap-4 sm:grid-cols-3'>
                 <div className='sm:col-span-2'>
-                    <Label htmlFor='catalog-search'>Search eggs</Label>
+                    <Label htmlFor='catalog-search'>Поиск шаблонов</Label>
                     <TextInput
                         id='catalog-search'
                         type='search'
-                        placeholder='Search by name or description…'
+                        placeholder='Поиск по названию или описанию…'
                         value={search}
                         onChange={(event) => {
                             setSearch(event.currentTarget.value);
@@ -225,12 +227,12 @@ export default function EggCatalogContainer() {
                     />
                 </div>
                 <div>
-                    <Label htmlFor='catalog-category'>Category</Label>
+                    <Label htmlFor='catalog-category'>Категория</Label>
                     <Select
                         id='catalog-category'
                         value={category}
                         options={[
-                            { value: '', label: 'All categories' },
+                            { value: '', label: 'Все категории' },
                             ...categories.map((value) => ({ value, label: value })),
                         ]}
                         onChange={(value) => {
@@ -245,22 +247,22 @@ export default function EggCatalogContainer() {
 
             <Dialog
                 open={selected !== null}
-                title={selected ? `Import ${selected.name}` : 'Import egg'}
-                description='Add this egg’s configuration, variables, and install script to your panel.'
+                title={selected ? `Импорт: ${selected.name}` : 'Импорт шаблона Egg'}
+                description='Добавит конфигурацию, переменные и скрипт установки этого шаблона Egg в вашу панель.'
                 preventExternalClose={importEgg.isPending}
                 hideCloseIcon={importEgg.isPending}
                 onClose={() => setSelected(null)}
             >
                 <div className='flex justify-end gap-3'>
                     <Button isSecondary disabled={importEgg.isPending} onClick={() => setSelected(null)}>
-                        Cancel
+                        Отмена
                     </Button>
                     <Button
                         disabled={importEgg.isPending}
                         isLoading={importEgg.isPending}
                         onClick={() => void submit()}
                     >
-                        Import Egg
+                        Импортировать шаблон Egg
                     </Button>
                 </div>
             </Dialog>

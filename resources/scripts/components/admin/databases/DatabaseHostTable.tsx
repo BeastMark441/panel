@@ -41,39 +41,39 @@ function DeleteDatabaseHostDialog({ host, open, onClose }: DatabaseHostDialogPro
     return (
         <Dialog
             open={open}
-            title='Confirm database host deletion'
+            title='Подтверждение удаления хоста баз данных'
             preventExternalClose={isSubmitting}
             hideCloseIcon={isSubmitting}
             onClose={onClose}
         >
             <SpinnerOverlay visible={isSubmitting} />
             <p className='text-sm'>
-                Deleting a database host is permanent. This will permanently delete{' '}
-                <strong>{host.attributes.name}</strong>.
+                Удаление хоста баз данных необратимо. Хост <strong>{host.attributes.name}</strong> будет удалён без
+                возможности восстановления.
             </p>
             <Form form={deleteForm} className='m-0 mt-6'>
                 <deleteForm.AppField
                     name='confirm'
                     validators={{
                         onChange: ({ value }) =>
-                            value === host.attributes.name ? undefined : 'The host name must be provided.',
+                            value === host.attributes.name ? undefined : 'Укажите название хоста.',
                     }}
                 >
                     {(field) => (
                         <field.TextField
                             type='text'
                             id={`confirm_${host.attributes.id}`}
-                            label='Confirm host name'
-                            description='Enter the name of this host to confirm deletion.'
+                            label='Название хоста для подтверждения'
+                            description='Введите название этого хоста, чтобы подтвердить удаление.'
                         />
                     )}
                 </deleteForm.AppField>
                 <div className='mt-6 flex justify-end gap-2'>
                     <Button.Text type='button' isSecondary onClick={onClose}>
-                        Cancel
+                        Отмена
                     </Button.Text>
                     <deleteForm.AppForm>
-                        <deleteForm.SubmitButton color='red'>Delete host</deleteForm.SubmitButton>
+                        <deleteForm.SubmitButton color='red'>Удалить хост</deleteForm.SubmitButton>
                     </deleteForm.AppForm>
                 </div>
             </Form>
@@ -120,7 +120,7 @@ const HostNodeCell = ({ host }: { host: AdminDatabaseHost }) => {
 
     return (
         <span className='text-muted-foreground'>
-            {host.attributes.node_id === null ? 'Global host' : `Node #${host.attributes.node_id}`}
+            {host.attributes.node_id === null ? 'Глобальный хост' : `Узел #${host.attributes.node_id}`}
         </span>
     );
 };
@@ -128,7 +128,7 @@ const HostNodeCell = ({ host }: { host: AdminDatabaseHost }) => {
 const HostActionsCell = ({ host }: { host: AdminDatabaseHost }) => (
     <RowActions>
         <EditLinkAction
-            aria-label={`Edit ${host.attributes.name}`}
+            aria-label={`Изменить ${host.attributes.name}`}
             to='/panel/databases/$id'
             params={{ id: host.attributes.id }}
         />
@@ -144,21 +144,21 @@ export const databaseHostColumns = [
     {
         id: 'name',
         accessorFn: (host) => host.attributes.name,
-        header: ({ column }) => <DataTableColumnHeader column={column} title='Database host' />,
+        header: ({ column }) => <DataTableColumnHeader column={column} title='Хост баз данных' />,
         cell: ({ row }) => <HostIdentityCell host={row.original} />,
         enableSorting: true,
         meta: { headerClassName: 'min-w-48', cellClassName: 'min-w-48' },
     },
     {
         id: 'node',
-        header: 'Node',
+        header: 'Узел',
         cell: ({ row }) => <HostNodeCell host={row.original} />,
         enableSorting: false,
         meta: { headerClassName: 'hidden w-36 @lg:table-cell', cellClassName: 'hidden w-36 @lg:table-cell' },
     },
     {
         id: 'databases_count',
-        header: 'Databases',
+        header: 'Базы данных',
         cell: ({ row }) => <span className='tabular-nums'>{row.original.attributes.databases_count}</span>,
         enableSorting: false,
         meta: { headerClassName: 'hidden w-28 @xl:table-cell', cellClassName: 'hidden w-28 @xl:table-cell' },
@@ -166,7 +166,7 @@ export const databaseHostColumns = [
     {
         id: 'created_at',
         accessorFn: (host) => host.attributes.created_at,
-        header: ({ column }) => <DataTableColumnHeader column={column} title='Created' />,
+        header: ({ column }) => <DataTableColumnHeader column={column} title='Создан' />,
         cell: ({ row }) => (
             <time
                 dateTime={row.original.attributes.created_at}

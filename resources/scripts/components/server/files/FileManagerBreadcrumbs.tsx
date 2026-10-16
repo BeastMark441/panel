@@ -31,14 +31,14 @@ export default function FileManagerBreadcrumbs({ children, withinFileEditor, isN
 
     return (
         <div className='flex grow-0 items-center text-sm text-muted-foreground overflow-x-hidden'>
-            {children || <div className='w-12' />}/<span className='px-1 text-muted-foreground'>домой</span>/
+            {children || <div className='w-12' />}/<span className='px-1 text-muted-foreground'>home</span>/
             <Link
                 to='/server/$id/files'
                 params={{ id }}
                 hash='/'
                 className='px-1 text-foreground no-underline transition-colors duration-150 hover:text-accent'
             >
-                контейнер
+                container
             </Link>
             /
             {breadcrumbs().map((crumb) =>

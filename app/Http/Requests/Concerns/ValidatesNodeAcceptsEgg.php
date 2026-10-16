@@ -24,6 +24,9 @@ trait ValidatesNodeAcceptsEgg
 
         $tags = $node->eggTags->map(fn (Tag $tag): string => $tag->effectiveName())->implode(', ');
 
-        $validator->errors()->add($field, "{$node->name} only accepts eggs tagged {$tags}.");
+        $validator->errors()->add($field, trans('validation.internal.node_only_accepts_egg_tags', [
+            'node' => $node->name,
+            'tags' => $tags,
+        ]));
     }
 }

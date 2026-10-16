@@ -105,15 +105,15 @@ describe('egg file uploads', () => {
 
             return response(config);
         });
-        await user.click(screen.getByRole('button', { name: 'Import egg' }));
-        const dialog = await screen.findByRole('dialog', { name: 'Import egg' });
-        const submit = within(dialog).getByRole('button', { name: 'Import Egg' });
+        await user.click(screen.getByRole('button', { name: 'Импорт шаблона Egg' }));
+        const dialog = await screen.findByRole('dialog', { name: 'Импорт шаблона Egg' });
+        const submit = within(dialog).getByRole('button', { name: 'Импортировать шаблон Egg' });
 
         expect(submit).toBeDisabled();
 
         const file = eggFile();
 
-        await user.upload(within(dialog).getByLabelText('Egg File'), file);
+        await user.upload(within(dialog).getByLabelText('Файл шаблона Egg'), file);
         await user.click(submit);
 
         await waitFor(() => expect(upload).toHaveBeenCalledOnce());
@@ -124,7 +124,7 @@ describe('egg file uploads', () => {
         expect(request.data).toBeInstanceOf(FormData);
         expect((request.data as FormData).get('import_file')).toBe(file);
         expect(submit).toBeDisabled();
-        expect(within(dialog).getByRole('button', { name: 'Cancel' })).toBeDisabled();
+        expect(within(dialog).getByRole('button', { name: 'Отмена' })).toBeDisabled();
         await user.keyboard('{Escape}');
         expect(dialog).toBeInTheDocument();
 
@@ -137,7 +137,7 @@ describe('egg file uploads', () => {
             })
         );
         await waitFor(() => expect(queryClient.getQueryData(adminEggsQueryOptions().queryKey)?.data).toEqual([egg]));
-        expect(mocks.toastSuccess).toHaveBeenCalledWith('Egg imported', expect.anything());
+        expect(mocks.toastSuccess).toHaveBeenCalledWith('Шаблон Egg импортирован', expect.anything());
         expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     });
 
@@ -146,15 +146,17 @@ describe('egg file uploads', () => {
         const error = new AxiosError('Invalid egg file');
 
         upload.mockRejectedValueOnce(error).mockImplementation(async (config) => response(config));
-        await user.click(screen.getByRole('button', { name: 'Import egg' }));
+        await user.click(screen.getByRole('button', { name: 'Импорт шаблона Egg' }));
         const dialog = await screen.findByRole('dialog');
 
-        await user.upload(within(dialog).getByLabelText('Egg File'), eggFile());
-        const submit = within(dialog).getByRole('button', { name: 'Import Egg' });
+        await user.upload(within(dialog).getByLabelText('Файл шаблона Egg'), eggFile());
+        const submit = within(dialog).getByRole('button', { name: 'Импортировать шаблон Egg' });
 
         await user.click(submit);
 
-        await waitFor(() => expect(mocks.notifyError).toHaveBeenCalledWith(error, 'Unable to import egg'));
+        await waitFor(() =>
+            expect(mocks.notifyError).toHaveBeenCalledWith(error, 'Не удалось импортировать шаблон Egg')
+        );
         expect(dialog).toBeInTheDocument();
         expect(mocks.navigate).not.toHaveBeenCalled();
         await waitFor(() => expect(submit).toBeEnabled());
@@ -165,16 +167,16 @@ describe('egg file uploads', () => {
     it('clears the selected file when an import is cancelled', async () => {
         const { user } = setup();
 
-        await user.click(screen.getByRole('button', { name: 'Import egg' }));
+        await user.click(screen.getByRole('button', { name: 'Импорт шаблона Egg' }));
         const dialog = await screen.findByRole('dialog');
 
-        await user.upload(within(dialog).getByLabelText('Egg File'), eggFile());
-        await user.click(within(dialog).getByRole('button', { name: 'Cancel' }));
-        await user.click(screen.getByRole('button', { name: 'Import egg' }));
+        await user.upload(within(dialog).getByLabelText('Файл шаблона Egg'), eggFile());
+        await user.click(within(dialog).getByRole('button', { name: 'Отмена' }));
+        await user.click(screen.getByRole('button', { name: 'Импорт шаблона Egg' }));
 
         const reopened = await screen.findByRole('dialog');
 
-        expect(within(reopened).getByRole('button', { name: 'Import Egg' })).toBeDisabled();
+        expect(within(reopened).getByRole('button', { name: 'Импортировать шаблон Egg' })).toBeDisabled();
         expect(upload).not.toHaveBeenCalled();
     });
 
@@ -182,13 +184,13 @@ describe('egg file uploads', () => {
         const { user } = setup(<UpdateEggFromFileButton egg={egg} />);
 
         upload.mockImplementation(async (config) => response(config));
-        await user.click(screen.getByRole('button', { name: 'Update From File' }));
-        const dialog = await screen.findByRole('dialog', { name: 'Update egg from file' });
+        await user.click(screen.getByRole('button', { name: 'Обновить из файла' }));
+        const dialog = await screen.findByRole('dialog', { name: 'Обновление шаблона Egg из файла' });
 
-        await user.upload(within(dialog).getByLabelText('Egg File'), eggFile());
-        await user.click(within(dialog).getByRole('button', { name: 'Update Egg' }));
+        await user.upload(within(dialog).getByLabelText('Файл шаблона Egg'), eggFile());
+        await user.click(within(dialog).getByRole('button', { name: 'Обновить шаблон Egg' }));
 
-        await waitFor(() => expect(mocks.toastSuccess).toHaveBeenCalledWith('Egg updated', expect.anything()));
+        await waitFor(() => expect(mocks.toastSuccess).toHaveBeenCalledWith('Шаблон Egg обновлён', expect.anything()));
         expect(upload.mock.calls[0]![0].url).toBe('/api/admin/eggs/42/import');
         expect(upload.mock.calls[0]![0].data).toBeInstanceOf(FormData);
         expect(mocks.navigate).not.toHaveBeenCalled();

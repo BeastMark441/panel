@@ -64,8 +64,8 @@ export default function ActivityLogEntry({ activity, children }: Props) {
             <div className='col-span-10 sm:col-span-9 flex'>
                 <div className='flex-1 px-4 sm:px-0'>
                     <div className='flex items-center text-foreground'>
-                        <Tooltip placement='top' content={actor?.email || 'System User'}>
-                            <span>{actor?.username || 'System'}</span>
+                        <Tooltip placement='top' content={actor?.email || 'Системный пользователь'}>
+                            <span>{actor?.username || 'Система'}</span>
                         </Tooltip>
                         <span className='text-muted-foreground'>&nbsp;&mdash;&nbsp;</span>
                         <Link
@@ -77,12 +77,12 @@ export default function ActivityLogEntry({ activity, children }: Props) {
                         </Link>
                         <div className={cn(activityIconClass, 'group-hover:text-muted-foreground')}>
                             {attributes.is_api && (
-                                <Tooltip placement='top' content='Using API Key'>
+                                <Tooltip placement='top' content='С использованием API-ключа'>
                                     <Terminal />
                                 </Tooltip>
                             )}
                             {attributes.event.startsWith('server:sftp.') && (
-                                <Tooltip placement='top' content='Using SFTP'>
+                                <Tooltip placement='top' content='С использованием SFTP'>
                                     <FolderOpen />
                                 </Tooltip>
                             )}

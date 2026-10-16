@@ -75,7 +75,7 @@ function DatabaseHostDetailForm({ host }: { host: AdminDatabaseHost }) {
             <div className='grid grid-cols-1 lg:grid-cols-2 gap-4'>
                 <TitledGreyBox title='Данные хоста'>
                     <form.AppField name='name' validators={databaseHostValidators.name}>
-                        {(field) => <field.TextField type='text' id='name' label='Name' />}
+                        {(field) => <field.TextField type='text' id='name' label='Название' />}
                     </form.AppField>
                     <div className='mt-6'>
                         <form.AppField name='host' validators={databaseHostValidators.host}>
@@ -91,7 +91,7 @@ function DatabaseHostDetailForm({ host }: { host: AdminDatabaseHost }) {
                     </div>
                     <div className='mt-6'>
                         <form.AppField name='port' validators={databaseHostValidators.port}>
-                            {(field) => <field.NumberField id='port' label='Port' />}
+                            {(field) => <field.NumberField id='port' label='Порт' />}
                         </form.AppField>
                     </div>
                     <div className='mt-6'>
@@ -102,12 +102,12 @@ function DatabaseHostDetailForm({ host }: { host: AdminDatabaseHost }) {
                         />
                     </div>
                     <div className='mt-6 text-sm text-muted-foreground'>
-                        <p>{host.attributes.databases_count} databases</p>
+                        <p>Баз данных: {host.attributes.databases_count}</p>
                         <p>
                             {(() => {
                                 const node = relationshipAttributes(host.attributes.relationships?.node);
 
-                                return node === undefined ? 'Global host' : `Linked to ${node.name}`;
+                                return node === undefined ? 'Глобальный хост' : `Связан с узлом ${node.name}`;
                             })()}
                         </p>
                     </div>
@@ -215,16 +215,16 @@ function DatabaseHostDatabases({ hostId }: { hostId: number }) {
                 },
                 {
                     id: 'username',
-                    header: 'Username',
+                    header: 'Имя пользователя',
                     cell: ({ row }) => <span className='text-xs'>{row.original.attributes.username}</span>,
                     meta: { headerClassName: 'hidden md:table-cell', cellClassName: 'hidden md:table-cell' },
                 },
                 {
                     id: 'connections',
-                    header: 'Max connections',
+                    header: 'Макс. соединений',
                     cell: ({ row }) => (
                         <span className='text-xs text-muted-foreground'>
-                            {row.original.attributes.max_connections ?? 'Unlimited'}
+                            {row.original.attributes.max_connections ?? 'Без ограничений'}
                         </span>
                     ),
                     meta: { headerClassName: 'w-28 text-right', cellClassName: 'w-28 text-right' },
@@ -302,7 +302,7 @@ export default function DatabaseHostDetailContainer() {
 
     if (!host) {
         return (
-            <AdminContentBlock title='Admin · Database Host' heading='Database Host'>
+            <AdminContentBlock title='Админ · Хост баз данных' heading='Хост баз данных'>
                 <Spinner size='large' centered />
             </AdminContentBlock>
         );
@@ -310,7 +310,7 @@ export default function DatabaseHostDetailContainer() {
 
     return (
         <AdminContentBlock
-            title={`Admin · Database Host · ${host.attributes.name}`}
+            title={`Админ · Хост баз данных · ${host.attributes.name}`}
             heading={host.attributes.name}
             description={`${host.attributes.username}@${host.attributes.host}:${host.attributes.port}`}
         >
@@ -319,7 +319,7 @@ export default function DatabaseHostDetailContainer() {
                 className='inline-flex items-center text-sm text-muted-foreground hover:text-accent mb-4'
             >
                 <Icon icon={ArrowLeft} className='mr-2' />
-                Back to Database Hosts
+                К списку хостов баз данных
             </Link>
 
             <DatabaseHostDetailForm key={`${host.attributes.id}:${host.attributes.updated_at}`} host={host} />

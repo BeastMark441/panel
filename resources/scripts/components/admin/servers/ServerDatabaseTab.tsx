@@ -26,7 +26,7 @@ function ServerDatabaseContent({ server }: { server: AdminServer }) {
             [
                 {
                     id: 'name',
-                    header: 'Database',
+                    header: 'База данных',
                     cell: ({ row }) => (
                         <CopyOnClick text={row.original.attributes.name}>
                             <span className='font-mono text-sm'>{row.original.attributes.name}</span>
@@ -35,7 +35,7 @@ function ServerDatabaseContent({ server }: { server: AdminServer }) {
                 },
                 {
                     id: 'endpoint',
-                    header: 'Endpoint',
+                    header: 'Точка доступа',
                     cell: ({ row }) => (
                         <CopyOnClick
                             text={`${row.original.attributes.host.address}:${row.original.attributes.host.port}`}
@@ -49,7 +49,7 @@ function ServerDatabaseContent({ server }: { server: AdminServer }) {
                 },
                 {
                     id: 'username',
-                    header: 'Username',
+                    header: 'Имя пользователя',
                     cell: ({ row }) => (
                         <CopyOnClick text={row.original.attributes.username}>
                             <span className='text-xs'>{row.original.attributes.username}</span>
@@ -59,9 +59,9 @@ function ServerDatabaseContent({ server }: { server: AdminServer }) {
                 },
                 {
                     id: 'max',
-                    header: 'Max',
+                    header: 'Макс.',
                     cell: ({ row }) => (
-                        <span className='text-xs'>{row.original.attributes.max_connections ?? 'Unlimited'}</span>
+                        <span className='text-xs'>{row.original.attributes.max_connections ?? 'Безлимитно'}</span>
                     ),
                     meta: {
                         headerClassName: 'hidden xl:table-cell w-20 text-right',
@@ -89,12 +89,12 @@ function ServerDatabaseContent({ server }: { server: AdminServer }) {
     const canCreate = databaseLimit > 0 && data.length < databaseLimit;
     const usage =
         databaseLimit > 0 && data.length > 0
-            ? `${data.length} of ${databaseLimit} databases have been allocated to this server.`
+            ? `${data.length} из ${databaseLimit} баз данных выделено этому серверу.`
             : null;
 
     return (
         <div>
-            <TitledGreyBox title='Databases'>
+            <TitledGreyBox title='Базы данных'>
                 {databases ? (
                     <>
                         {(canCreate || usage) && (
@@ -111,11 +111,11 @@ function ServerDatabaseContent({ server }: { server: AdminServer }) {
                                         <EmptyMedia variant='icon'>
                                             <Database />
                                         </EmptyMedia>
-                                        <EmptyTitle>No databases</EmptyTitle>
+                                        <EmptyTitle>Нет баз данных</EmptyTitle>
                                         <EmptyDescription>
                                             {databaseLimit > 0
-                                                ? "This server doesn't have any databases yet."
-                                                : "This server's database limit is 0. Raise it in the build settings to create databases."}
+                                                ? 'У этого сервера пока нет ни одной базы данных.'
+                                                : 'Лимит баз данных этого сервера равен 0. Увеличьте его в настройках ресурсов, чтобы создавать базы данных.'}
                                         </EmptyDescription>
                                     </EmptyHeader>
                                     <EmptyContent>
@@ -127,7 +127,7 @@ function ServerDatabaseContent({ server }: { server: AdminServer }) {
                                                 isSecondary
                                                 icon={SlidersHorizontal}
                                             >
-                                                Build settings
+                                                Настройки ресурсов
                                             </NewLinkButton>
                                         )}
                                     </EmptyContent>
@@ -147,7 +147,7 @@ export default function ServerDatabaseTab() {
     const { server } = useServerDetail();
 
     if (server.attributes.container.installed !== 1) {
-        return <ServerError message='Access to this resource is not allowed due to the current installation state.' />;
+        return <ServerError message='Доступ к этому ресурсу невозможен из-за текущего состояния установки.' />;
     }
 
     return <ServerDatabaseContent server={server} />;

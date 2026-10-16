@@ -82,6 +82,7 @@ function acceptingNodes(): array
 }
 
 test('server create refuses a node that does not accept the egg unless tags are ignored', function (): void {
+    app()->setLocale('ru');
     $egg = taggedEgg(bungeecord(), 'tag-check-game');
     $node = taggedNode('tag-check-other');
     $allocation = Allocation::factory()->for($node)->create();
@@ -91,7 +92,7 @@ test('server create refuses a node that does not accept the egg unless tags are 
         ->assertUnprocessable()
         ->assertJsonCount(1, 'errors')
         ->assertJsonPath('errors.0.meta.source_field', 'primary_allocation_id')
-        ->assertJsonPath('errors.0.detail', "{$node->name} only accepts eggs tagged Tag Check Other.");
+        ->assertJsonPath('errors.0.detail', "Узел {$node->name} принимает только яйца с тегами: Tag Check Other.");
     expect($fake->callsFor('create'))->toBe([]);
 
     $this->postJson(route('api.admin.servers.store'), [...serverPayload($egg, $allocation), 'ignore_tags' => true])->assertCreated();
@@ -117,7 +118,7 @@ test('a transfer refuses a target node that does not accept the egg unless tags 
         ->assertUnprocessable()
         ->assertJsonCount(1, 'errors')
         ->assertJsonPath('errors.0.meta.source_field', 'node_id')
-        ->assertJsonPath('errors.0.detail', "{$target->name} only accepts eggs tagged Tag Check Other.");
+        ->assertJsonPath('errors.0.detail', "Узел {$target->name} принимает только яйца с тегами: Tag Check Other.");
     $this->assertDatabaseMissing('server_transfers', ['server_id' => $server->id]);
 
     $this->postJson(route('api.admin.servers.transfer', ['server' => $server->id]), ['node_id' => $target->id, 'allocation_id' => $allocation->id, 'ignore_tags' => true])->assertNoContent();
@@ -144,7 +145,7 @@ test('an egg change refuses an egg the server\'s node does not accept unless tag
         ->assertUnprocessable()
         ->assertJsonCount(1, 'errors')
         ->assertJsonPath('errors.0.meta.source_field', 'egg_id')
-        ->assertJsonPath('errors.0.detail', "{$server->node->name} only accepts eggs tagged Tag Check Game.");
+        ->assertJsonPath('errors.0.detail', "Узел {$server->node->name} принимает только яйца с тегами: Tag Check Game.");
     expect($server->refresh()->egg_id)->not->toBe($egg->id);
 
     $this->putJson(route('api.admin.servers.startup', ['server' => $server->id]), [...$payload, 'ignore_tags' => true])->assertOk();

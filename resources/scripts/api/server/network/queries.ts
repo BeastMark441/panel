@@ -87,11 +87,11 @@ export const useCreateServerAllocation = () => {
         ...clientCreateServerAllocationMutation(),
         onSuccess: async (allocation, { path }) => {
             await upsertAllocation(queryClient, path.server_uuid, allocation);
-            toast.success('Allocation created', {
-                description: `${allocation.attributes.ip}:${allocation.attributes.port} is available.`,
+            toast.success('Сетевой адрес создан', {
+                description: `${allocation.attributes.ip}:${allocation.attributes.port} доступен.`,
             });
         },
-        onError: (error) => notifyHttpError(error, 'Unable to create allocation'),
+        onError: (error) => notifyHttpError(error, 'Не удалось создать сетевой адрес'),
     });
 };
 
@@ -101,7 +101,7 @@ export const useUpdateAllocationNotes = () => {
     return useMutation({
         ...clientUpdateAllocationNotesMutation(),
         onSuccess: (allocation, { path }) => upsertAllocation(queryClient, path.server_uuid, allocation),
-        onError: (error) => notifyHttpError(error, 'Unable to update allocation notes'),
+        onError: (error) => notifyHttpError(error, 'Не удалось обновить заметки к сетевому адресу'),
     });
 };
 
@@ -126,9 +126,9 @@ export const useSetPrimaryAllocation = () => {
                     }))
             );
             await queryClient.invalidateQueries(serverQueryFilters(path.server_uuid));
-            toast.success('Primary allocation updated');
+            toast.success('Основной сетевой адрес обновлён');
         },
-        onError: (error) => notifyHttpError(error, 'Unable to update primary allocation'),
+        onError: (error) => notifyHttpError(error, 'Не удалось изменить основной сетевой адрес'),
     });
 };
 
@@ -139,8 +139,8 @@ export const useDeleteServerAllocation = () => {
         ...clientDeleteServerAllocationMutation(),
         onSuccess: async (_data, { path }) => {
             await removeAllocation(queryClient, path.server_uuid, path.allocation_id);
-            toast.success('Allocation deleted');
+            toast.success('Сетевой адрес удалён');
         },
-        onError: (error) => notifyHttpError(error, 'Unable to delete allocation'),
+        onError: (error) => notifyHttpError(error, 'Не удалось удалить сетевой адрес'),
     });
 };

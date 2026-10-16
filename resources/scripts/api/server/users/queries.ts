@@ -83,7 +83,7 @@ export const useCreateSubuser = () => {
     return useMutation({
         ...clientCreateServerSubuserMutation(),
         onSuccess: (subuser, { path }) => upsertSubuser(queryClient, path.server_uuid, subuser),
-        onError: (error) => notifyHttpError(error, 'Unable to invite subuser'),
+        onError: (error) => notifyHttpError(error, 'Не удалось пригласить субпользователя'),
     });
 };
 
@@ -93,7 +93,7 @@ export const useUpdateSubuser = () => {
     return useMutation({
         ...clientUpdateServerSubuserMutation(),
         onSuccess: (subuser, { path }) => upsertSubuser(queryClient, path.server_uuid, subuser),
-        onError: (error) => notifyHttpError(error, 'Unable to update subuser'),
+        onError: (error) => notifyHttpError(error, 'Не удалось обновить субпользователя'),
     });
 };
 
@@ -104,10 +104,10 @@ export const useDeleteSubuser = (subuser: Subuser) => {
         ...clientDeleteServerSubuserMutation(),
         onSuccess: async (_data, { path }) => {
             await removeSubuser(queryClient, path.server_uuid, path.user);
-            toast.success('Subuser removed', {
-                description: `${subuser.attributes.email} no longer has access to this server.`,
+            toast.success('Субпользователь удалён', {
+                description: `${subuser.attributes.email} больше не имеет доступа к этому серверу.`,
             });
         },
-        onError: (error) => notifyHttpError(error, 'Unable to remove subuser'),
+        onError: (error) => notifyHttpError(error, 'Не удалось удалить субпользователя'),
     });
 };

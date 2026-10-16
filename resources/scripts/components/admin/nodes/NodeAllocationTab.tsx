@@ -37,7 +37,19 @@ import { httpErrorToHuman } from '@/api/http';
 import { cn } from '@/lib/cn';
 import { getPageSearch, usePageSearch } from '@/router/search';
 
-const countLabel = (count: number, noun: string) => `${count} ${noun}${count === 1 ? '' : 's'}`;
+const countLabel = (count: number) => {
+    const mod10 = count % 10;
+    const mod100 = count % 100;
+    let noun = 'аллокаций';
+
+    if (mod10 === 1 && mod100 !== 11) {
+        noun = 'аллокация';
+    } else if (mod10 >= 2 && mod10 <= 4 && (mod100 < 10 || mod100 >= 20)) {
+        noun = 'аллокации';
+    }
+
+    return `${count} ${noun}`;
+};
 
 const ghostDangerClass = 'rounded-sm text-muted-foreground transition-colors hover:bg-popover hover:text-destructive';
 
@@ -66,9 +78,7 @@ const groupAllocationsByIp = (items: AdminAllocation[]) => {
     return [...map.entries()];
 };
 
-const paginationColumns = [
-    { id: 'allocation', header: 'Allocation', cell: () => null },
-] as ColumnDef<AdminAllocation>[];
+const paginationColumns = [{ id: 'allocation', header: 'Аллокация', cell: () => null }] as ColumnDef<AdminAllocation>[];
 
 interface AllocationTableContextValue {
     nodeId: number;
@@ -98,7 +108,7 @@ const AllocationGroupCheckbox = ({ allocations }: { allocations: AdminAllocation
 
     return (
         <Checkbox
-            aria-label={ip ? `Select all unassigned allocations on ${ip}` : 'Select all unassigned allocations'}
+            aria-label={ip ? `Выбрать все незанятые аллокации на ${ip}` : 'Выбрать все незанятые аллокации'}
             checked={allSelected}
             indeterminate={!allSelected && unassignedIds.some((id) => selected.has(id))}
             disabled={unassignedIds.length === 0}
@@ -112,7 +122,7 @@ const AllocationCheckbox = ({ allocation }: { allocation: AdminAllocation }) => 
 
     return (
         <Checkbox
-            aria-label={`Select allocation ${allocation.attributes.ip}:${allocation.attributes.port}`}
+            aria-label={`Выбрать аллокацию ${allocation.attributes.ip}:${allocation.attributes.port}`}
             checked={selected.has(allocation.attributes.id)}
             disabled={allocation.attributes.assigned}
             onChange={() => toggle(allocation.attributes.id)}
@@ -148,8 +158,8 @@ const AllocationAliasCell = ({ allocation }: { allocation: AdminAllocation }) =>
         <TextInput
             type='text'
             value={draft ?? savedAlias}
-            placeholder='Add alias'
-            aria-label={`Alias for ${allocation.attributes.ip}:${allocation.attributes.port}`}
+            placeholder='Добавить алиас'
+            aria-label={`Алиас для ${allocation.attributes.ip}:${allocation.attributes.port}`}
             onChange={(e) => setDraft(e.currentTarget.value)}
             onBlur={saveAlias}
             className='h-8 border border-transparent bg-transparent px-2 py-1 placeholder:text-muted-foreground focus:bg-input'
@@ -163,13 +173,13 @@ const AllocationServerCell = ({ allocation }: { allocation: AdminAllocation }) =
     if (!assigned) {
         return (
             <span className='inline-flex items-center rounded-sm border border-border bg-muted px-2 py-0.5 text-xs font-medium text-muted-foreground'>
-                Unassigned
+                Не назначена
             </span>
         );
     }
 
     if (serverId === null) {
-        return <span className='text-sm text-muted-foreground'>Assigned</span>;
+        return <span className='text-sm text-muted-foreground'>Назначена</span>;
     }
 
     return (
@@ -178,7 +188,7 @@ const AllocationServerCell = ({ allocation }: { allocation: AdminAllocation }) =
             params={{ id: serverId }}
             className='block truncate text-sm text-foreground transition-colors hover:text-accent'
         >
-            {serverName ?? 'Assigned'}
+            {serverName ?? 'Назначена'}
         </Link>
     );
 };
@@ -195,17 +205,17 @@ const AllocationDeleteCell = ({ allocation }: { allocation: AdminAllocation }) =
     return (
         <RowActions>
             <Dialog.ConfirmTrigger
-                title='Delete this allocation?'
-                confirm='Delete'
+                title='Удалить эту аллокацию?'
+                confirm='Удалить'
                 trigger={({ onClick }) => (
-                    <DeleteAction aria-label={`Удалить allocation ${address}`} onClick={onClick} />
+                    <DeleteAction aria-label={`Удалить аллокацию ${address}`} onClick={onClick} />
                 )}
                 onConfirmed={(_event, close) => {
                     close();
                     deleteAllocation(allocation);
                 }}
             >
-                This will permanently delete the <strong>{address}</strong> allocation. This action cannot be undone.
+                Аллокация <strong>{address}</strong> будет безвозвратно удалена. Это действие нельзя отменить.
             </Dialog.ConfirmTrigger>
         </RowActions>
     );
@@ -220,7 +230,7 @@ const allocationColumns = [
     },
     {
         id: 'port',
-        header: 'Port',
+        header: 'Порт',
         cell: ({ row }) => (
             <span className='font-mono text-sm tabular-nums text-foreground'>{row.original.attributes.port}</span>
         ),
@@ -228,13 +238,13 @@ const allocationColumns = [
     },
     {
         id: 'alias',
-        header: 'Alias',
+        header: 'Алиас',
         cell: ({ row }) => <AllocationAliasCell allocation={row.original} />,
         meta: { cellClassName: 'py-2 pl-1' },
     },
     {
         id: 'server',
-        header: 'Server',
+        header: 'Сервер',
         cell: ({ row }) => <AllocationServerCell allocation={row.original} />,
         meta: { headerClassName: 'hidden w-44 sm:table-cell', cellClassName: 'hidden sm:table-cell' },
     },
@@ -263,16 +273,16 @@ const AllocationGroupTable = ({ ip, allocations, isFetching, onDeleteBlock }: Al
                 <div className='flex min-w-0 flex-wrap items-baseline gap-x-3 gap-y-0.5'>
                     <h3 className='truncate font-mono text-sm font-medium text-foreground'>{ip}</h3>
                     <p className='text-xs text-muted-foreground'>
-                        {countLabel(allocations.length, 'allocation')} · {unassignedCount} unassigned
+                        {countLabel(allocations.length)} · незанято: {unassignedCount}
                     </p>
                 </div>
                 <Dialog.ConfirmTrigger
-                    title='Delete allocations for IP block?'
-                    confirm='Delete'
+                    title='Удалить аллокации для IP-блока?'
+                    confirm='Удалить'
                     trigger={({ onClick }) => (
                         <button
                             type='button'
-                            aria-label={`Удалить IP block ${ip}`}
+                            aria-label={`Удалить IP-блок ${ip}`}
                             className={cn(
                                 'inline-flex shrink-0 items-center gap-1.5 px-2 py-1 text-xs font-medium',
                                 ghostDangerClass
@@ -280,7 +290,7 @@ const AllocationGroupTable = ({ ip, allocations, isFetching, onDeleteBlock }: Al
                             onClick={onClick}
                         >
                             <Icon icon={Trash2} aria-hidden />
-                            Delete IP block
+                            Удалить IP-блок
                         </button>
                     )}
                     onConfirmed={(_event, close) => {
@@ -288,8 +298,8 @@ const AllocationGroupTable = ({ ip, allocations, isFetching, onDeleteBlock }: Al
                         onDeleteBlock(ip);
                     }}
                 >
-                    This will permanently delete every unassigned allocation for <strong>{ip}</strong>. This action
-                    cannot be undone.
+                    Будут безвозвратно удалены все незанятые аллокации для <strong>{ip}</strong>. Это действие нельзя
+                    отменить.
                 </Dialog.ConfirmTrigger>
             </div>
             <DataTable
@@ -297,7 +307,7 @@ const AllocationGroupTable = ({ ip, allocations, isFetching, onDeleteBlock }: Al
                 isFetching={isFetching}
                 className='rounded-none border-0 bg-transparent'
                 tableClassName='table-fixed'
-                emptyState='No allocations for this address.'
+                emptyState='Нет аллокаций для этого адреса.'
             />
         </section>
     );
@@ -313,13 +323,13 @@ const ExistingAllocationsSummary = ({ selectedCount, total, onBulkDelete }: Exis
     if (selectedCount > 0) {
         return (
             <div className='-my-1 flex items-center gap-3'>
-                <span className='text-xs text-muted-foreground'>{selectedCount} selected</span>
+                <span className='text-xs text-muted-foreground'>Выбрано: {selectedCount}</span>
                 <Dialog.ConfirmTrigger
-                    title='Delete selected allocations?'
-                    confirm='Delete'
+                    title='Удалить выбранные аллокации?'
+                    confirm='Удалить'
                     trigger={({ onClick }) => (
                         <Button size='xsmall' color='red' onClick={onClick}>
-                            Delete Selected
+                            Удалить выбранные
                         </Button>
                     )}
                     onConfirmed={(_event, close) => {
@@ -327,8 +337,7 @@ const ExistingAllocationsSummary = ({ selectedCount, total, onBulkDelete }: Exis
                         onBulkDelete();
                     }}
                 >
-                    This will permanently delete the {selectedCount} selected allocation(s). This action cannot be
-                    undone.
+                    Будут безвозвратно удалены выбранные аллокации ({selectedCount}). Это действие нельзя отменить.
                 </Dialog.ConfirmTrigger>
             </div>
         );
@@ -338,7 +347,7 @@ const ExistingAllocationsSummary = ({ selectedCount, total, onBulkDelete }: Exis
         return null;
     }
 
-    return <span className='text-xs text-muted-foreground'>{countLabel(total, 'allocation')}</span>;
+    return <span className='text-xs text-muted-foreground'>{countLabel(total)}</span>;
 };
 
 type NodeAllocationsQuery = ReturnType<typeof useAdminNodeAllocations>;
@@ -359,7 +368,7 @@ const AllocationList = ({ query, paginationTable, showPagination, onBlockDelete 
             <div className='space-y-4 p-3'>
                 <Alert type='danger'>{httpErrorToHuman(error)}</Alert>
                 <Button.Text type='button' onClick={() => refetch()}>
-                    Retry
+                    Повторить
                 </Button.Text>
             </div>
         );
@@ -377,9 +386,9 @@ const AllocationList = ({ query, paginationTable, showPagination, onBlockDelete 
                         <EmptyMedia variant='icon'>
                             <Network />
                         </EmptyMedia>
-                        <EmptyTitle>No allocations yet</EmptyTitle>
+                        <EmptyTitle>Аллокации пока отсутствуют</EmptyTitle>
                         <EmptyDescription>
-                            Assign IP addresses and ports with the form to make them available to servers.
+                            Укажите IP-адреса и порты в форме, чтобы сделать их доступными для серверов.
                         </EmptyDescription>
                     </EmptyHeader>
                 </Empty>
@@ -401,7 +410,7 @@ const AllocationList = ({ query, paginationTable, showPagination, onBlockDelete 
                     table={paginationTable}
                     total={allocations.meta.pagination.total}
                     count={allocations.meta.pagination.count}
-                    itemLabel='Выделения'
+                    itemLabel='Аллокации'
                     className='mt-0 border-t border-border px-3 py-2'
                 />
             )}
@@ -550,7 +559,7 @@ export default function NodeAllocationTab() {
                 contentClassName='p-0'
                 title={
                     <div className='flex min-h-5 items-center justify-between gap-3'>
-                        <h2 className={cardTitleClass}>Existing Allocations</h2>
+                        <h2 className={cardTitleClass}>Существующие аллокации</h2>
                         <ExistingAllocationsSummary
                             selectedCount={selected.length}
                             total={allocations?.meta.pagination.total}
@@ -569,20 +578,19 @@ export default function NodeAllocationTab() {
                 </AllocationTableContext.Provider>
             </TitledGreyBox>
             <Form form={createForm}>
-                <TitledGreyBox title='Assign New Allocations' contentClassName='space-y-6 px-3 pt-4'>
+                <TitledGreyBox title='Назначить новые аллокации' contentClassName='space-y-6 px-3 pt-4'>
                     <createForm.AppField
                         name='ip'
                         validators={{
-                            onChange: ({ value }) =>
-                                value.length >= 1 ? undefined : 'An IP address must be provided.',
+                            onChange: ({ value }) => (value.length >= 1 ? undefined : 'Укажите IP-адрес.'),
                         }}
                     >
                         {(field) => (
                             <field.TextField
                                 type='text'
                                 id='allocation_ip'
-                                label='IP Address'
-                                description='Enter the IP address to assign ports to.'
+                                label='IP-адрес'
+                                description='Введите IP-адрес, к которому будут назначены порты.'
                             />
                         )}
                     </createForm.AppField>
@@ -591,33 +599,32 @@ export default function NodeAllocationTab() {
                             <field.TextField
                                 type='text'
                                 id='allocation_alias'
-                                label='IP Alias'
-                                description='Optional default alias for these allocations.'
+                                label='Алиас IP'
+                                description='Необязательный алиас по умолчанию для этих аллокаций.'
                             />
                         )}
                     </createForm.AppField>
                     <createForm.AppField
                         name='ports'
                         validators={{
-                            onChange: ({ value }) =>
-                                value.length >= 1 ? undefined : 'At least one port must be provided.',
+                            onChange: ({ value }) => (value.length >= 1 ? undefined : 'Укажите хотя бы один порт.'),
                         }}
                     >
                         {(field) => (
                             <field.TextField
                                 type='text'
                                 id='allocation_ports'
-                                label='Ports'
+                                label='Порты'
                                 description={
-                                    'Enter individual ports or port ranges (e.g. 25565-25570) separated by ' +
-                                    'commas or spaces.'
+                                    'Введите отдельные порты или диапазоны портов (например, 25565-25570), ' +
+                                    'разделённые запятыми или пробелами.'
                                 }
                             />
                         )}
                     </createForm.AppField>
                     <div className='flex justify-end'>
                         <createForm.AppForm>
-                            <createForm.SubmitButton>Create Allocations</createForm.SubmitButton>
+                            <createForm.SubmitButton>Создать аллокации</createForm.SubmitButton>
                         </createForm.AppForm>
                     </div>
                 </TitledGreyBox>

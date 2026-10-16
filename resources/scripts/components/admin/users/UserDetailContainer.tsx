@@ -62,14 +62,14 @@ const IdentityCard = ({
     languageOptions: SelectOption[];
     languagesLoading: boolean;
 }) => (
-    <TitledGreyBox title='Identity'>
+    <TitledGreyBox title='Учётная запись'>
         <form.AppField name='email' validators={{ onChange: validateUserEmail }}>
             {(field) => (
                 <field.TextField
                     type='email'
                     id='email'
-                    label='Email Address'
-                    description='The email address this user will sign in and receive notifications with.'
+                    label='Адрес электронной почты'
+                    description='Адрес, по которому пользователь входит в панель и получает уведомления.'
                 />
             )}
         </form.AppField>
@@ -79,8 +79,8 @@ const IdentityCard = ({
                     <field.TextField
                         type='text'
                         id='username'
-                        label='Username'
-                        description='A unique username used to identify this account.'
+                        label='Имя пользователя'
+                        description='Уникальное имя, по которому определяется эта учётная запись.'
                     />
                 )}
             </form.AppField>
@@ -88,12 +88,12 @@ const IdentityCard = ({
         <div className='mt-6 flex flex-wrap'>
             <div className='w-full sm:w-1/2 sm:pr-2'>
                 <form.AppField name='nameFirst' validators={{ onChange: validateFirstName }}>
-                    {(field) => <field.TextField type='text' id='name_first' label='First Name' />}
+                    {(field) => <field.TextField type='text' id='name_first' label='Имя' />}
                 </form.AppField>
             </div>
             <div className='w-full mt-6 sm:w-1/2 sm:mt-0 sm:pl-2'>
                 <form.AppField name='nameLast' validators={{ onChange: validateLastName }}>
-                    {(field) => <field.TextField type='text' id='name_last' label='Last Name' />}
+                    {(field) => <field.TextField type='text' id='name_last' label='Фамилия' />}
                 </form.AppField>
             </div>
         </div>
@@ -101,17 +101,17 @@ const IdentityCard = ({
             <form.AppField
                 name='language'
                 validators={{
-                    onChange: ({ value }) => (value.length >= 1 ? undefined : 'A language must be provided.'),
+                    onChange: ({ value }) => (value.length >= 1 ? undefined : 'Выберите язык.'),
                 }}
             >
                 {(field) => (
                     <field.SelectField
                         id='language'
-                        label='Language'
+                        label='Язык'
                         options={languageOptions}
                         disabled={languagesLoading}
-                        placeholder='Select a language'
-                        description='The default language to use when rendering the Panel.'
+                        placeholder='Выберите язык'
+                        description='Язык по умолчанию для отображения панели.'
                     />
                 )}
             </form.AppField>
@@ -120,31 +120,31 @@ const IdentityCard = ({
             <form.AppField name='rootAdmin'>
                 {(field) => (
                     <field.SwitchField
-                        label='Administrator'
-                        description='Grant this account full administrative access to the Panel.'
+                        label='Администратор'
+                        description='Предоставить этой учётной записи полные административные права в панели.'
                     />
                 )}
             </form.AppField>
         </div>
         <div className='flex justify-end mt-6'>
             <form.AppForm>
-                <form.SubmitButton>Save Changes</form.SubmitButton>
+                <form.SubmitButton>Сохранить изменения</form.SubmitButton>
             </form.AppForm>
         </div>
     </TitledGreyBox>
 );
 
 const PasswordCard = ({ form }: { form: UserForm }) => (
-    <TitledGreyBox title='Password'>
+    <TitledGreyBox title='Пароль'>
         <form.AppField name='password' validators={{ onChange: validateUserPassword }}>
             {(field) => (
                 <field.TextField
                     type='password'
                     id='password'
-                    label='Password'
+                    label='Пароль'
                     description={
-                        "Leave blank to keep this user's password the same. The user will not " +
-                        'receive any notification if their password is changed.'
+                        'Оставьте пустым, чтобы пароль пользователя остался прежним. Пользователь ' +
+                        'не получит уведомление об изменении пароля.'
                     }
                     autoComplete='new-password'
                 />
@@ -152,7 +152,7 @@ const PasswordCard = ({ form }: { form: UserForm }) => (
         </form.AppField>
         <div className='flex justify-end mt-6'>
             <form.AppForm>
-                <form.SubmitButton>Save Changes</form.SubmitButton>
+                <form.SubmitButton>Сохранить изменения</form.SubmitButton>
             </form.AppForm>
         </div>
     </TitledGreyBox>
@@ -167,23 +167,22 @@ const DeleteUserCard = ({
     email: string;
     onDelete: (close: () => void) => Promise<void>;
 }) => (
-    <TitledGreyBox title='Delete User'>
+    <TitledGreyBox title='Удаление пользователя'>
         <p className='text-sm text-muted-foreground'>
-            There must be no servers associated with this account in order for it to be deleted.
+            Удалить учётную запись можно, только если к ней не привязаны серверы.
         </p>
         <div className='flex justify-end mt-6'>
             <Dialog.ConfirmTrigger
-                title='Delete user'
-                confirm='Delete User'
+                title='Удалить пользователя'
+                confirm='Удалить пользователя'
                 trigger={({ onClick }) => (
                     <Button type='button' color='red' disabled={disabled} onClick={onClick}>
-                        Delete User
+                        Удалить пользователя
                     </Button>
                 )}
                 onConfirmed={(_event, close) => onDelete(close)}
             >
-                Deleting <strong>{email}</strong> is a permanent action and cannot be undone. This will remove the
-                account and all of its associated data.
+                Удаление <strong>{email}</strong> необратимо. Будут удалены учётная запись и все связанные данные.
             </Dialog.ConfirmTrigger>
         </div>
     </TitledGreyBox>
@@ -192,7 +191,7 @@ const DeleteUserCard = ({
 const ownedServerColumns = [
     {
         id: 'name',
-        header: 'Server',
+        header: 'Сервер',
         cell: ({ row }) => (
             <div className='min-w-0'>
                 <Link
@@ -205,7 +204,7 @@ const ownedServerColumns = [
                 <p className='mt-1 font-mono text-xs text-muted-foreground'>
                     {row.original.attributes.identifier}
                     {row.original.attributes.suspended ? (
-                        <span className='ml-2 text-destructive'>suspended</span>
+                        <span className='ml-2 text-destructive'>заблокирован</span>
                     ) : null}
                 </p>
             </div>
@@ -242,8 +241,8 @@ const OwnedServersCard = ({ servers }: { servers: AdminUserServer[] }) => {
                             <EmptyMedia variant='icon'>
                                 <Server />
                             </EmptyMedia>
-                            <EmptyTitle>No servers</EmptyTitle>
-                            <EmptyDescription>This user doesn&apos;t own any servers.</EmptyDescription>
+                            <EmptyTitle>Нет серверов</EmptyTitle>
+                            <EmptyDescription>Этот пользователь не владеет ни одним сервером.</EmptyDescription>
                         </EmptyHeader>
                     </Empty>
                 }
@@ -308,7 +307,7 @@ const UserDetailContent = ({ user }: { user: AdminUserWithServers }) => {
                             resource={user}
                             error={updateUser.error}
                             boxed
-                            submitLabel='Save Changes'
+                            submitLabel='Сохранить изменения'
                             className='mt-4'
                         />
                     )}
@@ -336,7 +335,7 @@ export function UserDetailLayout() {
 
     if (!user) {
         return (
-            <AdminContentBlock title='Admin · User' heading='User'>
+            <AdminContentBlock title='Админ · Пользователь' heading='Пользователь'>
                 <Spinner size='large' centered />
             </AdminContentBlock>
         );
@@ -345,7 +344,7 @@ export function UserDetailLayout() {
     return (
         <ExtensionResourceProvider.Provider value={resourceContext}>
             <AdminContentBlock
-                title={`Admin · User · ${user.attributes.email}`}
+                title={`Админ · Пользователь · ${user.attributes.email}`}
                 heading={user.attributes.email}
                 description={
                     `${user.attributes.first_name ?? ''} ${user.attributes.last_name ?? ''}`.trim() ||
@@ -357,7 +356,7 @@ export function UserDetailLayout() {
                     className='inline-flex items-center text-sm text-muted-foreground mb-4 hover:text-accent'
                 >
                     <Icon icon={ArrowLeft} className='mr-2' />
-                    Back to Users
+                    К списку пользователей
                 </Link>
                 <Slot name='panel.users.detail.actions' data={resourceContext} />
                 <SubNavigation className='mb-6 rounded-sm'>
@@ -367,7 +366,7 @@ export function UserDetailLayout() {
                         params={{ id: user.attributes.id }}
                         activeOptions={{ exact: true, includeSearch: false }}
                     >
-                        About
+                        О пользователе
                     </Link>
                     <ResourceExtensionTabs parent='admin.user' basePath={`/panel/users/${user.attributes.id}`} />
                 </SubNavigation>

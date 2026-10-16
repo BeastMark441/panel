@@ -133,15 +133,15 @@ export const useRenameServer = (serverIdentifier: string) => {
                 },
             }));
             await invalidateGeneratedOperations(queryClient, ['clientListClientServers']);
-            toast.success('Server details updated');
+            toast.success('Сведения о сервере обновлены');
         },
-        onError: (error) => notifyHttpError(error, 'Unable to update server details'),
+        onError: (error) => notifyHttpError(error, 'Не удалось обновить сведения о сервере'),
     });
 };
 
 export const useReinstallServer = () =>
     useMutation({
         ...clientReinstallServerMutation(),
-        onSuccess: () => toast.success('Server reinstall started'),
-        onError: (error) => notifyHttpError(error, 'Unable to reinstall server'),
+        onSuccess: () => toast.success('Переустановка сервера начата'),
+        onError: (error) => notifyHttpError(error, 'Не удалось переустановить сервер'),
     });

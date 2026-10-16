@@ -232,9 +232,9 @@ export const useCreateServerSchedule = () => {
         ...clientCreateServerScheduleMutation(),
         onSuccess: async (schedule, { path }) => {
             await cacheServerSchedule(queryClient, path.server_uuid, schedule);
-            toast.success('Schedule created');
+            toast.success('Расписание создано');
         },
-        onError: (error) => notifyHttpError(error, 'Unable to save schedule'),
+        onError: (error) => notifyHttpError(error, 'Не удалось сохранить расписание'),
     });
 };
 
@@ -245,9 +245,9 @@ export const useUpdateServerSchedule = () => {
         ...clientUpdateServerScheduleMutation(),
         onSuccess: async (schedule, { path }) => {
             await cacheServerSchedule(queryClient, path.server_uuid, schedule);
-            toast.success('Schedule saved');
+            toast.success('Расписание сохранено');
         },
-        onError: (error) => notifyHttpError(error, 'Unable to save schedule'),
+        onError: (error) => notifyHttpError(error, 'Не удалось сохранить расписание'),
     });
 };
 
@@ -261,9 +261,9 @@ export const useDeleteServerSchedule = () => {
                 queryKey: clientGetServerScheduleQueryKey(serverScheduleInput(path.server_uuid, path.schedule_id)),
             });
             await removeServerSchedule(queryClient, path.server_uuid, path.schedule_id);
-            toast.success('Schedule deleted');
+            toast.success('Расписание удалено');
         },
-        onError: (error) => notifyHttpError(error, 'Unable to delete schedule'),
+        onError: (error) => notifyHttpError(error, 'Не удалось удалить расписание'),
     });
 };
 
@@ -277,9 +277,9 @@ export const useTriggerServerScheduleExecution = (schedule: Schedule) => {
                 ...schedule,
                 attributes: { ...schedule.attributes, is_processing: true },
             });
-            toast.success('Schedule queued');
+            toast.success('Расписание поставлено в очередь');
         },
-        onError: (error) => notifyHttpError(error, 'Unable to run schedule'),
+        onError: (error) => notifyHttpError(error, 'Не удалось запустить расписание'),
     });
 };
 
@@ -292,9 +292,9 @@ export const useCreateServerScheduleTask = (schedule: Schedule) => {
             await cacheServerSchedule(queryClient, path.server_uuid, schedule, (current) =>
                 cacheServerScheduleTask(current, task)
             );
-            toast.success('Task created');
+            toast.success('Задача создана');
         },
-        onError: (error) => notifyHttpError(error, 'Unable to save task'),
+        onError: (error) => notifyHttpError(error, 'Не удалось сохранить задачу'),
     });
 };
 
@@ -307,9 +307,9 @@ export const useUpdateServerScheduleTask = (schedule: Schedule) => {
             await cacheServerSchedule(queryClient, path.server_uuid, schedule, (current) =>
                 cacheServerScheduleTask(current, task)
             );
-            toast.success('Task saved');
+            toast.success('Задача сохранена');
         },
-        onError: (error) => notifyHttpError(error, 'Unable to save task'),
+        onError: (error) => notifyHttpError(error, 'Не удалось сохранить задачу'),
     });
 };
 
@@ -322,8 +322,8 @@ export const useDeleteServerScheduleTask = (schedule: Schedule) => {
             await cacheServerSchedule(queryClient, path.server_uuid, schedule, (current) =>
                 removeServerScheduleTask(current, path.task_id)
             );
-            toast.success('Task deleted');
+            toast.success('Задача удалена');
         },
-        onError: (error) => notifyHttpError(error, 'Unable to delete task'),
+        onError: (error) => notifyHttpError(error, 'Не удалось удалить задачу'),
     });
 };

@@ -72,8 +72,8 @@ export default function EggVariableBox({ eggId, variable }: Props) {
                         <field.TextField
                             type='text'
                             id={`name_${variable.attributes.id}`}
-                            label='Name'
-                            description='A human-readable name for this variable.'
+                            label='Название'
+                            description='Человекочитаемое название этой переменной.'
                         />
                     )}
                 </form.AppField>
@@ -82,7 +82,7 @@ export default function EggVariableBox({ eggId, variable }: Props) {
                         {(field) => (
                             <field.TextAreaField
                                 id={`description_${variable.attributes.id}`}
-                                label='Description'
+                                label='Описание'
                                 rows={3}
                             />
                         )}
@@ -99,7 +99,7 @@ export default function EggVariableBox({ eggId, variable }: Props) {
                             <field.TextField
                                 type='text'
                                 id={`env_${variable.attributes.id}`}
-                                label='Environment Variable'
+                                label='Переменная окружения'
                             />
                         )}
                     </form.AppField>
@@ -108,20 +108,20 @@ export default function EggVariableBox({ eggId, variable }: Props) {
                             <field.TextField
                                 type='text'
                                 id={`default_${variable.attributes.id}`}
-                                label='Default Value'
+                                label='Значение по умолчанию'
                             />
                         )}
                     </form.AppField>
                 </div>
                 <p className='text-xs text-muted-foreground mt-2'>
-                    Access this variable in the startup command with <Code>{variable.attributes.env_variable}</Code>.
+                    Доступ к этой переменной в команде запуска через <Code>{variable.attributes.env_variable}</Code>.
                 </p>
                 <div className='grid grid-cols-1 md:grid-cols-2 gap-4 mt-4'>
                     <form.AppField name='userViewable'>
-                        {(field) => <field.SwitchField label='Users Can View' />}
+                        {(field) => <field.SwitchField label='Пользователи могут просматривать' />}
                     </form.AppField>
                     <form.AppField name='userEditable'>
-                        {(field) => <field.SwitchField label='Users Can Edit' />}
+                        {(field) => <field.SwitchField label='Пользователи могут редактировать' />}
                     </form.AppField>
                 </div>
                 <div className='mt-4'>
@@ -129,35 +129,35 @@ export default function EggVariableBox({ eggId, variable }: Props) {
                         name='rules'
                         validators={{
                             onChange: ({ value }) =>
-                                value.length >= 1 ? undefined : 'Validation rules must be provided.',
+                                value.length >= 1 ? undefined : 'Необходимо указать правила валидации.',
                         }}
                     >
                         {(field) => (
                             <field.TextField
                                 type='text'
                                 id={`rules_${variable.attributes.id}`}
-                                label='Input Rules'
-                                description='Standard Laravel validation rules used to validate this variable.'
+                                label='Правила ввода'
+                                description='Стандартные правила валидации Laravel, используемые для проверки этой переменной.'
                             />
                         )}
                     </form.AppField>
                 </div>
                 <div className='flex items-center justify-between mt-6'>
                     <Dialog.ConfirmTrigger
-                        title={`Delete ${variable.attributes.name}`}
-                        confirm='Delete Variable'
+                        title={`Удалить ${variable.attributes.name}`}
+                        confirm='Удалить переменную'
                         onConfirmed={confirmDelete}
                         trigger={({ onClick }) => (
                             <Button type='button' color='red' isSecondary onClick={onClick}>
-                                Delete
+                                Удалить
                             </Button>
                         )}
                     >
-                        This will permanently remove the <strong>{variable.attributes.name}</strong> variable from this
-                        egg.
+                        Это действие безвозвратно удалит переменную <strong>{variable.attributes.name}</strong> из этого
+                        шаблона Egg.
                     </Dialog.ConfirmTrigger>
                     <form.AppForm>
-                        <form.SubmitButton>Save</form.SubmitButton>
+                        <form.SubmitButton>Сохранить</form.SubmitButton>
                     </form.AppForm>
                 </div>
             </TitledGreyBox>

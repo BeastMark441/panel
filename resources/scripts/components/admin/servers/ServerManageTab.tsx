@@ -63,7 +63,7 @@ const ActionTrigger = ({ reason, children }: { reason?: string; children: React.
 
 const reinstallBlockedReasonFor = (attributes: AdminServer['attributes']): string | undefined => {
     if (attributes.container.installed !== 1) {
-        return 'This action is disabled until the server is installed.';
+        return 'Это действие недоступно, пока сервер не будет установлен.';
     }
 
     if (canReinstallServer(attributes.status, attributes.container.skip_scripts)) {
@@ -90,9 +90,10 @@ function ServerManageContent({ server }: Props) {
 
     if (attributes.status === 'install_failed') {
         return (
-            <TitledGreyBox title='Server Cannot Be Managed'>
+            <TitledGreyBox title='Управление сервером невозможно'>
                 <p className={descriptionClass}>
-                    This server is in a failed install state and cannot be recovered. Delete and re-create the server.
+                    Этот сервер находится в состоянии неудачной установки и не может быть восстановлен. Удалите и
+                    создайте сервер заново.
                 </p>
             </TitledGreyBox>
         );
@@ -101,13 +102,13 @@ function ServerManageContent({ server }: Props) {
     return (
         <div className='grid grid-cols-1 gap-6 lg:grid-cols-2'>
             <ManageActionCard
-                title='Reinstall Server'
-                alert={{ type: 'danger', title: 'Danger!', message: 'This could overwrite server data.' }}
-                description='This will reinstall the server with the assigned service scripts.'
+                title='Переустановка сервера'
+                alert={{ type: 'danger', title: 'Опасно!', message: 'Это может привести к перезаписи данных сервера.' }}
+                description='Сервер будет переустановлен с использованием назначенных скриптов сервиса.'
                 action={
                     <Dialog.ConfirmTrigger
-                        title='Reinstall Server'
-                        confirm='Reinstall'
+                        title='Переустановка сервера'
+                        confirm='Переустановить'
                         pending={reinstallServer.isPending}
                         trigger={({ onClick }) => (
                             <ActionTrigger reason={reinstallBlockedReason}>
@@ -117,7 +118,7 @@ function ServerManageContent({ server }: Props) {
                                     disabled={loading || reinstallBlockedReason !== undefined}
                                     onClick={onClick}
                                 >
-                                    Reinstall Server
+                                    Переустановить сервер
                                 </Button>
                             </ActionTrigger>
                         )}
@@ -125,23 +126,23 @@ function ServerManageContent({ server }: Props) {
                             reinstallServer.mutate(reinstallAdminServerInput(attributes.id), mutationOptions(close))
                         }
                     >
-                        This will reinstall the server with its assigned service scripts.{' '}
-                        <strong>This could overwrite server data.</strong>
+                        Сервер будет переустановлен с использованием назначенных скриптов сервиса.{' '}
+                        <strong>Это может привести к перезаписи данных сервера.</strong>
                     </Dialog.ConfirmTrigger>
                 }
             />
 
             <ManageActionCard
-                title='Install Status'
-                description='If you need to change the install status from uninstalled to installed, or vice versa, you may do so with the button below.'
+                title='Состояние установки'
+                description='Если нужно сменить состояние установки — с «не установлен» на «установлен» или наоборот — используйте кнопку ниже.'
                 action={
                     <Dialog.ConfirmTrigger
-                        title='Toggle Install Status'
-                        confirm='Toggle'
+                        title='Переключить состояние установки'
+                        confirm='Переключить'
                         pending={toggleInstallState.isPending}
                         trigger={({ onClick }) => (
                             <Button className={actionButtonClass} disabled={loading} onClick={onClick}>
-                                Toggle Install Status
+                                Переключить состояние установки
                             </Button>
                         )}
                         onConfirmed={(_event, close) =>
@@ -151,19 +152,19 @@ function ServerManageContent({ server }: Props) {
                             )
                         }
                     >
-                        This will flip the install status between installed and installing for this server.
+                        Состояние установки этого сервера будет переключено между «установлен» и «устанавливается».
                     </Dialog.ConfirmTrigger>
                 }
             />
 
             {attributes.suspended ? (
                 <ManageActionCard
-                    title='Unsuspend Server'
-                    description='This will unsuspend the server and restore normal user access.'
+                    title='Разблокировать сервер'
+                    description='Сервер будет разблокирован, и пользовательский доступ будет восстановлен.'
                     action={
                         <Dialog.ConfirmTrigger
-                            title='Unsuspend Server'
-                            confirm='Unsuspend'
+                            title='Разблокировать сервер'
+                            confirm='Разблокировать'
                             pending={updateSuspension.isPending}
                             trigger={({ onClick }) => (
                                 <Button
@@ -172,7 +173,7 @@ function ServerManageContent({ server }: Props) {
                                     disabled={loading}
                                     onClick={onClick}
                                 >
-                                    Unsuspend Server
+                                    Разблокировать сервер
                                 </Button>
                             )}
                             onConfirmed={(_event, close) =>
@@ -182,25 +183,23 @@ function ServerManageContent({ server }: Props) {
                                 )
                             }
                         >
-                            This will unsuspend the server and restore normal user access.
+                            Сервер будет разблокирован, и пользовательский доступ будет восстановлен.
                         </Dialog.ConfirmTrigger>
                     }
                 />
             ) : (
                 <ManageActionCard
-                    title='Suspend Server'
-                    description='This will suspend the server, stop any running processes, and immediately block the user from accessing their files or managing the server.'
+                    title='Заблокировать сервер'
+                    description='Сервер будет заблокирован, все запущенные процессы будут остановлены, и доступ пользователя к файлам и управлению сервером будет немедленно отключён.'
                     action={
                         <Dialog.ConfirmTrigger
-                            title='Suspend Server'
-                            confirm='Suspend'
+                            title='Заблокировать сервер'
+                            confirm='Заблокировать'
                             pending={updateSuspension.isPending}
                             trigger={({ onClick }) => (
                                 <ActionTrigger
                                     reason={
-                                        activeTransfer
-                                            ? 'This server is being transferred and cannot be suspended.'
-                                            : undefined
+                                        activeTransfer ? 'Сервер переносится и его нельзя заблокировать.' : undefined
                                     }
                                 >
                                     <Button
@@ -209,7 +208,7 @@ function ServerManageContent({ server }: Props) {
                                         disabled={loading || activeTransfer}
                                         onClick={onClick}
                                     >
-                                        Suspend Server
+                                        Заблокировать сервер
                                     </Button>
                                 </ActionTrigger>
                             )}
@@ -220,24 +219,24 @@ function ServerManageContent({ server }: Props) {
                                 )
                             }
                         >
-                            This will suspend the server, stop any running processes, and block the user from accessing
-                            their files or managing the server.
+                            Сервер будет заблокирован, все запущенные процессы будут остановлены, а доступ пользователя
+                            к файлам и управлению сервером будет отключён.
                         </Dialog.ConfirmTrigger>
                     }
                 />
             )}
 
             <ManageActionCard
-                title='Transfer Server'
+                title='Перенос сервера'
                 alert={
                     activeTransfer
                         ? undefined
-                        : { type: 'warning', title: 'Warning!', message: 'This feature may have bugs.' }
+                        : { type: 'warning', title: 'Внимание!', message: 'Эта функция может содержать ошибки.' }
                 }
                 description={
                     activeTransfer
-                        ? 'This server is currently being transferred to another node.'
-                        : 'Transfer this server to another node connected to this panel.'
+                        ? 'В настоящее время сервер переносится на другой узел.'
+                        : 'Перенести этот сервер на другой узел, подключённый к этой панели.'
                 }
                 action={
                     <Dialog.Trigger
@@ -245,7 +244,7 @@ function ServerManageContent({ server }: Props) {
                             <ActionTrigger
                                 reason={
                                     !activeTransfer && !canTransfer
-                                        ? 'Transferring a server requires more than one node to be configured on this panel.'
+                                        ? 'Для переноса сервера необходимо настроить более одного узла на этой панели.'
                                         : undefined
                                 }
                             >
@@ -255,7 +254,7 @@ function ServerManageContent({ server }: Props) {
                                     disabled={loading || activeTransfer || !canTransfer}
                                     onClick={onClick}
                                 >
-                                    Transfer Server
+                                    Перенести сервер
                                 </Button>
                             </ActionTrigger>
                         )}

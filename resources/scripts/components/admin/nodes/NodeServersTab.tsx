@@ -72,7 +72,7 @@ const nodeServerColumns = [
     },
     {
         id: 'service',
-        header: 'Service',
+        header: 'Сервис',
         cell: ({ row }) => {
             const attributes = row.original.attributes;
             const egg = relationshipAttributes(attributes.relationships?.egg);
@@ -88,7 +88,7 @@ const nodeServerColumns = [
     },
     {
         id: 'identifier',
-        header: 'Identifier',
+        header: 'Идентификатор',
         cell: ({ row }) => (
             <div className='text-right'>
                 <Code>{row.original.attributes.identifier}</Code>
