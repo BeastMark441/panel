@@ -4,8 +4,10 @@ import type { ITerminalOptions, ITheme, Terminal } from 'ghostty-web';
 import { toRgbColor } from '@/lib/color';
 import { getObjectKeys } from '@/lib/objects';
 import { onThemeChange } from '@/lib/theme';
+import { ConsoleSelectionAddon } from '@/components/server/console/ConsoleSelectionAddon';
 import { TerminalScrollStore } from '@/components/server/console/TerminalScrollStore';
 import { TouchScrollAddon } from '@/components/server/console/TouchScrollAddon';
+import { WebLinksAddon } from '@/components/server/console/WebLinksAddon';
 
 // Ghostty reads a slot that resolves to pure black (#000000) as unset.
 const TERMINAL_COLOR_VARS = {
@@ -140,6 +142,13 @@ const ignoreCanvasScrollbarPresses = (mount: HTMLElement, signal: AbortSignal) =
     );
 };
 
+const focusWithoutScrolling = (element: HTMLElement, signal: AbortSignal) => {
+    const focus = element.focus.bind(element);
+
+    element.focus = (options) => focus({ ...options, preventScroll: true });
+    signal.addEventListener('abort', () => Reflect.deleteProperty(element, 'focus'), { once: true });
+};
+
 /** The canvas has no DOM selection, so copy reads the terminal's own selection. */
 const copySelectionOnShortcut = (term: Terminal) => {
     term.attachCustomKeyEventHandler((e: KeyboardEvent) => {
@@ -161,7 +170,7 @@ const copySelectionOnShortcut = (term: Terminal) => {
 
 /** Opens a read-only console terminal in `mount`, sized to fill it; `signal` removes its listeners on the mount. */
 const openTerminal = (
-    { FitAddon, Terminal: GhosttyTerminal, UrlRegexProvider }: typeof GhosttyWeb,
+    { FitAddon, OSC8LinkProvider, Terminal: GhosttyTerminal }: typeof GhosttyWeb,
     mount: HTMLElement,
     options: ITerminalOptions,
     signal: AbortSignal
@@ -174,15 +183,21 @@ const openTerminal = (
     // on-screen keyboard closed for both.
     mount.setAttribute('inputmode', 'none');
     ignoreCanvasScrollbarPresses(mount, signal);
+    focusWithoutScrolling(mount, signal);
     term.open(mount);
     term.textarea?.setAttribute('inputmode', 'none');
 
+    if (term.textarea) {
+        focusWithoutScrolling(term.textarea, signal);
+    }
+
     term.loadAddon(fit);
     term.loadAddon(new TouchScrollAddon(term));
+    term.loadAddon(new WebLinksAddon(term, new OSC8LinkProvider(term)));
+    term.loadAddon(new ConsoleSelectionAddon(term));
     fit.fit();
     fit.observeResize();
 
-    term.registerLinkProvider(new UrlRegexProvider(term));
     preserveScrollPositionOnWrite(term);
     adjustRendering(term);
     copySelectionOnShortcut(term);
