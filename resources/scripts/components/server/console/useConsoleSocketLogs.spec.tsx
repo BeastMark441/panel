@@ -45,6 +45,21 @@ describe('useConsoleSocketLogs', () => {
         vi.restoreAllMocks();
     });
 
+    it.each([
+        ['starting', 'запускается'],
+        ['running', 'работает'],
+        ['stopping', 'останавливается'],
+        ['offline', 'выключен'],
+        ['unknown-state', 'unknown-state'],
+    ])('formats the console status %s as %s', (state, label) => {
+        mount();
+        socket.emit('status', state);
+
+        expect(screen.lines).toEqual([
+            `\u001b[1m\u001b[33mcontainer@pterodactyl~ \u001b[0mСостояние сервера: ${label}...\u001b[0m`,
+        ]);
+    });
+
     it('clears the terminal and requests the log history once per connection', () => {
         mount();
         socket.emit('console output', 'history line');
@@ -86,7 +101,7 @@ describe('useConsoleSocketLogs', () => {
         expect(send).toHaveBeenCalledTimes(2);
         expect(screen.lines).toEqual([
             expect.stringContaining('Streaming archive to destination...'),
-            expect.stringContaining('Transfer has failed.'),
+            expect.stringContaining('Не удалось перенести сервер.'),
             expect.stringContaining('history line'),
         ]);
     });

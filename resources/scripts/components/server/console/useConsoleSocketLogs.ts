@@ -14,6 +14,13 @@ const SEND_LOGS_RETRY_MS = 5_000;
 
 const MAX_RETAINED_TRANSFER_LINES = 1_000;
 
+const POWER_STATE_LABELS = new Map<string, string>([
+    ['starting', 'запускается'],
+    ['running', 'работает'],
+    ['stopping', 'останавливается'],
+    ['offline', 'выключен'],
+]);
+
 const formatLine = (line: string, prelude = false) =>
     `${(prelude ? TERMINAL_PRELUDE : '') + line.replace(/(?:\r\n|\r|\n)$/im, '')}\u001b[0m`;
 
@@ -52,7 +59,7 @@ export const useConsoleSocketLogs = ({
 
         const handleTransferStatus = (status: string) => {
             if (normalizeTransferStatus(status) === 'failed') {
-                writeTransferLine(`${TERMINAL_PRELUDE}Transfer has failed.\u001b[0m`);
+                writeTransferLine(`${TERMINAL_PRELUDE}Не удалось перенести сервер.\u001b[0m`);
             }
         };
 
@@ -60,7 +67,7 @@ export const useConsoleSocketLogs = ({
             term.writeln(`${TERMINAL_PRELUDE}\u001b[1m\u001b[41m${formatLine(line)}`);
 
         const handlePowerChangeEvent = (state: string) =>
-            term.writeln(`${TERMINAL_PRELUDE}Server marked as ${state}...\u001b[0m`);
+            term.writeln(`${TERMINAL_PRELUDE}Состояние сервера: ${POWER_STATE_LABELS.get(state) ?? state}...\u001b[0m`);
 
         const listeners = [
             [SocketEvent.STATUS, handlePowerChangeEvent],
