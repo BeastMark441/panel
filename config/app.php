@@ -17,9 +17,9 @@ return [
     | change this value if you are not maintaining your own internal versions.
     */
 
-    'version' => 'canary',
+    'version' => '2.0.0-beta.2',
 
-    'translation_version' => 'canary',
+    'translation_version' => '2.0.0-beta.2.ru.1',
 
     /*
     |--------------------------------------------------------------------------
