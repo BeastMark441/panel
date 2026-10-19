@@ -7,7 +7,21 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type * as RegistryModule from '@/extensions/registry';
 import type { SlotComponentProps, SlotName } from '@/extensions/registry';
 
-afterEach(cleanup);
+beforeEach(() => {
+    vi.useFakeTimers({
+        shouldAdvanceTime: true,
+        toFake: ['setTimeout', 'clearTimeout', 'setInterval', 'clearInterval'],
+    });
+});
+
+afterEach(() => {
+    try {
+        cleanup();
+    } finally {
+        vi.clearAllTimers();
+        vi.useRealTimers();
+    }
+});
 
 /** What the loader does for an extension whose setup registers one slot component. */
 function registerSlot(

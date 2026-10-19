@@ -721,7 +721,7 @@ test('changes are refused up front when an extension directory is not writable',
     chmod($this->installDirectory, 0555);
 
     try {
-        $message = 'The panel cannot write to '.$this->installDirectory.'.';
+        $message = 'Панель не может записать данные в '.$this->installDirectory.'.';
         expect(fn () => $this->app->make(InstallsExtensions::class)->install($source, replace: true))->toThrow(InvalidExtensionException::class, $message)
             ->and(fn () => $this->app->make(SetsExtensionEnabled::class)->setEnabled('eventful', false))->toThrow(InvalidExtensionException::class, $message)
             ->and(fn () => $this->app->make(RemovesExtensions::class)->remove('eventful'))->toThrow(InvalidExtensionException::class, $message);
