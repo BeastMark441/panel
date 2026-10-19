@@ -850,6 +850,15 @@ export type AdminVersionInformationResponse = {
     daemon: string;
     discord: string;
     donations: string;
+    /**
+     * Translation release metadata, when supported by the backend.
+     */
+    translation?: {
+        current: string;
+        latest: string | null;
+        status: 'current' | 'update_available' | 'development' | 'no_releases' | 'unavailable';
+        release_url: string;
+    };
 };
 
 export type ApplicationAllocationAttributes = {

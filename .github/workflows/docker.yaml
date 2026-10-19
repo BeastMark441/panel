@@ -19,7 +19,7 @@ on:
       - published
 
 env:
-  IMAGE: ghcr.io/pterodactyl/panel
+  IMAGE: ghcr.io/beastmark441/panel
   PUBLISH: ${{ github.event_name != 'pull_request' && github.ref != 'refs/heads/2.0-develop' && !contains(github.event.head_commit.message, 'skip docker') && !contains(github.event.head_commit.message, 'docker skip') }}
 
 jobs:
@@ -41,13 +41,6 @@ jobs:
     steps:
       - name: Code checkout
         uses: actions/checkout@v7
-
-      - name: Update version
-        if: "github.event_name == 'release' && github.event.action == 'published'"
-        env:
-          REF: ${{ github.event.release.tag_name }}
-        run: |
-          sed -i "s/    'version' => 'canary',/    'version' => '${REF:1}',/" config/app.php
 
       - name: Docker metadata
         id: docker_meta

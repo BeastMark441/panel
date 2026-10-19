@@ -5,6 +5,8 @@ import type { AdminGetVersionInformationResponse } from '@/api/generated';
 
 export type AdminVersion = AdminGetVersionInformationResponse;
 
+export type TranslationVersion = NonNullable<AdminVersion['translation']>;
+
 export const adminVersionQueryOptions = () => ({
     ...adminGetVersionInformationOptions(),
 });

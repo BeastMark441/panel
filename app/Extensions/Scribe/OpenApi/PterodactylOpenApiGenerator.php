@@ -2479,6 +2479,37 @@ class PterodactylOpenApiGenerator extends OpenApiGenerator
                 'daemon' => ['type' => 'string', 'example' => '1.0.0'],
                 'discord' => ['type' => 'string', 'example' => 'https://pterodactyl.io/discord'],
                 'donations' => ['type' => 'string', 'example' => 'https://github.com/sponsors/pterodactyl'],
+                'translation' => [
+                    'type' => 'object',
+                    'description' => 'Translation release metadata, when supported by the backend.',
+                    'required' => ['current', 'latest', 'status', 'release_url'],
+                    'properties' => [
+                        'current' => [
+                            'type' => 'string',
+                            'example' => '2.0.0-beta.2',
+                        ],
+                        'latest' => [
+                            'type' => 'string',
+                            'nullable' => true,
+                            'example' => '2.0.0-beta.3',
+                        ],
+                        'status' => [
+                            'type' => 'string',
+                            'enum' => [
+                                'current',
+                                'update_available',
+                                'development',
+                                'no_releases',
+                                'unavailable',
+                            ],
+                            'example' => 'update_available',
+                        ],
+                        'release_url' => [
+                            'type' => 'string',
+                            'example' => 'https://github.com/BeastMark441/panel/releases/tag/v2.0.0-beta.3',
+                        ],
+                    ],
+                ],
             ],
         ];
     }

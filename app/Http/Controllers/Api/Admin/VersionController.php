@@ -11,6 +11,7 @@ use Knuckles\Scribe\Attributes\Response as ScribeResponse;
 use Knuckles\Scribe\Attributes\Subgroup;
 use Pterodactyl\Http\Requests\Api\Admin\GetVersionRequest;
 use Pterodactyl\Services\Helpers\SoftwareVersionService;
+use Pterodactyl\Services\Helpers\TranslationVersionService;
 
 #[Group('Admin API', 'Root administrator endpoints for managing panel configuration and resources.')]
 #[Subgroup('System', 'Endpoints for system metadata and global admin utilities.')]
@@ -23,6 +24,12 @@ class VersionController extends AdminApiController
         'daemon' => '1.0.0',
         'discord' => 'https://pterodactyl.io/discord',
         'donations' => 'https://github.com/sponsors/pterodactyl',
+        'translation' => [
+            'current' => '2.0.0-beta.2',
+            'latest' => '2.0.0-beta.3',
+            'status' => 'update_available',
+            'release_url' => 'https://github.com/BeastMark441/panel/releases/tag/v2.0.0-beta.3',
+        ],
     ];
 
     /**
@@ -30,8 +37,11 @@ class VersionController extends AdminApiController
      */
     #[Endpoint('Get version information', 'Returns panel, Wings, and project version metadata.')]
     #[ScribeResponse(self::VERSION_EXAMPLE, description: 'Version information returned.')]
-    public function __invoke(GetVersionRequest $request, SoftwareVersionService $version): JsonResponse
-    {
+    public function __invoke(
+        GetVersionRequest $request,
+        SoftwareVersionService $version,
+        TranslationVersionService $translation,
+    ): JsonResponse {
         return new JsonResponse([
             'current' => config('app.version'),
             'latest' => $version->getPanel(),
@@ -39,6 +49,7 @@ class VersionController extends AdminApiController
             'daemon' => $version->getDaemon(),
             'discord' => $version->getDiscord(),
             'donations' => $version->getDonations(),
+            'translation' => $translation->getVersionInformation(),
         ]);
     }
 }

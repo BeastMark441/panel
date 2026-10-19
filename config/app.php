@@ -19,6 +19,8 @@ return [
 
     'version' => 'canary',
 
+    'translation_version' => 'canary',
+
     /*
     |--------------------------------------------------------------------------
     | Application Name
