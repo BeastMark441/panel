@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { CloudUpload, X } from 'lucide-react';
-import { Button, Code, Dialog, NewButton, Portal, Tooltip } from '@/sdk';
+import { Button, Code, Dialog, NewButton, Portal, Tooltip, toast } from '@/sdk';
 import type { FileManagerModel } from '@/sdk/theme';
 
 const isFileOrDirectory = (event: DragEvent): boolean =>
@@ -53,6 +53,16 @@ export function UploadButton({ model }: { model: FileManagerModel }) {
                             event.stopPropagation();
 
                             setDropping(false);
+                            if (
+                                [...event.dataTransfer.items].some(
+                                    (item) => item.kind === 'file' && item.webkitGetAsEntry?.()?.isDirectory
+                                )
+                            ) {
+                                toast.error('Загрузка папок не поддерживается.');
+
+                                return;
+                            }
+
                             if (!event.dataTransfer?.files.length) {
                                 return;
                             }

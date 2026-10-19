@@ -238,14 +238,14 @@ const noop = () => {};
 const PRELUDE = '\u001b[1m\u001b[33mcontainer@pterodactyl~ \u001b[0m';
 
 const RunningTerminal = createSampleTerminal([
-    `${PRELUDE}Server marked as starting...`,
+    `${PRELUDE}Состояние сервера: запускается...`,
     '[12:00:01 INFO]: Starting minecraft server version 1.21.4',
     '[12:00:02 INFO]: Loading properties',
     '[12:00:04 INFO]: Preparing level "world"',
     '[12:00:09 INFO]: Done (7.412s)! For help, type "help"',
-    `${PRELUDE}Server marked as running...`,
+    `${PRELUDE}Состояние сервера: работает...`,
 ]);
-const OfflineTerminal = createSampleTerminal([`${PRELUDE}Server marked as offline...`]);
+const OfflineTerminal = createSampleTerminal([`${PRELUDE}Состояние сервера: выключен...`]);
 
 const command = (options: Partial<ServerConsoleCommand> = {}): ServerConsoleCommand => ({
     allowed: true,

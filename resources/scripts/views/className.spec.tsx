@@ -1,10 +1,25 @@
 /** @vitest-environment jsdom */
-import { afterAll, afterEach, beforeAll, expect, it } from 'vitest';
+import { afterAll, afterEach, beforeAll, expect, it, vi } from 'vitest';
 import { initializeActivityTranslations } from '@/test-utils/activityI18n';
 import { act } from '@testing-library/react';
 import http from '@/api/http';
 import { renderView, type RenderedView } from '@/sdk/testing';
 import { getViewChain, getViewDefinitions, type ViewName } from './registry';
+
+// Root className checks do not need to initialize Canvas or the WASM terminal.
+vi.mock('@/components/server/console/useTerminal', async () => {
+    const { TerminalScrollStore } = await import('@/components/server/console/TerminalScrollStore');
+    const state = {
+        ref: vi.fn(),
+        retry: vi.fn(),
+        scroll: new TerminalScrollStore(),
+        terminal: { current: null },
+        terminalError: null,
+        terminalReady: true,
+    };
+
+    return { useTerminal: () => state };
+});
 
 const requests: string[] = [];
 const adapter = http.defaults.adapter;
